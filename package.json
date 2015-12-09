@@ -1,0 +1,13 @@
+{
+  "name": "yashit",
+  "version": "1.0.0",
+  "description": "yashit score card",
+  "main": "build/app.js",
+  "author": "Ben Foster",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "^2.1.0",
+    "gulp": "^3.9.0",
+    "gulp-copy": "0.0.2"
+  }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Summer_2</title>
+
+<style>
+@font-face {
+    font-family: 'Sports World';
+    src: url('sports_world-regular-webfont.eot');
+    src: url('sports_world-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sports_world-regular-webfont.woff2') format('woff2'),
+         url('sports_world-regular-webfont.woff') format('woff'),
+         url('sports_world-regular-webfont.ttf') format('truetype'),
+         url('sports_world-regular-webfont.svg#sports_worldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+#canvas {
+    width: 100%;
+}
+</style>
+<script src="http://code.createjs.com/easeljs-0.8.1.min.js"></script>
+<script src="http://code.createjs.com/tweenjs-0.6.1.min.js"></script>
+<script src="http://code.createjs.com/movieclip-0.8.1.min.js"></script>
+<script src="Summer_2.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	exportRoot = new lib.Summer_2();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(lib.properties.fps);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+</script>
+</head>
+
+<body onload="init();" style="background-color:#FFFFFF;margin:0;padding:0">
+	<canvas id="canvas" width="480" height="84" style="background-color:#FFFFFF"></canvas>
+</body>
+</html>

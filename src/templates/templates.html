@@ -1,0 +1,276 @@
+<script id="view-template" type="text/x-handlebars-template">
+<div class="main-header">
+	<div class="banner-wrap">
+		<iframe class="banner" src="banners/summer/Summer_2.html" scrolling="no" name="{{title}} - {{dates}}"></iframe>
+	</div>
+	<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
+	
+	{{#if showDetails}}
+		<a class="waves-effect waves-light btn deep-purple game-details">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}
+		</a>
+	{{/if}}
+	
+</div>
+<div class="body">
+	{{> viewListTemplate }}
+</div>
+<div class="main-footer">
+	<h4 class="lastupdate">Last update: <strong>Day {{gamenumber}}</strong> ({{lastupdate}})</h4>
+</div>
+</script>
+
+<script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
+<table class="mainlist">
+	<thead>
+		<tr>
+			<th width='10%' title="Player's current rank"></th>
+			<th width='25%' title="Player name">Name</th>
+			<th width='20%' title="Total games played in season">Games</th>
+			<th width='20%' title="Player's average points (includes bonuses and multipliers)">Av pts</th>
+			<th width='15%' title="Player's calculated score (includes bonuses and multipliers)">Score</th>
+			<th width='10%'  title="Change in rank from last game" style="text-align:center">&#8645;</th>
+		</tr>
+	</thead>
+</table>
+<ul class="collapsible" data-collapsible="accordion">
+	{{#each rankings}}
+	<li>
+		<div class="collapsible-header">
+			<table class="mainlist">	
+				<tbody >
+					<tr class="{{rankclass}}">
+						
+						<td width='10%' class='center'><strong>{{this.rank}}</strong></td>
+						<td width='25%'>{{this.firstname}}</td>
+						<td width='20%'>{{this.totalgames}}</td>
+						<td width='20%'>{{this.averagescore}}</td>
+						<td width='15%'>{{this.score}}</td>
+						<td width='10%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="collapsible-body">
+			<div class="stat-box blue"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
+			<div class="stat-box yellow darken-1"><strong>Days in 1<sup>st</sup></strong><br><span class="stat-value">{{this.daysatfirst}}</span></div>
+			<div class="stat-box teal"><strong>Raw score</strong><br><span class="stat-value">{{this.rawscore}}</span></div>
+			<div class="stat-box green"><strong>Highest score</strong><br><span class="stat-value">{{this.highestscore}}</span></div>
+			<div class="stat-box orange darken-2"><strong>Boundys</strong><br><span class="stat-value">{{this.totalboundys}}</span></div>
+			<div class="stat-box pink darken-2"><strong>Attendance</strong><br><span class="stat-value">{{this.percentplayed}}%</span></div>
+			<div class="stat-box deep-purple"><strong>Incomplete keys</strong><br><span class="stat-value">{{this.incompletekeys}}</span></div>
+			<div class="stat-box green darken-4"><strong>Late starts</strong><br><span class="stat-value">{{this.latestarts}}</span></div>
+			<div class="stat-box red darken-1 morestats" data-for="{{this.id}}"><strong>More</strong></div>
+		</div>
+	</li>
+	{{/each}}
+</script>
+
+<script id="preloader-overlay-template" type="text/x-handlebars-template">
+<div class="preloader-overlay {{overlayClass}}">{{> preloaderTemplate }}</div>
+</script>
+
+<script id="partial_preloader-template" data-name="preloaderTemplate" type="text/x-handlebars-template">
+<div class="spinner preloader-wrapper small active">
+	<div class="spinner-layer spinner-green-only">
+		<div class="circle-clipper left">
+			<div class="circle"></div>
+		</div><div class="gap-patch">
+			<div class="circle"></div>
+		</div><div class="circle-clipper right">
+			<div class="circle"></div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script id="app-header-template" type="text/x-handlebars-template">
+  <a class='header-settings btn-flat btn-large waves-effect waves-light' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
+  <ul id='settings-dropdown' class='dropdown-content'>
+  {{#if daynotcreated }}
+    <li><a href="#" data-action='state:newDay'><i class='material-icons left'>library_add</i>New game day</a></li>
+  {{/if}}
+    <li><a href="#" data-action="state:edit"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
+  </ul>
+</script>
+
+<script id="newday-template" type="text/x-handlebars-template">
+	<h1 class="header">{{title}}</h1>
+	<div class="body">
+		<div class="newday-tools">
+			<button class="waves-effect waves-light btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button>
+			<button class="waves-effect waves-light btn action-btn save-newday"><i class='material-icons left'>done</i>Save</button>
+			<button class="waves-effect waves-light btn action-btn cancel-newday red"><i class='material-icons left'>not_interested</i>Cancel</button>
+		</div>
+
+		<div class="gamedate-holder">
+			<label for="gamedate">Date</label><input type="date" class="datepicker gamedate" id="gamedate" data-value="{{date}}">
+		</div>
+		<!--div class="conditions-holder">
+			
+		</div-->
+		<div class="conditions-holder">
+			<div class="input-field col s12">
+				<select multiple class="conditions-select">
+					<option value="" disabled>Game conditions...</option>
+					<option value="" disabled>Cloud</option>
+						<option value="1-0">Sunny</option>
+						<option value="1-1">Partly cloudy</option>
+						<option value="1-2">Overcast</option>
+					<option value="" disabled>Temperature</option>
+						<option value="5-1">Cold</option>
+						<option value="5-2">Warm</option>
+						<option value="5-3">Hot</option>
+					<option value="" disabled>Wind</option>
+						<option value="2-1">No wind</option>
+						<option value="2-2">Slight wind</option>
+						<option value="2-3">Very windy</option>
+					<option value="" disabled>Rain</option>
+						<option value="3-1">No rain</option>
+						<option value="2-2">Slight rain</option>
+						<option value="3-3">Very rainy</option>
+					<option value="" disabled>Ground</option>
+						<option value="4-1">Dry</option>
+						<option value="4-2">Wet</option>
+				</select>
+				<label>Conditions</label>
+			</div>
+		</div>
+		
+		<table class="mainlist striped editmode centered">
+			<thead>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th colspan="5" class="bonus">Bonus</th>
+				</tr>
+				<tr class="mainhead">
+					<th width='10%'>Player</th>
+					<th width='8%'>KY</th>
+					<th width='8%'>3P</th>
+					<th width='8%'>F3</th>
+					<th width='8%'>BN</th>
+					<th width='8%'>K1</th>
+					<th width='8%'>K2</th>
+					<th width='8%'>FK</th>
+					<th width='8%'>F3</th>
+					<th width='10%'>L8</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each players}}
+				{{> newdayItem }}
+			{{/each}}
+			</tbody>
+		</table>
+	</div>
+</script>
+
+<script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
+	<tr>
+		<td><div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point04}}" data-for="{{this.id}}" data-value="point04"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus03}}" data-for="{{this.id}}" data-value="bonus03"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04"></td>
+		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
+	</tr>
+</script>
+
+<script id="modal-new-player" type="text/x-handlebars-template">
+   <div id="newplayermodal" class="modal">
+   	<div class="modal-content">
+      <h4>Add new player</h4>
+      <label for="first_name">First Name</label>
+      <input id="first_name" type="text" class="validate">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-teal btn-flat cancel-button">Cancel</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-teal teal btn-flat addplayer-button">Add player</a>
+    </div>
+  </div>
+</script>
+
+<script id="modal-app-auth" type="text/x-handlebars-template">
+   <div id="authmodal" class="modal">
+    <div class="modal-content">
+      <h4>Enter pin</h4>
+      <input class="pin-display" type="text" disabled></input>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">1</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">2</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">3</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">4</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">5</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">6</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">7</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">8</a>
+	  <a class="waves-effect waves-teal btn-flat teal pin-button">9</a>
+    </div>
+  </div>
+</script>
+
+<script id="modal-game-details" type="text/x-handlebars-template">
+   <div id="gamedetails-modal" class="modal">
+    <div class="modal-content">
+      
+         <div class="input-field col s12 day-select-wrap">
+			<select class="day-select browser-default">
+			{{#each games}}
+				<option value="{{this.value}}" {{#if this.isToday}}selected{{/if}}>Day {{this.day}}</option>
+			{{/each}}
+			</select>
+		</div>
+      
+      <div class="game-details-table">
+     	 {{> gameDetailsTable }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-teal btn-flat">Close</a>
+    </div>
+  </div>
+</script>
+
+<script id="partial_game-details-table" data-name="gameDetailsTable" type="text/x-handlebars-template">
+<h4 class="details-heading">Day {{gamenumber}} details <span>{{{gamedate}}}</span></h4>
+  <div class="game-conditions">
+	      <h5>Conditions</h5>
+	      <div><strong>Temperature:</strong> {{conditions.temp}}&deg; <strong>Wind:</strong> {{conditions.winddir}} {{conditions.windspd}}kph</div>
+	    </div>
+<h5 class="details-player-title">{{numPlayers}} players</h5>
+<table class="striped centered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Points</th>
+			<th>Bonuses</th>
+			<th></th>
+			<th>Final score</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each players}}
+		<tr class="game-details-player">
+			<td>{{this.firstname}}</td>
+			<td>{{this.rawscore}}</td>
+			<td>{{this.bonuses}}</td>
+			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
+			<td>{{this.score}}</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+</script>
+
+<script id="game-in-progress-message" type="text/x-handlebars-template">
+<div class="message {{messageStyle}} game-in-progress">
+	<p>Game is currently in progress<br><span class="late-bonus">Late bonus now applies<br></span>(<span class="time-left">{{timeleft}}</span> remaining)</p>
+</div>
+</script>

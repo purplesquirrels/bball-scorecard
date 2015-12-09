@@ -1,0 +1,463 @@
+*,*:before, *:after {
+	box-sizing: border-box;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100%;
+	font-family: "Roboto", Arial, sans-serif;
+}
+
+.app {
+	width: 100%;
+	min-height: 500px;
+	max-width: 500px;
+	margin: 10px auto 0;
+
+	padding: 10px;
+}
+
+.banner-wrap {
+	width: 100%;
+	height: 0;
+	padding-bottom: 17.5%;
+	position: relative;
+}
+
+.banner {
+	width: 100%;
+	height: 100%;
+	border: none;
+	position: absolute;
+}
+
+.app-header.hidden {
+	visibility: hidden;
+}
+
+.mainlist {
+	width: 100%;
+}
+
+.mainlist thead {
+	font-weight: bold;
+}
+
+.mainlist td {
+	border-radius: 0;
+	padding: 5px 5px;
+}
+.action-btn {
+	/*float: right;*/
+}
+
+.action-btn {
+	margin-right: 4px;
+	margin-bottom: 4px;
+}
+
+
+.row-gold {
+	background-color: #fff9c4;
+}
+
+.row-silver {
+	background-color: #e3f2fd;
+}
+
+.row-bronze {
+	background-color: #ffe0b2;
+}
+
+.row-iron {
+	background-color: #c8e6c9;
+}
+
+.header {
+	text-align: left;
+	font-size: 2.2rem;
+	margin-top: 0.7rem;
+	margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.game-details {
+	font-size: 0.8rem;
+	line-height: 2.5;
+    height: 30px;
+	margin-left: 1rem;
+	margin-top: 0.9rem;
+	float: right;
+}
+
+.body {
+	position: relative;
+}
+.season-dates {
+	font-size: 1.5rem;
+	margin-top: 0;
+	text-align: center;
+}
+.daysleft  img {
+	width: 100px;
+}
+.header-settings {
+	padding: 0 1rem;
+	float: right;
+}
+.seasondate {
+	text-align: center;
+    float: left;
+	text-transform: uppercase;
+	font-size: 0.8rem;
+	font-weight: bold;
+    margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
+    padding: 0.5rem 2rem;
+    border-radius: 3px;
+    border: 1px solid #E6E4E4;
+}
+
+.lastupdate {
+	text-align: right;
+	font-size: 0.9rem;
+	margin-top: 0.7rem;
+	margin-bottom: 0.15rem;
+}
+
+@media (max-width: 400px) {
+	body, html {
+		margin: 0;
+	}
+	.seasondate {
+		text-align: center;
+		display: block;
+		width: 100%;
+	}
+
+	.game-details {
+		display: block;
+		width: 100%;
+		margin-top: 0;
+	}
+}
+
+#authmodal {
+	max-width: 400px;
+	padding-bottom: 22px;
+}
+.pin-display {
+	font-size: 2.5rem !important;
+	text-align: center;
+}
+.pin-button {
+	width: 31.333%;
+	padding-bottom: 31.333%;
+	float:left;
+	margin:1%;
+}
+.pin-button:nth-of-type(3n+1) {
+	clear: left;
+}
+
+table.editmode td {
+	padding: 0px 5px;
+}
+
+.playername {
+	margin: 10px 0 5px;
+}
+
+table.editmode [type="number"] {
+	text-align: center;
+}
+
+table.editmode [type="number"]:not(:disabled) {
+	background-color: rgba(0,0,0,0.07);
+}
+
+table.editmode [type=number]::-webkit-inner-spin-button, 
+table.editmode [type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none; 
+	margin: 0; 
+}
+
+table.editmode [type="checkbox"]+label {
+	padding-left: 20px;
+}
+
+table.editmode .switch {
+	margin-bottom: 13px;
+}
+
+table.editmode .switch label .lever {
+	margin: 0 10px;
+}
+
+th.bonus {
+	border-bottom: 2px solid #26A69A;
+	background: #26A69A;
+	color: #FFF !important;
+	padding-left: 0;
+	padding: 5px 0;
+	font-weight: 400;
+}
+
+table.editmode th:nth-last-of-type(1),
+table.editmode th:nth-last-of-type(2),
+table.editmode th:nth-last-of-type(3),
+table.editmode th:nth-last-of-type(4),
+table.editmode th:nth-last-of-type(5) {
+	text-align: center;
+	color: #26A69A;
+}
+table.editmode td:nth-last-of-type(1),
+table.editmode td:nth-last-of-type(2),
+table.editmode td:nth-last-of-type(3),
+table.editmode td:nth-last-of-type(4),
+table.editmode td:nth-last-of-type(5),
+table.editmode .mainhead th:nth-last-of-type(1),
+table.editmode .mainhead th:nth-last-of-type(2),
+table.editmode .mainhead th:nth-last-of-type(3),
+table.editmode .mainhead th:nth-last-of-type(4),
+table.editmode .mainhead th:nth-last-of-type(5) {
+	background-color: rgba(38, 166, 154, 0.1);
+}
+/*table.editmode .mainhead th:nth-last-of-type(3),
+table.editmode td:nth-last-of-type(3) {
+	border-left: 1px solid #26A69A;
+}*/
+
+.newday-tools {
+	margin: 1rem 0;
+	width: 100%;
+}
+
+.newday-tools:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+.newday-tools button {
+	padding: 0 0.7rem;
+}
+
+.collapsible {
+	box-shadow: none;
+	margin: 0;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+.collapsible .collapsible-header {
+	padding: 0;
+	border-bottom: 1px solid #FFF;
+}
+
+.collapsible-body {
+	border-bottom: 1px solid #FFF;
+	padding: 1% 0;
+}
+
+.collapsible-body:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.stat-box {
+	width: 31.333%;
+	height: 80px;
+	float: left;
+	text-align: center;
+	color: #FFF;
+	margin: 1%;
+	padding-top: 1rem;
+	line-height: 1.1;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+/*
+.stat-box:nth-of-type(2),
+.stat-box:nth-of-type(4) {
+	width: 47%;
+}*/
+
+.stat-box:last-of-type {
+	padding-top: 0.85rem;
+	width: 98%;
+	height: 50px;
+	cursor: pointer;
+	display: none;
+}
+.stat-box:last-of-type:hover {
+	background-color: #ef5350 !important;
+}
+
+.stat-value {
+	font-size: 1.6rem;
+	color: #FFF;
+	line-height: 1.4;
+}
+
+.conditions-holder .input-field {
+	margin-top: 1.55rem;
+}
+.conditions-holder .input-field label {
+	left: 0;
+}
+
+.gamedate-holder {
+	width: 49%;
+	float: left;
+	margin-right: 1%;
+}
+
+.conditions-holder {
+	width: 50%;
+	float: left;
+}
+
+.conditions-button {
+	float: right;
+}
+
+.details-heading span {
+	font-size: 0.75em;
+	color: #9A9A9A;
+}
+.game-conditions {
+	float: right;
+}
+
+.details-player-title {
+	float: left;
+}
+
+.rankchange,
+.multiplier {
+	text-transform: uppercase;
+	display: inline-block;
+	padding: 2px 5px;
+	background: #bbdefb;
+	border: 1px solid;
+	border-radius: 2px;
+	color: #2196f3;
+	font-size: 0.7rem;
+	line-height: 1;
+}
+
+
+.multiplier-1 {
+	background: #fff8e1;
+	color: #ffa726;
+}
+
+.multiplier-2 {
+	background: #bbdefb;
+	color: #2196f3;
+}
+
+.multiplier-3 {
+	background: #ffcdd2;
+	color: #f44336;
+}
+
+.multiplier-4 {
+	background: #c8e6c9;
+	color: #4caf50;
+}
+
+.multiplier-5 {
+	background: #d1c4e9;
+	color: #5e35b1;
+}
+
+
+.rankchange {
+	float: right;
+}
+
+
+.rankchange-up {
+	background: #c8e6c9;
+	color: #4caf50;
+}
+
+.rankchange-down {
+	background: #ffcdd2;
+	color: #f44336;
+}
+
+.day-select-wrap {
+	float: right;
+    width: 160px;
+    margin-top: -3px;
+}
+
+.day-select {
+
+}
+
+
+@media only screen and (max-width: 992px) {
+	.modal {
+		width: 96%;
+		max-height: 85%;
+	}
+}
+
+.preloader-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.preloader-overlay .spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -18px;
+	margin-left: -18px;
+}
+
+
+.message {
+	width: 98%;
+	margin: 4px 1% 1rem 1%;
+	background-color: #EFEFEF;
+	border: 1px solid #CCC;
+	text-align: center;
+	line-height: 1.2;
+}
+
+.positive {
+	background-color: #c8e6c9;
+	border: 1px solid #4caf50;
+}
+
+.negative {
+	background-color: #ffcdd2;
+	border: 1px solid #f44336;
+}
+
+.game-in-progress {
+	
+}
+
+.late-bonus {
+	display: none;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+.late-bonus.visible {
+	display: inline;
+}
