@@ -533,19 +533,24 @@ class ScoreController {
 	updatePlayerTotal = (playerid:string, day:number = 0) => {
 
 		var playerscore = this.model.scores[day].values[playerid];
+		var lasttotal: number = playerscore.lasttotal;
+		var newtotal = lasttotal;
+		var multiplier = playerscore.multiplier;
+		var points = 0;
 
 		if (playerscore.late) {
+			multiplier = this.model.bonuses["late"].value;
+		}
+
+		/*if (playerscore.late) {
 			playerscore.multiplier = this.model.bonuses["late"].value;
 		} else {
 			if (playerscore.multiplier === this.model.bonuses["late"].value) {
 				playerscore.multiplier = this.model.scores[day + 1] ? this.model.scores[day + 1].values[playerid].multiplier : 1;
 			}
-		}
+		}*/
 
-		var lasttotal:number = playerscore.lasttotal;
-		var newtotal = lasttotal;
-		var multiplier = playerscore.multiplier;
-		var points = 0;
+		
 
 
 
