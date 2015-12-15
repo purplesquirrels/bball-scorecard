@@ -130,6 +130,8 @@ class ViewState extends AppState {
 
 			var app = this.app;
 
+			$('.tooltipped').tooltip({ delay: 50 });
+
 			//$('day-select').material_select();
 
 			$('#gamedetails-modal').openModal({
@@ -146,6 +148,8 @@ class ViewState extends AppState {
 						var html = template(this.getGameDetails(parseInt(valueSelected, 10)));
 
 						$(".game-details-table").html(html);
+
+						$('.tooltipped').tooltip({ delay: 50 });
 
 						//$('.tooltipped').tooltip({ delay: 50 });
 					});

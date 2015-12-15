@@ -458,3 +458,12 @@ table.editmode td:nth-last-of-type(3) {
 .late-bonus.visible {
 	display: inline;
 }
+
+.tooltipped {
+	border-bottom: 1px dotted;
+	cursor: default;
+}
+
+.material-tooltip {
+	white-space: pre;
+}

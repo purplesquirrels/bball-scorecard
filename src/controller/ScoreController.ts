@@ -131,6 +131,14 @@ class ScoreController {
 				var rawscore = 0;
 				var bonuses = 0;
 				var i = 0;
+				var player = {
+					firstname: "",
+					score: 0,
+					bonuses: 0,
+					rawscore: 0,
+					multiplier: 1,
+					late: false
+				};
 
 
 				for (i = 0; i < this.model.players.length; ++i) {
@@ -142,26 +150,30 @@ class ScoreController {
 
 				for (var p in this.model.points) {
 					if (this.model.points.hasOwnProperty(p)) {
+						player[p] = this.model.scores[day].values[id][p];
 						rawscore += (this.model.scores[day].values[id][p] * this.model.points[p].value);
 					}
 				}
 
 				for (var b in this.model.bonuses) {
 					if (this.model.bonuses.hasOwnProperty(b) && b != "late") {
+						player[b] = this.model.scores[day].values[id][b];
 						bonuses += (this.model.scores[day].values[id][b] * this.model.bonuses[b].value);
 					}
 				}
 
 				score = (rawscore + bonuses) * this.model.scores[day].values[id].multiplier;
 				
-				players.push({
-					firstname: name,
-					score: score,
-					bonuses: bonuses,
-					rawscore: rawscore,
-					multiplier: this.model.scores[day].values[id].multiplier,
-					late: this.model.scores[day].values[id].late === 1
-				});
+				/*players.push({*/
+					player.firstname = name,
+					player.score = score,
+					player.bonuses = bonuses,
+					player.rawscore = rawscore,
+					player.multiplier = this.model.scores[day].values[id].multiplier,
+					player.late = this.model.scores[day].values[id].late === 1
+				//});
+				
+				players.push(player);
 			}
 		}
 

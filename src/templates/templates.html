@@ -260,8 +260,9 @@
 		{{#each players}}
 		<tr class="game-details-player">
 			<td>{{this.firstname}}</td>
-			<td>{{this.rawscore}}</td>
-			<td>{{this.bonuses}}</td>
+			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × 3pt  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.point04}}  {{this.point04}} × boundy  {{/if}}">{{this.rawscore}}</a>
+</td>
+			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
 			<td>{{this.score}}</td>
 		</tr>
