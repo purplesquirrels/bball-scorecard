@@ -145,10 +145,12 @@
 					<th></th>
 					<th></th>
 					<th></th>
-					<th colspan="5" class="bonus">Bonus</th>
+					<th></th>
+					<th colspan="4" class="bonus">Bonus</th>
 				</tr>
 				<tr class="mainhead">
 					<th width='10%'>Player</th>
+					<th width='10%'>L8</th>
 					<th width='8%'>KY</th>
 					<th width='8%'>3P</th>
 					<th width='8%'>F3</th>
@@ -157,7 +159,6 @@
 					<th width='8%'>K2</th>
 					<th width='8%'>FK</th>
 					<th width='8%'>F3</th>
-					<th width='10%'>L8</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -172,6 +173,7 @@
 <script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
 	<tr>
 		<td><div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div></td>
+		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03"></td>
@@ -180,7 +182,6 @@
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus03}}" data-for="{{this.id}}" data-value="bonus03"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04"></td>
-		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
 	</tr>
 </script>
 

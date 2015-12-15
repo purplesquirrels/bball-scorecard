@@ -208,8 +208,7 @@ th.bonus {
 table.editmode th:nth-last-of-type(1),
 table.editmode th:nth-last-of-type(2),
 table.editmode th:nth-last-of-type(3),
-table.editmode th:nth-last-of-type(4),
-table.editmode th:nth-last-of-type(5) {
+table.editmode th:nth-last-of-type(4) {
 	text-align: center;
 	color: #26A69A;
 }
@@ -217,12 +216,10 @@ table.editmode td:nth-last-of-type(1),
 table.editmode td:nth-last-of-type(2),
 table.editmode td:nth-last-of-type(3),
 table.editmode td:nth-last-of-type(4),
-table.editmode td:nth-last-of-type(5),
 table.editmode .mainhead th:nth-last-of-type(1),
 table.editmode .mainhead th:nth-last-of-type(2),
 table.editmode .mainhead th:nth-last-of-type(3),
-table.editmode .mainhead th:nth-last-of-type(4),
-table.editmode .mainhead th:nth-last-of-type(5) {
+table.editmode .mainhead th:nth-last-of-type(4) {
 	background-color: rgba(38, 166, 154, 0.1);
 }
 /*table.editmode .mainhead th:nth-last-of-type(3),
