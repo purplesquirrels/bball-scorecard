@@ -13,6 +13,7 @@ interface JQuery {
 	collapsible(options?: any): JQuery;
 	material_select(options?: any): JQuery;
 	tooltip(options?: any): JQuery;
+	mixItUp(options?: any): JQuery;
 }
 interface States {
 	view: ViewState;
