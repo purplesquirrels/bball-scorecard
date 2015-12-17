@@ -20,6 +20,12 @@
 </script>
 
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
+<div class="sort-menu"><span class="sort-label">Sorting</span>
+	<a class="sort sort-default btn waves-effect waves-light active" data-sort="default">Score</a>
+	<a class="sort btn waves-effect waves-light" data-sort="rawscore:desc">Raw score</a>
+	<a class="sort btn waves-effect waves-light" data-sort="averagescore:desc">Av pts</a>
+
+</div>
 <table class="mainlist">
 	<thead>
 		<tr>
@@ -32,13 +38,13 @@
 		</tr>
 	</thead>
 </table>
-<ul class="collapsible" data-collapsible="accordion">
+<ul class="collapsible" id="leaderboard" data-collapsible="accordion">
 	{{#each rankings}}
-	<li>
+	<li class="mix" data-score="{{this.score}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}">
 		<div class="collapsible-header">
 			<table class="mainlist">	
 				<tbody >
-					<tr class="{{rankclass}}">
+					<tr class="{{this.rankclass}}">
 						
 						<td width='10%' class='center'><strong>{{this.rank}}</strong></td>
 						<td width='25%'>{{this.firstname}}</td>
