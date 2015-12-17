@@ -99,21 +99,9 @@ class NewDayState extends AppState {
 
 			this.controller.setDayComplete(0);
 
-			//var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["preloader-overlay-template"]);
-			//var html = template({ overlayClass : "saveLoader"});
-
-			//$("body").append(html);
-			
-			// allow repaint before save takes place
-			//setTimeout(() => {
-				this.saveChanges(() => {
-
-					this.app.setState(StateType.VIEW);
-
-					$(".saveLoader").remove(html);
-
-				});
-			//}, 20);
+			this.saveChanges(() => {
+				this.app.setState(StateType.VIEW);
+			});
 
 		});
 
