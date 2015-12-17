@@ -7,7 +7,8 @@ gulp.task('clean', function () {
 	return del([
 		'build/**/*',
 		'!build/data',
-		'!build/data/*'
+		'!build/data/*',
+		'!build/data/backups/*'
 	]);
 });
 
