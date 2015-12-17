@@ -176,6 +176,14 @@ class ViewState extends AppState {
 			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 		});
 
+		$('#leaderboard').mixItUp({
+			layout: {
+				display: 'list-item'
+			}
+		});
+
+		$(".sort-default").addClass("active");
+
 	}
 
 	startProgressTimer = () => {
