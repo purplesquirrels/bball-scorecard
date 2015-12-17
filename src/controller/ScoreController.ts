@@ -133,6 +133,7 @@ class ScoreController {
 				var i = 0;
 				var player = {
 					firstname: "",
+					rank: 0,
 					score: 0,
 					bonuses: 0,
 					rawscore: 0,
@@ -164,14 +165,13 @@ class ScoreController {
 
 				score = (rawscore + bonuses) * this.model.scores[day].values[id].multiplier;
 				
-				/*players.push({*/
-					player.firstname = name,
-					player.score = score,
-					player.bonuses = bonuses,
-					player.rawscore = rawscore,
-					player.multiplier = this.model.scores[day].values[id].multiplier,
-					player.late = this.model.scores[day].values[id].late === 1
-				//});
+				player.firstname = name;
+				player.rank = this.model.scores[day].values[id].rank
+				player.score = score;
+				player.bonuses = bonuses;
+				player.rawscore = rawscore;
+				player.multiplier = this.model.scores[day].values[id].multiplier;
+				player.late = this.model.scores[day].values[id].late === 1;
 				
 				players.push(player);
 			}

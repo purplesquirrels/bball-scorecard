@@ -256,6 +256,7 @@
 	<thead>
 		<tr>
 			<th>Name</th>
+			<th>Rank</th>
 			<th>Points</th>
 			<th>Bonuses</th>
 			<th></th>
@@ -266,6 +267,7 @@
 		{{#each players}}
 		<tr class="game-details-player">
 			<td>{{this.firstname}}</td>
+			<td>{{this.rank}}</td>
 			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × 3pt  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.point04}}  {{this.point04}} × boundy  {{/if}}">{{this.rawscore}}</a>
 </td>
 			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
