@@ -139,10 +139,11 @@ class ViewState extends AppState {
 				ready: () => {
 
 					$('.day-select').on('change', (e) => {
+
+						$('.tooltipped').tooltip('remove');
+
 						var optionSelected = $("option:selected", e.currentTarget);
 						var valueSelected = (<HTMLSelectElement>e.currentTarget).value;
-
-						//console.log(valueSelected);
 
 						var template: HandlebarsTemplateDelegate = Handlebars.compile(app.templates["partial_game-details-table"]);
 						var html = template(this.getGameDetails(parseInt(valueSelected, 10)));
@@ -150,12 +151,17 @@ class ViewState extends AppState {
 						$(".game-details-table").html(html);
 
 						$('.tooltipped').tooltip({ delay: 50 });
-
-						//$('.tooltipped').tooltip({ delay: 50 });
 					});
 
-				}, // Callback for Modal open
-				complete: function() { } // Callback for Modal close
+					$('.modal-close').bind('click', function() {
+						$('.tooltipped').tooltip('remove');
+					});
+					
+
+				},
+				complete: function() {
+					
+				} 
 			});
 
 		});
