@@ -14,9 +14,17 @@ html, body {
 	width: 100%;
 	min-height: 500px;
 	max-width: 500px;
-	margin: 10px auto 0;
+	margin: 10px auto;
 
 	padding: 10px;
+}
+
+@media (max-width: 520px) {
+	.app {
+		margin: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
 }
 
 .banner-wrap {
