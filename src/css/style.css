@@ -162,6 +162,42 @@ html, body {
 	clear: left;
 }
 
+.sort-menu {
+	clear: both;
+    text-align: right;
+    background: #F5F3ED;
+    padding: 0.5em;
+    border-radius: 3px;
+}
+
+.sort-label {
+	text-transform: uppercase;
+    font-size: 0.8em;
+    padding-right: 0.65em;
+    float: left;
+    line-height: 1.9;
+}
+
+#leaderboard .mix {
+
+}
+
+
+.sort.btn {
+    padding: 0.4em 0.9em;
+    line-height: 1;
+    height: auto;
+    font-size: 0.7em;
+    opacity: 0.4;
+}
+
+.sort.btn.active {
+	opacity: 1;
+}
+
+
+
+
 table.editmode td {
 	padding: 0px 5px;
 }
