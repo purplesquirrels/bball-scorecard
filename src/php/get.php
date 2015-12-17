@@ -1,12 +1,44 @@
 <?php
 
-header('Content-Type: application/json');
+	header('Content-Type: application/json');
 
-$file = '../data/data.json';
+	// SEASON
+	$file = '../data/data.json';
 
-$fh = fopen($file, 'r') or die("Error: Can't open file.");
-$contents = fread($fh, filesize($file));
-fclose($fh);
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$season = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
 
-echo $contents;
+	// PLAYERS
+	$file = '../data/players.json';
+
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$players = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
+
+
+	// POINTS
+	$file = '../data/points.json';
+
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$points = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
+
+	// CONDITIONS
+	$file = '../data/conditions.json';
+
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$cond = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
+
+
+ 	// COMBINE ALL
+	$season->players = $players->players;
+	$season->points = $points->points;
+	$season->bonuses = $points->bonuses;
+	$season->conditions = $cond->conditions;
+
+	echo json_encode($season);
+
+
 ?>
