@@ -163,15 +163,18 @@ class ScoreController {
 					}
 				}
 
-				score = (rawscore + bonuses) * this.model.scores[day].values[id].multiplier;
-				
+				var multiplier = this.model.scores[day].values[id].late === 1 ? 
+									this.model.bonuses["late"].value :
+									this.model.scores[day].values[id].multiplier;
+
 				player.firstname = name;
 				player.rank = this.model.scores[day].values[id].rank
-				player.score = score;
+				player.score = this.model.scores[day].values[id].newtotal - this.model.scores[day].values[id].lasttotal;
 				player.bonuses = bonuses;
 				player.rawscore = rawscore;
-				player.multiplier = this.model.scores[day].values[id].multiplier;
+				player.multiplier = multiplier;
 				player.late = this.model.scores[day].values[id].late === 1;
+
 				
 				players.push(player);
 			}
