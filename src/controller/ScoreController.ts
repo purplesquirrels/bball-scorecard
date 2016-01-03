@@ -530,7 +530,7 @@ class ScoreController {
 		this.model.scores[day].conditions["rain"] = rain;
 		this.model.scores[day].conditions["humidity"] = humidity;
 		this.model.scores[day].conditions["airpressure"] = airpressure;
-		console.log(this.model.scores[day].conditions);
+		
 	}
 
 	setDayNumPlayers = (value: number, day:number = 0) => {
