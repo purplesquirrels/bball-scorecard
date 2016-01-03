@@ -68,7 +68,9 @@ class NewDayState extends AppState {
 					json["observations"]["data"][0]["wind_spd_kmh"],
 					json["observations"]["data"][0]["wind_dir"],
 					json["observations"]["data"][0]["cloud"],
-					json["observations"]["data"][0]["rain_trace"]
+					json["observations"]["data"][0]["rain_trace"],
+					json["observations"]["data"][0]["rel_hum"],
+					json["observations"]["data"][0]["press"]
 				);
 
 			}
