@@ -118,7 +118,7 @@ class App {
 			var headerSource = this.templates["app-header-template"];
 			var headerTemplate: HandlebarsTemplateDelegate = Handlebars.compile(headerSource);
 			var headerhtml = headerTemplate({
-				daynotcreated: !this.scoreController.getTotalGamesPlayed() || new Date(this.scoreController.getGameDate(0)).getDate() < new Date().getDate() // last game date less than todays
+				daynotcreated: this.scoreController.getTotalGamesPlayed() <= 0 || new Date(this.scoreController.getGameDate(0)).getTime() < new Date().getTime() // last game date less than todays
 			});
 
 			header.innerHTML = headerhtml;
