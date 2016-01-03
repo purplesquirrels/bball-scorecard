@@ -16,7 +16,7 @@ class NewDayState extends AppState {
 		var template:HandlebarsTemplateDelegate = Handlebars.compile(source);
 
 		var date = new Date();
-		var today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+		var today = date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate();
 
 		var context = { title: "New day", date: today, players: [] };
 
@@ -27,8 +27,8 @@ class NewDayState extends AppState {
 		this.element.innerHTML = html;
 
 		$('.datepicker').pickadate({
-			selectMonths: false, // Creates a dropdown to control month
-			selectYears: false // Creates a dropdown of 15 years to control year
+			selectMonths: true, // Creates a dropdown to control month
+			selectYears: true // Creates a dropdown of 15 years to control year
 		});
 		
 		$('.editmode').on("change input", "input", this.onInputChange);
