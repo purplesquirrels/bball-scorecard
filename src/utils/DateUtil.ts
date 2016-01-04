@@ -89,5 +89,20 @@ class DateUtil {
 			'seconds': Math.floor((t / 1000) % 60)
 		};
 	}
+
+
+	static dateIsToday(date: string): boolean {
+
+		var n: Date = new Date(); // now
+		var d: Date = new Date(date); // date to check
+
+		if (d.getDate() === n.getDate() &&
+			d.getMonth() === n.getMonth() &&
+			d.getFullYear() === n.getFullYear()) {
+			return true;
+		}
+
+		return false;
+	}
 	
 }
