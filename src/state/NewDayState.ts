@@ -79,31 +79,36 @@ class NewDayState extends AppState {
 
 		$(".cancel-newday").bind("click", (e) => {
 
-			$(".app-header").removeClass("hidden");
+			if (confirm(Config.MSG_CANCELGAME)) {
 
-			this.controller.restoreState();
+				$(".app-header").removeClass("hidden");
 
-			this.send().done((data) => {
-				//console.log("Success cancel update");
-				//console.log(data);
-			})
-			.fail((data) => {
-				//console.log("Error cancel update", data);
-			})
-			.always((data) => {
-				//console.log("Finished cancel update");
+				this.controller.restoreState();
+
+				this.send().done((data) => {
+					//console.log("Success cancel update");
+					//console.log(data);
+				})
+				.fail((data) => {
+					//console.log("Error cancel update", data);
+				})
+				.always((data) => {
+					//console.log("Finished cancel update");
 				
-				this.app.setState(StateType.VIEW);
-			});
+					this.app.setState(StateType.VIEW);
+				});
+			}
 		});
 
 		$(".save-newday").bind("click", (e) => {
 
-			this.controller.setDayComplete(0);
+			if (confirm(Config.MSG_FINISHGAME)) {
+				this.controller.setDayComplete(0);
 
-			this.saveChanges(() => {
-				this.app.setState(StateType.VIEW);
-			});
+				this.saveChanges(() => {
+					this.app.setState(StateType.VIEW);
+				});
+			}
 
 		});
 
