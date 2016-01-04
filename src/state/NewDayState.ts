@@ -211,7 +211,7 @@ class NewDayState extends AppState {
 	send = ():JQueryXHR => {
 
 		return $.post(Config.PUT_PATH, {
-			auth: "1qaz@WSX",
+			auth: Config.SERVER_KEY,
 			data: this.controller.getJSONString()
 		});
 	}

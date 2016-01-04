@@ -103,7 +103,7 @@ class EditState extends AppState {
 			this.controller.updatePlayerRankings();
 
 			$.post(Config.PUT_PATH, { 
-				auth: "1qaz@WSX",
+				auth: Config.SERVER_KEY,
 				data: this.controller.getJSONString()
 			})
 			.done((data) => {

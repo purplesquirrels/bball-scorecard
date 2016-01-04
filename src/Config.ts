@@ -4,6 +4,7 @@ class Config {
 	static PUT_PATH: string = "php/update.php";
 	static CURL_PATH: string = "php/curl.php";
 	static AUTH_PATH: string = "php/auth.php";
+	static SERVER_KEY: string = "1qaz@WSX";
 
 	static RANKING: string = "standard"; 
 
