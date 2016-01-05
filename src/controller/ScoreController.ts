@@ -401,7 +401,13 @@ class ScoreController {
 		if (this.model.scores.length < 2) return 0;
 
 		var ranknow = this.model.scores[0].values[playerid].rank;
-		var ranklast = this.model.scores[1].values[playerid].rank;
+		var ranklast;
+
+		if (this.model.scores[1].values[playerid]) {
+			ranklast = this.model.scores[1].values[playerid].rank;
+		} else {
+			return 0;
+		}
 
 		return ranklast - ranknow;
 	}
