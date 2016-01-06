@@ -163,9 +163,11 @@ class ScoreController {
 					}
 				}
 
-				var multiplier = this.model.scores[day].values[id].late === 1 ? 
-									this.model.bonuses["late"].value :
-									this.model.scores[day].values[id].multiplier;
+				var multiplier = this.model.scores[day].values[id].multiplier;
+
+				if (this.model.scores[day].values[id].late === 1) {
+					multiplier += 1;
+				}
 
 				player.firstname = name;
 				player.rank = this.model.scores[day].values[id].rank
@@ -563,20 +565,8 @@ class ScoreController {
 		var points = 0;
 
 		if (playerscore.late) {
-			multiplier = this.model.bonuses["late"].value;
+			multiplier += 1;
 		}
-
-		/*if (playerscore.late) {
-			playerscore.multiplier = this.model.bonuses["late"].value;
-		} else {
-			if (playerscore.multiplier === this.model.bonuses["late"].value) {
-				playerscore.multiplier = this.model.scores[day + 1] ? this.model.scores[day + 1].values[playerid].multiplier : 1;
-			}
-		}*/
-
-		
-
-
 
 		for (var p in this.model.points) {
 			if (this.model.points.hasOwnProperty(p)) {
