@@ -163,7 +163,7 @@
 					<th width='8%'>BN</th>
 					<th width='8%'>K1</th>
 					<th width='8%'>K2</th>
-					<th width='8%'>FK</th>
+					<!--th width='8%'>FK</th-->
 					<th width='8%'>F3</th>
 				</tr>
 			</thead>
@@ -186,7 +186,7 @@
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point04}}" data-for="{{this.id}}" data-value="point04"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus03}}" data-for="{{this.id}}" data-value="bonus03"></td>
+		<!--td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus03}}" data-for="{{this.id}}" data-value="bonus03"></td-->
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04"></td>
 	</tr>
 </script>
@@ -260,6 +260,7 @@
 			<th>Points</th>
 			<th>Bonuses</th>
 			<th></th>
+			<th></th>
 			<th>Final score</th>
 		</tr>
 	</thead>
@@ -272,6 +273,7 @@
 </td>
 			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
+			<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
 			<td>{{this.score}}</td>
 		</tr>
 		{{/each}}
