@@ -14,6 +14,8 @@ class ViewState extends AppState {
 		var today = new Date();
 		var dayToDisplay = 0;//this.controller.getLastCompletedDay();
 
+		this.element.classList.add("view-state");
+
 		//console.log('dayToDisplay', dayToDisplay);
 
 		var source = this.app.templates["view-template"];

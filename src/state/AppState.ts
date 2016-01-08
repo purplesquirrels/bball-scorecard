@@ -13,6 +13,8 @@ class AppState {
 
 		this.element = document.createElement("div");
 
+		this.element.classList.add("app-state");
+
 		this.root.appendChild(this.element);
 
 	}

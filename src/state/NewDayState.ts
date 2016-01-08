@@ -8,6 +8,8 @@ class NewDayState extends AppState {
 
 		$(".app-header").addClass("hidden");
 
+		this.element.classList.add("newday-state");
+
 		this.controller.saveState();
 
 		this.controller.createNewDay();
