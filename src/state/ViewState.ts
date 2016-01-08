@@ -86,6 +86,7 @@ class ViewState extends AppState {
 			}
 
 			context.rankings[i].firstname = this.controller.getPlayerName(playerid);
+			context.rankings[i].avatar = this.controller.getPlayerAvatar(playerid);
 			context.rankings[i].rankclass = rank;
 			context.rankings[i].totalgames = this.controller.getPlayerTotalGames(playerid);
 			context.rankings[i].averagescore = this.controller.getPlayerAverageScore(playerid);

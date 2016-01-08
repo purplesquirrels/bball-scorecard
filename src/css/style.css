@@ -3,6 +3,7 @@
 }
 
 html, body {
+	background-color: #212633;
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -10,13 +11,39 @@ html, body {
 	font-family: "Roboto", Arial, sans-serif;
 }
 
+
+/* ================ */
+
+
+.bb-button {
+	font-family: "Roboto", Arial, sans-serif;
+	border-radius: 100px;
+	border: 1px solid;
+	text-transform: uppercase;
+	font-size: 0.9em;
+	padding: 0.3em 1em;
+	cursor: pointer;
+}
+
+
+
+.bb-purple {
+	color: #7463E7;
+}
+
+/* ================*/
+
+
+
+
 .app {
 	width: 100%;
 	min-height: 500px;
 	max-width: 500px;
 	margin: 10px auto;
-
-	padding: 10px;
+	/*margin: 10px 0 0 10px;*/
+	background-color: #353B51;
+	
 }
 
 @media (max-width: 520px) {
@@ -27,10 +54,19 @@ html, body {
 	}
 }
 
+.main-header {
+	position: relative;
+    z-index: 2;
+}
+
+.main-footer {
+	padding: 10px;
+}
+
 .banner-wrap {
 	width: 100%;
 	height: 0;
-	padding-bottom: 17.5%;
+	padding-bottom: 17.4%;
 	position: relative;
 }
 
@@ -68,19 +104,19 @@ html, body {
 
 
 .row-gold {
-	background-color: #fff9c4;
+	color: #F9B450;
 }
 
 .row-silver {
-	background-color: #e3f2fd;
+	color: #5DDCF9;
 }
 
 .row-bronze {
-	background-color: #ffe0b2;
+	color: #FB6C70;
 }
 
 .row-iron {
-	background-color: #c8e6c9;
+	color: #29DDC0;
 }
 
 .header {
@@ -92,12 +128,19 @@ html, body {
 }
 
 .game-details {
+	text-align: center;
+    float: right;
+	text-transform: uppercase;
 	font-size: 0.8rem;
-	line-height: 2.5;
-    height: 30px;
-	margin-left: 1rem;
-	margin-top: 0.9rem;
-	float: right;
+	font-weight: bold;
+    margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
+    margin-right: 10px;
+    padding: 0.5rem 2rem;
+    background: #7463E7;
+    color: #FFF;
+    border-color: #7463E7;
+    line-height: 1;
 }
 
 .body {
@@ -123,16 +166,19 @@ html, body {
 	font-weight: bold;
     margin-top: 0.9rem;
     margin-bottom: 0.9rem;
+    margin-left: 10px;
     padding: 0.5rem 2rem;
-    border-radius: 3px;
-    border: 1px solid #E6E4E4;
+    border-radius: 50px;
+    color: #E2E2E2;
+    border: 1px solid #E2E2E2;
 }
 
 .lastupdate {
 	text-align: right;
-	font-size: 0.9rem;
-	margin-top: 0.7rem;
-	margin-bottom: 0.15rem;
+	font-size: 0.8rem;
+	font-weight: normal;
+	margin: 0;
+	color: rgba(255, 255, 255, 0.5);
 }
 
 @media (max-width: 400px) {
@@ -173,9 +219,10 @@ html, body {
 .sort-menu {
 	clear: both;
     text-align: right;
-    background: #F5F3ED;
-    padding: 0.5em;
-    border-radius: 3px;
+    background: #2E3548;
+    padding: 10px;
+    border-top: 1px solid #272E41;
+    border-bottom: 1px solid #272E41;
 }
 
 .sort-label {
@@ -186,21 +233,21 @@ html, body {
     line-height: 1.9;
 }
 
-#leaderboard .mix {
-
+.leaderboard {
+	padding: 10px;
 }
 
 
-.sort.btn {
-    padding: 0.4em 0.9em;
-    line-height: 1;
-    height: auto;
+.sort.bb-button {
     font-size: 0.7em;
     opacity: 0.4;
 }
 
-.sort.btn.active {
-	opacity: 1;
+.sort.bb-button.active {
+	background-color: #7463E7;
+	border-color: #7463E7;
+	color: #FFF;
+    opacity: 1;
 }
 
 
@@ -291,13 +338,14 @@ table.editmode td:nth-last-of-type(3) {
 	border-left: 0;
 	border-right: 0;
 }
+.collapsible .collapsible-body {
+	border-bottom: none;
+}
 .collapsible .collapsible-header {
 	padding: 0;
-	border-bottom: 1px solid #FFF;
 }
 
 .collapsible-body {
-	border-bottom: 1px solid #FFF;
 	padding: 1% 0;
 }
 
@@ -318,6 +366,14 @@ table.editmode td:nth-last-of-type(3) {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
+
+
+.collapsible-header.playeritem {
+	background: #2E3548;
+	border-bottom: none;
+	margin-bottom: 1px;
+}
+
 /*
 .stat-box:nth-of-type(2),
 .stat-box:nth-of-type(4) {
@@ -365,7 +421,7 @@ table.editmode td:nth-last-of-type(3) {
 
 .details-heading span {
 	font-size: 0.75em;
-	color: #9A9A9A;
+	color: #7463E7;
 }
 .game-conditions {
 	float: right;
@@ -390,23 +446,32 @@ table.editmode td:nth-last-of-type(3) {
 
 
 .multiplier-1 {
-	background: #fff8e1;
-	color: #ffa726;
+	/*background: #fff8e1;
+	color: #ffa726;*/
+	background: rgba(249, 180, 80,0.2);
+	color: rgba(249, 180, 80,1);
+	
 }
 
 .multiplier-2 {
-	background: #bbdefb;
-	color: #2196f3;
+	/*background: #bbdefb;
+	color: #2196f3;*/
+	background: rgba(93,220,249,0.2);
+	color: rgba(93,220,249,1);
 }
 
 .multiplier-3 {
-	background: #ffcdd2;
-	color: #f44336;
+	/*background: #ffcdd2;
+	color: #f44336;*/
+	background: rgba(251, 108, 112, 0.2);
+	color: rgba(251, 108, 112, 1);
 }
 
 .multiplier-4 {
-	background: #c8e6c9;
-	color: #4caf50;
+	/*background: #c8e6c9;
+	color: #4caf50;*/
+	background: rgba(40, 333, 147, 0.2);
+	color: rgba(40, 333, 147, 1);
 }
 
 .multiplier-5 {
@@ -421,24 +486,62 @@ table.editmode td:nth-last-of-type(3) {
 }
 
 .rankchange {
+	padding: 3px 5px 2px;
 	float: right;
+
+	background: rgba(93,220,249,0.2);
+	color: rgba(93,220,249,1);
 }
 
 
 .rankchange-up {
-	background: #c8e6c9;
-	color: #4caf50;
+	background: rgba(40, 333, 147, 0.2);
+	color: rgba(40, 333, 147, 1);
 }
 
 .rankchange-down {
-	background: #ffcdd2;
-	color: #f44336;
+	background: rgba(251, 108, 112, 0.2);
+	color: rgba(251, 108, 112, 1);
 }
 
 .day-select-wrap {
 	float: right;
     width: 160px;
     margin-top: -3px;
+}
+
+
+.mainlist .avatar {
+	position: relative;
+    z-index: 1;
+	border: 2px solid;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-left: 25px;
+    margin-top: -3px;
+    overflow: hidden;
+}
+
+.mainlist .avatar img {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.2);
+}
+
+.mainlist .rank {
+	position: relative;
+    z-index: 2;
+	border: 2px solid;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-top: -33px;
+    margin-left: 3px;
+    background-color: #2E3548;
+	line-height: 1;
+	padding-top: 0.6em;
+    font-size: 11px;
 }
 
 .day-select {
@@ -508,8 +611,39 @@ table.editmode td:nth-last-of-type(3) {
 .tooltipped {
 	border-bottom: 1px dotted;
 	cursor: default;
+	color: #FFF;
 }
 
 .material-tooltip {
 	white-space: pre;
+}
+
+.modal {
+	background: #353B51;
+	color: #E2E2E2;
+}
+.modal .modal-footer {
+	background: transparent;
+	color: #E2E2E2;
+}
+.input-field {
+	color: black;
+}
+table.striped>tbody>tr:nth-child(odd) {
+	background: rgba(0,0,0,0.1);
+}
+
+.modal-close {
+	float: right;
+	margin-right: 10px;
+}
+
+.modal-close:hover {
+	background: #7463E7;
+	border-color: #7463E7;
+	color: #FFF;
+}
+
+.backdrop {
+	background: #212633;
 }

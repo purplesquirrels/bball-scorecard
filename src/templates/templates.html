@@ -6,7 +6,7 @@
 	<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
 	
 	{{#if showDetails}}
-		<a class="waves-effect waves-light btn deep-purple game-details">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}
+		<a class="bb-button bb-purple game-details">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}
 		</a>
 	{{/if}}
 	
@@ -20,13 +20,13 @@
 </script>
 
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
-<div class="sort-menu"><span class="sort-label">Sort by</span>
-	<a class="sort sort-default btn waves-effect waves-light active" data-sort="default">Score</a>
-	<a class="sort btn waves-effect waves-light" data-sort="rawscore:desc">Raw score</a>
-	<a class="sort btn waves-effect waves-light" data-sort="averagescore:desc">Av pts</a>
+<div class="sort-menu"><!--span class="sort-label">Sort by</span-->
+	<a class="sort bb-button bb-purple" data-sort="rawscore:desc">Raw score</a>
+	<a class="sort bb-button bb-purple" data-sort="averagescore:desc">Av pts</a>
+	<a class="sort bb-button bb-purple sort-default active" data-sort="default">Score</a>
 
 </div>
-<table class="mainlist">
+<!--table class="mainlist">
 	<thead>
 		<tr>
 			<th width='10%' title="Player's current rank"></th>
@@ -37,16 +37,16 @@
 			<th width='10%'  title="Change in rank from last game" style="text-align:center">&#8645;</th>
 		</tr>
 	</thead>
-</table>
-<ul class="collapsible" id="leaderboard" data-collapsible="accordion">
+</table-->
+<ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion">
 	{{#each rankings}}
 	<li class="mix" data-score="{{this.score}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}">
-		<div class="collapsible-header">
+		<div class="playeritem collapsible-header">
 			<table class="mainlist">	
 				<tbody >
 					<tr class="{{this.rankclass}}">
 						
-						<td width='10%' class='center'><strong>{{this.rank}}</strong></td>
+						<td width='10%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
 						<td width='25%'>{{this.firstname}}</td>
 						<td width='20%'>{{this.totalgames}}</td>
 						<td width='20%'>{{this.averagescore}}</td>
@@ -240,7 +240,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-teal btn-flat">Close</a>
+      <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a>
     </div>
   </div>
 </script>

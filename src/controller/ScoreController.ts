@@ -308,6 +308,19 @@ class ScoreController {
 		return "Player " + playerid + " not found.";
 	}
 
+	getPlayerAvatar = (playerid: string): string => {
+
+		for (var i = 0; i < this.model.players.length; ++i) {
+
+			if (this.model.players[i].id === playerid) {
+				return this.model.players[i].avatar || "anon.jpg";
+			}
+
+		}
+
+		return "anon.jpg";
+	}
+
 	getPlayerIsPlaying = (playerid: string, day: number = 0): boolean => {
 
 		if (this.model.scores.length === 0) return false;
