@@ -34,7 +34,10 @@ html, body {
 /* ================*/
 
 
-
+.app-header {
+	position: relative;
+	z-index: 2;
+}
 
 .app {
 	width: 100%;
@@ -44,6 +47,17 @@ html, body {
 	/*margin: 10px 0 0 10px;*/
 	background-color: #353B51;
 	
+}
+
+.app-state {
+	position: relative;
+	z-index: 1;
+	color: #E2E2E2;
+}
+
+.edit-state,
+.newday-state {
+	padding: 10px;
 }
 
 @media (max-width: 520px) {
@@ -205,12 +219,17 @@ html, body {
 .pin-display {
 	font-size: 2.5rem !important;
 	text-align: center;
+	color: #FFF  !important;
 }
 .pin-button {
 	width: 31.333%;
-	padding-bottom: 31.333%;
-	float:left;
-	margin:1%;
+	padding-bottom: 21.333%;
+	padding-top: 10%;
+	float: left;
+	margin: 1%;
+	font-size: 30px;
+	text-align: center;
+	color: #FFF;
 }
 .pin-button:nth-of-type(3n+1) {
 	clear: left;
@@ -646,4 +665,8 @@ table.striped>tbody>tr:nth-child(odd) {
 
 .backdrop {
 	background: #212633;
+}
+
+[type="checkbox"]+label:before {
+	border: 2px solid #e2e2e2;
 }
