@@ -1,9 +1,13 @@
 /// <reference path="typing/handlebars.d.ts" />
 /// <reference path="typing/jquery.d.ts" />
+/// <reference path="typing/d3.d.ts" />
 /// <reference path="state/ViewState" />
 /// <reference path="state/NewDayState" />
 /// <reference path="state/EditState" />
 /// <reference path="modal/NewPlayer" />
+
+/// <reference path="charts/LineChart" />
+/// <reference path="charts/PieChart" />
 
 interface JQuery {
 	pickadate(options?: any): JQuery;
@@ -27,11 +31,20 @@ class StateType {
 	static EDIT: string = "edit";
 }
 
+interface Rectangle {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+}
+
 class App {
 
 	data: ScoreData;
 	scoreController: ScoreController;
 	root: HTMLDivElement;
+	scoreboardRoot: HTMLDivElement;
+	statsRoot: HTMLDivElement;
 
 	templates: Object;
 	buttonActions: Object;
@@ -64,6 +77,8 @@ class App {
 		NumberCruncher.init(<ScoreData>data);
 		
 		this.root = <HTMLDivElement>document.querySelector(rootSelector);
+		this.scoreboardRoot = <HTMLDivElement>this.root.querySelector(".scoreboard");
+		this.statsRoot = <HTMLDivElement>this.root.querySelector(".stats");
 
 		this.templates = {};
 
@@ -122,7 +137,7 @@ class App {
 			});
 
 			header.innerHTML = headerhtml;
-			this.root.appendChild(header);
+			this.scoreboardRoot.appendChild(header);
 
 			$('.header-settings').dropdown({
 				inDuration: 300,
@@ -136,7 +151,7 @@ class App {
 
 			$("#settings-dropdown").on("click", "a", this.onSettingsItem);
 
-			this.root.appendChild(header);
+			this.scoreboardRoot.appendChild(header);
 
 			
 			var authSource = this.templates["modal-app-auth"];
@@ -181,6 +196,165 @@ class App {
 		this.states.view = new ViewState(this.scoreController, this);
 
 		this.setState(StateType.VIEW);
+
+
+		/////// CHARTS
+
+
+		//this.statsRoot).append('<div class="c2-chart"></div>');
+
+		var statHeaderSource = this.templates["stats-panel-header"];
+		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
+		var statheaderhtml = statHeaderTemplate({
+			
+		});
+
+		$(this.statsRoot).append(statheaderhtml);
+
+		var statsource = this.templates["stats-panel-season-stats"];
+		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
+		var stathtml = stattemplate({
+
+		});
+
+		$(this.statsRoot).append(stathtml);
+
+
+		var c1_data: {}[] = [];
+		var _d = this.scoreController.getAsObject();
+
+
+		//var data_totalgames2 = [];
+
+		var playerid;
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			playerid = _d.players[j].id;
+
+			if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
+
+			// Player rank over time
+
+			for (var i = 0; i < _d.scores.length; i++) {
+
+				if (!_d.scores[i].values[playerid]) continue;
+
+				var pt = {}
+
+				pt.id = playerid;
+				pt.name = _d.players[j].firstname;
+				pt.x = i;
+				pt.y = _d.scores[i].values[playerid].rank;
+
+
+				c1_data.unshift(pt);
+
+			}
+		}
+
+
+		$(".left-1").prepend('<svg class="chart seasonProg"></svg>');
+		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+		var seasonProg: PieChart = new PieChart('.seasonProg', {
+			//outerRadius: 50,
+			innerRadius: 36,
+			sortValues: false,
+			data: [
+				{
+					name: "Played",
+					value: _d.scores.length,
+					colour: '#29ddc0'
+				},
+				{
+					name: "Remaining",
+					value: tt - _d.scores.length,
+					colour: '#2e3548'
+				}
+			]
+		});
+
+		$(".left-2").prepend('<svg class="chart daysFirst"></svg>');
+		var seasonProg: PieChart = new PieChart('.daysFirst', {
+			//outerRadius: 50,
+			innerRadius: 36,
+			data: [
+				{
+					name: "Deane",
+					value: 12
+				},
+				{
+					name: "Greg",
+					value: 1
+				},
+				{
+					name: "James",
+					value: 3
+				}
+			]
+		});
+
+		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
+		var c1: LineChart = new LineChart(".seasonRank", {
+			xlabel: "Time",
+			ylabel: "Rank",
+			interpolation: "linear",
+			invertY: true,
+			invertX: true,
+			data: c1_data,
+			width: 500,
+			height: 300
+		});
+
+		$(".right-3").prepend('<svg class="chart playerRaw"></svg>');
+		var c3: BarChart = new BarChart(".playerRaw", {
+			key: "name",
+			value: "games",
+			data: [
+				{
+					"name": "B",
+					"games": 25
+				}, 
+				{
+					"name": "D",
+					"games" : 22
+				},
+				{
+					"name": "E",
+					"games" : 22
+				},
+				{
+					"name": "A",
+					"games": 20
+				},
+				{
+					"name": "C",
+					"games": 20
+				},
+				{
+					"name": "F",
+					"games": 20
+				},
+				{
+					"name": "G",
+					"games": 19
+				},
+				{
+					"name": "H",
+					"games": 15
+				},
+				{
+					"name": "I",
+					"games": 10
+				},
+				{
+					"name": "J",
+					"games": 8
+				}
+			]
+		});
+
+
 	}
 
 	onSettingsItem = (e:MouseEvent) => {

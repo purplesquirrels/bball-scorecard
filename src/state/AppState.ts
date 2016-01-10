@@ -9,7 +9,7 @@ class AppState {
 
 		this.controller = controller;
 		this.app = app;
-		this.root = app.root;
+		this.root = app.scoreboardRoot;
 
 		this.element = document.createElement("div");
 

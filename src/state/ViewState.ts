@@ -114,6 +114,31 @@ class ViewState extends AppState {
 
 		this.element.innerHTML = html;
 
+		/////////////////////////////////////////////////////////////////////////
+
+		$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
+		var _d = this.controller.getAsObject();
+		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+		var seasonProg: PieChart = new PieChart('.daysleft-chart', {
+			//outerRadius: 30,
+			innerRadius: 36,
+			sortValues: false,
+			data: [
+				{
+					name: "",
+					value: _d.scores.length,
+					colour: '#FFFFFF'
+				},
+				{
+					name: "",
+					value: tt - _d.scores.length,
+					colour: '#232935'
+				}
+			]
+		});
+
+		/////////////////////////////////////////////////////////////////////////
+
 		$('.game-details').bind("click", (e:JQueryMouseEventObject) => {
 
 			//var gamedate = new Date(this.controller.getGameDate(0));

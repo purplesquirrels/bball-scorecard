@@ -11,6 +11,20 @@ html, body {
 	font-family: "Roboto", Arial, sans-serif;
 }
 
+.col-1-2 {
+	float: left;
+	width: 50%;
+}
+.col-1-4 {
+	float: left;
+	width: 25%;
+}
+.col-3-4 {
+	float: left;
+	width: 75%;
+}
+
+
 
 /* ================ */
 
@@ -38,12 +52,19 @@ html, body {
 
 .app {
 	width: 100%;
-	min-height: 500px;
-	max-width: 500px;
-	margin: 10px auto;
-	/*margin: 10px 0 0 10px;*/
+    padding: 10px;
+}
+
+.app-panel {
+	float: left;
 	background-color: #353B51;
-	
+}
+
+.scoreboard {
+	width: 100%;
+    min-height: 500px;
+    max-width: 500px;
+    margin: 0 10px 0 0;
 }
 
 @media (max-width: 520px) {
@@ -136,7 +157,7 @@ html, body {
     margin-top: 0.9rem;
     margin-bottom: 0.9rem;
     margin-right: 10px;
-    padding: 0.5rem 2rem;
+    padding: 0.6rem 2rem;
     background: #7463E7;
     color: #FFF;
     border-color: #7463E7;
@@ -154,11 +175,21 @@ html, body {
 .daysleft  img {
 	width: 100px;
 }
+
+.daysleft-chart-wrap {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+    top: 4px;
+    left: 5px;
+}
+
 .header-settings {
 	padding: 0 1rem;
 	float: right;
 }
 .seasondate {
+	position: relative;
 	text-align: center;
     float: left;
 	text-transform: uppercase;
@@ -167,7 +198,8 @@ html, body {
     margin-top: 0.9rem;
     margin-bottom: 0.9rem;
     margin-left: 10px;
-    padding: 0.5rem 2rem;
+    padding: 0.6rem 2rem;
+    padding-left: 3.3rem;
     border-radius: 50px;
     color: #E2E2E2;
     border: 1px solid #E2E2E2;
@@ -188,12 +220,12 @@ html, body {
 	.seasondate {
 		text-align: center;
 		display: block;
-		width: 100%;
+		width: calc(100% - 20px);
 	}
 
 	.game-details {
 		display: block;
-		width: 100%;
+		width: calc(100% - 20px);
 		margin-top: 0;
 	}
 }
@@ -646,4 +678,87 @@ table.striped>tbody>tr:nth-child(odd) {
 
 .backdrop {
 	background: #212633;
+}
+
+
+
+
+
+/*//////////// CHARTS ///////*/
+
+.stats {
+	width: calc(100% - 510px);
+}
+
+@media(max-width: 1250px) {
+	.stats {
+		margin-top: 10px;
+		width: 100%;
+		clear: both;
+	}
+}
+
+.stats-menu {
+	margin: 0;
+	background: #2e3548;
+	width: 100%;
+	padding: 10px;
+}
+
+.stats-menu-item {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	width: 65px;
+	height: 65px;
+	background: #212633;
+}
+.season-stats-holder {
+	padding: 10px;
+}
+
+.stat-holder:last-of-type {
+	border-bottom: none;
+}
+
+.season-stats-holder:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.stat-holder h3 {
+	color: #e2e2e2;
+	font-size: 20px;
+	font-weight: 200;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+
+.season-stats-right {
+	border-left: 1px solid #272e41;
+}
+
+.stat-holder {
+	padding: 10px;
+	width: 100%;
+	border-bottom: 1px solid #272e41;
+}
+
+.axis text {
+  font: 10px sans-serif;
+  fill: #e2e2e2;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #e2e2e2;
+  shape-rendering: crispEdges;
+}
+
+.chart {
+	width: 100%;
 }

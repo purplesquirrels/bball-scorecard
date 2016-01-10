@@ -286,3 +286,44 @@
 	<p>Game is currently in progress<br><span class="late-bonus">Late bonus now applies<br></span>(<span class="time-left">{{timeleft}}</span> remaining)</p>
 </div>
 </script>
+
+<script id="stats-panel-header" type="text/x-handlebars-template">
+<div class="stats-header">
+	<ul class="stats-menu">
+		<li class="stats-menu-item season-stats" data-id="season">SEASON</li>
+		{{#each players}}
+		<li class="stats-menu-item player-stats" data-id="{{this.id}}">{{this.firstname}}</li>
+		{{/each}}
+	</ul>
+</div>
+</script>
+
+<script id="stats-panel-season-stats" type="text/x-handlebars-template">
+<div class="season-stats-holder">
+	<div class="col-1-4 season-stats-left">
+		<div class="stat-holder left-1">
+			<h3>Season progress</h3>
+		</div>
+		<div class="stat-holder left-2">
+			<h3>Days in 1st</h3>
+		</div>
+	</div>
+	<div class="col-3-4 season-stats-right">
+		<div class="stat-holder right-1">
+			<h3>Leaders</h3>
+		</div>
+		<div class="stat-holder right-2">
+			<h3>Player rank over season</h3>
+		</div>
+		<div class="stat-holder right-3">
+			<h3>Player raw score</h3>
+		</div>
+	</div>
+</div>
+</script>
+
+<script id="stats-panel-player-stats" type="text/x-handlebars-template">
+<div class="player-stats-holder">
+	
+</div>
+</script>
