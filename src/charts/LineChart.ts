@@ -8,6 +8,7 @@ interface LineChartConfig {
 	invertX: boolean;
 	xlabel: string;
 	ylabel: string;
+	scales: boolean;
 }
 
 class LineChart {
@@ -27,13 +28,13 @@ class LineChart {
 	dataGroup: any[];
 	lineFunc: Function;
 
-	constructor(container:string, config:LineChartConfig) {
+	constructor(container: string, config: LineChartConfig) {
 		this.margin = {
-			top: 20, right: 30, bottom: 30, left: 50
+			top: 0, right: 0, bottom: 0, left: 0
 		}
 
-		this.width = (config.width || 760) - this.margin.left - this.margin.right;
-		this.height = (config.height || 400) - this.margin.top - this.margin.bottom;
+		this.width = (config.width) - this.margin.left - this.margin.right;
+		this.height = (config.height) - this.margin.top - this.margin.bottom;
 
 		this.interpolation = config.interpolation || "linear";
 
@@ -41,38 +42,42 @@ class LineChart {
 		this.invertX = config.invertX || false;
 		this.xaxis = config.xlabel;
 		this.yaxis = config.ylabel;
-		this.colors = d3.scale.category20c();
+		//this.colors = d3.scale.category20c();
 
 		this.dataGroup = d3.nest()
-			.key(function(d:{}):string {
+			.key(function(d: {}): string {
 				return d.id;
 			})
 			.entries(config.data);
 
+		this.colors = d3.scale.linear().domain([0, (this.dataGroup.length * 0.25), (this.dataGroup.length * 0.5), (this.dataGroup.length * 0.75), this.dataGroup.length])
+			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
+
 		this.x = d3.scale.linear()
-					.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
-					.range(this.invertX ? ([this.width, 0]) : ([0, this.width]));
+			.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
+			.range(this.invertX ? ([this.width, 0]) : ([0, this.width]));
 
 		this.x2 = d3.scale.linear()
-					.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
-					.range([0, this.width]);
+			.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
+			.range([0, this.width]);
 
 		this.y = d3.scale.linear()
-					.domain([1, d3.max(config.data, function(d: {}) { return d.y })])
-					.range(this.invertY ? ([0, this.height]) : ([this.height, 0]));
+			.domain([1, d3.max(config.data, function(d: {}) { return d.y })])
+			.range(this.invertY ? ([0, this.height]) : ([this.height, 0]));
 
 		var lineFunc = d3.svg.line()
-		.x((d: {}) => {
-			return this.x(d.x);
-		})
-		.y((d: {}) => {
-			return this.y(d.y);
-		})	
-		.interpolate(this.interpolation);
+			.x((d: {}) => {
+				return this.x(d.x);
+			})
+			.y((d: {}) => {
+				return this.y(d.y);
+			})
+			.interpolate(this.interpolation);
 
-
-		var xAxis = d3.svg.axis().scale(this.x2).orient("bottom");
-		var yAxis = d3.svg.axis().scale(this.y).orient("left").ticks(10, "02d");
+		if (config.scales) {
+			var xAxis = d3.svg.axis().scale(this.x2).orient("bottom");
+			var yAxis = d3.svg.axis().scale(this.y).orient("left").ticks(10, "02d");
+		}
 
 		var chart = d3.select(container)
 			.attr("viewBox", "0 0 " + (this.width + this.margin.left + this.margin.right) + " " + (this.height + this.margin.top + this.margin.bottom))
@@ -81,22 +86,23 @@ class LineChart {
 			.append("g")
 			.attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
+		if (config.scales) {
+			chart.append("g")
+				.attr("class", "x axis")
+				.attr("transform", "translate(0," + this.height + ")")
+				.call(xAxis);
 
-		chart.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + this.height + ")")
-			.call(xAxis);
-
-		chart.append("g")
-			.attr("class", "y axis")
-			.call(yAxis)
-			.append("text")
-			.attr("transform", "rotate(-90)")
-			.attr("y", 6)
-			.attr("x", this.height / -2)
-			.attr("dy", "-3.5em")
-			.style("text-anchor", "middle")
-			.text(this.yaxis);
+			chart.append("g")
+				.attr("class", "y axis")
+				.call(yAxis)
+				.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 6)
+				.attr("x", this.height / -2)
+				.attr("dy", "-3.5em")
+				.style("text-anchor", "middle")
+				.text(this.yaxis);
+		}
 
 
 
@@ -120,7 +126,7 @@ class LineChart {
 				.attr('stroke', (d, i) => {
 					return this.colors(n);
 				})
-				.attr('opacity', 0.01)
+				.attr('opacity', 0)
 				.attr('stroke-width', 10)
 				.attr('fill', 'none')
 				.on('mouseover', (d, i) => {

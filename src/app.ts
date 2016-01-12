@@ -245,10 +245,10 @@ class App {
 				pt.id = playerid;
 				pt.name = _d.players[j].firstname;
 				pt.x = i;
-				pt.y = _d.scores[i].values[playerid].rank;
+				pt.y = this.scoreController.getPlayerRank(playerid, i)//_d.scores[i].values[playerid].rank;
 
 
-				c1_data.unshift(pt);
+				c1_data.push(pt);
 
 			}
 		}
@@ -275,83 +275,76 @@ class App {
 		});
 
 		$(".left-2").prepend('<svg class="chart daysFirst"></svg>');
+
+		var c2_data: {}[] = [];
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			playerid = _d.players[j].id;
+
+			var days = NumberCruncher.getPlayerDaysAtFirstPlace(playerid);
+
+			if (days > 0) {
+				var pt = {
+					"name": _d.players[j].firstname,
+					"value": days
+				}
+
+				c2_data.push(pt);
+			}
+			
+		}
+
 		var seasonProg: PieChart = new PieChart('.daysFirst', {
 			//outerRadius: 50,
 			innerRadius: 36,
-			data: [
-				{
-					name: "Deane",
-					value: 12
-				},
-				{
-					name: "Greg",
-					value: 1
-				},
-				{
-					name: "James",
-					value: 3
-				}
-			]
+			data: c2_data
 		});
 
 		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
 		var c1: LineChart = new LineChart(".seasonRank", {
 			xlabel: "Time",
 			ylabel: "Rank",
-			interpolation: "linear",
+			interpolation: "basis",
 			invertY: true,
 			invertX: true,
 			data: c1_data,
-			width: 500,
-			height: 300
+			width: 700,
+			height: 280,
+			scales: false
 		});
 
 		$(".right-3").prepend('<svg class="chart playerRaw"></svg>');
+
+		var c3_data: {}[] = [];
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			playerid = _d.players[j].id;
+
+			if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
+
+			var pt = {
+				"name": _d.players[j].firstname,
+				"score": this.scoreController.getPlayerLastTotalScore(playerid)
+			}
+
+			c3_data.push(pt);
+		}
+
+		c3_data.sort(function(a, b) {
+			if (a.score < b.score) return 1;
+			if (a.score > b.score) return -1;
+			return 0;
+		});
+		// /console
+
 		var c3: BarChart = new BarChart(".playerRaw", {
+			width: 700,
+			height: 280,
 			key: "name",
-			value: "games",
-			data: [
-				{
-					"name": "B",
-					"games": 25
-				}, 
-				{
-					"name": "D",
-					"games" : 22
-				},
-				{
-					"name": "E",
-					"games" : 22
-				},
-				{
-					"name": "A",
-					"games": 20
-				},
-				{
-					"name": "C",
-					"games": 20
-				},
-				{
-					"name": "F",
-					"games": 20
-				},
-				{
-					"name": "G",
-					"games": 19
-				},
-				{
-					"name": "H",
-					"games": 15
-				},
-				{
-					"name": "I",
-					"games": 10
-				},
-				{
-					"name": "J",
-					"games": 8
-				}
-			]
+			value: "score",
+			data: c3_data
 		});
 
 

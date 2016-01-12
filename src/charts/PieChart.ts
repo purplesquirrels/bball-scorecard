@@ -29,6 +29,11 @@ class PieChart {
 
 		this.colors = d3.scale.category20c();
 
+		console.log(0, config.data.length-1);
+
+		this.colors = d3.scale.linear().domain([0, config.data.length])
+			.range(["#F05B6F", '#FCAB5A']);
+
 		var pie = d3.layout.pie()
 		.value(function(d){
 			return d.value;

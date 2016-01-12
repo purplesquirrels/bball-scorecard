@@ -762,3 +762,23 @@ table.striped>tbody>tr:nth-child(odd) {
 .chart {
 	width: 100%;
 }
+
+.season-stats-left .stat-holder {
+	padding-left: 0;
+}
+
+.season-stats-left .chart {
+	max-width: 200px;
+	margin: 0 auto;
+	display: block;
+}
+
+.season-stats-right .stat-holder {
+	padding-right: 0;
+}
+
+.season-stats-right .chart {
+	max-width: 700px;
+	margin: 0 auto;
+	display: block;
+}

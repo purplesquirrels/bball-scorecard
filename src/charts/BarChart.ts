@@ -1,7 +1,9 @@
 interface BarChartConfig {
-	key: string,
-	value: string,
-	data:any[]
+	key: string;
+	value: string;
+	width: number;
+	height: number;
+	data: any[];
 }
 
 class BarChart {
@@ -13,10 +15,12 @@ class BarChart {
 
 		var colors = d3.scale.category20c();
 
+		var colors = d3.scale.linear().domain([0, ((config.data.length - 1) * 0.25), ((config.data.length - 1) * 0.5), ((config.data.length - 1) * 0.75), (config.data.length - 1)])
+			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 
-		var margin = { top: 20, right: 30, bottom: 30, left: 50 }
-		var width = 760 - margin.left - margin.right,
-			height = 400 - margin.top - margin.bottom;
+		var margin = { top: 0, right: 0, bottom: 0, left: 0 }
+		var width = config.width - margin.left - margin.right,
+			height = config.height - margin.top - margin.bottom;
 
 
 

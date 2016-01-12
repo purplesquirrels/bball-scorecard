@@ -333,8 +333,9 @@ class ScoreController {
 
 	}
 
-	getPlayerRank = (playerid: string): number => {
-		var ranks = this.getPlayerRankings();
+	getPlayerRank = (playerid: string, day:number=0): number => {
+
+		var ranks = this.getPlayerRankings(day);
 
 		for (var i = 0; i < ranks.length; ++i) {
 			if (ranks[i].id === playerid) {
@@ -348,8 +349,9 @@ class ScoreController {
 		return ranks[ranks.length - 1].rank + 1;
 	}
 
-	getPlayerMultiplier = (playerid: string): number => {
-		var ranks = this.getPlayerRankings();
+	getPlayerMultiplier = (playerid: string, day: number = 0): number => {
+
+		var ranks = this.getPlayerRankings(day);
 
 		for (var i = 0; i < ranks.length; ++i) {
 			if (ranks[i].id === playerid) {
@@ -367,7 +369,11 @@ class ScoreController {
 		var order:any[] = [];
 
 		for (var i = 0; i < this.getNumPlayers(); ++i) {
-			order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerLastTotalScore(this.getPlayedIDAtIndex(i)) })
+			if (day === 0) {
+				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerLastTotalScore(this.getPlayedIDAtIndex(i)) })
+			} else {
+				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerTotalScoreOnDay(this.getPlayedIDAtIndex(i), day) })
+			}
 		}
 	
 		order = this.ranker.rank(order, "score");
@@ -385,6 +391,18 @@ class ScoreController {
 				return this.model.scores[i].values[playerid].newtotal;
 			}
 
+		}
+
+		return 0;
+
+	}
+
+	getPlayerTotalScoreOnDay = (playerid: string, day:number = 0): number => {
+
+		if (this.model.scores.length === 0) return 0;
+
+		if (this.model.scores[day].values[playerid]) {
+			return this.model.scores[day].values[playerid].newtotal;
 		}
 
 		return 0;
