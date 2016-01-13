@@ -12,7 +12,7 @@ class PieChart {
 	height: number;
 	innerRadius: number;
 	//outerRadius: number;
-	colors: d3.scale.Ordinal<string, string>;
+	//colors: d3.scale.Ordinal<string, string>;
 
 	constructor(container: string, config: PieChartConfig) {
 
@@ -27,12 +27,10 @@ class PieChart {
 		this.height = 100;//(this.outerRadius * 2) - this.margin.top - this.margin.bottom;
 		
 
-		this.colors = d3.scale.category20c();
+		//this.colors = d3.scale.category20c();
 
-		console.log(0, config.data.length-1);
-
-		this.colors = d3.scale.linear().domain([0, config.data.length])
-			.range(["#F05B6F", '#FCAB5A']);
+		var colors = d3.scale.linear().domain([0,  config.data.length - 1])
+			.range(['#F05B6F', '#FCAB5A']);
 
 		var pie = d3.layout.pie()
 		.value(function(d){
@@ -56,10 +54,11 @@ class PieChart {
 			.selectAll('path')
 			.data(pie(config.data)).enter().append('g').attr('class', 'slice');
 
-		var slices = d3.selectAll("g.slice")
+		var slices = d3.select(container).selectAll("g.slice")
 			.append('path')
 			.attr('fill', (d, i) => {
-				return d.data.colour || this.colors(i);//this.colors(i);
+				console.log(i)
+				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
 			})
 			.attr('d', arc);
 		}

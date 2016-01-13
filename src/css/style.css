@@ -688,6 +688,7 @@ table.striped>tbody>tr:nth-child(odd) {
 
 .stats {
 	width: calc(100% - 510px);
+	max-width: 1090px;
 }
 
 @media(max-width: 1250px) {

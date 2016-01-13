@@ -220,13 +220,60 @@ class App {
 		$(this.statsRoot).append(stathtml);
 
 
-		var c1_data: {}[] = [];
+
 		var _d = this.scoreController.getAsObject();
-
-
-		//var data_totalgames2 = [];
-
 		var playerid;
+		
+		$(".left-1").prepend('<svg class="chart seasonProg"></svg>');
+		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+
+		var seasonProg: PieChart = new PieChart('.seasonProg', {
+			//outerRadius: 50,
+			innerRadius: 36,
+			sortValues: false,
+			data: [
+				{
+					name: "Played",
+					value: _d.scores.length,
+					colour: '#29ddc0'
+				},
+				{
+					name: "Remaining",
+					value: tt - _d.scores.length,
+					colour: '#2e3548'
+				}
+			]
+		});
+
+		$(".left-2").prepend('<svg class="chart daysFirst"></svg>');
+
+		var daysFirst: {}[] = [];
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			playerid = _d.players[j].id;
+
+			var days = NumberCruncher.getPlayerDaysAtFirstPlace(playerid);
+
+			if (days > 0) {
+				var df = {
+					"name": _d.players[j].firstname,
+					"value": days
+				}
+
+				daysFirst.push(df);
+			}
+			
+		}
+
+		var daysFirstChart: PieChart = new PieChart('.daysFirst', {
+			innerRadius: 36,
+			sortValues: true,
+			data: daysFirst
+		});
+
+
+		var seasonRank: {}[] = [];
 
 		for (var j = 0; j < _d.players.length; j++) {
 
@@ -248,58 +295,10 @@ class App {
 				pt.y = this.scoreController.getPlayerRank(playerid, i)//_d.scores[i].values[playerid].rank;
 
 
-				c1_data.push(pt);
+				seasonRank.push(pt);
 
 			}
 		}
-
-
-		$(".left-1").prepend('<svg class="chart seasonProg"></svg>');
-		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
-		var seasonProg: PieChart = new PieChart('.seasonProg', {
-			//outerRadius: 50,
-			innerRadius: 36,
-			sortValues: false,
-			data: [
-				{
-					name: "Played",
-					value: _d.scores.length,
-					colour: '#29ddc0'
-				},
-				{
-					name: "Remaining",
-					value: tt - _d.scores.length,
-					colour: '#2e3548'
-				}
-			]
-		});
-
-		$(".left-2").prepend('<svg class="chart daysFirst"></svg>');
-
-		var c2_data: {}[] = [];
-
-		for (var j = 0; j < _d.players.length; j++) {
-
-			playerid = _d.players[j].id;
-
-			var days = NumberCruncher.getPlayerDaysAtFirstPlace(playerid);
-
-			if (days > 0) {
-				var pt = {
-					"name": _d.players[j].firstname,
-					"value": days
-				}
-
-				c2_data.push(pt);
-			}
-			
-		}
-
-		var seasonProg: PieChart = new PieChart('.daysFirst', {
-			//outerRadius: 50,
-			innerRadius: 36,
-			data: c2_data
-		});
 
 		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
 		var c1: LineChart = new LineChart(".seasonRank", {
@@ -308,7 +307,7 @@ class App {
 			interpolation: "basis",
 			invertY: true,
 			invertX: true,
-			data: c1_data,
+			data: seasonRank,
 			width: 700,
 			height: 280,
 			scales: false
@@ -316,7 +315,7 @@ class App {
 
 		$(".right-3").prepend('<svg class="chart playerRaw"></svg>');
 
-		var c3_data: {}[] = [];
+		var playerRaw: {}[] = [];
 
 		for (var j = 0; j < _d.players.length; j++) {
 
@@ -324,15 +323,20 @@ class App {
 
 			if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
 
-			var pt = {
-				"name": _d.players[j].firstname,
-				"score": this.scoreController.getPlayerLastTotalScore(playerid)
-			}
+			var sc = this.scoreController.getPlayerLastTotalScore(playerid);
 
-			c3_data.push(pt);
+			if (sc > 0) {
+				var pr = {
+					"name": _d.players[j].firstname,
+					"score": sc
+				}
+
+				playerRaw.push(pr);
+			}
+			
 		}
 
-		c3_data.sort(function(a, b) {
+		playerRaw.sort(function(a, b) {
 			if (a.score < b.score) return 1;
 			if (a.score > b.score) return -1;
 			return 0;
@@ -344,7 +348,7 @@ class App {
 			height: 280,
 			key: "name",
 			value: "score",
-			data: c3_data
+			data: playerRaw
 		});
 
 
