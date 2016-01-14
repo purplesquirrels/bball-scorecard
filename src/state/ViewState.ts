@@ -108,6 +108,7 @@ class ViewState extends AppState {
 			context.rankings[i].percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
 			context.rankings[i].daysatfirst = NumberCruncher.getPlayerDaysAtFirstPlace(playerid);
 			context.rankings[i].latestarts = NumberCruncher.getPlayLateStarts(playerid);
+			context.rankings[i].averagerawscore = NumberCruncher.getPlayerAverageRawScore(playerid, false);
 		}
 
 		var html = template(context);
