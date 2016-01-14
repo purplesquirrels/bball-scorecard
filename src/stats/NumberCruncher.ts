@@ -55,6 +55,18 @@ class NumberCruncher {
 		return score;
 	}
 
+	static getPlayerAverageRawScore(playerid: string, bonuses: boolean = true): number {
+
+		if (this.model.games[playerid] > 0) {
+
+			var score = this.getPlayerRawScore(playerid, bonuses);
+			
+			return Math.round(score / this.model.games[playerid] * 100) / 100;
+		}
+
+		return 0;
+	}
+
 	static getPlayerHighestScore(playerid: string): number {
 
 		var score = 0;
