@@ -22,9 +22,9 @@
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
 <div class="sort-menu"><span class="sort-label">Sort by</span>
 	<a class="sort sort-default btn waves-effect waves-light active" data-sort="default">Score</a>
-	<a class="sort btn waves-effect waves-light" data-sort="rawscore:desc">Raw score</a>
-	<a class="sort bb-button bb-purple" data-sort="averagerawscore:desc">Av raw score</a>
 	<a class="sort btn waves-effect waves-light" data-sort="averagescore:desc">Av pts</a>
+	<a class="sort btn waves-effect waves-light" data-sort="rawscore:desc">Raw score</a>
+	<a class="sort btn waves-effect waves-light" data-sort="averagerawscore:desc">Av raw score</a>
 
 </div>
 <table class="mainlist">
@@ -67,8 +67,8 @@
 			<div class="stat-box pink darken-2"><strong>Attendance</strong><br><span class="stat-value">{{this.percentplayed}}%</span></div>
 			<div class="stat-box deep-purple"><strong>Incomplete keys</strong><br><span class="stat-value">{{this.incompletekeys}}</span></div>
 			<div class="stat-box green darken-4"><strong>Late starts</strong><br><span class="stat-value">{{this.latestarts}}</span></div>
-			<div class="stat-box blue darken-1"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
-			<!--div class="stat-box red darken-1 morestats" data-for="{{this.id}}"><strong>More</strong></div-->
+			<div class="stat-box blue darken-4"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
+			<div class="stat-box red darken-1 morestats" data-for="{{this.id}}"><strong>More</strong></div>
 		</div>
 	</li>
 	{{/each}}
