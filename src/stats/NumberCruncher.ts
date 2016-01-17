@@ -41,7 +41,7 @@ class NumberCruncher {
 				if (bonuses) {
 					for (var b in this.model.bonuses) {
 						if (this.model.bonuses.hasOwnProperty(b) &&
-							this.model.scores[i].values[playerid][b]) {
+							this.model.scores[i].values[playerid][b] && b != "late") {
 
 							score += this.model.bonuses[b].value * (this.model.scores[i].values[playerid][b]);
 						}

@@ -2,7 +2,9 @@ interface PieChartConfig {
 	data: {}[];
 	//outerRadius: number;
 	innerRadius: number;
+	padAngle: number;
 	sortValues?: boolean;
+	progressMode?: boolean;
 }
 
 class PieChart {
@@ -17,7 +19,7 @@ class PieChart {
 	constructor(container: string, config: PieChartConfig) {
 
 		this.margin = {
-			//top: 10, right: 10, bottom: 10, left: 10
+			top: 0, right: 0, bottom: 0, left: 0
 		}
 
 		//this.outerRadius = config.outerRadius;
@@ -32,7 +34,7 @@ class PieChart {
 		var colors = d3.scale.linear().domain([0,  config.data.length - 1])
 			.range(['#F05B6F', '#FCAB5A']);
 
-		var pie = d3.layout.pie()
+		var pie = d3.layout.pie().padAngle(config.padAngle)
 		.value(function(d){
 			return d.value;
 		})
@@ -57,9 +59,24 @@ class PieChart {
 		var slices = d3.select(container).selectAll("g.slice")
 			.append('path')
 			.attr('fill', (d, i) => {
-				console.log(i)
+				//console.log(i)
 				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
 			})
 			.attr('d', arc);
+
+
+		if (config.progressMode) {
+
+			var perc = config.data[0].value / (config.data[0].value + config.data[1].value) * 100;
+			d3.select(container)
+				.append('text')
+				.attr("y", this.height * 0.56)
+				.attr("x", this.width * 0.5)
+				.attr("class", "pieCentreLabel")
+				.style("text-anchor", "middle")
+				.text(Math.round(perc) + "%");
+			
 		}
+	}
+
 }
