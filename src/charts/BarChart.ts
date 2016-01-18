@@ -3,6 +3,7 @@ interface BarChartConfig {
 	value: string;
 	width: number;
 	height: number;
+	sort: string;
 	data: any[];
 }
 
@@ -13,6 +14,20 @@ class BarChart {
 		var key = config.key;//"name";
 		var value = config.value;//"games";
 
+		if (config.sort === "desc") {
+			config.data.sort(function(a, b) {
+				if (a[value] < b[value]) return 1;
+				if (a[value] > b[value]) return -1;
+				return 0;
+			});
+		}
+		else if (config.sort === "asc") {
+			config.data.sort(function(a, b) {
+				if (a[value] < b[value]) return -1;
+				if (a[value] > b[value]) return 1;
+				return 0;
+			});
+		}
 		//var colors = d3.scale.category20c();
 
 		var colors = d3.scale.linear().domain([0, ((config.data.length - 1) * 0.25), ((config.data.length - 1) * 0.5), ((config.data.length - 1) * 0.75), (config.data.length - 1)])
