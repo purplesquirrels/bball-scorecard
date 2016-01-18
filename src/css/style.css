@@ -102,6 +102,23 @@ html, body {
 	visibility: hidden;
 }
 
+
+.mainlist-header {
+	color: #E2E2E2;
+	text-transform: uppercase;
+	font-size: 0.75em;
+}
+
+.mainlist-header thead,
+.mainlist-header tr {
+	border-bottom: none;
+}
+
+.mainlist-header th {
+	padding-bottom: 0;
+}
+
+
 .mainlist {
 	width: 100%;
 }

@@ -4,9 +4,23 @@ class ViewState extends AppState {
 
 	editButton: HTMLButtonElement;
 	addButton: HTMLButtonElement;
+
+	sortCommandLabelMap: Object;
 	
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
+
+		this.sortCommandLabelMap = {
+			"default"		: "Score",
+			"default:desc"	: "Score",
+			"default:asc"	: "Score",
+			"averagescore:desc"	: "Av. points",
+			"averagescore:asc"	: "Av. points",
+			"rawscore:desc"	: "Raw score",
+			"rawscore:asc"	: "Raw score",
+			"averagerawscore:desc"	: "Av raw score",
+			"averagerawscore:asc"	: "Av raw score",
+		}
 	}
 
 	render() {
@@ -213,6 +227,19 @@ class ViewState extends AppState {
 		$('#leaderboard').mixItUp({
 			layout: {
 				display: 'list-item'
+			},
+			callbacks: {
+				onMixStart: (state, futureState) => {
+					
+					var cmd = futureState.activeSort;
+					var d = cmd.split(":")[0];
+
+					$('.sortby-label').text(this.sortCommandLabelMap[cmd]);
+					$('.sortby-value').each((index, element) => {
+						$(element).text($(element).parents(".mix").data(d === "default" ? "score" : d));
+					});
+
+				}
 			}
 		});
 

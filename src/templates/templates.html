@@ -20,25 +20,23 @@
 </script>
 
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
-<div class="sort-menu"><!--span class="sort-label">Sort by</span-->
-	<a class="sort bb-button bb-purple" data-sort="rawscore:desc">Raw score</a>
-	<a class="sort bb-button bb-purple" data-sort="averagerawscore:desc">Av raw score</a>
-	<a class="sort bb-button bb-purple" data-sort="averagescore:desc">Av pts</a>
-	<a class="sort bb-button bb-purple sort-default active" data-sort="default">Score</a>
+<div class="sort-menu">
+	<a class="sort bb-button bb-purple sort-default active" data-sort="default" title="Official score">Score</a>
+	<a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a>
+	<a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a>
+	<a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a>
 
 </div>
-<!--table class="mainlist">
+<table class="mainlist-header">
 	<thead>
 		<tr>
-			<th width='10%' title="Player's current rank"></th>
-			<th width='25%' title="Player name">Name</th>
-			<th width='20%' title="Total games played in season">Games</th>
-			<th width='20%' title="Player's average points (includes bonuses and multipliers)">Av pts</th>
-			<th width='15%' title="Player's calculated score (includes bonuses and multipliers)">Score</th>
-			<th width='10%'  title="Change in rank from last game" style="text-align:center">&#8645;</th>
+			<th width='35%' title="Player's current rank" class='center'>Player</th>
+			<th width='25%' title="Total games played in season" class='center'>Games</th>
+			<th width='25%' title="Player's calculated score (includes bonuses and multipliers)" class='center'><span class="sortby-label">Score</span></th>
+			<th width='15%'  title="Change in rank from last game" style="text-align:center" class='center'>&#8645;</th>
 		</tr>
 	</thead>
-</table-->
+</table>
 <ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion">
 	{{#each rankings}}
 	<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}">
@@ -47,12 +45,11 @@
 				<tbody >
 					<tr class="{{this.rankclass}}">
 						
-						<td width='10%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
-						<td width='25%'>{{this.firstname}}</td>
-						<td width='20%'>{{this.totalgames}}</td>
-						<td width='20%'>{{this.averagescore}}</td>
-						<td width='15%'>{{this.score}}</td>
-						<td width='10%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
+						<td width='15%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
+						<td width='20%'>{{this.firstname}}</td>
+						<td width='25%' class='center'>{{this.totalgames}}</td>
+						<td width='25%' class='center'><span class="sortby-value">{{this.score}}</span></td>
+						<td width='15%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
 						
 					</tr>
 				</tbody>
