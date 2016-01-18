@@ -22,7 +22,7 @@ class NumberCruncher {
 		return total;
 	}
 
-	static getPlayerRawScore(playerid: string, bonuses:boolean=true): number {
+	static getPlayerRawScore(playerid: string, bonuses:boolean=false): number {
 
 		var score = 0;
 
@@ -55,7 +55,7 @@ class NumberCruncher {
 		return score;
 	}
 
-	static getPlayerAverageRawScore(playerid: string, bonuses: boolean = true): number {
+	static getPlayerAverageRawScore(playerid: string, bonuses: boolean = false): number {
 
 		if (this.model.games[playerid] > 0) {
 
