@@ -1,5 +1,9 @@
-///<reference path="../../app.ts" />
-///<reference path="../../controller/ScoreController.ts" />
+///<reference path="../../app" />
+///<reference path="../../controller/ScoreController" />
+
+/// <reference path="../../charts/LineChart" />
+/// <reference path="../../charts/PieChart" />
+/// <reference path="../../charts/BarChart" />
 
 class StatsView {
 

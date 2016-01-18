@@ -4,10 +4,8 @@
 /// <reference path="state/ViewState" />
 /// <reference path="state/NewDayState" />
 /// <reference path="state/EditState" />
+/// <reference path="state/view/StatsView" />
 /// <reference path="modal/NewPlayer" />
-
-/// <reference path="charts/LineChart" />
-/// <reference path="charts/PieChart" />
 
 interface JQuery {
 	pickadate(options?: any): JQuery;
