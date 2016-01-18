@@ -88,6 +88,7 @@ class StatsView {
 			innerRadius: 36,
 			sortValues: true,
 			padAngle: 0.01,
+			detailsOnHover: true,
 			data: daysFirst
 		});
 

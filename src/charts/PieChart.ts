@@ -5,6 +5,7 @@ interface PieChartConfig {
 	padAngle: number;
 	sortValues?: boolean;
 	progressMode?: boolean;
+	detailsOnHover?: boolean;
 }
 
 class PieChart {
@@ -56,13 +57,45 @@ class PieChart {
 			.selectAll('path')
 			.data(pie(config.data)).enter().append('g').attr('class', 'slice');
 
+		if (config.detailsOnHover) {
+			var label = d3.select(container)
+				.append('text')
+				.attr("y", this.height * 0.5)
+				.attr("x", this.width * 0.5)
+				.attr("class", "pieCentreLabel")
+				.style("text-anchor", "middle")
+				.text("");
+
+			
+
+		}
+
 		var slices = d3.select(container).selectAll("g.slice")
 			.append('path')
 			.attr('fill', (d, i) => {
 				//console.log(i)
 				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
 			})
-			.attr('d', arc);
+			.attr('d', arc)
+			.on('mouseover', (d, i) => {
+
+				if (!config.detailsOnHover) return;
+				//console.log(this.dataGroup[n].values[0].name);
+
+				//console.log(d);
+
+				label.text(d.data.value + " " + d.data.name)
+					
+				//d3.select(d3.event.target)
+				//	.attr('stroke-width', 8)
+			})
+			.on('mouseout', (d) => {
+
+				if (!config.detailsOnHover) return;
+				
+
+				label.text("")
+			})
 
 
 		if (config.progressMode) {
@@ -70,13 +103,15 @@ class PieChart {
 			var perc = config.data[0].value / (config.data[0].value + config.data[1].value) * 100;
 			d3.select(container)
 				.append('text')
-				.attr("y", this.height * 0.56)
+				.attr("y", this.height * 0.57)
 				.attr("x", this.width * 0.5)
 				.attr("class", "pieCentreLabel")
 				.style("text-anchor", "middle")
 				.text(Math.round(perc) + "%");
 			
 		}
+
+		
 	}
 
 }

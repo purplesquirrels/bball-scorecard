@@ -33,7 +33,7 @@ class BarChart {
 		var colors = d3.scale.linear().domain([0, ((config.data.length - 1) * 0.25), ((config.data.length - 1) * 0.5), ((config.data.length - 1) * 0.75), (config.data.length - 1)])
 			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 		
-		var margin = { top: 20, right: 0, bottom: 10, left: 0 }
+		var margin = { top: 30, right: 0, bottom: 10, left: 0 }
 		var width = config.width - margin.left - margin.right,
 			height = config.height - margin.top - margin.bottom;
 
