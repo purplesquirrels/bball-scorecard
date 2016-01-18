@@ -124,6 +124,7 @@ class ViewState extends AppState {
 			//outerRadius: 30,
 			innerRadius: 36,
 			sortValues: false,
+			padAngle: 0,
 			data: [
 				{
 					name: "",

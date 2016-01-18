@@ -4,6 +4,7 @@ interface LineChartConfig {
 	height: number;
 	data: {}[];
 	interpolation: string;
+	tension?: number;
 	invertY: boolean;
 	invertX: boolean;
 	xlabel: string;
@@ -30,7 +31,7 @@ class LineChart {
 
 	constructor(container: string, config: LineChartConfig) {
 		this.margin = {
-			top: 0, right: 0, bottom: 0, left: 0
+			top: 10, right: 10, bottom: 10, left: 10
 		}
 
 		this.width = (config.width) - this.margin.left - this.margin.right;
@@ -54,11 +55,11 @@ class LineChart {
 			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 
 		this.x = d3.scale.linear()
-			.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
 			.range(this.invertX ? ([this.width, 0]) : ([0, this.width]));
 
 		this.x2 = d3.scale.linear()
-			.domain([1, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
 			.range([0, this.width]);
 
 		this.y = d3.scale.linear()
@@ -74,10 +75,19 @@ class LineChart {
 			})
 			.interpolate(this.interpolation);
 
+		if (config.tension) {
+			lineFunc.tension(config.tension)
+		}
+
 		if (config.scales) {
 			var xAxis = d3.svg.axis().scale(this.x2).orient("bottom");
 			var yAxis = d3.svg.axis().scale(this.y).orient("left").ticks(10, "02d");
 		}
+
+		//$("body").append("<div class='lineChartTip'></div>");
+
+		var tooltip = d3.select("body").append("div")
+			.attr("class", "chartTip lineChartTip");
 
 		var chart = d3.select(container)
 			.attr("viewBox", "0 0 " + (this.width + this.margin.left + this.margin.right) + " " + (this.height + this.margin.top + this.margin.bottom))
@@ -128,13 +138,28 @@ class LineChart {
 				})
 				.attr('opacity', 0)
 				.attr('stroke-width', 10)
+				.attr('stroke-linecap', "round")
 				.attr('fill', 'none')
 				.on('mouseover', (d, i) => {
-					console.log(this.dataGroup[n].values[0].name);
+					//console.log(this.dataGroup[n].values[0].name);
+
+					tooltip.transition()
+						.style("opacity", 0.9)
+						.style("visibility", "visible");
+						
+					tooltip.html(this.dataGroup[n].values[0].name)
+						.style("left", d3.event.pageX  + "px")
+						.style("top", d3.event.pageY + "px")
 
 					d3.select(d3.event.target).attr("opacity", 1)
 				})
 				.on('mouseout', (d) => {
+
+
+					tooltip.transition()
+						.style("opacity", 0)
+						.style("visibility", "hidden");
+
 					d3.select(d3.event.target).attr("opacity", 0.01)
 				});
 		});

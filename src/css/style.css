@@ -783,3 +783,42 @@ table.striped>tbody>tr:nth-child(odd) {
 	margin: 0 auto;
 	display: block;
 }
+
+.pieCentreLabel {
+	font-size: 22px;
+	font-family: "Roboto", Arial, sans-serif;
+	fill: #e2e2e2;
+	font-weight: 200;
+	-webkit-transform: translateY(50%);
+	transform: translateY(50%);
+}
+
+.chartTip {
+	position: absolute;
+	opacity: 0;
+	padding: 0.4em 1.2em;
+	background: #FFF;
+	border-radius: 50px;
+	text-transform: uppercase;
+	font-size: 0.7em;
+	line-height: 1;
+	pointer-events: none;
+
+	-webkit-transform: translate(-50%, -110%);
+	transform: translate(-50%, -120%);
+}
+
+.chartTip:after {
+	content: "";
+	width: 0;
+	height: 0;
+	position: absolute;
+	bottom: -10px;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	border-top: 5px solid #fff;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid transparent;
+}
