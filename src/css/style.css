@@ -810,6 +810,12 @@ table.striped>tbody>tr:nth-child(odd) {
 	transform: translateY(50%);
 }
 
+.barChartValue {
+	font-weight: bold;
+	fill: #e2e2e2;
+	text-align: center;
+}
+
 .chartTip {
 	position: absolute;
 	opacity: 0;

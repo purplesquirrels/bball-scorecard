@@ -18,7 +18,7 @@ class BarChart {
 		var colors = d3.scale.linear().domain([0, ((config.data.length - 1) * 0.25), ((config.data.length - 1) * 0.5), ((config.data.length - 1) * 0.75), (config.data.length - 1)])
 			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 		
-		var margin = { top: 20, right: 0, bottom: 0, left: 0 }
+		var margin = { top: 20, right: 0, bottom: 10, left: 0 }
 		var width = config.width - margin.left - margin.right,
 			height = config.height - margin.top - margin.bottom;
 
@@ -63,10 +63,11 @@ class BarChart {
 			.attr("dy", "-3.5em")
 			.style("text-anchor", "middle")
 			.text(value);*/
+		//var bar = chart.selectAll(".bar").data(config.data).enter()
 
-
-		chart.selectAll(".bar").data(config.data).enter()
-			.append("rect").attr("class", "bar")
+		chart.selectAll("g.bar").data(config.data).enter()
+			.append("g").attr("class", "bar")
+			.append("rect")
 			.attr("x", function(d) { return x(d[key]); })
 			.attr("y", function(d) { return y(d[value]); })
 			.attr("height", function(d) { return height - y(d[value]); })
@@ -74,6 +75,11 @@ class BarChart {
 			.attr('fill', (d, i) => {
 				return colors(i);
 			})
+			.attr('stroke', (d, i) => {
+				var rgb = d3.rgb(colors(i));
+				return "rgba(" + [rgb.r, rgb.g, rgb.b, 0.5].join(",") + ")";
+			})
+			.attr('stroke-width', 0)
 			.on('mouseover', (d, i) => {
 				//console.log(this.dataGroup[n].values[0].name);
 
@@ -85,7 +91,8 @@ class BarChart {
 					.style("left", d3.event.pageX + "px")
 					.style("top", d3.event.pageY + "px")
 
-				//d3.select(d3.event.target).attr("opacity", 1)
+				d3.select(d3.event.target)
+					.attr('stroke-width', 8)
 			})
 			.on('mouseout', (d) => {
 
@@ -94,7 +101,19 @@ class BarChart {
 					.style("opacity", 0)
 					.style("visibility", "hidden");
 
-				//d3.select(d3.event.target).attr("opacity", 0.01)
-			});
+				d3.select(d3.event.target)
+					.attr('stroke-width', 0)
+			})
+			
+
+		chart.selectAll("g.bar")
+			.append("text")
+			.style("text-anchor", "middle")
+			.attr("class", "barChartValue")
+			.attr("x", function(d) { return x(d[key]) + (x.rangeBand() * 0.5); })
+			.attr("y", function(d) { return y(d[value]) - 5; })
+			.text(function(d) {
+				return d[value];
+			})
 	}
 }
