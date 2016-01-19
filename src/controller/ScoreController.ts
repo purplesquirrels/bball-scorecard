@@ -115,6 +115,24 @@ class ScoreController {
 		return this.model.scores[day].numPlayers;
 	}
 
+	getAllActivePlayers = ():any[] => {
+		var players = [];
+
+		for (var i = 0; i < this.model.players.length; ++i) {
+
+			if (this.model.games[this.model.players[i].id] > 0) players.push(this.model.players[i]);
+
+		}
+
+		players.sort(function(a, b) {
+			if (a.firstname > b.firstname) return 1;
+			if (a.firstname < b.firstname) return -1;
+			return 0;
+		});
+
+		return players;
+	}
+
 
 	getGamePlayers = (day: number = 0): any[] => {
 

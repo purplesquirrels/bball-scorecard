@@ -67,6 +67,18 @@ html, body {
     margin: 0 10px 0 0;
 }
 
+@media (max-width: 1250px) {
+	.scoreboard {
+		margin: 0 auto;
+		float: none;
+	}
+}
+@media (max-width: 800px) {
+	.scoreboard {
+		width: 100%;
+    	max-width: 100%;
+	}
+}
 @media (max-width: 520px) {
 	.app {
 		margin: 0;
@@ -197,7 +209,7 @@ html, body {
 	width: 20px;
 	height: 20px;
 	position: absolute;
-    top: 4px;
+    top: 6px;
     left: 5px;
 }
 
@@ -715,22 +727,67 @@ table.striped>tbody>tr:nth-child(odd) {
 		clear: both;
 	}
 }
-
+.stats-header {
+	overflow: hidden;
+}
 .stats-menu {
 	margin: 0;
 	background: #2e3548;
 	width: 100%;
 	padding: 10px;
+	white-space: nowrap;
 }
 
 .stats-menu-item {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 13px;
 	display: inline-block;
-	width: 65px;
-	height: 65px;
+    width: 66px;
+	height: 66px;
 	background: #212633;
+	vertical-align: top;
+	position: relative;
+
+	transition: all 0.5s;
+}
+
+.stat-menu-item-label {
+	width: 66px;
+	height: 66px;
+	background: #7463E7;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 2;
+	opacity: 0;
+	color: #FFF;
+	text-transform: uppercase;
+	font-size: 11px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	transition: all 0.25s;
+}
+
+.stats-menu-item:hover {
+	transform: translateY(-100%);
+
+	transition: all 0.3s;
+}
+.stats-menu-item:hover .stat-menu-item-label {
+	opacity: 1;
+	transition: all 0.15s;
+}
+
+.menu-avatar {
+	width: 40px;
+	height: 40px;
+	background: #ffF;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	overflow: hidden;
 }
 .season-stats-holder {
 	padding: 10px;
@@ -764,6 +821,7 @@ table.striped>tbody>tr:nth-child(odd) {
 	width: 100%;
 	border-bottom: 1px solid #272e41;
 }
+
 
 .axis text {
   font: 10px sans-serif;
@@ -799,6 +857,28 @@ table.striped>tbody>tr:nth-child(odd) {
 	max-width: 700px;
 	margin: 0 auto;
 	display: block;
+}
+
+
+@media (max-width: 800px) {
+	.season-stats-left {
+		width: 100%;
+		display: flex;
+    	justify-content: space-around;
+    	border-bottom: 1px solid #272e41;
+	}
+	.season-stats-left .stat-holder {
+		border: none;
+	}
+
+	.season-stats-right {
+		width: 100%;
+		border: none;
+	}
+	.season-stats-right .stat-holder {
+		padding: 30px 0;
+	}
+
 }
 
 .pieCentreLabel {
@@ -875,12 +955,13 @@ table.striped>tbody>tr:nth-child(odd) {
 	text-align: center;
 	display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 .leader-stat {
 	display: inline-block;
 
 	width: 100px;
-	padding: 0 10px;
+	padding: 0 5px;
 
 	color: #FFF;
 
@@ -920,8 +1001,8 @@ table.striped>tbody>tr:nth-child(odd) {
 }
 
 .leader-stat-ring {
-	width: 80px;
-	height: 80px;
+	width: 90px;
+	height: 90px;
 
 	position: relative;
 }
@@ -929,7 +1010,7 @@ table.striped>tbody>tr:nth-child(odd) {
 .leader-stat-ring span {
 	position: absolute;
 	width: 100%;
-	top: 20px;
+	top: 24px;
 	left: 0;
 	text-align: center;
 	font-size: 28px;

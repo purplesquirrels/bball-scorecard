@@ -20,7 +20,7 @@ class StatsView {
 		var statHeaderSource = this.app.templates["stats-panel-header"];
 		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
 		var statheaderhtml = statHeaderTemplate({
-			
+			//players: this.controller.getAllActivePlayers()
 		});
 
 		$(this.statsRoot).append(statheaderhtml);
