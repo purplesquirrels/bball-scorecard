@@ -17,21 +17,53 @@ class StatsView {
 		this.app = app;
 		this.controller = controller;
 
-		//this.statsRoot).append('<div class="c2-chart"></div>');
-
 		var statHeaderSource = this.app.templates["stats-panel-header"];
 		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
 		var statheaderhtml = statHeaderTemplate({
-
+			
 		});
 
 		$(this.statsRoot).append(statheaderhtml);
 
 		var statsource = this.app.templates["stats-panel-season-stats"];
 		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
-		var stathtml = stattemplate({
 
-		});
+		var statscontext = {
+			totalscore_value: "20",
+			totalscore_playername: "Greg",
+
+			rawscore_value: "",
+			rawscore_playername: "",
+			highestscore_value: "",
+			highestscore_playername: "",
+			boundys_value: "",
+			boundys_playername: "",
+			laps_value: "",
+			laps_playername: ""
+		}
+
+		var score: HighScoreObject = NumberCruncher.getPlayerWithHighestScore();
+		statscontext.totalscore_value = score.value + "";
+		statscontext.totalscore_playername = score.playerid.join("<br>");
+
+		var highraw: HighScoreObject = NumberCruncher.getPlayerWithHighestRawScore();
+		statscontext.rawscore_value = highraw.value + "";
+		statscontext.rawscore_playername = highraw.playerid.join("<br>");
+
+		var highscore: HighScoreObject = NumberCruncher.getPlayerWithHighestScoringGame();
+		statscontext.highestscore_value = highscore.value + "";
+		statscontext.highestscore_playername = highscore.playerid.join("<br>");
+
+		var boundys: HighScoreObject = NumberCruncher.getPlayerWithHighestPointsOfType("point04");
+		statscontext.boundys_value = boundys.value + "";
+		statscontext.boundys_playername = boundys.playerid.join("<br>");
+
+		var laps:HighScoreObject = NumberCruncher.getPlayerWithHighestLaps();
+		statscontext.laps_value = laps.value + "";
+		statscontext.laps_playername = laps.playerid.join("<br>");
+
+
+		var stathtml = stattemplate(statscontext);
 
 		$(this.statsRoot).append(stathtml);
 
@@ -85,7 +117,7 @@ class StatsView {
 		}
 
 		var daysFirstChart: PieChart = new PieChart('.daysFirst', {
-			innerRadius: 36,
+			innerRadius: 35,
 			sortValues: true,
 			padAngle: 0.01,
 			detailsOnHover: true,

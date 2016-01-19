@@ -1,3 +1,8 @@
+interface HighScoreObject {
+	value: number;
+	playerid: string[];
+}
+
 class NumberCruncher {
 
 	static model: ScoreData;
@@ -20,6 +25,22 @@ class NumberCruncher {
 		}
 
 		return total;
+	}
+
+	static getPlayerTotalScore(playerid: string): number {
+
+		var score = 0;
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
+
+				return this.model.scores[i].values[playerid].newtotal;
+			}
+
+		}
+
+		return 0;
 	}
 
 	static getPlayerRawScore(playerid: string, bonuses:boolean=false): number {
@@ -196,4 +217,198 @@ class NumberCruncher {
 
 		return total;
 	}
+
+	static getPlayerWithHighestLaps(): HighScoreObject {
+
+		var i = 0;
+		var laps: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			laps.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerTotalLaps(this.model.players[i].id)
+			});
+		}
+
+		laps.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = laps[0].value;
+
+		for (i = 0; i < laps.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(laps[i].firstname);
+				continue;
+			}
+			if (laps[i].value === laps[i - 1].value) {
+				result.playerid.push(laps[i].firstname);
+			} else {
+				break;
+			}
+		}
+		return result;
+	}
+
+	static getPlayerWithHighestRawScore(): HighScoreObject {
+		var i = 0;
+		var scores: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			scores.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerRawScore(this.model.players[i].id, false)
+			});
+		}
+
+		scores.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = scores[0].value;
+
+		for (i = 0; i < scores.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(scores[i].firstname);
+				continue;
+			}
+			if (scores[i].value === scores[i - 1].value) {
+				result.playerid.push(scores[i].firstname);
+			} else {
+				break;
+			}
+		}
+		return result;
+	}
+
+	static getPlayerWithHighestScore(): HighScoreObject {
+		var i = 0;
+		var scores: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			scores.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerTotalScore(this.model.players[i].id)
+			});
+		}
+
+		scores.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = scores[0].value;
+
+		for (i = 0; i < scores.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(scores[i].firstname);
+				continue;
+			}
+			if (scores[i].value === scores[i - 1].value) {
+				result.playerid.push(scores[i].firstname);
+			} else {
+				break;
+			}
+		}
+		return result;
+	}
+
+	static getPlayerWithHighestScoringGame(): HighScoreObject {
+		var i = 0;
+		var scores: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			scores.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerHighestScore(this.model.players[i].id)
+			});
+		}
+
+		scores.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = scores[0].value;
+
+		for (i = 0; i < scores.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(scores[i].firstname);
+				continue;
+			}
+			if (scores[i].value === scores[i - 1].value) {
+				result.playerid.push(scores[i].firstname);
+			} else {
+				break;
+			}
+		}
+		return result;
+	}
+
+	static getPlayerWithHighestPointsOfType(type: string = "point04"): HighScoreObject {
+
+		var i = 0;
+		var points: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			points.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerTotalPointsOfType(this.model.players[i].id, type)
+			});
+		}
+
+		points.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = points[0].value;
+
+		for (i = 0; i < points.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(points[i].firstname);
+				continue;
+			}
+			if (points[i].value === points[i - 1].value) {
+				result.playerid.push(points[i].firstname);
+			} else {
+				break;
+			}
+		}
+		return result;
+	}
+
+	
 }
