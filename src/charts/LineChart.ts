@@ -160,7 +160,7 @@ class LineChart {
 						.style("opacity", 0)
 						.style("visibility", "hidden");
 
-					d3.select(d3.event.target).attr("opacity", 0.01)
+					d3.select(d3.event.target).attr("opacity", 0)
 				});
 		});
 

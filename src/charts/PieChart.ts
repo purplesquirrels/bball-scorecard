@@ -19,15 +19,21 @@ class PieChart {
 
 	constructor(container: string, config: PieChartConfig) {
 
-		this.margin = {
-			top: 0, right: 0, bottom: 0, left: 0
+		if (config.detailsOnHover) {
+			this.margin = {
+				top: 2, right: 2, bottom: 2, left: 2
+			}
+		} else {
+			this.margin = {
+				top: 0, right: 0, bottom: 0, left: 0
+			}
 		}
 
 		//this.outerRadius = config.outerRadius;
 		this.innerRadius = config.innerRadius;
 
-		this.width = 100;//(this.outerRadius * 2) - this.margin.left - this.margin.right;
-		this.height = 100;//(this.outerRadius * 2) - this.margin.top - this.margin.bottom;
+		this.width = 100 - this.margin.left - this.margin.right;
+		this.height = 100 - this.margin.top - this.margin.bottom;
 		
 
 		//this.colors = d3.scale.category20c();
@@ -45,27 +51,51 @@ class PieChart {
 		}
 
 		var arc = d3.svg.arc()
-			.outerRadius(50)
+			.outerRadius(this.width / 2)
 			.innerRadius(this.innerRadius)
 
+		var arc2 = d3.svg.arc()
+			.outerRadius((this.width + 4) / 2)
+			.innerRadius(this.innerRadius - 2)
+
 		var chart = d3.select(container)
-			.attr("viewBox", "0 0 100 100")
+			.attr("viewBox", "0 0 " + (this.width + this.margin.left + this.margin.right) + " " + (this.height + this.margin.top + this.margin.bottom))
 			//.attr("width", width + margin.left + margin.right)
 			//.attr("height", height + margin.top + margin.bottom)
 			.append("g")
-			.attr("transform", "translate(50, 50)")
+			.attr("transform", "translate(" + ((this.width + this.margin.left + this.margin.right) / 2) + ", " + ((this.height + this.margin.top + this.margin.bottom) / 2) + ")")
 			.selectAll('path')
 			.data(pie(config.data)).enter().append('g').attr('class', 'slice');
 
-		if (config.detailsOnHover) {
-			var label = d3.select(container)
-				.append('text')
-				.attr("y", this.height * 0.5)
-				.attr("x", this.width * 0.5)
-				.attr("class", "pieCentreLabel")
-				.style("text-anchor", "middle")
-				.text("");
+		var labelkey, labelval;
 
+		if (config.detailsOnHover) {
+
+			var sorted = config.data.sort(function(a, b) {
+				if (a.value < b.value) return 1;
+				if (a.value > b.value) return -1;
+				return 0;
+			});
+
+			labelval = d3.select(container)
+				.append('text')
+				.attr("y", (this.height + this.margin.top + this.margin.bottom) * 0.55)
+				.attr("x", (this.width + this.margin.left + this.margin.right) * 0.5)
+				.attr("class", "pieCentreLabelValue")
+				.style("text-anchor", "middle")
+				.text((d, i) => {
+					return sorted[0].value;
+				});
+
+			labelkey= d3.select(container)
+				.append('text')
+				.attr("y", (this.height + this.margin.top + this.margin.bottom) * 0.67)
+				.attr("x", (this.width + this.margin.left + this.margin.right) * 0.5)
+				.attr("class", "pieCentreLabelKey")
+				.style("text-anchor", "middle")
+				.text((d, i) => {
+					return sorted[0].name;
+				});
 			
 
 		}
@@ -77,6 +107,15 @@ class PieChart {
 				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
 			})
 			.attr('d', arc)
+
+		d3.select(container).selectAll("g.slice")
+			.append('path')
+			.attr('fill', (d, i) => {
+				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
+			})
+			.attr('opacity', 0)
+			.attr('d', arc2)
+
 			.on('mouseover', (d, i) => {
 
 				if (!config.detailsOnHover) return;
@@ -84,7 +123,10 @@ class PieChart {
 
 				//console.log(d);
 
-				label.text(d.data.value + " " + d.data.name)
+				labelkey.text(d.data.name);
+				labelval.text(d.data.value);
+
+				d3.select(d3.event.target).attr("opacity", 0.5)
 					
 				//d3.select(d3.event.target)
 				//	.attr('stroke-width', 8)
@@ -92,10 +134,17 @@ class PieChart {
 			.on('mouseout', (d) => {
 
 				if (!config.detailsOnHover) return;
-				
 
-				label.text("")
+				/*labelkey.text((d, i) => {
+					return sorted[0].name;
+				})
+				labelval.text((d, i) => {
+					return sorted[0].value;
+				})*/
+
+				d3.select(d3.event.target).attr("opacity", 0)
 			})
+
 
 
 		if (config.progressMode) {
@@ -103,8 +152,8 @@ class PieChart {
 			var perc = config.data[0].value / (config.data[0].value + config.data[1].value) * 100;
 			d3.select(container)
 				.append('text')
-				.attr("y", this.height * 0.57)
-				.attr("x", this.width * 0.5)
+				.attr("y", (this.height + this.margin.top + this.margin.bottom) * 0.57)
+				.attr("x", (this.width + this.margin.left + this.margin.right) * 0.5)
 				.attr("class", "pieCentreLabel")
 				.style("text-anchor", "middle")
 				.text(Math.round(perc) + "%");
