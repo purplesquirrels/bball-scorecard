@@ -133,7 +133,7 @@ class ViewState extends AppState {
 
 		$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
 		var _d = this.controller.getAsObject();
-		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+		//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
 		var seasonProg: PieChart = new PieChart('.daysleft-chart', {
 			//outerRadius: 30,
 			innerRadius: 36,
@@ -147,7 +147,7 @@ class ViewState extends AppState {
 				},
 				{
 					name: "",
-					value: tt - _d.scores.length,
+					value: this.controller.getDaysRemaining(),
 					colour: '#232935'
 				}
 			]

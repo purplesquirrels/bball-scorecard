@@ -11,19 +11,65 @@ class StatsView {
 	app: App;
 	controller: ScoreController;
 
+	selectedView: string;
+
 	constructor(root: HTMLDivElement, controller: ScoreController, app: App) {
 
 		this.statsRoot = root;
 		this.app = app;
 		this.controller = controller;
 
+		this.selectedView = "season";
+
 		var statHeaderSource = this.app.templates["stats-panel-header"];
 		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
 		var statheaderhtml = statHeaderTemplate({
-			//players: this.controller.getAllActivePlayers()
+			players: this.controller.getAllActivePlayers()
 		});
 
 		$(this.statsRoot).append(statheaderhtml);
+
+		$(".stats-menu").on("click", ".stats-menu-item, .stat-menu-item-label", (e) => {
+			var id = $(e.target).data("id");
+			console.log(id);
+
+			if (this.selectedView !== id) {
+
+				this.selectedView = id;
+
+				if (id === "season") {
+					this.setSeasonStatView();
+				} else {
+					this.setPlayerStatView(id);
+				}
+			}
+		});
+
+		this.setSeasonStatView();
+
+	}
+
+	setPlayerStatView = (playerid: string) => {
+
+		$(this.statsRoot).find(".stat-view").remove();
+
+		var statsource = this.app.templates["stats-panel-player-stats"];
+		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
+
+		var statscontext = {
+			firstname: this.controller.getPlayerName(playerid)
+		};
+
+
+
+		var stathtml = stattemplate(statscontext);
+
+		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
+	}
+
+	setSeasonStatView = () => {
+
+		$(this.statsRoot).find(".stat-view").remove();
 
 		var statsource = this.app.templates["stats-panel-season-stats"];
 		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
@@ -58,14 +104,16 @@ class StatsView {
 		statscontext.boundys_value = boundys.value + "";
 		statscontext.boundys_playername = boundys.playerid.join("<br>");
 
-		var laps:HighScoreObject = NumberCruncher.getPlayerWithHighestLaps();
+		var laps: HighScoreObject = NumberCruncher.getPlayerWithHighestLaps();
 		statscontext.laps_value = laps.value + "";
 		statscontext.laps_playername = laps.playerid.join("<br>");
 
 
 		var stathtml = stattemplate(statscontext);
 
-		$(this.statsRoot).append(stathtml);
+		
+
+		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
 
 
 
@@ -73,7 +121,7 @@ class StatsView {
 		var playerid;
 
 		$(".left-1").prepend('<svg class="chart seasonProg"></svg>');
-		var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+		//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
 
 		var seasonProg: PieChart = new PieChart('.seasonProg', {
 			//outerRadius: 50,
@@ -89,7 +137,7 @@ class StatsView {
 				},
 				{
 					name: "Remaining",
-					value: tt - _d.scores.length,
+					value: this.controller.getDaysRemaining(),
 					colour: '#2e3548'
 				}
 			]
@@ -197,6 +245,5 @@ class StatsView {
 			data: playerRaw,
 			sort: "desc"
 		});
-
 	}
 }

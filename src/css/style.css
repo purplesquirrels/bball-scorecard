@@ -736,6 +736,7 @@ table.striped>tbody>tr:nth-child(odd) {
 	width: 100%;
 	padding: 10px;
 	white-space: nowrap;
+	overflow: hidden;
 }
 
 .stats-menu-item {
@@ -748,7 +749,7 @@ table.striped>tbody>tr:nth-child(odd) {
 	background: #212633;
 	vertical-align: top;
 	position: relative;
-
+	cursor: pointer;
 	transition: all 0.5s;
 }
 
@@ -768,7 +769,7 @@ table.striped>tbody>tr:nth-child(odd) {
 	align-items: center;
 	justify-content: center;
 
-	transition: all 0.25s;
+	transition: all 0.2s;
 }
 
 .stats-menu-item:hover {
@@ -791,6 +792,7 @@ table.striped>tbody>tr:nth-child(odd) {
 }
 .season-stats-holder {
 	padding: 10px;
+	min-height: 500px;
 }
 
 .stat-holder:last-of-type {
@@ -1038,4 +1040,19 @@ table.striped>tbody>tr:nth-child(odd) {
 	text-transform: uppercase;
 	font-size: 13px;
 	margin: 0.8em 0;
+}
+
+
+
+
+
+
+
+
+
+/* ///////////////////////////////////////// */
+
+.stats-menu-item[data-id='HDG712'] img {
+	width: 140% !important;
+	margin-left: -10px;
 }
