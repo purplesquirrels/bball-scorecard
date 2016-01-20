@@ -380,6 +380,7 @@
 
 <script id="stats-panel-player-stats" type="text/x-handlebars-template">
 <div class="stat-view">
+	<div class="player-stat-name"><h2>{{firstname}}</h2></div>
 	<div class="col-1-4 season-stats-left">
 		<div class="stat-holder left-1">
 			<h3>Attendance</h3>
@@ -394,35 +395,35 @@
 			<div class="leader-stats">
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>10</span>
+						<span>{{daysatfirst}}</span>
 					</div>
 					<h3>Days in<br>1<sup>st</sup></h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>10</span>
+						<span>{{rawscore}}</span>
 					</div>
 					<h3>Raw<br>score</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>10</span>
+						<span>{{highestscore}}</span>
 					</div>
-					<h3>Highest<br>score</h3>
+					<h3>Highest game score</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>10</span>
+						<span>{{modescore}}</span>
 					</div>
-					<h3>Common<br>score</h3>
+					<h3>Typical game score</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>10</span>
+						<span>{{boundys}}</span>
 					</div>
 					<h3>Total<br>Boundys</h3>
 				</div>

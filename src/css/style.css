@@ -824,6 +824,15 @@ table.striped>tbody>tr:nth-child(odd) {
 	border-bottom: 1px solid #272e41;
 }
 
+.player-stat-name {
+	border-bottom: 1px solid #272e41;
+}
+.player-stat-name h2 {
+	font-weight: 200;
+    color: #e2e2e2;
+    margin: 0.3em 0.3em 0.5em 0.3em;
+}
+
 
 .axis text {
   font: 10px sans-serif;

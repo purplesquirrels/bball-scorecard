@@ -4,6 +4,7 @@
 /// <reference path="../../charts/LineChart" />
 /// <reference path="../../charts/PieChart" />
 /// <reference path="../../charts/BarChart" />
+/// <reference path="../../charts/AreaChart" />
 
 class StatsView {
 
@@ -57,7 +58,17 @@ class StatsView {
 		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
 
 		var statscontext = {
-			firstname: this.controller.getPlayerName(playerid)
+			firstname: this.controller.getPlayerName(playerid),
+			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
+			totallaps: NumberCruncher.getPlayerTotalLaps(playerid),
+			rawscore: NumberCruncher.getPlayerRawScore(playerid, false),
+			highestscore: NumberCruncher.getPlayerHighestScore(playerid),
+			incompletekeys: NumberCruncher.getPlayerIncompleteKeys(playerid),
+			percentplayed: NumberCruncher.getPlayerPercentPlayed(playerid),
+			daysatfirst: NumberCruncher.getPlayerDaysAtFirstPlace(playerid),
+			latestarts: NumberCruncher.getPlayLateStarts(playerid),
+			averagerawscore: NumberCruncher.getPlayerAverageRawScore(playerid, false),
+			modescore: NumberCruncher.getPlayerModeScore(playerid).score
 		};
 
 
@@ -65,6 +76,96 @@ class StatsView {
 		var stathtml = stattemplate(statscontext);
 
 		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
+
+		var _d = this.controller.getAsObject();
+
+		//percentplayed: NumberCruncher.getPlayerPercentPlayed(playerid),
+
+
+
+
+		var seasonRank: {}[] = [];
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			if (_d.players[j].id === playerid) {
+
+				if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
+
+				for (var i = 0; i < _d.scores.length; i++) {
+
+					if (!_d.scores[i].values[playerid]) continue;
+
+					var pt = {}
+
+					pt.id = playerid;
+					pt.name = _d.players[j].firstname;
+					pt.x = i;
+					pt.y = this.controller.getPlayerRank(playerid, i)//_d.scores[i].values[playerid].rank;
+
+					seasonRank.push(pt);
+				}
+
+				break;
+			}
+		}
+
+		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
+		var c1: AreaChart = new AreaChart(".seasonRank", {
+			xlabel: "Time",
+			ylabel: "Rank",
+			interpolation: "basis", // basis
+			//tension: 1.2,
+			invertY: true,
+			invertX: true,
+			data: seasonRank,
+			width: 700,
+			height: 280,
+			scales: false,
+			colour: '#3ADDD3'
+		});
+
+
+		var seasonScore: {}[] = [];
+
+		for (var j = 0; j < _d.players.length; j++) {
+
+			if (_d.players[j].id === playerid) {
+
+				if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
+
+				for (var i = 0; i < _d.scores.length; i++) {
+
+					if (!_d.scores[i].values[playerid]) continue;
+
+					var pt = {}
+
+					pt.id = playerid;
+					pt.name = _d.players[j].firstname;
+					pt.x = i;
+					pt.y = _d.scores[i].values[playerid].newtotal;
+
+					seasonScore.push(pt);
+				}
+
+				break;
+			}
+		}
+
+
+		$(".right-3").prepend('<svg class="chart seasonScore"></svg>');
+		var c1: AreaChart = new AreaChart(".seasonScore", {
+			xlabel: "Time",
+			ylabel: "Score",
+			interpolation: "basis",
+			invertY: false,
+			invertX: true,
+			data: seasonScore,
+			width: 700,
+			height: 280,
+			scales: false,
+			colour: '#F9B450'
+		});
 	}
 
 	setSeasonStatView = () => {
