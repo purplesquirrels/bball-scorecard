@@ -76,6 +76,38 @@ class NumberCruncher {
 		return score;
 	}
 
+	static getPlayerModeScore(playerid: string): Object {
+
+		var scores = {};
+		var i = 0;
+		var score;
+
+		for  (i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
+
+				score = this.model.scores[i].values[playerid].newtotal - this.model.scores[i].values[playerid].lasttotal;
+
+				if (!scores[score]) {
+					scores[score] = 1;
+				} else {
+					scores[score] += 1;
+				}
+
+			}
+		}
+
+		score = 0;
+
+		for (var s in scores) {
+			if (scores.hasOwnProperty(s)) {
+				if (scores[s] > score) score = s;
+			}
+		}
+
+		return { score: score, occurrence: scores[score] };
+	}
+
 	static getPlayerAverageRawScore(playerid: string, bonuses: boolean = false): number {
 
 		if (this.model.games[playerid] > 0) {
