@@ -53,6 +53,10 @@ html, body {
 	z-index: 2;
 }
 
+.app-state {
+	position: relative;
+	z-index: 1;
+}
 .app {
 	width: 100%;
     padding: 10px;
