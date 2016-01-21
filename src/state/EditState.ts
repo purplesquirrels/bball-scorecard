@@ -8,6 +8,7 @@ class EditState extends AppState {
 
 		$(".app-header").addClass("hidden");
 
+		this.element.classList.add("edit-state");
 
 		var source = this.app.templates["newday-template"];
 		var template:HandlebarsTemplateDelegate = Handlebars.compile(source);
