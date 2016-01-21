@@ -195,7 +195,9 @@ class App {
 
 		this.setState(StateType.VIEW);
 
-		var chartsView: StatsView = new StatsView(this.statsRoot, this.scoreController, this);
+		if (isEditable !== "1") {
+			var chartsView: StatsView = new StatsView(this.statsRoot, this.scoreController, this);
+		}
 
 
 	}
