@@ -68,10 +68,10 @@ html, body {
 }
 
 .scoreboard {
-	width: 100%;
-    min-height: 400px;
-    max-width: 500px;
-    margin: 0 10px 0 0;
+	width: 38%;
+	max-width: 530px;
+	min-height: 400px;
+	margin: 0 10px 0 0;
 }
 
 .newday-state {
@@ -83,6 +83,7 @@ html, body {
 	.scoreboard {
 		margin: 0 auto;
 		float: none;
+		width: 100%;
 	}
 }
 @media (max-width: 800px) {
@@ -748,11 +749,11 @@ table.editmode .switch label .lever {
 /*//////////// CHARTS ///////*/
 
 .stats {
-	width: calc(100% - 510px);
-	max-width: 1090px;
+	width: calc(62% - 10px);
+    max-width: 1090px;
 }
 
-@media(max-width: 1024) {
+@media(max-width: 1024px) {
 	.stats {
 		margin-top: 10px;
 		width: 100%;
