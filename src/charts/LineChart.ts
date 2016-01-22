@@ -12,7 +12,7 @@ interface LineChartConfig {
 	scales: boolean;
 }
 
-class LineChart {
+class LineChart implements IChart {
 
 	margin: Rectangle;
 	width: number;
@@ -165,6 +165,10 @@ class LineChart {
 		});
 
 
+
+	}
+
+	public update(data: {}[]): void {
 
 	}
 }

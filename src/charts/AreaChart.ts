@@ -13,7 +13,7 @@ interface AreaChartConfig {
 	colour?: string;
 }
 
-class AreaChart {
+class AreaChart implements IChart {
 
 	margin: Rectangle;
 	width: number;
@@ -170,6 +170,10 @@ class AreaChart {
 		});
 
 
+
+	}
+
+	public update = (data: {}[]): void => {
 
 	}
 }

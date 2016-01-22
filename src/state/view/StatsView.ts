@@ -14,12 +14,15 @@ class StatsView {
 
 	selectedView: string;
 
+	playerCharts: IChart[];
+
 	constructor(root: HTMLDivElement, controller: ScoreController, app: App) {
 
 		this.statsRoot = root;
 		this.app = app;
 		this.controller = controller;
 
+		this.playerCharts = [];
 		this.selectedView = "season";
 
 		var statHeaderSource = this.app.templates["stats-panel-header"];
@@ -36,13 +39,13 @@ class StatsView {
 
 			if (this.selectedView !== id) {
 
-				this.selectedView = id;
-
 				if (id === "season") {
 					this.setSeasonStatView();
 				} else {
-					this.setPlayerStatView(id);
+					this.setPlayerStatView(id, this.selectedView === "season" ? false : true);
 				}
+
+				this.selectedView = id;
 			}
 		});
 
@@ -50,12 +53,17 @@ class StatsView {
 
 	}
 
-	setPlayerStatView = (playerid: string) => {
+	animateOff = (callback:Function) => {
+		//$(".stat-holder")
+	}
 
-		$(this.statsRoot).find(".stat-view").remove();
+	animateOnd = (callback: Function) => {
 
-		var statsource = this.app.templates["stats-panel-player-stats"];
-		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
+	}
+
+	setPlayerStatView = (playerid: string, update:boolean = false) => {
+
+		var _d = this.controller.getAsObject();
 
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
@@ -71,18 +79,20 @@ class StatsView {
 			modescore: NumberCruncher.getPlayerModeScore(playerid).score
 		};
 
-
-
-		var stathtml = stattemplate(statscontext);
-
-		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
-
-		var _d = this.controller.getAsObject();
-
-		//percentplayed: NumberCruncher.getPlayerPercentPlayed(playerid),
-
-
-
+		var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
+		var seasonProgData: {}[] = [
+			{
+				name: "Played",
+				value: percentplayed,
+				colour: '#FA9C5B'
+			},
+			{
+				name: "Missed",
+				value: 100 - percentplayed,
+				colour: '#2e3548'
+			}
+		];
+		
 
 		var seasonRank: {}[] = [];
 
@@ -110,21 +120,6 @@ class StatsView {
 			}
 		}
 
-		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
-		var c1: AreaChart = new AreaChart(".seasonRank", {
-			xlabel: "Time",
-			ylabel: "Rank",
-			interpolation: "basis", // basis
-			//tension: 1.2,
-			invertY: true,
-			invertX: true,
-			data: seasonRank,
-			width: 700,
-			height: 280,
-			scales: false,
-			colour: '#3ADDD3'
-		});
-
 
 		var seasonScore: {}[] = [];
 
@@ -151,21 +146,95 @@ class StatsView {
 				break;
 			}
 		}
+		
+
+		/*if (update) {
+			console.log("update charts");
 
 
-		$(".right-3").prepend('<svg class="chart seasonScore"></svg>');
-		var c1: AreaChart = new AreaChart(".seasonScore", {
-			xlabel: "Time",
-			ylabel: "Score",
-			interpolation: "basis",
-			invertY: false,
-			invertX: true,
-			data: seasonScore,
-			width: 700,
-			height: 280,
-			scales: false,
-			colour: '#F9B450'
-		});
+			//seasonProg
+			this.playerCharts[0].update(seasonProgData);
+
+
+
+			// player rank
+			this.playerCharts[1].update(seasonRank);
+
+
+			//player score
+			this.playerCharts[2].update(seasonScore);
+
+
+
+		} else {*/
+
+			this.playerCharts = [];
+
+
+			console.log("new charts");
+
+
+			$(this.statsRoot).find(".stat-view").remove();
+
+			var statsource = this.app.templates["stats-panel-player-stats"];
+			var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
+
+			var stathtml = stattemplate(statscontext);
+
+			$(this.statsRoot).find(".season-stats-holder").append(stathtml);
+
+			
+
+			$(".left-1").prepend('<svg class="chart playerAtt"></svg>');
+
+			var seasonProg: PieChart = new PieChart('.playerAtt', {
+				innerRadius: 36,
+				sortValues: false,
+				padAngle: 0,
+				progressMode: true,
+				data: seasonProgData
+			});
+
+			this.playerCharts.push(seasonProg);
+
+
+
+
+			$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
+			var c1: AreaChart = new AreaChart(".seasonRank", {
+				xlabel: "Time",
+				ylabel: "Rank",
+				interpolation: "basis", // basis
+				//tension: 1.2,
+				invertY: true,
+				invertX: true,
+				data: seasonRank,
+				width: 700,
+				height: 280,
+				scales: false,
+				colour: '#3ADDD3'
+			});
+
+			this.playerCharts.push(c1);
+
+
+			
+			$(".right-3").prepend('<svg class="chart seasonScore"></svg>');
+			var c2: AreaChart = new AreaChart(".seasonScore", {
+				xlabel: "Time",
+				ylabel: "Score",
+				interpolation: "basis",
+				invertY: false,
+				invertX: true,
+				data: seasonScore,
+				width: 700,
+				height: 280,
+				scales: false,
+				colour: '#F9B450'
+			});
+
+			this.playerCharts.push(c2);
+		//}
 	}
 
 	setSeasonStatView = () => {
@@ -222,10 +291,8 @@ class StatsView {
 		var playerid;
 
 		$(".left-1").prepend('<svg class="chart seasonProg"></svg>');
-		//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
 
 		var seasonProg: PieChart = new PieChart('.seasonProg', {
-			//outerRadius: 50,
 			innerRadius: 36,
 			sortValues: false,
 			padAngle: 0,

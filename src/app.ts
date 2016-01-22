@@ -36,6 +36,10 @@ interface Rectangle {
 	left: number;
 }
 
+interface IChart {
+	update(data: {}[]):void;
+}
+
 class App {
 
 	data: ScoreData;

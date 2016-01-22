@@ -120,7 +120,10 @@ class ScoreController {
 
 		for (var i = 0; i < this.model.players.length; ++i) {
 
-			if (this.model.games[this.model.players[i].id] > 0) players.push(this.model.players[i]);
+			if (this.model.games[this.model.players[i].id] > 0 &&
+				this.getPlayerLastTotalScore(this.model.players[i].id) > 0) {
+				players.push(this.model.players[i]);
+			}
 
 		}
 

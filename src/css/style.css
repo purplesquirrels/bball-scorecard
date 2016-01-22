@@ -69,7 +69,7 @@ html, body {
 
 .scoreboard {
 	width: 100%;
-    min-height: 500px;
+    min-height: 400px;
     max-width: 500px;
     margin: 0 10px 0 0;
 }
@@ -79,7 +79,7 @@ html, body {
 	padding: 10px;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1024px) {
 	.scoreboard {
 		margin: 0 auto;
 		float: none;
@@ -752,7 +752,7 @@ table.editmode .switch label .lever {
 	max-width: 1090px;
 }
 
-@media(max-width: 1250px) {
+@media(max-width: 1024) {
 	.stats {
 		margin-top: 10px;
 		width: 100%;

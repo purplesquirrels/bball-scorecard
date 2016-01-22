@@ -8,12 +8,13 @@ interface PieChartConfig {
 	detailsOnHover?: boolean;
 }
 
-class PieChart {
+class PieChart implements IChart {
 
 	margin: Rectangle;
 	width: number;
 	height: number;
 	innerRadius: number;
+	container: string;
 	//outerRadius: number;
 	//colors: d3.scale.Ordinal<string, string>;
 
@@ -28,6 +29,8 @@ class PieChart {
 				top: 0, right: 0, bottom: 0, left: 0
 			}
 		}
+
+		this.container = container;
 
 		//this.outerRadius = config.outerRadius;
 		this.innerRadius = config.innerRadius;
@@ -161,6 +164,15 @@ class PieChart {
 		}
 
 		
+	}
+
+	public update = (data:{}[]): void => {
+		//var perc = data[0].value / (data[0].value + data[1].value) * 100;
+
+		//console.log(perc);
+
+		//d3.select(this.container).selectAll(".pieCentreLabel").text(Math.round(perc) + "%");
+
 	}
 
 }

@@ -7,8 +7,10 @@ interface BarChartConfig {
 	data: any[];
 }
 
-class BarChart {
+class BarChart implements IChart {
 
+
+	chart: any;
 
 	constructor(container: string, config: BarChartConfig) {
 		var key = config.key;//"name";
@@ -28,7 +30,6 @@ class BarChart {
 				return 0;
 			});
 		}
-		//var colors = d3.scale.category20c();
 
 		var colors = d3.scale.linear().domain([0, ((config.data.length - 1) * 0.25), ((config.data.length - 1) * 0.5), ((config.data.length - 1) * 0.75), (config.data.length - 1)])
 			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
@@ -55,32 +56,12 @@ class BarChart {
 		var tooltip = d3.select("body").append("div")
 			.attr("class", "chartTip barChartTip");
 
-		var chart = d3.select(container)
+		this.chart = d3.select(container)
 			.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
-			//.attr("width", width + margin.left + margin.right)
-			//.attr("height", height + margin.top + margin.bottom)
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-		/*chart.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis);
-
-		chart.append("g")
-			.attr("class", "y axis")
-			.call(yAxis)
-			.append("text")
-			.attr("transform", "rotate(-90)")
-			.attr("y", 6)
-			.attr("x", height / -2)
-			.attr("dy", "-3.5em")
-			.style("text-anchor", "middle")
-			.text(value);*/
-		//var bar = chart.selectAll(".bar").data(config.data).enter()
-
-		chart.selectAll("g.bar").data(config.data).enter()
+		this.chart.selectAll("g.bar").data(config.data).enter()
 			.append("g").attr("class", "bar")
 			.append("rect")
 			.attr("x", function(d) { return x(d[key]); })
@@ -96,7 +77,6 @@ class BarChart {
 			})
 			.attr('stroke-width', 0)
 			.on('mouseover', (d, i) => {
-				//console.log(this.dataGroup[n].values[0].name);
 
 				tooltip.transition()
 					.style("opacity", 0.9)
@@ -121,7 +101,7 @@ class BarChart {
 			})
 			
 
-		chart.selectAll("g.bar")
+		this.chart.selectAll("g.bar")
 			.append("text")
 			.style("text-anchor", "middle")
 			.attr("class", "barChartValue")
@@ -130,5 +110,11 @@ class BarChart {
 			.text(function(d) {
 				return d[value];
 			})
+	}
+
+	public update(data: {}[]): void {
+
+		//this.chart.selectAll("g.bar rect").data(data).enter()
+
 	}
 }
