@@ -1,5 +1,7 @@
 class NewDayState extends AppState {
 
+	playersLocked: boolean;
+
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
 	}
@@ -7,6 +9,8 @@ class NewDayState extends AppState {
 	render() {
 
 		$(".app-header").addClass("hidden");
+
+		this.playersLocked = false;
 
 		this.element.classList.add("newday-state");
 
@@ -56,6 +60,27 @@ class NewDayState extends AppState {
 				}
 
 			});
+
+		});
+
+		$(".lock-players").bind("click", (e) => {
+
+			var btn = $(e.currentTarget);
+
+			if (this.playersLocked) {
+				$(".player-row:not(.isPlaying)").removeClass("hide-row");
+
+				btn.find('.material-icons').text('lock_open');
+				btn.find('span').text('Only show playing');
+			} else {
+				
+				$(".player-row:not(.isPlaying)").addClass("hide-row");
+
+				btn.find('.material-icons').text('lock');
+				btn.find('span').text('Show all players');
+			}
+
+			this.playersLocked = !this.playersLocked;
 
 		});
 
@@ -154,6 +179,8 @@ class NewDayState extends AppState {
 					if (isPlaying !== checked) {
 
 						this.controller.setPlayerIsPlaying(player, checked);
+
+						currentTarget.parents(".player-row")[checked ? "addClass" : "removeClass"]("isPlaying");
 
 					}
 

@@ -74,6 +74,11 @@ html, body {
     margin: 0 10px 0 0;
 }
 
+.newday-state {
+	color: #e2e2e2;
+	padding: 10px;
+}
+
 @media (max-width: 1250px) {
 	.scoreboard {
 		margin: 0 auto;
@@ -339,7 +344,7 @@ table.editmode [type="number"] {
 }
 
 table.editmode [type="number"]:not(:disabled) {
-	background-color: rgba(0,0,0,0.07);
+	background-color: rgb(33, 38, 51);
 }
 
 table.editmode [type=number]::-webkit-inner-spin-button, 
@@ -402,6 +407,10 @@ table.editmode td:nth-last-of-type(3) {
 
 .newday-tools button {
 	padding: 0 0.7rem;
+}
+
+.player-row.hide-row {
+	display: none;
 }
 
 .collapsible {
@@ -721,9 +730,20 @@ table.striped>tbody>tr:nth-child(odd) {
 	background: #212633;
 }
 
-[type="checkbox"]+label:before {
-	border: 2px solid #e2e2e2;
+table.editmode [type="checkbox"]+label:before {
+	/*border: 2px solid #e2e2e2;*/
 }
+table.editmode [type="checkbox"]:not(:checked):disabled+label:before {
+    background-color: #212633;
+}
+table.editmode .switch label .lever {
+    background-color: #212633;
+}
+
+.select-wrapper input.select-dropdown {
+	color: #FFF;
+}
+
 
 /*//////////// CHARTS ///////*/
 
