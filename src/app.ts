@@ -1,5 +1,6 @@
 /// <reference path="typing/handlebars.d.ts" />
 /// <reference path="typing/jquery.d.ts" />
+/// <reference path="typing/TweenLite.d.ts" />
 /// <reference path="typing/d3.d.ts" />
 /// <reference path="state/ViewState" />
 /// <reference path="state/NewDayState" />
