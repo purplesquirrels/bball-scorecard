@@ -67,12 +67,13 @@ class LineChart implements IChart {
 			.range(this.invertY ? ([0, this.height]) : ([this.height, 0]));
 
 		var lineFunc = d3.svg.line()
-			.x((d: {}) => {
-				return this.x(d.x);
-			})
-			.y((d: {}) => {
-				return this.y(d.y);
-			})
+			.x((d: {}) => { return this.x(d.x) })
+			.y((d: {}) => { return this.y(d.y) })
+			.interpolate(this.interpolation);
+
+		var startlineFunc = d3.svg.line()
+			.x((d: {}) => { return this.x(d.x) })
+			.y(this.height)
 			.interpolate(this.interpolation);
 
 		if (config.tension) {
@@ -123,16 +124,20 @@ class LineChart implements IChart {
 			var n = i;
 
 			chart.append('path')
-				.attr('d', lineFunc(d.values))
 				.attr('stroke', (d, i) => {
 					return this.colors(n);
 				})
 				.attr('opacity', 1)
 				.attr('stroke-width', 1)
 				.attr('fill', 'none')
+				.attr('d', startlineFunc(d.values))
+				.transition()
+				.duration(1000)
+				.delay(n * 75)
+				.attr('d', lineFunc(d.values))
+
 
 			chart.append('path')
-				.attr('d', lineFunc(d.values))
 				.attr('stroke', (d, i) => {
 					return this.colors(n);
 				})
@@ -161,7 +166,14 @@ class LineChart implements IChart {
 						.style("visibility", "hidden");
 
 					d3.select(d3.event.target).attr("opacity", 0)
-				});
+				})
+				//.attr('d', lineFunc(d.values))
+
+				.attr('d', startlineFunc(d.values))
+				.transition()
+				.duration(1000)
+				.delay(n * 75)
+				.attr('d', lineFunc(d.values))
 		});
 
 

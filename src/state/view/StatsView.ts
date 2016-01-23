@@ -39,11 +39,13 @@ class StatsView {
 
 			if (this.selectedView !== id) {
 
-				if (id === "season") {
-					this.setSeasonStatView();
-				} else {
-					this.setPlayerStatView(id, this.selectedView === "season" ? false : true);
-				}
+				//this.animateOff(() => {
+					if (id === "season") {
+						this.setSeasonStatView();
+					} else {
+						this.setPlayerStatView(id, this.selectedView === "season" ? false : true);
+					}
+				//})
 
 				this.selectedView = id;
 			}
@@ -54,11 +56,14 @@ class StatsView {
 	}
 
 	animateOff = (callback:Function) => {
-		//$(".stat-holder")
+		//TweenLite.to($(".stat-holder"), 1, { alpha: 0, onComplete: callback });
 	}
 
-	animateOnd = (callback: Function) => {
+	animateOn = (callback?: Function) => {
 
+		//TweenLite.set($(".stat-holder"), { alpha: 0 });
+
+		//TweenLite.to($(".stat-holder"), 1, { alpha: 1 });
 	}
 
 	setPlayerStatView = (playerid: string, update:boolean = false) => {
@@ -235,6 +240,10 @@ class StatsView {
 
 			this.playerCharts.push(c2);
 		//}
+
+
+
+		this.animateOn();
 	}
 
 	setSeasonStatView = () => {
@@ -413,5 +422,40 @@ class StatsView {
 			data: playerRaw,
 			sort: "desc"
 		});
+
+		var leaders = $(".leader-stat").toArray();
+
+		leaders = leaders.map(function(element, index) {
+			return {
+				element: $(element),
+				final: parseInt($(element).data("value"), 10),
+				val: parseInt($(element).find(".leader-stat-ring span").text(), 10)
+			}
+		});
+
+		var total = leaders.length;
+		var complete = 0;
+		
+		var inter = setInterval(() => {
+			for (var i = leaders.length-1; i >= 0; i--) {
+				
+				if (leaders[i].final === leaders[i].val) {
+					complete++;
+					leaders.splice(i, 1);
+				} else {
+					leaders[i].val += 1;
+					leaders[i].element.find(".leader-stat-ring span").text(leaders[i].val)
+				}
+			}
+
+			if (complete === leaders.length) {
+				console.log('clearInterval');
+				clearInterval(inter);
+			}
+		}, 20)
+
+		
+
+		this.animateOn();
 	}
 }
