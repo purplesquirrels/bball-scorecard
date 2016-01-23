@@ -79,7 +79,7 @@ html, body {
 	padding: 10px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
 	.scoreboard {
 		margin: 0 auto;
 		float: none;
@@ -753,7 +753,7 @@ table.editmode .switch label .lever {
     max-width: 1090px;
 }
 
-@media(max-width: 1024px) {
+@media(max-width: 1023px) {
 	.stats {
 		margin-top: 10px;
 		width: 100%;
@@ -775,15 +775,13 @@ table.editmode .switch label .lever {
 .stats-menu-item {
 	list-style-type: none;
 	margin: 0;
-	padding: 13px;
 	display: inline-block;
     width: 66px;
 	height: 66px;
-	background: #212633;
 	vertical-align: top;
 	position: relative;
 	cursor: pointer;
-	transition: all 0.5s;
+	
 }
 
 .stat-menu-item-label {
@@ -802,26 +800,38 @@ table.editmode .switch label .lever {
 	align-items: center;
 	justify-content: center;
 
+	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 }
 
-.stats-menu-item:hover {
+.stats-menu-item:hover .stat-menu-item-label,
+.stats-menu-item.active .stat-menu-item-label {
+
 	transform: translateY(-100%);
 
-	transition: all 0.3s;
-}
-.stats-menu-item:hover .stat-menu-item-label {
 	opacity: 1;
-	transition: all 0.15s;
+	
 }
 
 .menu-avatar {
-	width: 40px;
-	height: 40px;
-	background: #ffF;
+	background: #212633;
+	width: 100%;
+	height: 100%;
+	padding: 13px;
+	overflow: hidden;
+
+	transition: all 0.15s;
+}
+.stats-menu-item.active .menu-avatar,
+.stats-menu-item:hover .menu-avatar {
+
+	transform: translateY(-100%);
+	
+}
+.menu-avatar svg,
+.menu-avatar img {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	overflow: hidden;
 }
 .season-stats-holder {
 	padding: 10px;

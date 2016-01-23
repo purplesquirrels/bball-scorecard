@@ -33,15 +33,18 @@ class StatsView {
 
 		$(this.statsRoot).append(statheaderhtml);
 
-		$(".stats-menu").on("click", ".stats-menu-item, .stat-menu-item-label", (e) => {
-			var id = $(e.target).data("id");
-			console.log(id);
-
+		$(".stats-menu").on("click", ".stats-menu-item", (e) => {
+			var id = $(e.currentTarget).data("id");
+			
 			if (this.selectedView !== id) {
+
+				$(".stats-menu-item").removeClass("active");
+
 
 				if (id === "season") {
 					this.setSeasonStatView();
 				} else {
+					$(e.currentTarget).addClass("active");
 					this.setPlayerStatView(id, this.selectedView === "season" ? false : true);
 				}
 
