@@ -147,7 +147,16 @@ class StatsView {
 					pt.id = playerid;
 					pt.name = _d.players[j].firstname;
 					pt.x = i;
-					pt.y = _d.scores[i].values[playerid].newtotal;
+					pt.y = (_d.scores[i].values[playerid].newtotal - _d.scores[i].values[playerid].lasttotal) * 2.5;
+
+					seasonScore.push(pt);
+
+					pt = {}
+
+					pt.id = "temp";
+					pt.name = _d.players[j].firstname;
+					pt.x = i;
+					pt.y = this.controller.getDayConditions(i).temp;
 
 					seasonScore.push(pt);
 				}
@@ -239,7 +248,7 @@ class StatsView {
 				width: 700,
 				height: 280,
 				scales: false,
-				colour: '#F9B450'
+				colour: ['#6c8fee', '#F9B450']
 			});
 
 			this.playerCharts.push(c2);

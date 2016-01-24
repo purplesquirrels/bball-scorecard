@@ -10,7 +10,7 @@ interface AreaChartConfig {
 	xlabel: string;
 	ylabel: string;
 	scales: boolean;
-	colour?: string;
+	colour?: string[]|string;
 }
 
 class AreaChart implements IChart {
@@ -28,7 +28,7 @@ class AreaChart implements IChart {
 	y: d3.scale.Linear<number, number>;
 	dataGroup: any[];
 	lineFunc: Function;
-	color: string;
+	color: string|string[];
 
 	constructor(container: string, config: AreaChartConfig) {
 		this.margin = {
@@ -133,27 +133,29 @@ class AreaChart implements IChart {
 
 		//chart.selectAll('path').data(function(d){return d.values}).enter()
 
-		var rgb = d3.rgb(this.color);
-		var rgba = "rgba(" + [rgb.r, rgb.g, rgb.b, 0].join(",") + ")";
-		var gradid = "fill-gradient" + Math.round(Math.random() * 100);
-
-		chart.append("linearGradient")
-			.attr("id", gradid)
-			.attr("gradientUnits", "userSpaceOnUse")
-			.attr("x1", 0).attr("y1", 0)
-			.attr("x2", 0).attr("y2", this.height)
-			.selectAll("stop")
-			.data([
-				{ offset: "0%", color: this.color },
-				{ offset: "100%", color: rgba }
-			])
-			.enter().append("stop")
-			.attr("offset", function(d) { return d.offset; })
-			.attr("stop-color", function(d) { return d.color; });
-
 		this.dataGroup.forEach((d, i) => {
 
 			var n = i;
+			var clr:string = typeof this.color == 'string' ? this.color : this.color[n];
+			var rgb = d3.rgb(clr);
+			var rgba = "rgba(" + [rgb.r, rgb.g, rgb.b, 0].join(",") + ")";
+			var gradid = "fill-gradient" + Math.round(Math.random() * 100);
+
+			chart.append("linearGradient")
+				.attr("id", gradid)
+				.attr("gradientUnits", "userSpaceOnUse")
+				.attr("x1", 0).attr("y1", 0)
+				.attr("x2", 0).attr("y2", this.height)
+				.selectAll("stop")
+				.data([
+					{ offset: "0%", color: clr },
+					{ offset: "100%", color: rgba }
+				])
+				.enter().append("stop")
+				.attr("offset", function(d) { return d.offset; })
+				.attr("stop-color", function(d) { return d.color; });
+
+			
 
 			chart.append('path')
 				.attr('d', area(d.values))
@@ -162,7 +164,7 @@ class AreaChart implements IChart {
 
 			chart.append('path')
 				.attr('d', lineFunc(d.values))
-				.attr('stroke', this.color)
+				.attr('stroke', clr)
 				.attr('opacity', 1)
 				.attr('stroke-width', 1)
 				.attr('fill', 'none')
