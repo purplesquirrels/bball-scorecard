@@ -135,9 +135,10 @@ class AreaChart implements IChart {
 
 		var rgb = d3.rgb(this.color);
 		var rgba = "rgba(" + [rgb.r, rgb.g, rgb.b, 0].join(",") + ")";
+		var gradid = "fill-gradient" + Math.round(Math.random() * 100);
 
 		chart.append("linearGradient")
-			.attr("id", "fill-gradient")
+			.attr("id", gradid)
 			.attr("gradientUnits", "userSpaceOnUse")
 			.attr("x1", 0).attr("y1", 0)
 			.attr("x2", 0).attr("y2", this.height)
@@ -157,7 +158,7 @@ class AreaChart implements IChart {
 			chart.append('path')
 				.attr('d', area(d.values))
 				.attr('opacity', 0.2)
-				.attr('fill', 'url(#fill-gradient)');
+				.attr('fill', 'url(#' + gradid + ')');
 
 			chart.append('path')
 				.attr('d', lineFunc(d.values))
