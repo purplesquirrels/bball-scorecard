@@ -65,8 +65,10 @@ class BarChart implements IChart {
 			.append("g").attr("class", "bar")
 			.append("rect")
 			.attr("x", function(d) { return x(d[key]); })
-			.attr("y", function(d) { return y(d[value]); })
-			.attr("height", function(d) { return height - y(d[value]); })
+			//.attr("y", function(d) { return y(d[value]); })
+			//.attr("height", function(d) { return height - y(d[value]); })
+			.attr("y", height)
+			.attr("height", 0)
 			.attr("width", x.rangeBand())
 			.attr('fill', (d, i) => {
 				return colors(i);
@@ -99,6 +101,15 @@ class BarChart implements IChart {
 				d3.select(d3.event.target)
 					.attr('stroke-width', 0)
 			})
+
+		this.chart.selectAll("g.bar rect").transition()
+			.duration(1000)
+			.delay(function(d, i) {
+				return i * 50;
+			})
+			.attr("y", function(d) { return y(d[value]); })
+			.attr("height", function(d) { return height - y(d[value]); })
+			
 			
 
 		this.chart.selectAll("g.bar")
@@ -106,9 +117,17 @@ class BarChart implements IChart {
 			.style("text-anchor", "middle")
 			.attr("class", "barChartValue")
 			.attr("x", function(d) { return x(d[key]) + (x.rangeBand() * 0.5); })
-			.attr("y", function(d) { return y(d[value]) - 5; })
+			.attr("y",height - 5 )
 			.text(function(d) {
 				return d[value];
+			})
+			.transition()
+			.duration(1000)
+			.delay(function(d, i) {
+				return (i * 50);
+			})
+			.attr("y",  function(d) {
+				return y(d[value]) - 5;
 			})
 	}
 

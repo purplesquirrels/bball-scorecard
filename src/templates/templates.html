@@ -65,7 +65,6 @@
 			<div class="stat-box deep-purple"><strong>Incomplete keys</strong><br><span class="stat-value">{{this.incompletekeys}}</span></div>
 			<div class="stat-box green darken-4"><strong>Late starts</strong><br><span class="stat-value">{{this.latestarts}}</span></div>
 			<div class="stat-box blue darken-1"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
-			<!--div class="stat-box red darken-1 morestats" data-for="{{this.id}}"><strong>More</strong></div-->
 		</div>
 	</li>
 	{{/each}}
@@ -324,45 +323,45 @@
 		<div class="stat-holder right-1">
 
 			<div class="leader-stats">
-				<div class="leader-stat">
+				<div class="leader-stat" data-value="{{totalscore_value}}">
 					<div class="leader-stat-ring">
-						<span>{{totalscore_value}}</span>
+						<span>0</span>
 					</div>
 					<h3>Total<br>score</h3>
 					<hr/>
 					<h4>{{{totalscore_playername}}}</h4>
 				</div>
 
-				<div class="leader-stat">
+				<div class="leader-stat" data-value="{{rawscore_value}}">
 					<div class="leader-stat-ring">
-						<span>{{rawscore_value}}</span>
+						<span>0</span>
 					</div>
 					<h3>Raw<br>score</h3>
 					<hr/>
 					<h4>{{{rawscore_playername}}}</h4>
 				</div>
 
-				<div class="leader-stat">
+				<div class="leader-stat" data-value="{{highestscore_value}}">
 					<div class="leader-stat-ring">
-						<span>{{highestscore_value}}</span>
+						<span>0</span>
 					</div>
 					<h3>Highest<br>score</h3>
 					<hr/>
 					<h4>{{{highestscore_playername}}}</h4>
 				</div>
 
-				<div class="leader-stat">
+				<div class="leader-stat" data-value="{{boundys_value}}">
 					<div class="leader-stat-ring">
-						<span>{{boundys_value}}</span>
+						<span>0</span>
 					</div>
 					<h3>Most<br>boundys</h3>
 					<hr/>
 					<h4>{{{boundys_playername}}}</h4>
 				</div>
 
-				<div class="leader-stat">
+				<div class="leader-stat" data-value="{{laps_value}}">
 					<div class="leader-stat-ring">
-						<span>{{laps_value}}</span>
+						<span>0</span>
 					</div>
 					<h3>Most<br>laps</h3>
 					<hr/>
@@ -430,6 +429,20 @@
 						<span>{{boundys}}</span>
 					</div>
 					<h3>Total<br>Boundys</h3>
+				</div>
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span>{{s_shots}}</span>
+					</div>
+					<h3>Successful shots</h3>
+				</div>
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span>{{distance}}</span>
+					</div>
+					<h3>Distance</h3>
 				</div>
 			</div>
 

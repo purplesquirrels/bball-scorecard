@@ -57,6 +57,7 @@ class PieChart implements IChart {
 			.outerRadius(this.width / 2)
 			.innerRadius(this.innerRadius)
 
+
 		var arc2 = d3.svg.arc()
 			.outerRadius((this.width + 4) / 2)
 			.innerRadius(this.innerRadius - 2)
@@ -109,6 +110,8 @@ class PieChart implements IChart {
 				//console.log(i)
 				return (typeof d.data.colour != 'undefined' ? d.data.colour : colors(i));
 			})
+			//.attr('d', (d) => { return arc(0); })
+			//.transition()
 			.attr('d', arc)
 
 		d3.select(container).selectAll("g.slice")
@@ -122,28 +125,15 @@ class PieChart implements IChart {
 			.on('mouseover', (d, i) => {
 
 				if (!config.detailsOnHover) return;
-				//console.log(this.dataGroup[n].values[0].name);
-
-				//console.log(d);
 
 				labelkey.text(d.data.name);
 				labelval.text(d.data.value);
 
 				d3.select(d3.event.target).attr("opacity", 0.5)
-					
-				//d3.select(d3.event.target)
-				//	.attr('stroke-width', 8)
 			})
 			.on('mouseout', (d) => {
 
 				if (!config.detailsOnHover) return;
-
-				/*labelkey.text((d, i) => {
-					return sorted[0].name;
-				})
-				labelval.text((d, i) => {
-					return sorted[0].value;
-				})*/
 
 				d3.select(d3.event.target).attr("opacity", 0)
 			})
@@ -165,6 +155,8 @@ class PieChart implements IChart {
 
 		
 	}
+
+	
 
 	public update = (data:{}[]): void => {
 		//var perc = data[0].value / (data[0].value + data[1].value) * 100;
