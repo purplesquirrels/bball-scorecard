@@ -70,7 +70,7 @@ class StatsView {
 	setPlayerStatView = (playerid: string, update:boolean = false) => {
 
 		var _d = this.controller.getAsObject();
-
+		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
 			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
@@ -82,7 +82,10 @@ class StatsView {
 			daysatfirst: NumberCruncher.getPlayerDaysAtFirstPlace(playerid),
 			latestarts: NumberCruncher.getPlayLateStarts(playerid),
 			averagerawscore: NumberCruncher.getPlayerAverageRawScore(playerid, false),
-			modescore: NumberCruncher.getPlayerModeScore(playerid).score
+			modescore: NumberCruncher.getPlayerModeScore(playerid).score,
+			distance: dist > 1000 ? Math.round(dist / 10) / 100 : dist,
+			dist_unit: dist > 1000 ? "km" : "m",
+			s_shots: NumberCruncher.getPlayerTotalSuccessfullShots(playerid)
 		};
 
 		var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);

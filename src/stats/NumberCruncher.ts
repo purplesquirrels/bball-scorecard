@@ -43,6 +43,76 @@ class NumberCruncher {
 		return 0;
 	}
 
+	static getPlayerDistance(playerid: string): number {
+		var dist = 0;
+		var distances = {
+			"point01": 4.3, // 1st key
+			"point02": 4.3, // 2nd key
+			"point03": 25.2, // 3pt line
+			"03-01" : 4,
+			"03-B" : 15,
+			"B-01" : 14
+		}
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
+
+				for (var p in this.model.points) {
+					if (p !== "point04" && 
+						this.model.points.hasOwnProperty(p) &&
+						this.model.scores[i].values[playerid][p]) {
+
+						dist += (distances[p] * this.model.scores[i].values[playerid][p]);
+					}
+				}
+
+				if (this.model.scores[i].values[playerid]["point04"] > 0) {
+					dist += (distances["03-B"] * this.model.scores[i].values[playerid]["point04"]);
+					dist += (distances["B-01"] * this.model.scores[i].values[playerid]["point04"]);
+				} else {
+					if (this.model.scores[i].values[playerid]["point01"] > 1) {
+						dist += (distances["03-01"] * ((1 + this.model.scores[i].values[playerid]["point04"]) - this.model.scores[i].values[playerid]["point01"]));
+					}
+				}
+
+				dist += 8; // add extra 8 meters average for finishing between points
+			}
+		}
+
+		return Math.ceil(dist);
+	}
+
+	static getPlayerTotalSuccessfullShots(playerid: string) :number {
+
+		var shotCounts = {
+			"point01" : 6, // 1st key
+			"point02" : 5, // 2nd key
+			"point03" : 5, // 3pt line
+			"point04" : 1 // boundy
+		}
+
+		var shots = 0;
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
+
+				for (var p in this.model.points) {
+					if (this.model.points.hasOwnProperty(p) &&
+						this.model.scores[i].values[playerid][p]) {
+
+						shots += (shotCounts[p] * this.model.scores[i].values[playerid][p]);
+					}
+				}
+
+				shots += 2.5; // add 2.5 extra shots per game for typically finishing between point shots
+			}
+		}
+
+		return Math.ceil(shots);
+	}
+
 	static getPlayerRawScore(playerid: string, bonuses:boolean=false): number {
 
 		var score = 0;
@@ -68,9 +138,7 @@ class NumberCruncher {
 						}
 					}
 				}
-				
 			}
-
 		}
 
 		return score;
