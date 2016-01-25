@@ -4,6 +4,7 @@ class ViewState extends AppState {
 
 	editButton: HTMLButtonElement;
 	addButton: HTMLButtonElement;
+	statsShowing: boolean;
 
 	sortCommandLabelMap: Object;
 	
@@ -29,6 +30,8 @@ class ViewState extends AppState {
 		var dayToDisplay = 0;//this.controller.getLastCompletedDay();
 
 		this.element.classList.add("view-state");
+
+		this.statsShowing = false;
 
 		//console.log('dayToDisplay', dayToDisplay);
 
@@ -156,6 +159,97 @@ class ViewState extends AppState {
 		});
 
 		/////////////////////////////////////////////////////////////////////////
+
+		var chartsView: StatsView;
+		var statsReady = true;
+
+		if (localStorage.getItem('showstats') === 'true') {
+			$('.view-stats').addClass("active");
+			$(".scoreboard").addClass("pull-left");
+			chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
+			this.statsShowing = true;
+		} 
+
+		$('.view-stats').bind("click", (e: JQueryMouseEventObject) => {
+
+			e.preventDefault();
+
+			if (!statsReady) return;
+
+			statsReady = false;
+
+			var sb = $(".scoreboard");
+			var x = sb.offset().left;
+
+			if (!this.statsShowing) {
+
+				localStorage.setItem('showstats', 'true');
+
+				$(e.currentTarget).addClass("active");
+
+				sb.css({
+					"position" : "absolute",
+					"left" : x + "px"
+				});
+
+				TweenLite.set(sb, { x: 0 });
+
+				TweenLite.to(sb, 1, {
+					x: (x - 10) * -1, ease: "Cubic.easeInOut", onComplete: () => {
+
+						sb.removeAttr("style");
+
+						sb.addClass("pull-left");
+
+						$(this.app.statsRoot).css("opacity", 0);
+
+						chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
+
+						TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 1, ease: "Cubic.easeOut", onComplete: () => {
+							statsReady = true;
+						} });
+					}
+				});
+			} else {
+
+				localStorage.setItem('showstats', 'false');
+
+				$(e.currentTarget).removeClass("active");
+
+				sb.removeClass("pull-left");
+				var fx = sb.offset().left;
+				sb.addClass("pull-left");
+
+				TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 0, ease: "Cubic.easeOut", onComplete: () => {
+
+					sb.removeClass("pull-left");
+					sb.css({
+						"position": "absolute",
+						"left": "10px"
+					});
+
+					chartsView.deconstruct();
+					chartsView = null;
+
+					$(this.app.statsRoot).empty();
+
+					TweenLite.set(sb, {x: 0});
+
+					TweenLite.to(sb, 1, { x: fx-10, ease: "Cubic.easeInOut", onComplete: () => {
+
+						sb.removeAttr("style");
+						statsReady = true;
+
+					}});
+
+				} });
+				
+
+			}
+
+			this.statsShowing = !this.statsShowing;
+
+		});
 
 		$('.game-details').bind("click", (e:JQueryMouseEventObject) => {
 

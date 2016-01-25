@@ -71,7 +71,14 @@ html, body {
 	width: 38%;
 	max-width: 530px;
 	min-height: 400px;
+	margin: 0 auto;
+	float: none;
+
+}
+
+.scoreboard.pull-left {
 	margin: 0 10px 10px 0;
+	float: left;
 }
 
 .newday-state {
@@ -198,12 +205,42 @@ html, body {
 	font-weight: bold;
     margin-top: 0.9rem;
     margin-bottom: 0.9rem;
-    margin-right: 10px;
+    margin-right: 5px;
     padding: 0.6rem 2rem;
     background: #7463E7;
     color: #FFF;
     border-color: #7463E7;
     line-height: 1;
+}
+
+.view-stats {
+	text-align: center;
+    float: right;
+    display: inline-block;
+    height: 32px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
+    margin-right: 10px;
+    background: transparent;
+    color: #7463E7;
+    border-color: #7463E7;
+    line-height: 1;
+    padding: 6px;
+    padding-top: 5px;
+}
+
+.view-stats:hover,
+.view-stats.active {
+	background: #7463E7;
+    color: #FFF;
+    border-color: #7463E7;
+}
+
+.view-stats i {
+	font-size: 19px;
 }
 
 .body {

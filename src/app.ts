@@ -48,6 +48,7 @@ class App {
 	root: HTMLDivElement;
 	scoreboardRoot: HTMLDivElement;
 	statsRoot: HTMLDivElement;
+	isStorageAvailable: boolean;
 
 	templates: Object;
 	buttonActions: Object;
@@ -57,6 +58,8 @@ class App {
 	states: States;
 
 	constructor(rootSelector: string = ".app") {
+
+		this.isStorageAvailable = this.storageAvailable("localStorage");
 
 		this.buttonActions = {
 			"state": (action: string) => {
@@ -200,9 +203,9 @@ class App {
 
 		this.setState(StateType.VIEW);
 
-		if (isEditable !== "1") {
+		/*if (isEditable !== "1") {
 			var chartsView: StatsView = new StatsView(this.statsRoot, this.scoreController, this);
-		}
+		}*/
 
 
 	}
@@ -229,6 +232,19 @@ class App {
 
 		this.states[state].render();
 		this.states[state].element.style.display = "block";
+	}
+
+	private storageAvailable(type):boolean {
+		try {
+			var storage = window[type],
+				x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
 	}
 
 	private getQueryParamByName(name) {

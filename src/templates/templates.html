@@ -5,11 +5,11 @@
 	</div>
 	<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
 	
-	{{#if showDetails}}
-		<a class="bb-button bb-purple game-details">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}
-		</a>
-	{{/if}}
+	<a class="bb-button bb-purple view-stats"><i class='material-icons'>trending_up</i></a>
 	
+	{{#if showDetails}}
+		<a class="bb-button bb-purple game-details">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}</a>
+	{{/if}}
 </div>
 <div class="body">
 	{{> viewListTemplate }}

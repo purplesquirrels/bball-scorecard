@@ -56,6 +56,10 @@ class StatsView {
 
 	}
 
+	public deconstruct = () => {
+		$(".chartTip").remove();
+	}
+
 	animateOff = (callback:Function) => {
 		//TweenLite.to($(".stat-holder"), 1, { alpha: 0, onComplete: callback });
 	}
