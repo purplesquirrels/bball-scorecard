@@ -18,6 +18,7 @@ interface JQuery {
 	tooltip(options?: any): JQuery;
 	mixItUp(options?: any): JQuery;
 }
+
 interface States {
 	view: ViewState;
 	newDay: NewDayState;
