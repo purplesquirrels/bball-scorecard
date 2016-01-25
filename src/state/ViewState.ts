@@ -113,10 +113,10 @@ class ViewState extends AppState {
 			context.rankings[i].rankdirection = "";
 
 			if (context.rankings[i].rankchange > 0) {
-				context.rankings[i].rankdirection = "up";
+				context.rankings[i].rankdirection = "up" + (context.rankings[i].rankchange >= 5 ? " large-up" : "");
 				context.rankings[i].rankchange = "+" + context.rankings[i].rankchange;
 			} else if (context.rankings[i].rankchange < 0) {
-				context.rankings[i].rankdirection = "down";
+				context.rankings[i].rankdirection = "down" + (context.rankings[i].rankchange <= -5 ? " large-down" : "");
 			}
 
 			context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04");
@@ -194,7 +194,7 @@ class ViewState extends AppState {
 
 				TweenLite.set(sb, { x: 0 });
 
-				TweenLite.to(sb, 1, {
+				TweenLite.to(sb, 0.6, {
 					x: (x - 10) * -1, ease: "Cubic.easeInOut", onComplete: () => {
 
 						sb.removeAttr("style");
@@ -235,7 +235,8 @@ class ViewState extends AppState {
 
 					TweenLite.set(sb, {x: 0});
 
-					TweenLite.to(sb, 1, { x: fx-10, ease: "Cubic.easeInOut", onComplete: () => {
+					TweenLite.to(sb, 0.6, {
+						x: fx - 10, ease: "Cubic.easeInOut", onComplete: () => {
 
 						sb.removeAttr("style");
 						statsReady = true;

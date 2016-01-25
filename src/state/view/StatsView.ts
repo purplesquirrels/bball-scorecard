@@ -40,13 +40,13 @@ class StatsView {
 
 				$(".stats-menu-item").removeClass("active");
 
-				//this.animateOff(() => {
+				this.animateOff(() => {
 					if (id === "season") {
 						this.setSeasonStatView();
 					} else {
 						this.setPlayerStatView(id, this.selectedView === "season" ? false : true);
 					}
-				//})
+				})
 
 				this.selectedView = id;
 			}
@@ -62,13 +62,29 @@ class StatsView {
 
 	animateOff = (callback:Function) => {
 		//TweenLite.to($(".stat-holder"), 1, { alpha: 0, onComplete: callback });
+
+		var counter = 0;
+		var total = $(".stat-holder").length;
+
+		$(".stat-holder").each((i, el) => {
+			TweenLite.to(el, 0.35, { delay: 0.1 + (Math.random() * 0.3), alpha: 0, onComplete:()=>{
+				counter++;
+				if (counter >= total) {
+					callback();
+				}
+			} });
+		});
 	}
 
 	animateOn = (callback?: Function) => {
 
-		//TweenLite.set($(".stat-holder"), { alpha: 0 });
+		TweenLite.set($(".stat-holder"), { alpha: 0 });
 
-		//TweenLite.to($(".stat-holder"), 1, { alpha: 1 });
+		$(".stat-holder").each((i ,el) => {
+			TweenLite.to(el, 1, { delay: 0.3 + (Math.random() * 0.3), alpha: 1 });
+		});
+
+		//TweenLite.to($(".stat-holder"), 1, { delay: 1, alpha: 1 });
 	}
 
 	setPlayerStatView = (playerid: string, update:boolean = false) => {
