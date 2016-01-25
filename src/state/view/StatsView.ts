@@ -193,7 +193,7 @@ class StatsView {
 			this.playerCharts = [];
 
 
-			console.log("new charts");
+			//console.log("new charts");
 
 
 			$(this.statsRoot).find(".stat-view").remove();
@@ -466,7 +466,6 @@ class StatsView {
 			}
 
 			if (complete === leaders.length) {
-				console.log('clearInterval');
 				clearInterval(inter);
 			}
 		}, 20)
