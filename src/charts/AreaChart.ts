@@ -13,6 +13,12 @@ interface AreaChartConfig {
 	colour?: string[]|string;
 }
 
+interface DataPoint {
+	x: number;
+	y: number;
+	id: string;
+}
+
 class AreaChart implements IChart {
 
 	margin: Rectangle;
@@ -51,7 +57,7 @@ class AreaChart implements IChart {
 		
 
 		this.dataGroup = d3.nest()
-			.key(function(d: {}): string {
+			.key(function(d: DataPoint): string {
 				return d.id;
 			})
 			.entries(config.data);
@@ -61,32 +67,32 @@ class AreaChart implements IChart {
 		
 
 		this.x = d3.scale.linear()
-			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: DataPoint) { return d.x })])
 			.range(this.invertX ? ([this.width, 0]) : ([0, this.width]));
 
 		this.x2 = d3.scale.linear()
-			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: DataPoint) { return d.x })])
 			.range([0, this.width]);
 
 		this.y = d3.scale.linear()
-			.domain([1, d3.max(config.data, function(d: {}) { return d.y })])
+			.domain([1, d3.max(config.data, function(d: DataPoint) { return d.y })])
 			.range(this.invertY ? ([0, this.height]) : ([this.height, 0]));
 
 		var lineFunc = d3.svg.line()
-			.x((d: {}) => {
+			.x((d: any) => {
 				return this.x(d.x);
 			})
-			.y((d: {}) => {
+			.y((d: any) => {
 				return this.y(d.y);
 			})
 			.interpolate(this.interpolation);
 
 		var area = d3.svg.area()
-			.x((d) => {
+			.x((d: any) => {
 				return this.x(d.x);
 			})
 			.y0(this.height)
-			.y1((d) => {
+			.y1((d: any) => {
 				return this.y(d.y);
 			})
 			.interpolate(this.interpolation);
@@ -136,7 +142,7 @@ class AreaChart implements IChart {
 		this.dataGroup.forEach((d, i) => {
 
 			var n = i;
-			var clr:string = typeof this.color == 'string' ? this.color : this.color[n];
+			var clr:string = typeof this.color == 'string' ? <string>this.color : this.color[n];
 			var rgb = d3.rgb(clr);
 			var rgba = "rgba(" + [rgb.r, rgb.g, rgb.b, 0].join(",") + ")";
 			var gradid = "fill-gradient" + Math.round(Math.random() * 100);

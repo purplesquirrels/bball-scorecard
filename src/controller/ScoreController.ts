@@ -7,7 +7,32 @@ interface ScoreData {
 	games: Object;
 	points: Object;
 	bonuses: Object;
+	badges: Badge[];
 	scores: any[];
+}
+
+interface Badge {
+	name: string;
+	multi: boolean;
+	count: number;
+	description: string;
+	condition?: BadgeCondition;
+}
+
+interface BadgeCondition {
+	when: string;
+	is: string;
+	value: any;
+}
+
+interface DayConditions {
+	temp: number;
+	windspd: number;
+	winddir: string;
+	cloud: string;
+	rain: string;
+	humidity: number;
+	airpressure: number;	
 }
 
 class ScoreController {
@@ -214,9 +239,9 @@ class ScoreController {
 		return players;
 	}
 
-	getDayConditions = (day: number = 0): Object => {
+	getDayConditions = (day: number = 0): DayConditions => {
 
-		if (this.model.scores.length === 0) return {};
+		if (this.model.scores.length === 0) return <DayConditions>{};
 
 		return this.model.scores[day].conditions;
 	}

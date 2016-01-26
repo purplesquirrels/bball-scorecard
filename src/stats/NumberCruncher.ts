@@ -3,6 +3,10 @@ interface HighScoreObject {
 	playerid: string[];
 }
 
+interface PlayerModeScore {
+	score: number;
+	occurrence: number;
+}
 class NumberCruncher {
 
 	static model: ScoreData;
@@ -144,7 +148,7 @@ class NumberCruncher {
 		return score;
 	}
 
-	static getPlayerModeScore(playerid: string): Object {
+	static getPlayerModeScore(playerid: string): PlayerModeScore {
 
 		var scores = {};
 		var i = 0;
@@ -186,6 +190,25 @@ class NumberCruncher {
 		}
 
 		return 0;
+	}
+
+	static getPlayerRankChanges(playerid: string): number[] {
+		var ranks: number[] = [];
+
+		for (var i = this.model.scores.length-1; i >= 0; i--) {
+			if (this.model.scores[i].values[playerid]) {
+
+				if (i < this.model.scores.length - 1) {
+					ranks.push(this.model.scores[i+1].values[playerid].rank - this.model.scores[i].values[playerid].rank);
+				} else {
+					ranks.push(0);
+				}
+			}
+
+		}
+
+		return ranks;
+
 	}
 
 	static getPlayerHighestScore(playerid: string): number {

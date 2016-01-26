@@ -19,6 +19,10 @@ interface JQuery {
 	mixItUp(options?: any): JQuery;
 }
 
+interface WindowLocalStorage {
+	setItem(name: string, value: string);
+	removeItem(name: string);
+}
 interface States {
 	view: ViewState;
 	newDay: NewDayState;
@@ -82,6 +86,7 @@ class App {
 		this.scoreController = new ScoreController(<ScoreData>data);
 
 		NumberCruncher.init(<ScoreData>data);
+		Badger.init(this.scoreController);
 		
 		this.root = <HTMLDivElement>document.querySelector(rootSelector);
 		this.scoreboardRoot = <HTMLDivElement>this.root.querySelector(".scoreboard");
@@ -237,7 +242,7 @@ class App {
 
 	private storageAvailable(type):boolean {
 		try {
-			var storage = window[type],
+			var storage: WindowLocalStorage = window[type],
 				x = '__storage_test__';
 			storage.setItem(x, x);
 			storage.removeItem(x);

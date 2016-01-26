@@ -1,5 +1,10 @@
+interface PieData {
+	value: number;
+	name: string;
+}
+
 interface PieChartConfig {
-	data: {}[];
+	data: any[];
 	//outerRadius: number;
 	innerRadius: number;
 	padAngle: number;
@@ -45,7 +50,7 @@ class PieChart implements IChart {
 			.range(['#F05B6F', '#FCAB5A']);
 
 		var pie = d3.layout.pie().padAngle(config.padAngle)
-		.value(function(d){
+		.value(function(d: any){
 			return d.value;
 		})
 
@@ -69,13 +74,13 @@ class PieChart implements IChart {
 			.append("g")
 			.attr("transform", "translate(" + ((this.width + this.margin.left + this.margin.right) / 2) + ", " + ((this.height + this.margin.top + this.margin.bottom) / 2) + ")")
 			.selectAll('path')
-			.data(pie(config.data)).enter().append('g').attr('class', 'slice');
+			.data(pie(<number[]>config.data)).enter().append('g').attr('class', 'slice');
 
 		var labelkey, labelval;
 
 		if (config.detailsOnHover) {
 
-			var sorted = config.data.sort(function(a, b) {
+			var sorted:PieData[] = <PieData[]>config.data.sort(function(a:PieData, b:PieData) {
 				if (a.value < b.value) return 1;
 				if (a.value > b.value) return -1;
 				return 0;
@@ -129,13 +134,13 @@ class PieChart implements IChart {
 				labelkey.text(d.data.name);
 				labelval.text(d.data.value);
 
-				d3.select(d3.event.target).attr("opacity", 0.5)
+				d3.select(d3.event['target']).attr("opacity", 0.5)
 			})
 			.on('mouseout', (d) => {
 
 				if (!config.detailsOnHover) return;
 
-				d3.select(d3.event.target).attr("opacity", 0)
+				d3.select(d3.event['target']).attr("opacity", 0)
 			})
 
 

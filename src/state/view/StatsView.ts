@@ -6,6 +6,13 @@
 /// <reference path="../../charts/BarChart" />
 /// <reference path="../../charts/AreaChart" />
 
+interface PlayerDataObject {
+	id: string;
+	name: string;
+	x: number;
+	y: number;
+}
+
 class StatsView {
 
 	statsRoot: HTMLDivElement;
@@ -91,6 +98,8 @@ class StatsView {
 
 		var _d = this.controller.getAsObject();
 		var dist = NumberCruncher.getPlayerDistance(playerid);
+		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
+		console.log(badges)
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
 			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
@@ -105,7 +114,10 @@ class StatsView {
 			modescore: NumberCruncher.getPlayerModeScore(playerid).score,
 			distance: dist > 1000 ? Math.round(dist / 10) / 100 : dist,
 			dist_unit: dist > 1000 ? "km" : "m",
-			s_shots: NumberCruncher.getPlayerTotalSuccessfullShots(playerid)
+			s_shots: NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
+
+			hasBadges: badges.length > 0,
+			badges: badges
 		};
 
 		var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
@@ -123,7 +135,7 @@ class StatsView {
 		];
 		
 
-		var seasonRank: {}[] = [];
+		var seasonRank: PlayerDataObject[] = [];
 
 		for (var j = 0; j < _d.players.length; j++) {
 
@@ -135,12 +147,12 @@ class StatsView {
 
 					if (!_d.scores[i].values[playerid]) continue;
 
-					var pt = {}
-
-					pt.id = playerid;
-					pt.name = _d.players[j].firstname;
-					pt.x = i;
-					pt.y = this.controller.getPlayerRank(playerid, i)//_d.scores[i].values[playerid].rank;
+					var pt: PlayerDataObject = {
+						id : playerid,
+						name : _d.players[j].firstname,
+						x : i,
+						y : this.controller.getPlayerRank(playerid, i)//_d.scores[i].values[playerid].rank;		
+					};
 
 					seasonRank.push(pt);
 				}
@@ -150,7 +162,7 @@ class StatsView {
 		}
 
 
-		var seasonScore: {}[] = [];
+		var seasonScore: PlayerDataObject[] = [];
 
 		for (var j = 0; j < _d.players.length; j++) {
 
@@ -162,7 +174,7 @@ class StatsView {
 
 					if (!_d.scores[i].values[playerid]) continue;
 
-					var pt = {}
+					var pt: PlayerDataObject = <PlayerDataObject>{}
 
 					pt.id = playerid;
 					pt.name = _d.players[j].firstname;
@@ -171,7 +183,7 @@ class StatsView {
 
 					seasonScore.push(pt);
 
-					pt = {}
+					pt = <PlayerDataObject>{};
 
 					pt.id = "temp";
 					pt.name = _d.players[j].firstname;
@@ -397,7 +409,7 @@ class StatsView {
 
 				if (!_d.scores[i].values[playerid]) continue;
 
-				var pt = {}
+				var pt: PlayerDataObject = <PlayerDataObject>{};
 
 				pt.id = playerid;
 				pt.name = _d.players[j].firstname;

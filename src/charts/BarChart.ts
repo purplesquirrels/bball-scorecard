@@ -74,7 +74,7 @@ class BarChart implements IChart {
 				return colors(i);
 			})
 			.attr('stroke', (d, i) => {
-				var rgb = d3.rgb(colors(i));
+				var rgb = d3.rgb("" + colors(i));
 				return "rgba(" + [rgb.r, rgb.g, rgb.b, 0.5].join(",") + ")";
 			})
 			.attr('stroke-width', 0)
@@ -85,10 +85,10 @@ class BarChart implements IChart {
 					.style("visibility", "visible");
 
 				tooltip.html(d[key])
-					.style("left", d3.event.pageX + "px")
-					.style("top", d3.event.pageY + "px")
+					.style("left", d3.event['pageX'] + "px")
+					.style("top", d3.event['pageY'] + "px")
 
-				d3.select(d3.event.target)
+				d3.select(d3.event['target'])
 					.attr('stroke-width', 8)
 			})
 			.on('mouseout', (d) => {
@@ -98,7 +98,7 @@ class BarChart implements IChart {
 					.style("opacity", 0)
 					.style("visibility", "hidden");
 
-				d3.select(d3.event.target)
+				d3.select(d3.event['target'])
 					.attr('stroke-width', 0)
 			})
 

@@ -297,12 +297,12 @@
 			<div class="stat-menu-item-label" data-id="season">Season</div>
 		</li>
 		{{#each players}}
-		<!--li class="stats-menu-item player-stats" data-id="{{this.id}}">
+		<li class="stats-menu-item player-stats" data-id="{{this.id}}">
 			<div class="stats-menu-icon menu-avatar">
 				<img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" width="100%"/>
 			</div>
 			<div class="stat-menu-item-label" data-id="{{this.id}}">{{this.firstname}}</div>
-		</li-->
+		</li>
 		{{/each}}
 	</ul>
 	<div class="season-stats-holder"></div>
@@ -389,7 +389,14 @@
 			<h3>Attendance</h3>
 		</div>
 		<div class="stat-holder left-2">
-			<h3>Consecutive days in 1st</h3>
+			<h3>Badges</h3>
+			{{#if hasBadges}}
+				{{#each badges}}
+					<div class="badge" title="{{this.description}}"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+				{{/each}}
+			{{else}}
+				<div>No badges yet.</div>
+			{{/if}}
 		</div>
 	</div>
 	<div class="col-3-4 season-stats-right">

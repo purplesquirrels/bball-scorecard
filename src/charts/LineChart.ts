@@ -22,7 +22,7 @@ class LineChart implements IChart {
 	invertX: boolean;
 	xaxis: string;
 	yaxis: string;
-	colors: d3.scale.Ordinal<string, string>;
+	colors: d3.scale.Linear<number, number>;
 	x: d3.scale.Linear<number, number>;
 	x2: d3.scale.Linear<number, number>;
 	y: d3.scale.Linear<number, number>;
@@ -46,7 +46,7 @@ class LineChart implements IChart {
 		//this.colors = d3.scale.category20c();
 
 		this.dataGroup = d3.nest()
-			.key(function(d: {}): string {
+			.key(function(d: DataPoint): string {
 				return d.id;
 			})
 			.entries(config.data);
@@ -55,24 +55,24 @@ class LineChart implements IChart {
 			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 
 		this.x = d3.scale.linear()
-			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: DataPoint) { return d.x })])
 			.range(this.invertX ? ([this.width, 0]) : ([0, this.width]));
 
 		this.x2 = d3.scale.linear()
-			.domain([0, d3.max(config.data, function(d: {}) { return d.x })])
+			.domain([0, d3.max(config.data, function(d: DataPoint) { return d.x })])
 			.range([0, this.width]);
 
 		this.y = d3.scale.linear()
-			.domain([1, d3.max(config.data, function(d: {}) { return d.y })])
+			.domain([1, d3.max(config.data, function(d: DataPoint) { return d.y })])
 			.range(this.invertY ? ([0, this.height]) : ([this.height, 0]));
 
 		var lineFunc = d3.svg.line()
-			.x((d: {}) => { return this.x(d.x) })
-			.y((d: {}) => { return this.y(d.y) })
+			.x((d: any) => { return this.x(d.x) })
+			.y((d: any) => { return this.y(d.y) })
 			.interpolate(this.interpolation);
 
 		var startlineFunc = d3.svg.line()
-			.x((d: {}) => { return this.x(d.x) })
+			.x((d: any) => { return this.x(d.x) })
 			.y(this.height)
 			.interpolate(this.interpolation);
 
@@ -153,10 +153,10 @@ class LineChart implements IChart {
 						.style("visibility", "visible");
 						
 					tooltip.html(this.dataGroup[n].values[0].name)
-						.style("left", d3.event.pageX  + "px")
-						.style("top", d3.event.pageY + "px")
+						.style("left", d3.event['pageX']  + "px")
+						.style("top", d3.event['pageY'] + "px")
 
-					d3.select(d3.event.target).attr("opacity", 1)
+					d3.select(d3.event['target']).attr("opacity", 1)
 				})
 				.on('mouseout', (d) => {
 
@@ -165,7 +165,7 @@ class LineChart implements IChart {
 						.style("opacity", 0)
 						.style("visibility", "hidden");
 
-					d3.select(d3.event.target).attr("opacity", 0)
+					d3.select(d3.event['target']).attr("opacity", 0)
 				})
 				//.attr('d', lineFunc(d.values))
 

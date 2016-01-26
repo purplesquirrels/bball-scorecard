@@ -920,8 +920,8 @@ declare module d3 {
         export function flush(): void;
     }
 
-	 interface BaseEvent {
-		 type: string;
+     interface BaseEvent {
+         type: string;
 		 sourceEvent?: Event;
 	 }
 
@@ -1491,6 +1491,7 @@ declare module d3 {
 
             range(): number[];
             range(numbers: number[]): Identity;
+            range(numbers: string[]): Identity;
 
             ticks(count?: number): number[];
 
@@ -1511,6 +1512,7 @@ declare module d3 {
             domain(numbers: number[]): Linear<Range, Output>;
 
             range(): Range[];
+            range(values: string[]): Linear<Range, Output>;
             range(values: Range[]): Linear<Range, Output>;
 
             rangeRound(values: number[]): Linear<number, number>;
