@@ -431,10 +431,13 @@ class ScoreController {
 			"numPlayers" : 0,
 			"conditions": {
                 "temp": 0,
+                "apptemp": 0,
                 "windspd": 0,
                 "winddir": "-",
                 "cloud": "-",
                 "rain": "-",
+                "humidity": 0,
+                "airpressure" : 0,
                 "manual": []
             },
 			"values" : {}
@@ -529,9 +532,10 @@ class ScoreController {
 		this.model.scores[day].conditions.manual = value;
 	}
 
-	setDayConditions = (temp: number, windspd: number, winddir: string, cloud: string, rain: string, humidity:number, airpressure:number, day: number = 0) => {
+	setDayConditions = (temp: number, windspd: number, winddir: string, cloud: string, rain: string, humidity:number, airpressure:number, apptemp:number, day: number = 0) => {
 
 		this.model.scores[day].conditions["temp"] = temp;
+		this.model.scores[day].conditions["apptemp"] = apptemp;
 		this.model.scores[day].conditions["windspd"] = windspd;
 		this.model.scores[day].conditions["winddir"] = winddir;
 		this.model.scores[day].conditions["cloud"] = cloud;
