@@ -1193,16 +1193,18 @@ table.editmode .switch label .lever {
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    opacity: 0;
 }
 
 .badge-count {
 	position: absolute;
-    font-size: 0.7em;
+    font-size: 0.9em;
     bottom: -0.3em;
     width: 2em;
     height: 2em;
     text-align: center;
+    font-weight: bold;
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
