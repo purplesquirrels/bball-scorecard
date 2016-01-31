@@ -70,6 +70,8 @@ class StatsView {
 	animateOff = (callback:Function) => {
 		//TweenLite.to($(".stat-holder"), 1, { alpha: 0, onComplete: callback });
 
+		$(".chartTip").remove();
+
 		var counter = 0;
 		var total = $(".stat-holder").length;
 
@@ -161,6 +163,7 @@ class StatsView {
 			}
 		}
 
+		//NumberCruncher.getPlayerRawScore()
 
 		var seasonScore: PlayerDataObject[] = [];
 
@@ -170,16 +173,22 @@ class StatsView {
 
 				if (_d.games[playerid] === 0 || _d.scores[0].values[playerid] === 0) continue;
 
+				//var scores = [];
+
 				for (var i = 0; i < _d.scores.length; i++) {
 
 					if (!_d.scores[i].values[playerid]) continue;
 
-					var pt: PlayerDataObject = <PlayerDataObject>{}
+					var pt: PlayerDataObject = <PlayerDataObject>{};
+
+					var dayraw = NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true);
+
+					//scores.push(dayraw);
 
 					pt.id = playerid;
 					pt.name = _d.players[j].firstname;
 					pt.x = i;
-					pt.y = (_d.scores[i].values[playerid].newtotal - _d.scores[i].values[playerid].lasttotal) * 2.5;
+					pt.y = dayraw * 3;//(_d.scores[i].values[playerid].newtotal - _d.scores[i].values[playerid].lasttotal) * 1.5;
 
 					seasonScore.push(pt);
 
@@ -188,10 +197,12 @@ class StatsView {
 					pt.id = "temp";
 					pt.name = _d.players[j].firstname;
 					pt.x = i;
-					pt.y = this.controller.getDayConditions(i).temp;
+					pt.y = this.controller.getDayConditions(i).temp / 3.5;
 
 					seasonScore.push(pt);
 				}
+
+				console.log(seasonScore);
 
 				break;
 			}

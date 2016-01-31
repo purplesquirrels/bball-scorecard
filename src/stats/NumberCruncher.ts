@@ -117,6 +117,37 @@ class NumberCruncher {
 		return Math.ceil(shots);
 	}
 
+	static getPlayerRawScoreOnDay(playerid: string, day:number = 0, bonuses: boolean = false): number {
+
+		var score = 0;
+
+		//for (var i = day; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[day].values[playerid] && this.model.scores[day].values[playerid].played === 1) {
+
+				for (var p in this.model.points) {
+					if (this.model.points.hasOwnProperty(p) &&
+						this.model.scores[day].values[playerid][p]) {
+
+						score += (this.model.points[p].value * this.model.scores[day].values[playerid][p]);
+					}
+				}
+
+				if (bonuses) {
+					for (var b in this.model.bonuses) {
+						if (this.model.bonuses.hasOwnProperty(b) &&
+							this.model.scores[day].values[playerid][b] && b != "late") {
+
+							score += this.model.bonuses[b].value * (this.model.scores[day].values[playerid][b]);
+						}
+					}
+				}
+			}
+		//}
+
+		return score;
+	}
+
 	static getPlayerRawScore(playerid: string, bonuses:boolean=false): number {
 
 		var score = 0;

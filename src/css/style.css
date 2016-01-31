@@ -842,7 +842,11 @@ table.editmode .switch label .lever {
 	width: 100%;
 	padding: 10px;
 	white-space: nowrap;
-	overflow: hidden;
+	overflow-y: hidden;
+	overflow-x: auto;
+
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .stats-menu-item {
@@ -1175,6 +1179,14 @@ table.editmode .switch label .lever {
 	text-transform: uppercase;
 	font-size: 13px;
 	margin: 0.8em 0;
+}
+
+.chart-legend-swatch {
+	display: inline-block;
+	vertical-align: middle;
+	width: 0.6em;
+	height: 0.6em;
+	margin: -0.15em 0.2em 0 0.4em;
 }
 
 .badge {
