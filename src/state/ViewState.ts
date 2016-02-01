@@ -4,15 +4,34 @@ class ViewState extends AppState {
 
 	editButton: HTMLButtonElement;
 	addButton: HTMLButtonElement;
+	statsShowing: boolean;
+
+	sortCommandLabelMap: Object;
 	
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
+
+		this.sortCommandLabelMap = {
+			"default"		: "Score",
+			"default:desc"	: "Score",
+			"default:asc"	: "Score",
+			"averagescore:desc"	: "Av points",
+			"averagescore:asc"	: "Av points",
+			"rawscore:desc"	: "Raw score",
+			"rawscore:asc"	: "Raw score",
+			"averagerawscore:desc"	: "Av raw score",
+			"averagerawscore:asc"	: "Av raw score",
+		}
 	}
 
 	render() {
 
 		var today = new Date();
 		var dayToDisplay = 0;//this.controller.getLastCompletedDay();
+
+		this.element.classList.add("view-state");
+
+		this.statsShowing = false;
 
 		//console.log('dayToDisplay', dayToDisplay);
 
@@ -86,6 +105,7 @@ class ViewState extends AppState {
 			}
 
 			context.rankings[i].firstname = this.controller.getPlayerName(playerid);
+			context.rankings[i].avatar = this.controller.getPlayerAvatar(playerid);
 			context.rankings[i].rankclass = rank;
 			context.rankings[i].totalgames = this.controller.getPlayerTotalGames(playerid);
 			context.rankings[i].averagescore = this.controller.getPlayerAverageScore(playerid);
@@ -93,10 +113,10 @@ class ViewState extends AppState {
 			context.rankings[i].rankdirection = "";
 
 			if (context.rankings[i].rankchange > 0) {
-				context.rankings[i].rankdirection = "up";
+				context.rankings[i].rankdirection = "up" + (context.rankings[i].rankchange >= 5 ? " large-up" : "");
 				context.rankings[i].rankchange = "+" + context.rankings[i].rankchange;
 			} else if (context.rankings[i].rankchange < 0) {
-				context.rankings[i].rankdirection = "down";
+				context.rankings[i].rankdirection = "down" + (context.rankings[i].rankchange <= -5 ? " large-down" : "");
 			}
 
 			context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04");
@@ -113,6 +133,124 @@ class ViewState extends AppState {
 		var html = template(context);
 
 		this.element.innerHTML = html;
+
+		/////////////////////////////////////////////////////////////////////////
+
+		$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
+		var _d = this.controller.getAsObject();
+		//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+		var seasonProg: PieChart = new PieChart('.daysleft-chart', {
+			//outerRadius: 30,
+			innerRadius: 36,
+			sortValues: false,
+			padAngle: 0,
+			data: [
+				{
+					name: "",
+					value: _d.scores.length,
+					colour: '#FFFFFF'
+				},
+				{
+					name: "",
+					value: this.controller.getDaysRemaining(),
+					colour: '#232935'
+				}
+			]
+		});
+
+		/////////////////////////////////////////////////////////////////////////
+
+		var chartsView: StatsView;
+		var statsReady = true;
+
+		if (localStorage.getItem('showstats') === 'true') {
+			$('.view-stats').addClass("active");
+			$(".scoreboard").addClass("pull-left");
+			chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
+			this.statsShowing = true;
+		} 
+
+		$('.view-stats').bind("click", (e: JQueryMouseEventObject) => {
+
+			e.preventDefault();
+
+			if (!statsReady) return;
+
+			statsReady = false;
+
+			var sb = $(".scoreboard");
+			var x = sb.offset().left;
+
+			if (!this.statsShowing) {
+
+				localStorage.setItem('showstats', 'true');
+
+				$(e.currentTarget).addClass("active");
+
+				sb.css({
+					"position" : "absolute",
+					"left" : x + "px"
+				});
+
+				TweenLite.set(sb, { x: 0 });
+
+				TweenLite.to(sb, 0.6, {
+					x: (x - 10) * -1, ease: "Cubic.easeInOut", onComplete: () => {
+
+						sb.removeAttr("style");
+
+						sb.addClass("pull-left");
+
+						$(this.app.statsRoot).css("opacity", 0);
+
+						chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
+
+						TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 1, ease: "Cubic.easeOut", onComplete: () => {
+							statsReady = true;
+						} });
+					}
+				});
+			} else {
+
+				localStorage.setItem('showstats', 'false');
+
+				$(e.currentTarget).removeClass("active");
+
+				sb.removeClass("pull-left");
+				var fx = sb.offset().left;
+				sb.addClass("pull-left");
+
+				TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 0, ease: "Cubic.easeOut", onComplete: () => {
+
+					sb.removeClass("pull-left");
+					sb.css({
+						"position": "absolute",
+						"left": "10px"
+					});
+
+					chartsView.deconstruct();
+					chartsView = null;
+
+					$(this.app.statsRoot).empty();
+
+					TweenLite.set(sb, {x: 0});
+
+					TweenLite.to(sb, 0.6, {
+						x: fx - 10, ease: "Cubic.easeInOut", onComplete: () => {
+
+						sb.removeAttr("style");
+						statsReady = true;
+
+					}});
+
+				} });
+				
+
+			}
+
+			this.statsShowing = !this.statsShowing;
+
+		});
 
 		$('.game-details').bind("click", (e:JQueryMouseEventObject) => {
 
@@ -186,6 +324,19 @@ class ViewState extends AppState {
 		$('#leaderboard').mixItUp({
 			layout: {
 				display: 'list-item'
+			},
+			callbacks: {
+				onMixStart: (state, futureState) => {
+					
+					var cmd = futureState.activeSort;
+					var d = cmd.split(":")[0];
+
+					$('.sortby-label').text(this.sortCommandLabelMap[cmd]);
+					$('.sortby-value').each((index, element) => {
+						$(element).text($(element).parents(".mix").data(d === "default" ? "score" : d));
+					});
+
+				}
 			}
 		});
 

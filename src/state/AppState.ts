@@ -9,9 +9,11 @@ class AppState {
 
 		this.controller = controller;
 		this.app = app;
-		this.root = app.root;
+		this.root = app.scoreboardRoot;
 
 		this.element = document.createElement("div");
+
+		this.element.classList.add("app-state");
 
 		this.root.appendChild(this.element);
 

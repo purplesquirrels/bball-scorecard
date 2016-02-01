@@ -1,8 +1,11 @@
 /// <reference path="typing/handlebars.d.ts" />
 /// <reference path="typing/jquery.d.ts" />
+/// <reference path="typing/gsap/TweenLite.d.ts" />
+/// <reference path="typing/d3.d.ts" />
 /// <reference path="state/ViewState" />
 /// <reference path="state/NewDayState" />
 /// <reference path="state/EditState" />
+/// <reference path="state/view/StatsView" />
 /// <reference path="modal/NewPlayer" />
 
 interface JQuery {
@@ -14,6 +17,11 @@ interface JQuery {
 	material_select(options?: any): JQuery;
 	tooltip(options?: any): JQuery;
 	mixItUp(options?: any): JQuery;
+}
+
+interface WindowLocalStorage {
+	setItem(name: string, value: string);
+	removeItem(name: string);
 }
 interface States {
 	view: ViewState;
@@ -27,11 +35,25 @@ class StateType {
 	static EDIT: string = "edit";
 }
 
+interface Rectangle {
+	top: number;
+	right: number;
+	bottom: number;
+	left: number;
+}
+
+interface IChart {
+	update(data: {}[]):void;
+}
+
 class App {
 
 	data: ScoreData;
 	scoreController: ScoreController;
 	root: HTMLDivElement;
+	scoreboardRoot: HTMLDivElement;
+	statsRoot: HTMLDivElement;
+	isStorageAvailable: boolean;
 
 	templates: Object;
 	buttonActions: Object;
@@ -41,6 +63,8 @@ class App {
 	states: States;
 
 	constructor(rootSelector: string = ".app") {
+
+		this.isStorageAvailable = this.storageAvailable("localStorage");
 
 		this.buttonActions = {
 			"state": (action: string) => {
@@ -62,8 +86,11 @@ class App {
 		this.scoreController = new ScoreController(<ScoreData>data);
 
 		NumberCruncher.init(<ScoreData>data);
+		Badger.init(this.scoreController);
 		
 		this.root = <HTMLDivElement>document.querySelector(rootSelector);
+		this.scoreboardRoot = <HTMLDivElement>this.root.querySelector(".scoreboard");
+		this.statsRoot = <HTMLDivElement>this.root.querySelector(".stats");
 
 		this.templates = {};
 
@@ -122,7 +149,7 @@ class App {
 			});
 
 			header.innerHTML = headerhtml;
-			this.root.appendChild(header);
+			this.scoreboardRoot.appendChild(header);
 
 			$('.header-settings').dropdown({
 				inDuration: 300,
@@ -136,7 +163,7 @@ class App {
 
 			$("#settings-dropdown").on("click", "a", this.onSettingsItem);
 
-			this.root.appendChild(header);
+			this.scoreboardRoot.appendChild(header);
 
 			
 			var authSource = this.templates["modal-app-auth"];
@@ -181,6 +208,12 @@ class App {
 		this.states.view = new ViewState(this.scoreController, this);
 
 		this.setState(StateType.VIEW);
+
+		/*if (isEditable !== "1") {
+			var chartsView: StatsView = new StatsView(this.statsRoot, this.scoreController, this);
+		}*/
+
+
 	}
 
 	onSettingsItem = (e:MouseEvent) => {
@@ -205,6 +238,19 @@ class App {
 
 		this.states[state].render();
 		this.states[state].element.style.display = "block";
+	}
+
+	private storageAvailable(type):boolean {
+		try {
+			var storage: WindowLocalStorage = window[type],
+				x = '__storage_test__';
+			storage.setItem(x, x);
+			storage.removeItem(x);
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
 	}
 
 	private getQueryParamByName(name) {

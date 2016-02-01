@@ -30,19 +30,28 @@
 </head>
 <body>
 
-<div class="app card-panel">
-	<div class="progress initital-preloader" style="width: 50%;left:25%;margin-top:50%">
-		<div class="indeterminate"></div>
+<div class="app">
+	<div class="scoreboard app-panel">
+		<div class="initital-preloader" style="padding-top:50%"> 
+			<div class="progress" style="width: 50%;left:25%">
+				<div class="indeterminate"></div>
+			</div>
+		</div>
 	</div>
+	<div class="stats app-panel"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/plugins/CSSPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenLite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/easing/EasePack.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/2.1.11/jquery.mixitup.min.js"></script>
 <script src="app.js"></script>
 <script>
 	window.app = new App(".app");
 </script>
-</body
+</body>
 </html>

@@ -31,12 +31,20 @@
 	$cond = json_decode(fread($fh, filesize($file)));
 	fclose($fh);
 
+	// BADGES
+	$file = '../data/badges.json';
+
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$badge = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
+
 
  	// COMBINE ALL
 	$season->players = $players->players;
 	$season->points = $points->points;
 	$season->bonuses = $points->bonuses;
 	$season->conditions = $cond->conditions;
+	$season->badges = $badge->badges;
 
 	echo json_encode($season);
 

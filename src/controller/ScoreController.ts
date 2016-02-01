@@ -7,7 +7,32 @@ interface ScoreData {
 	games: Object;
 	points: Object;
 	bonuses: Object;
+	badges: Badge[];
 	scores: any[];
+}
+
+interface Badge {
+	name: string;
+	multi: boolean;
+	count: number;
+	description: string;
+	condition?: BadgeCondition;
+}
+
+interface BadgeCondition {
+	when: string;
+	is: string;
+	value: any;
+}
+
+interface DayConditions {
+	temp: number;
+	windspd: number;
+	winddir: string;
+	cloud: string;
+	rain: string;
+	humidity: number;
+	airpressure: number;	
 }
 
 class ScoreController {
@@ -115,6 +140,27 @@ class ScoreController {
 		return this.model.scores[day].numPlayers;
 	}
 
+	getAllActivePlayers = ():any[] => {
+		var players = [];
+
+		for (var i = 0; i < this.model.players.length; ++i) {
+
+			if (this.model.games[this.model.players[i].id] > 0 &&
+				this.getPlayerLastTotalScore(this.model.players[i].id) > 0) {
+				players.push(this.model.players[i]);
+			}
+
+		}
+
+		players.sort(function(a, b) {
+			if (a.firstname > b.firstname) return 1;
+			if (a.firstname < b.firstname) return -1;
+			return 0;
+		});
+
+		return players;
+	}
+
 
 	getGamePlayers = (day: number = 0): any[] => {
 
@@ -193,9 +239,9 @@ class ScoreController {
 		return players;
 	}
 
-	getDayConditions = (day: number = 0): Object => {
+	getDayConditions = (day: number = 0): DayConditions => {
 
-		if (this.model.scores.length === 0) return {};
+		if (this.model.scores.length === 0) return <DayConditions>{};
 
 		return this.model.scores[day].conditions;
 	}
@@ -308,6 +354,19 @@ class ScoreController {
 		return "Player " + playerid + " not found.";
 	}
 
+	getPlayerAvatar = (playerid: string): string => {
+
+		for (var i = 0; i < this.model.players.length; ++i) {
+
+			if (this.model.players[i].id === playerid) {
+				return this.model.players[i].avatar || "anon.jpg";
+			}
+
+		}
+
+		return "anon.jpg";
+	}
+
 	getPlayerIsPlaying = (playerid: string, day: number = 0): boolean => {
 
 		if (this.model.scores.length === 0) return false;
@@ -320,8 +379,9 @@ class ScoreController {
 
 	}
 
-	getPlayerRank = (playerid: string): number => {
-		var ranks = this.getPlayerRankings();
+	getPlayerRank = (playerid: string, day:number=0): number => {
+
+		var ranks = this.getPlayerRankings(day);
 
 		for (var i = 0; i < ranks.length; ++i) {
 			if (ranks[i].id === playerid) {
@@ -335,8 +395,9 @@ class ScoreController {
 		return ranks[ranks.length - 1].rank + 1;
 	}
 
-	getPlayerMultiplier = (playerid: string): number => {
-		var ranks = this.getPlayerRankings();
+	getPlayerMultiplier = (playerid: string, day: number = 0): number => {
+
+		var ranks = this.getPlayerRankings(day);
 
 		for (var i = 0; i < ranks.length; ++i) {
 			if (ranks[i].id === playerid) {
@@ -354,7 +415,11 @@ class ScoreController {
 		var order:any[] = [];
 
 		for (var i = 0; i < this.getNumPlayers(); ++i) {
-			order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerLastTotalScore(this.getPlayedIDAtIndex(i)) })
+			if (day === 0) {
+				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerLastTotalScore(this.getPlayedIDAtIndex(i)) })
+			} else {
+				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerTotalScoreOnDay(this.getPlayedIDAtIndex(i), day) })
+			}
 		}
 	
 		order = this.ranker.rank(order, "score");
@@ -372,6 +437,18 @@ class ScoreController {
 				return this.model.scores[i].values[playerid].newtotal;
 			}
 
+		}
+
+		return 0;
+
+	}
+
+	getPlayerTotalScoreOnDay = (playerid: string, day:number = 0): number => {
+
+		if (this.model.scores.length === 0) return 0;
+
+		if (this.model.scores[day].values[playerid]) {
+			return this.model.scores[day].values[playerid].newtotal;
 		}
 
 		return 0;
