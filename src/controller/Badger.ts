@@ -22,7 +22,6 @@ class Badger {
 			}
 		}
 
-
 		return badges;
 	}
 
@@ -34,8 +33,6 @@ class Badger {
 
 		if (badge.multi) {
 
-			console.log('multi')
-
 			when = badge.condition.when;
 
 			switch (when) {
@@ -43,8 +40,6 @@ class Badger {
 
 					var ranks = NumberCruncher.getPlayerRankChanges(playerid);
 					var count = 0;
-
-					console.log(ranks);
 
 					for (var i = 0; i < ranks.length; ++i) {
 						if (this.checkCondition(ranks[i], is, value)) {

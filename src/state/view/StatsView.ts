@@ -101,7 +101,7 @@ class StatsView {
 		var _d = this.controller.getAsObject();
 		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
-		console.log(badges)
+		
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
 			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
@@ -202,8 +202,6 @@ class StatsView {
 					seasonScore.push(pt);
 				}
 
-				console.log(seasonScore);
-
 				break;
 			}
 		}
@@ -231,10 +229,6 @@ class StatsView {
 
 			this.playerCharts = [];
 
-
-			//console.log("new charts");
-
-
 			$(this.statsRoot).find(".stat-view").remove();
 
 			var statsource = this.app.templates["stats-panel-player-stats"];
@@ -243,8 +237,6 @@ class StatsView {
 			var stathtml = stattemplate(statscontext);
 
 			$(this.statsRoot).find(".season-stats-holder").append(stathtml);
-
-			
 
 			$(".left-1").prepend('<svg class="chart playerAtt"></svg>');
 
@@ -257,9 +249,6 @@ class StatsView {
 			});
 
 			this.playerCharts.push(seasonProg);
-
-
-
 
 			$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
 			var c1: AreaChart = new AreaChart(".seasonRank", {
