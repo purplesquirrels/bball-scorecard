@@ -2,7 +2,20 @@ var gulp = require('gulp');
 var del = require('del');
 var gulpCopy = require('gulp-copy');
 var replace = require('gulp-replace-task');
+var cssmin = require('gulp-cssmin');
+var jsmin = require('gulp-jsmin');
 
+gulp.task('minifycss', function () {
+	return gulp.src('src/css/*.css')
+		.pipe(cssmin())
+		.pipe(gulp.dest('build/css'));
+});
+
+gulp.task('minifyjs', function () {
+	return gulp.src('src/*.js')
+		.pipe(jsmin())
+		.pipe(gulp.dest('build'));
+});
 
 gulp.task('clean', function () {
 	return del([
@@ -28,17 +41,17 @@ gulp.task('buildindex', function () {
 	.pipe(gulp.dest('build'));
 });
 
-gulp.task('copy', ['clean', 'buildindex'], function () {
+gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs'], function () {
 	var files = [
 		"auth/**/*",
 		"templates/**/*",
 		"images/**/*",
 		"banners/**/*",
-		"css/**/*",
+		//"css/**/*",
 		"php/**/*",
 		"favicon/**/*",
 		//"index.html",
-		"app.js",
+		//"app.js",
 		"favicon.ico"
 	];
 
