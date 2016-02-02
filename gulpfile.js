@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var del = require('del');
 var gulpCopy = require('gulp-copy');
+var replace = require('gulp-replace-task');
 
 
 gulp.task('clean', function () {
@@ -12,7 +13,22 @@ gulp.task('clean', function () {
 	]);
 });
 
-gulp.task('copy', ['clean'], function () {
+
+gulp.task('buildindex', function () {
+	
+	return gulp.src('src/index.html')
+	.pipe(replace({
+		patterns: [
+			{
+				match: 'nocache',
+				replacement: new Date().getTime()
+			}
+		]
+	}))
+	.pipe(gulp.dest('build'));
+});
+
+gulp.task('copy', ['clean', 'buildindex'], function () {
 	var files = [
 		"auth/**/*",
 		"templates/**/*",
@@ -21,7 +37,7 @@ gulp.task('copy', ['clean'], function () {
 		"css/**/*",
 		"php/**/*",
 		"favicon/**/*",
-		"index.html",
+		//"index.html",
 		"app.js",
 		"favicon.ico"
 	];
