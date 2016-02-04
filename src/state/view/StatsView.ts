@@ -101,7 +101,7 @@ class StatsView {
 		var _d = this.controller.getAsObject();
 		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
-		
+
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
 			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
