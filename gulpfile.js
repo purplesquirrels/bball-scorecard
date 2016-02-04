@@ -47,11 +47,9 @@ gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs'], function () 
 		"templates/**/*",
 		"images/**/*",
 		"banners/**/*",
-		//"css/**/*",
+		"external/**/*",
 		"php/**/*",
 		"favicon/**/*",
-		//"index.html",
-		//"app.js",
 		"favicon.ico"
 	];
 
