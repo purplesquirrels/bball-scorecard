@@ -14,16 +14,13 @@ interface ScoreData {
 interface Badge {
 	name: string;
 	multi: boolean;
+	manual: boolean;
+	image: string;
 	count: number;
 	description: string;
-	condition?: BadgeCondition;
+	condition?: string;
 }
 
-interface BadgeCondition {
-	when: string;
-	is: string;
-	value: any;
-}
 
 interface DayConditions {
 	temp: number;
@@ -367,6 +364,15 @@ class ScoreController {
 		return "anon.jpg";
 	}
 
+	getPlayerIsLate = (playerid: string, day: number = 0): boolean => {
+
+		if (typeof this.model.games[playerid] == "undefined") {
+			return false;
+		}
+
+		return this.model.scores[day].values[playerid].late === 1;
+	}
+
 	getPlayerIsPlaying = (playerid: string, day: number = 0): boolean => {
 
 		if (this.model.scores.length === 0) return false;
@@ -437,6 +443,18 @@ class ScoreController {
 				return this.model.scores[i].values[playerid].newtotal;
 			}
 
+		}
+
+		return 0;
+
+	}
+
+	getPlayerScoreForDay = (playerid: string, day: number = 0): number => {
+
+		if (this.model.scores.length === 0) return 0;
+
+		if (this.model.scores[day].values[playerid]) {
+			return this.model.scores[day].values[playerid].newtotal - this.model.scores[day].values[playerid].lasttotal;
 		}
 
 		return 0;
