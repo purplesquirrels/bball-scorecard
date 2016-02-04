@@ -1,3 +1,5 @@
+///<reference path="../utils/CEEBz.ts" />
+
 class Badger {
 	
 	private static badges: Badge[];
@@ -15,6 +17,9 @@ class Badger {
 		var badges: Badge[] = [];
 
 		for (var i = 0; i < this.badges.length; ++i) {
+
+			if (!this.badges[i].condition) continue;
+
 			var n = this.playerHasBadge(playerid, this.badges[i]);
 			if (n > 0) {
 				this.badges[i].count = n;
@@ -27,67 +32,43 @@ class Badger {
 
 	static playerHasBadge(playerid:string, badge:Badge): number {
 
-		var when: string;// = this.getValueOfWhen(badge.condition.when, playerid);
-		var is: string = badge.condition.is;
-		var value: string = badge.condition.value;
+		var totalGames = this.controller.getTotalGamesPlayed();
+		var played = this.controller.getPlayerTotalGames(playerid);
+		var context = {
+			/* static data for player */
+			"score" : this.controller.getPlayerLastTotalScore(playerid),
+			"gamesplayed": played,
+			"totalgames": totalGames,
+			"attendance": Math.floor(played / totalGames * 100),
+			"latecount": NumberCruncher.getPlayLateStarts(playerid),
+			
+			/* variable data per game */
+			"rankchange" : 0,
+			"late" : false,
+			"gamescore" : 0
+		}
 
 		if (badge.multi) {
 
-			when = badge.condition.when;
+			var rankChanges = NumberCruncher.getPlayerRankChanges(playerid);
+			var count = 0;
 
-			switch (when) {
-				case "rankchange":
+			for (var i = 0; i < totalGames; ++i) {
+				
+				context.rankchange = rankChanges[i] || 0;
+				context.late = this.controller.getPlayerIsLate(playerid, i) || false;
+				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i) || 0;
 
-					var ranks = NumberCruncher.getPlayerRankChanges(playerid);
-					var count = 0;
+				if (CEEBz.parse(badge.condition, context)) count++;
 
-					for (var i = 0; i < ranks.length; ++i) {
-						if (this.checkCondition(ranks[i], is, value)) {
-							count++;
-						}
-					}
-					return count;
-				default: return 0;
 			}
 
+			return count;
+
 		} else {
-
-			when = this.getValueOfWhen(badge.condition.when, playerid);
-		
-			var result = this.checkCondition(when, is, value);
-
-			return result ? 1 : 0;
+			
+			return CEEBz.parse(badge.condition, context) ? 1 : 0;
 		}
-	}
-
-	private static getValueOfWhen(prop:string, playerid:string):any {
-
-		switch (prop) {
-			case "score": return this.controller.getPlayerLastTotalScore(playerid);
-		}
-
-		return 0;
-
-	}
-
-	private static checkCondition(val1:any, comparitor:string, val2:any):boolean {
-
-		switch (comparitor) {
-			case "==":
-				return val1 == val2;
-			case "!=":
-				return val1 != val2;
-			case ">=":
-				return val1 >= val2;
-			case "<=":
-				return val1 <= val2;
-			case ">":
-				return val1 > val2;
-			case "<":
-				return val1 < val2;
-		}
-
-		return false;
 	}
 
 }
