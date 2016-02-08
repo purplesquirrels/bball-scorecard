@@ -170,7 +170,9 @@
 			</thead>
 			<tbody>
 			{{#each players}}
+				{{#if this.active}}
 				{{> newdayItem }}
+				{{/if}}
 			{{/each}}
 			</tbody>
 		</table>
@@ -178,7 +180,7 @@
 </script>
 
 <script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
-	<tr class='player-row'>
+	<tr class='player-row{{#if this.played}} isPlaying{{/if}}'>
 		<td><div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div></td>
 		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
