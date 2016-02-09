@@ -113,15 +113,15 @@ class NewDayState extends AppState {
 
 				this.controller.restoreState();
 
-				this.send().done((data) => {
-					//console.log("Success cancel update");
+				this.send(this.controller.getJSONString(), "update/all").done((data) => {
+					console.log("Success cancel update");
 					//console.log(data);
 				})
 				.fail((data) => {
-					//console.log("Error cancel update", data);
+					console.log("Error cancel update", data);
 				})
 				.always((data) => {
-					//console.log("Finished cancel update");
+					console.log("Finished cancel update");
 				
 					this.app.setState(StateType.VIEW);
 				});
@@ -133,7 +133,7 @@ class NewDayState extends AppState {
 			if (confirm(Config.MSG_FINISHGAME)) {
 				this.controller.setDayComplete(0);
 
-				this.saveChanges(() => {
+				this.saveChanges(true, () => {
 					this.app.setState(StateType.VIEW);
 				});
 			}
@@ -143,7 +143,7 @@ class NewDayState extends AppState {
 
 		$('select').material_select();
 
-		this.saveChanges();
+		this.saveChanges(true);
 	}
 
 	onInputChange = (e:any) => {
@@ -198,10 +198,10 @@ class NewDayState extends AppState {
 				break;
 		}
 
-		this.saveChanges();
+		this.saveChanges(false);
 	}
 
-	saveChanges = (callback?:Function) => {
+	saveChanges = (create:boolean = false, callback?:Function) => {
 
 		var numPlayers = 0;
 
@@ -222,12 +222,25 @@ class NewDayState extends AppState {
 
 		this.controller.updatePlayerRankings();
 
-		this.send().done((data) => {
+		var data;
+		var command = "";
+
+		if (create) {
+			data = this.controller.getJSONString();
+			command = "update/all";
+		} else {
+			data = this.controller.getDayJSONString(0);
+			command = "update/day/0";
+		}
+
+		this.send(data, command).done((data) => {
 			// Success live update
+			//console.log("Succes saving live update: ", data);
+			
 		})
 		.fail((data) => {
 			// Error live update
-			console.log("Error saving live update: ", data);
+			//console.log("Error saving live update: ", data);
 		})
 		.always((data) => {
 			// Finished live update
@@ -238,11 +251,12 @@ class NewDayState extends AppState {
 		});
 	}
 
-	send = ():JQueryXHR => {
+	send = (data:any, command:string):JQueryXHR => {
 
-		return $.post(Config.PUT_PATH, {
+		return $.post(Config.API_PATH, {
 			auth: Config.SERVER_KEY,
-			data: this.controller.getJSONString()
+			data: data,
+			command: command
 		});
 	}
 	

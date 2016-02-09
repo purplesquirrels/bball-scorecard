@@ -102,6 +102,11 @@ class ScoreController {
 		return JSON.stringify(this.model); // compressed
 	}
 
+	getDayJSONString = (day:number=0): string => {
+		//return JSON.stringify(this.model, null, 4); // nice formatting
+		return JSON.stringify(this.model.scores[day]); // compressed
+	}
+
 	getSeasonDateString = (): string => {
 
 		return DateUtil.getSeasonDateString(this.model.season);
@@ -301,6 +306,7 @@ class ScoreController {
 
 			result.push({
 				id: this.model.players[i].id,
+				active: this.model.players[i].active,
 				firstname: this.model.players[i].firstname,
 				played: this.model.scores[day].values[this.model.players[i].id].played,
 				late: this.model.scores[day].values[this.model.players[i].id].late

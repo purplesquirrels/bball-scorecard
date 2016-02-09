@@ -1,5 +1,7 @@
 class EditState extends AppState {
 
+	playersLocked: boolean;
+
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
 	}
@@ -7,6 +9,8 @@ class EditState extends AppState {
 	render() {
 
 		$(".app-header").addClass("hidden");
+
+		this.playersLocked = false;
 
 		this.element.classList.add("edit-state");
 
@@ -62,6 +66,27 @@ class EditState extends AppState {
 
 		});*/
 
+		$(".lock-players").bind("click", (e) => {
+
+			var btn = $(e.currentTarget);
+
+			if (this.playersLocked) {
+				$(".player-row:not(.isPlaying)").removeClass("hide-row");
+
+				btn.find('.material-icons').text('lock_open');
+				btn.find('span').text('Only show playing');
+			} else {
+
+				$(".player-row:not(.isPlaying)").addClass("hide-row");
+
+				btn.find('.material-icons').text('lock');
+				btn.find('span').text('Show all players');
+			}
+
+			this.playersLocked = !this.playersLocked;
+
+		});
+
 		$(".cancel-newday").bind("click", (e) => {
 
 			$(".app-header").removeClass("hidden");
@@ -100,6 +125,7 @@ class EditState extends AppState {
 
 			this.controller.setDayNumPlayers(numPlayers);
 			this.controller.setDayManualConditions(cond);
+			this.controller.setDayComplete(0); // ensures day is complete if app unexpectedly quit during new day
 
 			this.controller.updatePlayerRankings();
 
@@ -153,6 +179,8 @@ class EditState extends AppState {
 				}
 				if (pointtype === "playing") {
 					// enable/disable player controls
+
+					currentTarget.parents(".player-row")[checked ? "addClass" : "removeClass"]("isPlaying");
 
 					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
 					
