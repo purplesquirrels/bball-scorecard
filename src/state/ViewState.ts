@@ -305,13 +305,13 @@ class ViewState extends AppState {
 
 		});
 
+		$(".game-in-progress").remove(); // remove pre-exisitng message if there was one
+
 		if (context.inProgress) {
 			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["game-in-progress-message"]);
 			var html = template({
 				messageStyle: "positive"
 			});
-
-			$(".game-in-progress").remove(); // remove pre-exisitng message if there was one
 
 			$("body").prepend(html);
 
