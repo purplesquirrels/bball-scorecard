@@ -8,10 +8,12 @@ interface ScoreData {
 	points: Object;
 	bonuses: Object;
 	badges: Badge[];
+	playerBadges: Object;
 	scores: any[];
 }
 
 interface Badge {
+	id: string;
 	name: string;
 	multi: boolean;
 	manual: boolean;
@@ -455,6 +457,17 @@ class ScoreController {
 
 	}
 
+	getPlayerResultsForDay = (playerid: string, day: number = 0): Object => {
+		if (this.model.scores.length === 0) return null;
+
+		if (this.model.scores[day].values[playerid]) {
+			return this.model.scores[day].values[playerid];
+		}
+
+		return null;
+
+	}
+
 	getPlayerScoreForDay = (playerid: string, day: number = 0): number => {
 
 		if (this.model.scores.length === 0) return 0;
@@ -575,6 +588,7 @@ class ScoreController {
 			"late": 0,
 			"rank": 0,
 			"multiplier": 1,
+			"manualbadges" : [],
 			"lasttotal":this.model.scores.length > 0 &&
 						this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
 			"newtotal":	this.model.scores.length > 0 &&
@@ -717,6 +731,24 @@ class ScoreController {
 			this.model.scores[day].values[rankings[i].id].rank = rankings[i].rank;
 		}
 	}
+
+	addPlayerManualBadge = (playerid: string, badgeid: string, day: number = 0) => {
+
+		if (!this.model.scores[day].values[playerid]) {
+			return;
+		}
+
+		/*if (!this.model.playerBadges[playerid]) {
+			this.model.playerBadges[playerid] = {
+				"manual": []
+			}
+		}
+		*/
+		//this.model.playerBadges[playerid].manual.push(badgeid);
+
+		this.model.scores[day].values[playerid].manualbadges.push(badgeid);
+	}
+
 
 	setPlayerPoint = (playerid:string, pointtype:string, value:number, day:number = 0): number => {
 

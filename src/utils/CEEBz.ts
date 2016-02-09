@@ -58,7 +58,9 @@ class CEEBz {
 
 		this._context = context;
 
-		return this.evaluate(window.jsep(str));
+		var p = window.jsep(str);
+
+		return this.evaluate(p);
 	}
 
 	private static evaluate(obj:any) {

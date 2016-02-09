@@ -71,13 +71,13 @@ function updateData($parts) {
 			unset($data->points);
 			unset($data->bonuses);
 			unset($data->conditions);
+			unset($data->badges);
 
 			$file = '../data/players.json';
 
 			$fh = fopen($file, 'w') or die("Error: Can't open file.");
 			fwrite($fh, json_encode($players));
 			fclose($fh);
-
 
 			$file = '../data/data.json';
 			

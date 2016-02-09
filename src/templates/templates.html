@@ -153,11 +153,13 @@
 					<th></th>
 					<th></th>
 					<th></th>
-					<th colspan="4" class="bonus">Bonus</th>
+					<th></th>
+					<th colspan="3" class="bonus">Bonus</th>
 				</tr>
 				<tr class="mainhead">
 					<th width='10%'>Player</th>
 					<th width='10%'>L8</th>
+					<th width='8%'>B</th>
 					<th width='8%'>KY</th>
 					<th width='8%'>3P</th>
 					<th width='8%'>F3</th>
@@ -183,6 +185,7 @@
 	<tr class='player-row{{#if this.played}} isPlaying{{/if}}'>
 		<td><div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div></td>
 		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
+		<td><a href="#" {{isPlayingEnable this.played}} class='bb-button bb-purple point-button add-badge' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'>B</a></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03"></td>
@@ -467,3 +470,13 @@
 	</div>
 </div>
 </script>
+<script id="badges-selector" type="text/x-handlebars-template">
+<div class="badges-selector-wrapper">
+	<div class="badges-selector">
+		{{#each badges}}
+			<div class="badge new-badge" data-id="{{this.id}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span></div>
+		{{/each}}
+	</div>
+</div>
+</script>
+

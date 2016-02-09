@@ -26,6 +26,7 @@ if(isset($_POST['auth'])) {
 		unset($data->points);
 		unset($data->bonuses);
 		unset($data->conditions);
+		unset($data->badges);
 
 		// points and conditions can't be changed by Admin yet
 		/*$file = '../data/points.json';

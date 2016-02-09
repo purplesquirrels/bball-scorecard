@@ -140,6 +140,37 @@ class NewDayState extends AppState {
 
 		});
 
+		$(".add-badge").bind("click", (e) => {
+			//badges-selector
+
+			var playerid:string = $(e.currentTarget).attr("data-for");
+
+			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["badges-selector"]);
+			var html = template({
+				badges: Badger.getManualBadges()
+			});
+
+			$("body").append(html);
+
+			$(".badges-selector-wrapper").bind("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				$(".badges-selector-wrapper").remove();
+			});
+
+			$(".new-badge").bind("click", (e) => {
+
+				var badge:Badge = Badger.getBadgeByID($(e.currentTarget).attr("data-id"));
+
+				this.controller.addPlayerManualBadge(playerid, badge.id);
+
+				//console.log("add badge", $(e.currentTarget).attr("data-id"));
+
+
+				
+			})
+		})
+
 
 		$('select').material_select();
 

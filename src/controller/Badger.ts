@@ -3,12 +3,14 @@
 class Badger {
 	
 	private static badges: Badge[];
+	private static playerBadges: Object;
 	private static controller: ScoreController;
 
 	static init(controller:ScoreController) {
 
 		var d = <ScoreData>controller.getAsObject();
 		this.badges = d.badges;
+		this.playerBadges = d.playerBadges;
 		this.controller = controller;
 	}
 
@@ -18,13 +20,35 @@ class Badger {
 
 		for (var i = 0; i < this.badges.length; ++i) {
 
-			if (!this.badges[i].condition) continue;
-
 			var n = this.playerHasBadge(playerid, this.badges[i]);
 			if (n > 0) {
 				this.badges[i].count = n;
 				badges.push(this.badges[i]);
 			}
+		}
+
+		return badges;
+	}
+
+	static getBadgeByID(badgeid:string): Badge {
+
+		for (var i = 0; i < this.badges.length; ++i) {
+
+			if (this.badges[i].id = badgeid) return this.badges[i];
+
+		}
+
+		return null;
+	}
+
+	static getManualBadges(): Badge[] {
+		var badges: Badge[] = [];
+
+		for (var i = 0; i < this.badges.length; ++i) {
+
+			if (this.badges[i].condition) continue;
+
+			badges.push(this.badges[i]);
 		}
 
 		return badges;
@@ -46,6 +70,31 @@ class Badger {
 			"rankchange" : 0,
 			"late" : false,
 			"gamescore" : 0
+		}
+
+		if (!badge.condition) {
+
+			var count = 0;
+
+			for (var i = 0; i < totalGames; ++i) {
+
+				var r = this.controller.getPlayerResultsForDay(playerid, i);
+
+				if (r && r["manualbadges"]) {
+
+					for (var j = 0; j < r["manualbadges"].length; ++j) {
+
+						var b: Badge = this.getBadgeByID(r["manualbadges"][j]);
+
+						if (b.id == badge.id) {
+							count++;
+						}
+					}
+				}
+
+			}
+
+			return count;
 		}
 
 		if (badge.multi) {
