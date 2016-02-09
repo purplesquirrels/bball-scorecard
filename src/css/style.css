@@ -81,6 +81,7 @@ html, body {
 	float: left;
 }
 
+.edit-state,
 .newday-state {
 	color: #e2e2e2;
 	padding: 10px;
@@ -395,6 +396,10 @@ table.editmode [type="checkbox"]+label {
 	padding-left: 20px;
 }
 
+table.editmode [type="checkbox"]+label:before {
+    border: 2px solid #FFFFFF;
+}
+
 table.editmode .switch {
 	margin-bottom: 13px;
 }
@@ -411,20 +416,20 @@ th.bonus {
 	padding: 5px 0;
 	font-weight: 400;
 }
-
+/*
 table.editmode th:nth-last-of-type(1),
 table.editmode th:nth-last-of-type(2),
 table.editmode th:nth-last-of-type(3) {
 	text-align: center;
-	color: #26A69A;
-}
+	color: #FFF;
+}*/
 table.editmode td:nth-last-of-type(1),
 table.editmode td:nth-last-of-type(2),
 table.editmode td:nth-last-of-type(3),
 table.editmode .mainhead th:nth-last-of-type(1),
 table.editmode .mainhead th:nth-last-of-type(2),
 table.editmode .mainhead th:nth-last-of-type(3) {
-	background-color: rgba(38, 166, 154, 0.1);
+	background-color: rgba(38, 166, 154, 0.4);
 }
 /*table.editmode .mainhead th:nth-last-of-type(3),
 table.editmode td:nth-last-of-type(3) {
