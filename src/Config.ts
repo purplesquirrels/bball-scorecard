@@ -1,5 +1,6 @@
 class Config {
 
+	static API_PATH: string = "php/api.php";
 	static GET_PATH: string = "php/get.php";
 	static PUT_PATH: string = "php/update.php";
 	static CURL_PATH: string = "php/curl.php";
