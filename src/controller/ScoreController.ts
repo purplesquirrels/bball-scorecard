@@ -105,6 +105,11 @@ class ScoreController {
 		return JSON.stringify(this.model); // compressed
 	}
 
+	getDayJSONString = (day:number=0): string => {
+		//return JSON.stringify(this.model, null, 4); // nice formatting
+		return JSON.stringify(this.model.scores[day]); // compressed
+	}
+
 	getSeasonDateString = (): string => {
 
 		return DateUtil.getSeasonDateString(this.model.season);
