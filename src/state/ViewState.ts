@@ -311,6 +311,8 @@ class ViewState extends AppState {
 				messageStyle: "positive"
 			});
 
+			$(".game-in-progress").remove(); // remove pre-exisitng message if there was one
+
 			$("body").prepend(html);
 
 			this.startProgressTimer();
