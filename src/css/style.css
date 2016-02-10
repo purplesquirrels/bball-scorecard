@@ -106,10 +106,11 @@ html, body {
 		margin: 0;
 		-webkit-box-shadow: none;
 		box-shadow: none;
+		padding: 0;
 	}
 	
 	.scoreboard {
-    	min-width: none;
+    	min-width: 0;
 	}
 }
 
