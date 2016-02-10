@@ -299,7 +299,7 @@ html, body {
 	color: rgba(255, 255, 255, 0.5);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 410px) {
 	body, html {
 		margin: 0;
 	}
@@ -311,7 +311,11 @@ html, body {
 
 	.game-details {
 		display: block;
-		width: calc(100% - 20px);
+		width: calc(100% - 20px - 3.5em);
+		margin-top: 0;
+	}
+
+	.view-stats {
 		margin-top: 0;
 	}
 }
@@ -364,6 +368,7 @@ html, body {
 .sort.bb-button {
     font-size: 0.7em;
     opacity: 0.4;
+    white-space: nowrap;
 }
 
 .sort.bb-button.active {
