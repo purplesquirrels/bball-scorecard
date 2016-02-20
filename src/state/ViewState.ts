@@ -43,6 +43,7 @@ class ViewState extends AppState {
 		var context = { 
 			title: this.controller.getSeasonName(),
 			dates: this.controller.getSeasonDateString(),
+			banner: this.controller.getSeasonBanner() || "summer/Summer_2.html",
 			daysleft: String(days) + " day" + (days > 1 || days === 0 ? "s" : "") + " remaining",
 			lastupdate: update.getDate() + "-" + (update.getMonth() + 1) + "-" + update.getFullYear(),
 			totalgames: " • " + String(games) + " game" + (games > 1 || games === 0 ? "s" : "") + " played",

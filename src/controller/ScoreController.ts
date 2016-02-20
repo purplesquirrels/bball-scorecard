@@ -1,6 +1,7 @@
 interface ScoreData {
 	season_id: number;
 	season: number;
+	banner: string;
 	end_date: string;
 	season_name: string;
 	players: any[];
@@ -114,6 +115,10 @@ class ScoreController {
 	getSeasonDateString = (): string => {
 
 		return DateUtil.getSeasonDateString(this.model.season);
+	}
+
+	getSeasonBanner = (): string => {
+		return this.model.banner;
 	}
 
 	getEndDate = (): string => {
