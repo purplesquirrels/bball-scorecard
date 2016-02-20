@@ -846,6 +846,20 @@ table.editmode .switch label .lever {
 	color: #FFF;
 }
 
+.cancel-newday {
+	float: right;
+}
+
+.newday-timer {
+	position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.2rem;
+    margin: 0;
+    padding: 10px 10px;
+    font-weight: 300;
+}
+
 
 /*//////////// CHARTS ///////*/
 

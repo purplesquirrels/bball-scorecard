@@ -102,21 +102,22 @@
 </script>
 
 <script id="app-header-template" type="text/x-handlebars-template">
-  <a class='header-settings btn-flat btn-large waves-effect waves-light' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
+  <a class='header-settings btn-flat btn-large waves-effect waves-light deep-purple lighten-1' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
   <ul id='settings-dropdown' class='dropdown-content'>
   {{#if daynotcreated }}
-    <li><a href="#" data-action='state:newDay'><i class='material-icons left'>library_add</i>New game day</a></li>
+    <li><a href="#" data-action='state:newDay' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
   {{/if}}
-    <li><a href="#" data-action="state:edit"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
+    <li><a href="#" data-action="state:edit" class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
   </ul>
 </script>
 
 <script id="newday-template" type="text/x-handlebars-template">
 	<h1 class="header">{{title}}</h1>
+	<h2 class="newday-timer">00:00:00</h2>
 	<div class="body">
 		<div class="newday-tools">
-			<button class="waves-effect waves-light btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button>
-			<button class="waves-effect waves-light btn action-btn save-newday"><i class='material-icons left'>done</i>Finish</button>
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button>
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn save-newday"><i class='material-icons left'>done</i>Finish</button>
 			<button class="waves-effect waves-light btn action-btn cancel-newday red"><i class='material-icons left'>not_interested</i>Cancel</button>
 		</div>
 
@@ -154,7 +155,7 @@
 			</div>
 		</div>
 
-		<button class="waves-effect waves-light btn action-btn lock-players"><i class='material-icons left'>lock_open</i><span>Only show playing</span></button>
+		<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn lock-players"><i class='material-icons left'>lock_open</i><span>Only show playing</span></button>
 		
 		<table class="mainlist striped editmode centered">
 			<thead>
@@ -217,8 +218,8 @@
       <input id="first_name" type="text" class="validate">
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-teal btn-flat cancel-button">Cancel</a>
-      <a href="#!" class=" modal-action modal-close waves-effect waves-teal teal btn-flat addplayer-button">Add player</a>
+      <a href="#!" class=" modal-action modal-close waves-effect deep-purple lighten-1 btn-flat cancel-button">Cancel</a>
+      <a href="#!" class=" modal-action modal-close waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
     </div>
   </div>
 </script>
@@ -228,15 +229,15 @@
     <div class="modal-content">
       <h4>Enter pin</h4>
       <input class="pin-display" type="text" disabled></input>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">1</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">2</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">3</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">4</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">5</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">6</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">7</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">8</a>
-	  <a class="waves-effect waves-teal btn-flat teal pin-button">9</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">1</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">2</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">3</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">4</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">5</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">6</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">7</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">8</a>
+	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">9</a>
     </div>
   </div>
 </script>
