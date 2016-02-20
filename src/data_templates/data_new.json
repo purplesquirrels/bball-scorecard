@@ -1,8 +1,9 @@
 {
-    "season_id": 2,
-    "season": 4,
-    "end_date" : "Feb 29 2016 23:59:59 GMT+1100 (AUS Eastern Summer Time)",
-    "season_name": "Summer 2015",
+    "season_id": 3,
+    "season": 1,
+    "banner" : "autumn/autumn.html",
+    "end_date" : "May 31 2016 23:59:59 GMT+1000 (Local Standard Time)",
+    "season_name": "Autumn 2016",
     "games": {
         "ABC123": 0,
         "DEF456": 0,
