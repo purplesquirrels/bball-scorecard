@@ -119,7 +119,7 @@ class ViewState extends AppState {
 				context.rankings[i].rankdirection = "down" + (context.rankings[i].rankchange <= -5 ? " large-down" : "");
 			}
 
-			context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04");
+			context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy");
 			context.rankings[i].totallaps = NumberCruncher.getPlayerTotalLaps(playerid);
 			context.rankings[i].rawscore = NumberCruncher.getPlayerRawScore(playerid, false);
 			context.rankings[i].highestscore = NumberCruncher.getPlayerHighestScore(playerid);

@@ -76,6 +76,8 @@ class ScoreController {
 	/// RETRIEVE
 
 	getGameIsComplete = (day:number = 0): boolean => {
+		if (this.model.scores.length <= 0) return true;
+		
 		if (this.model.scores[day].complete === 1) {
 			return true;
 		}

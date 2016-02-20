@@ -28,6 +28,12 @@ html, body {
 
 /* ================ */
 
+.empty-state-message {
+    color: #454C67;
+    text-shadow: #212633 0px -1px;
+    text-align: center;
+    font-size: 3rem;
+}
 
 .bb-button {
 	font-family: "Roboto", Arial, sans-serif;

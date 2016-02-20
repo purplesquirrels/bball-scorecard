@@ -32,10 +32,12 @@ class StatsView {
 		this.playerCharts = [];
 		this.selectedView = "season";
 
+		var gamesPlayed = this.controller.getTotalGamesPlayed();
+
 		var statHeaderSource = this.app.templates["stats-panel-header"];
 		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
 		var statheaderhtml = statHeaderTemplate({
-			players: this.controller.getAllActivePlayers()
+			players: gamesPlayed > 1 ? this.controller.getAllActivePlayers() : []
 		});
 
 		$(this.statsRoot).append(statheaderhtml);
@@ -59,7 +61,11 @@ class StatsView {
 			}
 		});
 
-		this.setSeasonStatView();
+		if (gamesPlayed <= 1) {
+			this.setEmptyStatView();
+		} else {
+			this.setSeasonStatView();
+		}
 
 	}
 
@@ -96,15 +102,28 @@ class StatsView {
 		//TweenLite.to($(".stat-holder"), 1, { delay: 1, alpha: 1 });
 	}
 
+	setEmptyStatView = () => {
+
+		$(this.statsRoot).find(".stat-view").remove();
+
+		var statsource = this.app.templates["stats-panel-season-stats-empty"];
+		var stattemplate: HandlebarsTemplateDelegate = Handlebars.compile(statsource);
+
+		var stathtml = stattemplate({});
+
+		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
+
+	}
+
 	setPlayerStatView = (playerid: string, update:boolean = false) => {
 
 		var _d = this.controller.getAsObject();
 		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
-
+		
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
-			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "point04"),
+			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy"),
 			totallaps: NumberCruncher.getPlayerTotalLaps(playerid),
 			rawscore: NumberCruncher.getPlayerRawScore(playerid, false),
 			highestscore: NumberCruncher.getPlayerHighestScore(playerid),
@@ -324,7 +343,7 @@ class StatsView {
 		statscontext.highestscore_value = highscore.value + "";
 		statscontext.highestscore_playername = highscore.playerid.join("<br>");
 
-		var boundys: HighScoreObject = NumberCruncher.getPlayerWithHighestPointsOfType("point04");
+		var boundys: HighScoreObject = NumberCruncher.getPlayerWithHighestPointsOfType("boundy");
 		statscontext.boundys_value = boundys.value + "";
 		statscontext.boundys_playername = boundys.playerid.join("<br>");
 
