@@ -1,0 +1,56 @@
+{
+   "points":{
+      "point01":{
+         "short":"Key",
+         "long":"Key",
+         "value":1
+      },
+      "point02":{
+         "short":"3pt",
+         "long":"3pt",
+         "value":1
+      },
+      "point03":{
+         "short":"Full",
+         "long":"Full",
+         "value":1
+      },
+      "boundy":{
+         "short":"Boundy",
+         "long":"Boundy",
+         "value":3
+      }
+   },
+   "bonuses":{
+      "late":{
+         "short":"L8",
+         "long":"Late bonus",
+         "type":"+x",
+         "value":1
+      },
+      "bonus01":{
+         "short":"K1",
+         "long":"Key 1 bonus",
+         "type":"+",
+         "value":1
+      },
+      "bonus02":{
+         "short":"K2",
+         "long":"Key 2 bonus",
+         "type":"+",
+         "value":1
+      },
+      "bonus03":{
+         "short":"FK",
+         "long":"Full key bonus",
+         "type":"+",
+         "value":0
+      },
+      "bonus04":{
+         "short":"F3",
+         "long":"Full 3pt bonus",
+         "type":"+",
+         "value":3
+      }
+   }
+}

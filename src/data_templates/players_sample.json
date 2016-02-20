@@ -1,0 +1,18 @@
+{  
+   "players":[  
+      {  
+         "id":"ABC123",
+         "active":true,
+         "firstname":"Player 1",
+         "lastname":"",
+         "avatar":"player1.jpg"
+      },
+      {  
+         "id":"DEF456",
+         "active":true,
+         "firstname":"Player 2",
+         "lastname":"",
+         "avatar":"player2.jpg"
+      }
+   ]
+}

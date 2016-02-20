@@ -1,0 +1,27 @@
+{
+	"badges" : [
+		{
+			"id" : "1",
+			"name" : "100",
+			"description" : "100 points",
+			"image" : "100pts.svg",
+			"multi" : false,
+			"condition" : "score >= 100"
+		},
+		{
+			"id" : "4",
+			"name" : "Rocketman",
+			"description" : "Rocketman - Increased rank by 5 or more",
+			"image" : "rocketman.svg",
+			"multi" : true,
+			"condition" : "rankchange >= 5"
+		},
+		{
+			"id" : "9",
+			"name" : "B3",
+			"description" : "b3",
+			"image" : "icarus.svg",
+			"multi" : true
+		}
+	]
+}

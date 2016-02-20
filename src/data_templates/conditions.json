@@ -1,0 +1,18 @@
+{
+	"conditions":{
+      "1-0":"Sunny",
+      "1-1":"Partly cloudy",
+      "1-2":"Overcase",
+      "2-1":"No wind",
+      "2-2":"Slight wind",
+      "2-3":"Very windy",
+      "3-1":"No rain",
+      "3-2":"Slight rain",
+      "3-3":"Very rainy",
+      "4-1":"Dry",
+      "4-2":"Wet",
+      "5-1":"Cold",
+      "5-2":"Warm",
+      "5-3":"Hot"
+   }
+}
