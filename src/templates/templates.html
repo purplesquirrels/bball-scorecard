@@ -12,10 +12,22 @@
 	{{/if}}
 </div>
 <div class="body">
-	{{> viewListTemplate }}
+	{{#if gamesPlayed}}
+		{{> viewListTemplate }}
+	{{else}}
+		{{> viewListTemplateEmpty }}
+	{{/if}}	
 </div>
 <div class="main-footer">
-	<h4 class="lastupdate">Last update: <strong>Day {{gamenumber}}</strong> ({{lastupdate}})</h4>
+	{{#if gamesPlayed}}
+		<h4 class="lastupdate">Last update: <strong>Day {{gamenumber}}</strong> ({{lastupdate}})</h4>
+	{{/if}}	
+</div>
+</script>
+
+<script id="partial_view-list-template-empty" data-name="viewListTemplateEmpty" type="text/x-handlebars-template">
+<div class="no-games-message">
+	<h2 class="empty-state-message">No games played</h2>
 </div>
 </script>
 

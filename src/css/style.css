@@ -35,6 +35,12 @@ html, body {
     font-size: 3rem;
 }
 
+.no-games-message {
+	   display: block;
+    clear: both;
+    padding: 5rem 0;
+}
+
 .bb-button {
 	font-family: "Roboto", Arial, sans-serif;
 	border-radius: 100px;

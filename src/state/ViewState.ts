@@ -50,8 +50,11 @@ class ViewState extends AppState {
 			rankings: this.controller.getPlayerRankings(dayToDisplay),
 			gamenumber: this.controller.getGameNumber(0),
 			inProgress: !this.controller.getGameIsComplete(0),
-			showDetails: true
+			showDetails: true,
+			gamesPlayed: false
 		};
+
+		context.gamesPlayed = context.rankings.length > 0;
 
 		for (var i = context.rankings.length-1; i > 0; i--) {
 			if (!this.controller.getPlayerTotalGames(context.rankings[i].id)) {
