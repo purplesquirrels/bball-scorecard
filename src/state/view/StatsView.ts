@@ -32,6 +32,8 @@ class StatsView {
 		this.playerCharts = [];
 		this.selectedView = "season";
 
+		$(this.statsRoot).empty();
+
 		var gamesPlayed = this.controller.getTotalGamesPlayed();
 
 		var statHeaderSource = this.app.templates["stats-panel-header"];
