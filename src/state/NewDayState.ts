@@ -176,6 +176,38 @@ class NewDayState extends AppState {
 		$('select').material_select();
 
 		this.saveChanges(true);
+
+		this.startProgressTimer();
+	}
+
+	startProgressTimer = () => {
+
+		this.updateProgressTimer();
+
+		var interval = setInterval(() => {
+
+			var done = this.updateProgressTimer();
+
+			if (done) {
+				clearInterval(interval);
+			}
+
+		}, 1000);
+	}
+
+	updateProgressTimer = (): boolean => {
+
+		var time = $(".newday-timer");
+		var endDate = new Date(this.controller.getGameDate(0));
+		endDate.setMinutes(endDate.getMinutes() + 30);
+		var t: TimeObject = DateUtil.getTimeRemaining(endDate.toString());
+
+		time.html([
+			('0' + t.minutes).slice(-2),
+			('0' + t.seconds).slice(-2)
+		].join(":"));
+
+		return t.total <= 0;
 	}
 
 	onInputChange = (e:any) => {
