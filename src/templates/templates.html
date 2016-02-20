@@ -480,9 +480,17 @@
 <script id="badges-selector" type="text/x-handlebars-template">
 <div class="badges-selector-wrapper">
 	<div class="badges-selector">
-		{{#each badges}}
-			<div class="badge new-badge" data-id="{{this.id}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span></div>
-		{{/each}}
+
+		<div class="badges-current">
+			{{#each currentbadges}}
+				<div class="badge new-badge" data-id="{{this.id}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span></div>
+			{{/each}}
+		</div>	
+		<div class="badges-available">
+			{{#each badges}}
+				<div class="badge new-badge" data-id="{{this.id}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span></div>
+			{{/each}}
+		</div>
 	</div>
 </div>
 </script>

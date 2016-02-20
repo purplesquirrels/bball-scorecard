@@ -147,6 +147,7 @@ class NewDayState extends AppState {
 
 			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["badges-selector"]);
 			var html = template({
+				currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
 				badges: Badger.getManualBadges()
 			});
 

@@ -1272,13 +1272,47 @@ table.editmode .switch label .lever {
     background: #353B51;
     z-index: 2;
     padding: 10px;
-    overflow-x: hidden;
+   /* overflow-x: hidden;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;*/
     -webkit-tap-highlight-color: transparent;
 }
 
+.badges-current {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 120px;
+	background: #545A71;
+	border-bottom: 1px solid #11131A;
+	padding: 20px;
+
+	white-space: nowrap;
+
+	 overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+.badges-available {
+	position: absolute;
+	top: 120px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #353B51;
+
+	 overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
 .badges-selector .badge {
+	display: inline-block;
     width: 28.333%;
     padding-bottom: 28.333%;
     border: 1px solid #EFEFEF;
@@ -1286,9 +1320,10 @@ table.editmode .switch label .lever {
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
-
     
 }
+
+
 
 @media (min-width: 520px) {
 	.badges-selector .badge {
@@ -1309,6 +1344,15 @@ table.editmode .switch label .lever {
     	padding-bottom: 120px;
     }
 }
+
+.badges-selector .badges-current .badge {
+	float: none;
+	width: 80px;
+	height: 80px;
+	padding-bottom: 0;
+	margin: 0 5px 0 0;
+}
+
 
 /* ///////////////////////////////////////// */
 

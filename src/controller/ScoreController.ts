@@ -348,6 +348,15 @@ class ScoreController {
 		return this.model.players[index].id;
 	}
 
+	getBadgeByID = (badgeid:string): Badge => {
+
+		for (var i = 0; i < this.model.badges.length; ++i) {
+			if (this.model.badges[i].id === badgeid) return this.model.badges[i];
+		}
+
+		return null;
+	}
+
 	getPlayerName = (playerid: string): string => {
 
 		for (var i = 0; i < this.model.players.length; ++i) {
@@ -359,6 +368,23 @@ class ScoreController {
 		}
 
 		return "Player " + playerid + " not found.";
+	}
+
+	getPlayerManualBadgesOnDay = (playerid: string, day: number = 0): any[] => {
+
+		var b = this.model.scores[day].values[playerid].manualbadges;
+
+		var badges = [];
+
+		for (var i = 0; i < b.length; ++i) {
+			var b2 = this.getBadgeByID(b[i]);
+
+			if (b2) {
+				badges.push(b2);
+			}
+		}
+
+		return badges;
 	}
 
 	getPlayerAvatar = (playerid: string): string => {
