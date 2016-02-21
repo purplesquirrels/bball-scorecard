@@ -187,8 +187,11 @@ class EditState extends AppState {
 					if (!checked) {
 						$("[type='number'][data-for='" + player + "']:not(.isPlaying)").val("0");
 						$("[type='checkbox'][data-for='" + player + "']:not(.isPlaying)").prop("checked", false);
+						$(".player-row a[data-for='" + player + "']").addClass("disabled");
 
 						this.controller.clearPlayerScores(player, 0);
+					} else {
+						$(".player-row a[data-for='" + player + "']").removeClass("disabled");
 					}
 				}
 				break;

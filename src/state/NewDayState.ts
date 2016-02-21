@@ -143,33 +143,61 @@ class NewDayState extends AppState {
 		$(".add-badge").bind("click", (e) => {
 			//badges-selector
 
+			e.preventDefault();
+
+			if ($(e.currentTarget).hasClass("disabled")) return;
+
 			var playerid:string = $(e.currentTarget).attr("data-for");
 
 			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["badges-selector"]);
-			var html = template({
+			var context = {
 				currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
 				badges: Badger.getManualBadges()
-			});
+			};
+
+			var html = template(context);
 
 			$("body").append(html);
 
 			$(".badges-selector-wrapper").bind("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+
+				$(".badges-selector-wrapper").unbind("click");
+
+				$(".new-badge").unbind("click");
+				$(".current-badge .badge-remove").unbind("click");
+
 				$(".badges-selector-wrapper").remove();
 			});
 
 			$(".new-badge").bind("click", (e) => {
 
-				var badge:Badge = Badger.getBadgeByID($(e.currentTarget).attr("data-id"));
+				var badge: Badge = Badger.getBadgeByID($(e.currentTarget).attr("data-id"));
 
 				this.controller.addPlayerManualBadge(playerid, badge.id);
+			});
 
-				//console.log("add badge", $(e.currentTarget).attr("data-id"));
+			$(".current-badge .badge-remove").bind("click", (e) => {
 
+				e.stopPropagation();
 
-				
-			})
+				$(e.currentTarget).parents(".badge").addClass("removed");
+
+				var id: number = parseInt($(e.currentTarget).parents(".badge").attr("data-index"), 10);
+
+				this.controller.deletePlayerManualBadge(playerid, id, 0);
+
+				var remaining = $(".current-badge:not(.removed)");
+
+				for (var i = 0; i < remaining.length; ++i) {
+
+					var bindex = parseInt($(remaining[i]).attr("data-index"), 10);
+					if (bindex > id) {
+						$(remaining[i]).attr("data-index", bindex - 1); // subtract 1 to offset deleted badge
+					}
+				}
+			});
 		})
 
 
@@ -250,12 +278,16 @@ class NewDayState extends AppState {
 					}
 
 					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
+
 					
 					if (!checked) {
 						$("[type='number'][data-for='" + player + "']:not(.isPlaying)").val("0");
 						$("[type='checkbox'][data-for='" + player + "']:not(.isPlaying)").prop("checked", false);
+						$(".player-row a[data-for='" + player + "']").addClass("disabled");
 
 						this.controller.clearPlayerScores(player, 0);
+					} else {
+						$(".player-row a[data-for='" + player + "']").removeClass("disabled");
 					}
 					
 				}
