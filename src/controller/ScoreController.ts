@@ -385,6 +385,10 @@ class ScoreController {
 			var b2 = this.getBadgeByID(b[i]);
 
 			if (b2) {
+				// make copy so not to modify original
+				b2 = $.extend(true, {}, b2);
+				b2["dataindex"] = i;
+
 				badges.push(b2);
 			}
 		}
@@ -771,15 +775,16 @@ class ScoreController {
 			return;
 		}
 
-		/*if (!this.model.playerBadges[playerid]) {
-			this.model.playerBadges[playerid] = {
-				"manual": []
-			}
-		}
-		*/
-		//this.model.playerBadges[playerid].manual.push(badgeid);
-
 		this.model.scores[day].values[playerid].manualbadges.push(badgeid);
+	}
+
+	deletePlayerManualBadge = (playerid:string, badgeindex:number, day:number = 0) => {
+
+		if (!this.model.scores[day].values[playerid]) {
+			return;
+		}
+
+		this.model.scores[day].values[playerid].manualbadges.splice(badgeindex, 1);
 	}
 
 
