@@ -35,6 +35,10 @@ html, body {
     font-size: 3rem;
 }
 
+.small-message {
+	font-size: 1.3rem;
+}
+
 .no-games-message {
 	   display: block;
     clear: both;
@@ -49,6 +53,10 @@ html, body {
 	font-size: 0.9em;
 	padding: 0.3em 1em;
 	cursor: pointer;
+}
+.bb-button.disabled {
+	opacity: 0.5;
+	cursor: default;
 }
 
 
@@ -421,6 +429,11 @@ table.editmode [type="checkbox"]+label {
 
 table.editmode [type="checkbox"]+label:before {
     border: 2px solid #FFFFFF;
+}
+
+[type="checkbox"]:checked+label:before {
+    border-top: 2px solid transparent !important;
+    border-left: 2px solid transparent !important;
 }
 
 table.editmode .switch {
@@ -852,7 +865,7 @@ table.editmode .switch label .lever {
 
 .newday-timer {
 	position: absolute;
-    top: 0;
+    top: 10px;
     right: 0;
     font-size: 2.2rem;
     margin: 0;
@@ -1371,8 +1384,55 @@ table.editmode .switch label .lever {
 	height: 80px;
 	padding-bottom: 0;
 	margin: 0 5px 0 0;
+
+
+	-webkit-transition: all 0.15s;
+	transition: all 0.15s;
 }
 
+.badge-remove {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: rgb(240, 91, 111);
+	cursor: pointer;
+
+}
+
+.badge-remove:before {
+	content: "";
+	width: 14px;
+	height: 2px;
+	background: #FFF;
+	position: absolute;
+	top: 14px;
+    left: 8px;
+    transform: rotate(45deg);
+
+
+}
+
+.badge-remove:after {
+	content: "";
+	width: 14px;
+	height: 2px;
+	background: #FFF;
+	position: absolute;
+	top: 14px;
+    left: 8px;
+	transform: rotate(-45deg);
+}
+
+.badge.removed {
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	opacity: 0;
+	visibility: hidden;
+	margin: 0 0 0 -80px !important;
+}
 
 /* ///////////////////////////////////////// */
 
