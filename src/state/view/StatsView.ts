@@ -335,23 +335,23 @@ class StatsView {
 
 		var score: HighScoreObject = NumberCruncher.getPlayerWithHighestScore();
 		statscontext.totalscore_value = score.value + "";
-		statscontext.totalscore_playername = score.playerid.join("<br>");
+		statscontext.totalscore_playername = score.value > 0 ? score.playerid.join("<br>") : "-";
 
 		var highraw: HighScoreObject = NumberCruncher.getPlayerWithHighestRawScore();
 		statscontext.rawscore_value = highraw.value + "";
-		statscontext.rawscore_playername = highraw.playerid.join("<br>");
+		statscontext.rawscore_playername = highraw.value > 0 ? highraw.playerid.join("<br>") : "-";
 
 		var highscore: HighScoreObject = NumberCruncher.getPlayerWithHighestScoringGame();
 		statscontext.highestscore_value = highscore.value + "";
-		statscontext.highestscore_playername = highscore.playerid.join("<br>");
+		statscontext.highestscore_playername = highscore.value > 0 ? highscore.playerid.join("<br>") : "-";
 
 		var boundys: HighScoreObject = NumberCruncher.getPlayerWithHighestPointsOfType("boundy");
 		statscontext.boundys_value = boundys.value + "";
-		statscontext.boundys_playername = boundys.playerid.join("<br>");
+		statscontext.boundys_playername = boundys.value > 0 ? boundys.playerid.join("<br>") : "-";
 
 		var laps: HighScoreObject = NumberCruncher.getPlayerWithHighestLaps();
 		statscontext.laps_value = laps.value + "";
-		statscontext.laps_playername = laps.playerid.join("<br>");
+		statscontext.laps_playername = laps.value > 0 ? laps.playerid.join("<br>") : "-";
 
 
 		var stathtml = stattemplate(statscontext);
