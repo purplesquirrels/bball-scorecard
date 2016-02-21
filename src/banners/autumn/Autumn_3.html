@@ -1,0 +1,59 @@
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. "DO NOT" alter the tokens in the template html as they are required during publishing.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Autumn_3</title>
+<!-- write your code here -->
+
+<style>
+@font-face {
+    font-family: 'Sports World';
+    src: url('sports_world-regular-webfont.eot');
+    src: url('sports_world-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sports_world-regular-webfont.woff2') format('woff2'),
+         url('sports_world-regular-webfont.woff') format('woff'),
+         url('sports_world-regular-webfont.ttf') format('truetype'),
+         url('sports_world-regular-webfont.svg#sports_worldregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+#canvas {
+    width: 100%;
+}
+</style>
+
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="Autumn_3.js?1456097341196"></script>
+<script>
+var canvas, stage, exportRoot;
+function init() {
+	// --- write your JS code here ---
+	
+	canvas = document.getElementById("canvas");
+	exportRoot = new lib.Autumn_3();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(lib.properties.fps);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+
+</script>
+
+<!-- write your code here -->
+
+</head>
+<body onload="init();" style="background-color:#FFFFFF;margin:0;padding:0">
+	<canvas id="canvas" width="480" height="84" style="background-color:#FFFFFF"></canvas>
+</body>
+</html>
