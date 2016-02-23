@@ -52,7 +52,8 @@ class NumberCruncher {
 		var distances = {
 			"point01": 4.3, // 1st key
 			"point02": 4.3, // 2nd key
-			"point03": 25.2, // 3pt line
+			"point02B": 12.6, // 3pt line
+			"point03": 12.6, // 3pt line
 			"03-01" : 4,
 			"03-B" : 15,
 			"B-01" : 14
@@ -92,7 +93,8 @@ class NumberCruncher {
 		var shotCounts = {
 			"point01" : 6, // 1st key
 			"point02" : 5, // 2nd key
-			"point03" : 5, // 3pt line
+			"point02B" : 3, // 2nd key
+			"point03" : 2, // 3pt line
 			"boundy": 1 // boundy
 		}
 

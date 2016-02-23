@@ -113,7 +113,7 @@
 
 <script id="newday-template" type="text/x-handlebars-template">
 	<h1 class="header">{{title}}</h1>
-	<h2 class="newday-timer">00:00</h2>
+	{{#if isEdit }}<!-- empty -->{{else}}<h2 class="newday-timer">00:00</h2>{{/if}}
 	<div class="body">
 		<div class="newday-tools">
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button>
@@ -167,6 +167,7 @@
 					<th></th>
 					<th></th>
 					<th></th>
+					<th></th>
 					<th colspan="3" class="bonus">Bonus</th>
 				</tr>
 				<tr class="mainhead">
@@ -175,11 +176,11 @@
 					<th width='8%'>B</th>
 					<th width='8%'>KY</th>
 					<th width='8%'>3P</th>
+					<th width='8%'>H3</th>
 					<th width='8%'>F3</th>
 					<th width='8%'>BN</th>
 					<th width='8%'>K1</th>
 					<th width='8%'>K2</th>
-					<!--th width='8%'>FK</th-->
 					<th width='8%'>F3</th>
 				</tr>
 			</thead>
@@ -201,6 +202,7 @@
 		<td><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'>B</a></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02"></td>
+		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02B}}" data-for="{{this.id}}" data-value="point02B"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.boundy}}" data-for="{{this.id}}" data-value="boundy"></td>
 		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01"></td>
@@ -288,7 +290,7 @@
 		<tr class="game-details-player">
 			<td>{{this.firstname}}</td>
 			<td>{{this.rank}}</td>
-			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × 3pt  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
+			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × 3pt  {{/if}}{{#if this.point02B}}  {{this.point02B}} × half 3  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
 </td>
 			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
