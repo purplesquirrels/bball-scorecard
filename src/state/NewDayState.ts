@@ -24,7 +24,12 @@ class NewDayState extends AppState {
 		var date = new Date();
 		var today = date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate();
 
-		var context = { title: "New day", date: today, players: [] };
+		var context = { 
+			title: "New day",
+			date: today,
+			isEdit: false,
+			players: []
+		};
 
 		context.players = this.controller.getPlayerScores();
 

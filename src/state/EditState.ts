@@ -24,6 +24,7 @@ class EditState extends AppState {
 		var context = {
 			title: "Edit day",
 			date: gameday,
+			isEdit: true,
 			players: []
 		};
 
@@ -32,6 +33,8 @@ class EditState extends AppState {
 		var html = template(context);
 
 		this.element.innerHTML = html;
+
+		//$(".newday-timer").remove();
 
 		$('.datepicker').pickadate({
 			selectMonths: false, // Creates a dropdown to control month
@@ -145,6 +148,68 @@ class EditState extends AppState {
 			});
 
 		});
+
+
+		$(".add-badge").bind("click", (e) => {
+			//badges-selector
+
+			e.preventDefault();
+
+			if ($(e.currentTarget).hasClass("disabled")) return;
+
+			var playerid: string = $(e.currentTarget).attr("data-for");
+
+			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["badges-selector"]);
+			var context = {
+				currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
+				badges: Badger.getManualBadges()
+			};
+
+			var html = template(context);
+
+			$("body").append(html);
+
+			$(".badges-selector-wrapper").bind("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				$(".badges-selector-wrapper").unbind("click");
+
+				$(".new-badge").unbind("click");
+				$(".current-badge .badge-remove").unbind("click");
+
+				$(".badges-selector-wrapper").remove();
+			});
+
+			$(".new-badge").bind("click", (e) => {
+
+				var badge: Badge = Badger.getBadgeByID($(e.currentTarget).attr("data-id"));
+
+				this.controller.addPlayerManualBadge(playerid, badge.id);
+			});
+
+			$(".current-badge .badge-remove").bind("click", (e) => {
+
+				e.stopPropagation();
+
+				$(e.currentTarget).parents(".badge").addClass("removed");
+
+				var id: number = parseInt($(e.currentTarget).parents(".badge").attr("data-index"), 10);
+
+				this.controller.deletePlayerManualBadge(playerid, id, 0);
+
+				var remaining = $(".current-badge:not(.removed)");
+
+				for (var i = 0; i < remaining.length; ++i) {
+
+					var bindex = parseInt($(remaining[i]).attr("data-index"), 10);
+					if (bindex > id) {
+						$(remaining[i]).attr("data-index", bindex - 1); // subtract 1 to offset deleted badge
+					}
+				}
+			});
+		})
+
 
 
 		$('select').material_select();
