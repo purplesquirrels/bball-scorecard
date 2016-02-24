@@ -174,8 +174,8 @@
 					<th width='10%'>Player</th>
 					<th width='10%'>L8</th>
 					<th width='8%'>B</th>
-					<th width='8%'>KY</th>
-					<th width='8%'>3P</th>
+					<th width='8%'>HK</th>
+					<th width='8%'>FK</th>
 					<th width='8%'>H3</th>
 					<th width='8%'>F3</th>
 					<th width='8%'>BN</th>
@@ -290,7 +290,7 @@
 		<tr class="game-details-player">
 			<td>{{this.firstname}}</td>
 			<td>{{this.rank}}</td>
-			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × 3pt  {{/if}}{{#if this.point02B}}  {{this.point02B}} × half 3  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
+			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × half key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × full key  {{/if}}{{#if this.point02B}}  {{this.point02B}} × half 3  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
 </td>
 			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
@@ -420,7 +420,7 @@
 			<h3>Badges</h3>
 			{{#if hasBadges}}
 				{{#each badges}}
-					<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+					<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center;background-size: 100%;"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
 				{{/each}}
 			{{else}}
 				<div><h2 class="empty-state-message small-message">No badges yet</h2></div>

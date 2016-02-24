@@ -1250,7 +1250,6 @@ table.editmode .switch label .lever {
     padding-bottom: 45%;
     background: #CCC;
     margin: 2.4%;
-    border-radius: 50%;
     float: left;
     position: relative;
 }
@@ -1348,8 +1347,7 @@ table.editmode .switch label .lever {
 	display: inline-block;
     width: 28.333%;
     padding-bottom: 28.333%;
-    border: 1px solid #EFEFEF;
-    background-size: 65%;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
