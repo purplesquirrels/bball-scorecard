@@ -1354,6 +1354,18 @@ table.editmode .switch label .lever {
     
 }
 
+.add-badge {
+    height: 35px;
+    width: 35px;
+    display: block;
+    line-height: 1;
+    background: #7463e7;
+    color: #FFF;
+    border: none;
+    padding-top: 10px;
+    font-weight: bold;
+}
+
 
 
 @media (min-width: 520px) {
