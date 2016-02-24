@@ -565,6 +565,29 @@ class ScoreController {
 		return ranklast - ranknow;
 	}
 
+	getPlayersDaysSinceLastGame = (playerid: string): number => {
+
+		if (this.model.scores.length === 0) return 0;
+
+		var today:Date = new Date();
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] &&
+				this.model.scores[i].values[playerid].played > 0) {
+
+				var gametime: Date = new Date(this.model.scores[i].date);
+
+				return DateUtil.countDaysBetween(gametime, today, [1, 2, 3, 4, 5]);
+
+				// get days between
+			}
+
+		}
+
+
+		return 0;
+	}
 
 	//// UPDATE
 
