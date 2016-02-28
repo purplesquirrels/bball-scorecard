@@ -75,6 +75,7 @@ class ViewState extends AppState {
 
 		today = new Date();
 		var end = new Date(this.controller.getEndDate());
+		var showprogress = true;
 
 		if ((today.getDate() === end.getDate()) &&
 			(today.getMonth() === end.getMonth()) &&
@@ -82,6 +83,7 @@ class ViewState extends AppState {
 
 			context.daysleft = "<img src='images/trophy.png'><br/>GRAND FINAL DAY!";
 			context.totalgames = "";
+			showprogress = false;
 		}
 
 		if (this.controller.getTotalGamesPlayed() === 0) {
@@ -142,27 +144,32 @@ class ViewState extends AppState {
 
 		/////////////////////////////////////////////////////////////////////////
 
-		$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
-		var _d = this.controller.getAsObject();
-		//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
-		var seasonProg: PieChart = new PieChart('.daysleft-chart', {
-			//outerRadius: 30,
-			innerRadius: 36,
-			sortValues: false,
-			padAngle: 0,
-			data: [
-				{
-					name: "",
-					value: _d.scores.length,
-					colour: '#FFFFFF'
-				},
-				{
-					name: "",
-					value: this.controller.getDaysRemaining(),
-					colour: '#232935'
-				}
-			]
-		});
+		if (showprogress) {
+
+			$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
+			var _d = this.controller.getAsObject();
+			//var tt = DateUtil.getDaysRemaining(_d.scores[_d.scores.length - 1].date, _d.end_date);
+			var seasonProg: PieChart = new PieChart('.daysleft-chart', {
+				//outerRadius: 30,
+				innerRadius: 36,
+				sortValues: false,
+				padAngle: 0,
+				data: [
+					{
+						name: "",
+						value: _d.scores.length,
+						colour: '#FFFFFF'
+					},
+					{
+						name: "",
+						value: this.controller.getDaysRemaining(),
+						colour: '#232935'
+					}
+				]
+			});
+		} else {
+			$(".daysleft").css('padding-left', '2rem');
+		}
 
 		/////////////////////////////////////////////////////////////////////////
 
