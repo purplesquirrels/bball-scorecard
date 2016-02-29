@@ -63,7 +63,7 @@ class NumberCruncher {
 			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
 
 				for (var p in this.model.points) {
-					if (p !== "point04" && 
+					if (p !== "boundy" && 
 						this.model.points.hasOwnProperty(p) &&
 						this.model.scores[i].values[playerid][p]) {
 
@@ -71,12 +71,12 @@ class NumberCruncher {
 					}
 				}
 
-				if (this.model.scores[i].values[playerid]["point04"] > 0) {
-					dist += (distances["03-B"] * this.model.scores[i].values[playerid]["point04"]);
-					dist += (distances["B-01"] * this.model.scores[i].values[playerid]["point04"]);
+				if (this.model.scores[i].values[playerid]["boundy"] > 0) {
+					dist += (distances["03-B"] * this.model.scores[i].values[playerid]["boundy"]);
+					dist += (distances["B-01"] * this.model.scores[i].values[playerid]["boundy"]);
 				} else {
 					if (this.model.scores[i].values[playerid]["point01"] > 1) {
-						dist += (distances["03-01"] * ((1 + this.model.scores[i].values[playerid]["point04"]) - this.model.scores[i].values[playerid]["point01"]));
+						dist += (distances["03-01"] * ((1 + this.model.scores[i].values[playerid]["boundy"]) - this.model.scores[i].values[playerid]["point01"]));
 					}
 				}
 
@@ -93,7 +93,7 @@ class NumberCruncher {
 			"point01" : 6, // 1st key
 			"point02" : 5, // 2nd key
 			"point03" : 5, // 3pt line
-			"point04" : 1 // boundy
+			"boundy": 1 // boundy
 		}
 
 		var shots = 0;
@@ -525,7 +525,7 @@ class NumberCruncher {
 		return result;
 	}
 
-	static getPlayerWithHighestPointsOfType(type: string = "point04"): HighScoreObject {
+	static getPlayerWithHighestPointsOfType(type: string = "boundy"): HighScoreObject {
 
 		var i = 0;
 		var points: any[] = [];
