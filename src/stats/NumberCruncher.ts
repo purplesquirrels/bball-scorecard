@@ -81,7 +81,7 @@ class NumberCruncher {
 					}
 				}
 
-				dist += 8; // add extra 8 meters average for finishing between points
+				dist += 5; // add extra 5 meters average for finishing between points
 			}
 		}
 
