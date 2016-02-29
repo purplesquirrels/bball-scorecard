@@ -61,10 +61,11 @@ class Badger {
 		var context = {
 			/* static data for player */
 			"score" : this.controller.getPlayerLastTotalScore(playerid),
-			"gamesplayed": played,
-			"totalgames": totalGames,
+			"gamesplayed": played, // player total
+			"totalgames": totalGames, // season total
 			"attendance": Math.floor(played / totalGames * 100),
 			"latecount": NumberCruncher.getPlayLateStarts(playerid),
+			"shots": NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
 			
 			/* variable data per game */
 			"rankchange" : 0,
