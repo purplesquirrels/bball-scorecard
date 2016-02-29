@@ -55,6 +55,8 @@ class App {
 	statsRoot: HTMLDivElement;
 	isStorageAvailable: boolean;
 
+	isArchiveMode: boolean;
+
 	templates: Object;
 	buttonActions: Object;
 
@@ -73,7 +75,21 @@ class App {
 			}
 		}
 
-		$.getJSON(Config.GET_PATH).done((data) => {
+		this.isArchiveMode = false;
+
+		var seasonYear: string = this.getQueryParamByName("year");
+		var season: string = this.getQueryParamByName("season");
+
+		var get = Config.GET_PATH;
+
+		if (seasonYear && season) {
+			this.isArchiveMode = true;
+			//console.log();
+
+			get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
+		}
+
+		$.getJSON(get).done((data) => {
 			this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
 		}).fail((data) => {
 			$("body").append(data.responseText);
@@ -128,6 +144,10 @@ class App {
 		});
 
 		var isEditable: string = this.getQueryParamByName("edit");
+
+		if (this.isArchiveMode) {
+			isEditable = "0";
+		}
 
 		var header = document.createElement("div");
 		header.classList.add("app-header");

@@ -88,6 +88,13 @@ class ViewState extends AppState {
 			showprogress = false;
 		}
 
+		if (this.app.isArchiveMode) {
+			context.daysleft = "Archived season";
+			context.totalgames = "";
+			context.grandfinal = false;
+			showprogress = false;
+		}
+
 		if (this.controller.getTotalGamesPlayed() === 0) {
 			context.lastupdate = "Never";
 			context.showDetails = false;
