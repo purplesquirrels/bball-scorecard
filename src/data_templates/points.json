@@ -1,18 +1,23 @@
 {
    "points":{
       "point01":{
-         "short":"Key",
-         "long":"Key",
+         "short":"H Key",
+         "long":"Half Key",
          "value":1
       },
       "point02":{
-         "short":"3pt",
-         "long":"3pt",
+         "short":"F Key",
+         "long":"Full Key",
+         "value":1
+      },
+      "point02B":{
+         "short":"H 3pt",
+         "long":"Half 3pt",
          "value":1
       },
       "point03":{
-         "short":"Full",
-         "long":"Full",
+         "short":"F 3pt",
+         "long":"Full 3pt",
          "value":1
       },
       "boundy":{
