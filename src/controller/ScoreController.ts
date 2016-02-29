@@ -214,15 +214,19 @@ class ScoreController {
 
 				for (var p in this.model.points) {
 					if (this.model.points.hasOwnProperty(p)) {
-						player[p] = this.model.scores[day].values[id][p];
-						rawscore += (this.model.scores[day].values[id][p] * this.model.points[p].value);
+						player[p] = this.model.scores[day].values[id][p] || 0;
+						if (player[p] > 0) {
+							rawscore += (this.model.scores[day].values[id][p] * this.model.points[p].value);
+						}
 					}
 				}
 
 				for (var b in this.model.bonuses) {
 					if (this.model.bonuses.hasOwnProperty(b) && b != "late") {
-						player[b] = this.model.scores[day].values[id][b];
-						bonuses += (this.model.scores[day].values[id][b] * this.model.bonuses[b].value);
+						player[b] = this.model.scores[day].values[id][b] || 0;
+						if (player[b] > 0) {
+							bonuses += (this.model.scores[day].values[id][b] * this.model.bonuses[b].value);	
+						}
 					}
 				}
 
