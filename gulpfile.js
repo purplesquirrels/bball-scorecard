@@ -22,7 +22,8 @@ gulp.task('clean', function () {
 		'build/**/*',
 		'!build/data',
 		'!build/data/*',
-		'!build/data/backups/*'
+		'!build/data/backups/*',
+		'!build/data/archive/*'
 	]);
 });
 
