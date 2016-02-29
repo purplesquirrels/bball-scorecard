@@ -50,6 +50,7 @@ class ViewState extends AppState {
 			rankings: this.controller.getPlayerRankings(dayToDisplay),
 			gamenumber: this.controller.getGameNumber(0),
 			inProgress: !this.controller.getGameIsComplete(0),
+			grandfinal: false,
 			showDetails: true,
 			gamesPlayed: false
 		};
@@ -81,8 +82,9 @@ class ViewState extends AppState {
 			(today.getMonth() === end.getMonth()) &&
 			(today.getFullYear() === end.getFullYear())) {
 
-			context.daysleft = "<img src='images/trophy.png'><br/>GRAND FINAL DAY!";
+			context.daysleft = "GRAND FINAL DAY!";
 			context.totalgames = "";
+			context.grandfinal = true;
 			showprogress = false;
 		}
 

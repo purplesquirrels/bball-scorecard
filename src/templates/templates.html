@@ -2,6 +2,9 @@
 <div class="main-header">
 	<div class="banner-wrap">
 		<iframe class="banner" src="banners/{{banner}}" scrolling="no" name="{{title}} - {{dates}}"></iframe>
+		{{#if grandfinal}}
+			<img class="grandfinal-image" src='images/trophy.png'>
+		{{/if}}
 	</div>
 	<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
 	

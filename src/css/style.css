@@ -157,6 +157,13 @@ html, body {
 	position: absolute;
 }
 
+.grandfinal-image {
+    position: absolute;
+    height: 80%;
+    top: 10%;
+    left: 6px;
+}
+
 .app-header.hidden {
 	visibility: hidden;
 }
