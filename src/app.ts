@@ -84,7 +84,6 @@ class App {
 
 		if (seasonYear && season) {
 			this.isArchiveMode = true;
-			//console.log();
 
 			get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
@@ -92,7 +91,19 @@ class App {
 		$.getJSON(get).done((data) => {
 			this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
 		}).fail((data) => {
-			$("body").append(data.responseText);
+			
+			if (this.isArchiveMode) {
+
+				$.getJSON(Config.GET_PATH).done((data) => {
+					this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
+				}).fail((data) => {
+					$("body").append(data.responseText);
+				});
+
+			} else {
+				$("body").append(data.responseText);
+			}
+
 		});
 
 	}
