@@ -138,6 +138,7 @@ class StatsView {
 			distance: dist > 1000 ? Math.round(dist / 10) / 100 : dist,
 			dist_unit: dist > 1000 ? "km" : "m",
 			s_shots: NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
+			enableBadges: this.controller.badgesEnabled(),
 
 			hasBadges: badges.length > 0,
 			badges: badges

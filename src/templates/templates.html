@@ -420,13 +420,15 @@
 			<h3>Attendance</h3>
 		</div>
 		<div class="stat-holder left-2">
-			<h3>Badges</h3>
-			{{#if hasBadges}}
-				{{#each badges}}
-					<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center;background-size: 100%;"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
-				{{/each}}
-			{{else}}
-				<div><h2 class="empty-state-message small-message">No badges yet</h2></div>
+			{{#if enableBadges}}
+				<h3>Badges</h3>
+				{{#if hasBadges}}
+					{{#each badges}}
+						<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center;background-size: 100%;"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+					{{/each}}
+				{{else}}
+					<div><h2 class="empty-state-message small-message">No badges yet</h2></div>
+				{{/if}}
 			{{/if}}
 		</div>
 	</div>

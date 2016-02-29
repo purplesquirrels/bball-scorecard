@@ -2,6 +2,7 @@ interface ScoreData {
 	season_id: number;
 	season: number;
 	banner: string;
+	enableBadges: boolean;
 	end_date: string;
 	season_name: string;
 	players: any[];
@@ -75,6 +76,11 @@ class ScoreController {
 	}
 
 	/// RETRIEVE
+
+	badgesEnabled = (): boolean => {
+
+		return this.model.enableBadges === true;
+	}
 
 	getGameIsComplete = (day:number = 0): boolean => {
 		if (this.model.scores.length <= 0) return true;
