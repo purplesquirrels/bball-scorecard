@@ -284,7 +284,7 @@ class App {
 		}
 	}
 
-	private getQueryParamByName(name) {
+	getQueryParamByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 		results = regex.exec(location.search);
