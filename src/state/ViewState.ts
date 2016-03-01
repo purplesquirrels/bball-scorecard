@@ -89,10 +89,13 @@ class ViewState extends AppState {
 		}
 
 		if (this.app.isArchiveMode) {
-			context.daysleft = "Archived season";
+
+			context.daysleft = [this.app.getQueryParamByName("season"), this.app.getQueryParamByName("year"), "<em>(archived)</em>"].join(" ");
 			context.totalgames = "";
 			context.grandfinal = false;
 			showprogress = false;
+
+			
 		}
 
 		if (this.controller.getTotalGamesPlayed() === 0) {
