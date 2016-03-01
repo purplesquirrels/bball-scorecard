@@ -28,6 +28,28 @@ html, body {
 
 /* ================ */
 
+.season-selector {
+	display: block;
+	width: 75%;
+	max-width: 150px;
+	background: #2B3042;
+    color: #FFF;
+    border: 1px solid #212633;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    float: left;
+}
+
+.season-selector:focus {
+	outline: none;
+	border: 1px dotted #212633;
+}
+
+.season-selector option {
+	padding: 1rem;
+	font-size: 1rem;
+}
+
 .empty-state-message {
     color: #454C67;
     text-shadow: #212633 0px -1px;
@@ -141,6 +163,14 @@ html, body {
 
 .main-footer {
 	padding: 10px;
+	padding-top: 0;
+}
+
+.main-footer:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
 }
 
 .banner-wrap {
@@ -324,6 +354,7 @@ html, body {
 	font-weight: normal;
 	margin: 0;
 	color: rgba(255, 255, 255, 0.5);
+	float: right;
 }
 
 @media (max-width: 410px) {

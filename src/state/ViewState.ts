@@ -52,7 +52,8 @@ class ViewState extends AppState {
 			inProgress: !this.controller.getGameIsComplete(0),
 			grandfinal: false,
 			showDetails: true,
-			gamesPlayed: false
+			gamesPlayed: false,
+			isArchive: this.app.isArchiveMode
 		};
 
 		context.gamesPlayed = context.rankings.length > 0;
@@ -156,6 +157,20 @@ class ViewState extends AppState {
 
 		/////////////////////////////////////////////////////////////////////////
 
+
+		$('.season-selector').on('change', (e) => {
+
+			var values = ((<HTMLSelectElement>e.currentTarget).value).split("|");
+
+			var url = window.location.origin + window.location.pathname;
+
+			if (values.length > 1) {
+				url += "?" + "year=" + values[0] + "&season=" + values[1];
+			}
+
+			window.location.href = url;
+		})
+		
 		if (showprogress) {
 
 			$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
