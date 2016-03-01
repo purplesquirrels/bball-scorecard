@@ -6,7 +6,23 @@
 			"description" : "100 points",
 			"image" : "100pts.svg",
 			"multi" : false,
-			"condition" : "score >= 100"
+			"condition" : "score >= 100",
+			"series" : {
+				"name" : "points",
+				"order" : 1
+			}
+		},
+		{
+			"id" : "2",
+			"name" : "150",
+			"description" : "150 points",
+			"image" : "150pts.svg",
+			"multi" : false,
+			"condition" : "score >= 150",
+			"series" : {
+				"name" : "points",
+				"order" : 2
+			}
 		},
 		{
 			"id" : "4",

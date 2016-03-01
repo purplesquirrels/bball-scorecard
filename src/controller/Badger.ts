@@ -27,6 +27,30 @@ class Badger {
 			}
 		}
 
+		var badgeseries = {};
+
+		for (var i = badges.length-1; i >= 0; i--) {
+
+			console.log(badges[i].name);
+
+			if (badges[i].series && badges[i].series.name) {
+
+				var seriesName = badges[i].series.name;
+
+				if (!badgeseries[seriesName]) {
+					badgeseries[seriesName] = badges[i];
+				}
+
+				// delete if order is less than current, otherwise store for next iteration
+				if (badges[i].series.order < badgeseries[seriesName].series.order) {
+					badges.splice(i, 1);
+				} else {
+					badgeseries[seriesName] = badges[i];
+				}
+			}
+
+		}
+
 		return badges;
 	}
 
