@@ -23,6 +23,12 @@ interface Badge {
 	count: number;
 	description: string;
 	condition?: string;
+	series: BadgeSeries;
+}
+
+interface BadgeSeries {
+	name: string;
+	order: number;
 }
 
 
