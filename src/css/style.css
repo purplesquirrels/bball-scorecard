@@ -1292,6 +1292,11 @@ table.editmode .switch label .lever {
     position: relative;
 }
 
+.stat-holder .badge {
+	width: 45%;
+    padding-bottom: calc(45% + 2em);
+}
+
 .badge-label {
 	position: absolute;
     width: 100%;
@@ -1302,15 +1307,27 @@ table.editmode .switch label .lever {
     opacity: 0;
 }
 
+.stat-holder  .badge-label {
+	height: auto;
+    opacity: 1;
+    color: #FFF;
+    text-align: center;
+    line-height: 1;
+    padding: 0 0.75em;
+    margin-top: 95%;
+    font-size: 0.8em;
+    text-transform: uppercase;
+}
+
 .badge-count {
 	position: absolute;
     font-size: 0.9em;
-    bottom: -0.3em;
+    top: 0.8em;
     width: 2em;
     height: 2em;
     text-align: center;
     font-weight: bold;
-    left: 50%;
+    right: -0.8em;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     background: #28FF93;
