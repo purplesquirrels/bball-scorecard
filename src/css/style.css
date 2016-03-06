@@ -662,7 +662,8 @@ table.editmode td:nth-last-of-type(3) {
 	color: #5e35b1;
 }
 
-.icon-latebonus {
+.icon-latebonus,
+.icon-powerup {
 	position: relative;
 	top: 3px;
 	font-size:17px;
