@@ -331,7 +331,9 @@ class StatsView {
 			boundys_value: "",
 			boundys_playername: "",
 			laps_value: "",
-			laps_playername: ""
+			laps_playername: "",
+			bonuses_value: "",
+			bonuses_playername: ""
 		}
 
 		var score: HighScoreObject = NumberCruncher.getPlayerWithHighestScore();
@@ -353,6 +355,11 @@ class StatsView {
 		var laps: HighScoreObject = NumberCruncher.getPlayerWithHighestLaps();
 		statscontext.laps_value = laps.value + "";
 		statscontext.laps_playername = laps.value > 0 ? laps.playerid.join("<br>") : "-";
+
+
+		var bonuses: HighScoreObject = NumberCruncher.getPlayerWithHighestBonuses();
+		statscontext.bonuses_value = bonuses.value + "";
+		statscontext.bonuses_playername = bonuses.value > 0 ? bonuses.playerid.join("<br>") : "-";
 
 
 		var stathtml = stattemplate(statscontext);

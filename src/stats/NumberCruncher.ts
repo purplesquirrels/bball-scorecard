@@ -451,6 +451,45 @@ class NumberCruncher {
 		return result;
 	}
 
+	static getPlayerWithHighestBonuses(): HighScoreObject {
+		var i = 0;
+		var scores: any[] = [];
+		var result: HighScoreObject = {
+			value: 0,
+			playerid: []
+		};
+
+		for (i = 0; i < this.model.players.length; ++i) {
+			scores.push({
+				playerid: this.model.players[i].id,
+				firstname: this.model.players[i].firstname,
+				value: this.getPlayerTotalBonuses(this.model.players[i].id, true)
+			});
+		}
+
+		scores.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		result.value = scores[0].value;
+
+		for (i = 0; i < scores.length; ++i) {
+			if (i === 0) {
+				result.playerid.push(scores[i].firstname);
+				continue;
+			}
+			if (scores[i].value === scores[i - 1].value) {
+				result.playerid.push(scores[i].firstname);
+			} else {
+				break;
+			}
+		}
+
+		return result;
+	}
+
 	static getPlayerWithHighestScore(): HighScoreObject {
 		var i = 0;
 		var scores: any[] = [];
@@ -564,6 +603,32 @@ class NumberCruncher {
 			}
 		}
 		return result;
+	}
+
+	static getPlayerTotalBonuses(playerid:string, countonly:boolean = false): number {
+
+		if (this.model.scores.length === 0) return 0;
+
+		var total:number = 0;
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid]) {
+
+				for (var b in this.model.bonuses) {
+					if (this.model.bonuses.hasOwnProperty(b) && b != "late") {
+						if (countonly) {
+							total += (this.model.scores[i].values[playerid][b]);
+						} else {
+							total += (this.model.scores[i].values[playerid][b] * this.model.bonuses[b].value);
+						}
+					}
+				}
+			}
+
+		}
+
+		return total;
 	}
 
 	
