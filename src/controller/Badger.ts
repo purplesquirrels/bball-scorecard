@@ -90,12 +90,18 @@ class Badger {
 			"attendance": Math.floor(played / totalGames * 100),
 			"latecount": NumberCruncher.getPlayLateStarts(playerid),
 			"shots": NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
-			
+
 			/* variable data per game */
 			"rankchange" : 0,
 			"late" : false,
-			"gamescore" : 0
+			"gamescore" : 0,
+			"bonus01" : 0,
+			"bonus02" : 0,
+			"bonus04" : 0
 		}
+
+		
+
 
 		if (!badge.condition) {
 
@@ -132,6 +138,12 @@ class Badger {
 				context.rankchange = rankChanges[i] || 0;
 				context.late = this.controller.getPlayerIsLate(playerid, i) || false;
 				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i) || 0;
+
+				context.bonus01 = this.controller.getPlayerBonusesForDay(playerid, "bonus01", i);
+				context.bonus02 = this.controller.getPlayerBonusesForDay(playerid, "bonus02", i);
+				context.bonus04 = this.controller.getPlayerBonusesForDay(playerid, "bonus04", i);
+
+				//console.log(context);
 
 				if (CEEBz.parse(badge.condition, context)) count++;
 
