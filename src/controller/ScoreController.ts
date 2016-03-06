@@ -207,7 +207,8 @@ class ScoreController {
 					bonuses: 0,
 					rawscore: 0,
 					multiplier: 1,
-					late: false
+					late: false,
+					powerup: false
 				};
 
 
@@ -249,6 +250,7 @@ class ScoreController {
 				player.rawscore = rawscore;
 				player.multiplier = multiplier;
 				player.late = this.model.scores[day].values[id].late === 1;
+				player.powerup = this.model.scores[day].values[id].manualbadges.indexOf("powerup") > -1;
 
 				
 				players.push(player);
@@ -579,6 +581,29 @@ class ScoreController {
 		}
 
 		return ranklast - ranknow;
+	}
+
+	getPlayerBonusesForDay = (playerid: string, bonus: string, day:number=0): number => {
+
+		if (this.model.scores.length === 0) return 0;
+
+		//console.log('getPlayerBonusCount', bonus);
+
+		//var total:number = 0;
+
+		//for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[day].values[playerid] && 
+				this.model.scores[day].values[playerid][bonus] >= 1) {
+
+				//console.log(playerid, bonus, this.model.scores[i].values[playerid][bonus])
+				
+				return this.model.scores[day].values[playerid][bonus];
+			}
+
+		//}
+
+		return 0;
 	}
 
 	getPlayersDaysSinceLastGame = (playerid: string): number => {
