@@ -63,6 +63,7 @@ class ViewState extends AppState {
 		/* remove players from leaderboard if... */
 		for (var i = context.rankings.length-1; i > 0; i--) {
 			if (!this.controller.getPlayerTotalGames(context.rankings[i].id) || /* havent played any games this season or..*/
+				!this.app.isArchiveMode && /* dont delete if archive mode */
 				this.controller.getPlayersDaysSinceLastGame(context.rankings[i].id) >= 5) { /* havent played for 5 days */
 				context.rankings.splice(i, 1);
 			}

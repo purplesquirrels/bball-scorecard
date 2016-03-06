@@ -250,7 +250,10 @@ class ScoreController {
 				player.rawscore = rawscore;
 				player.multiplier = multiplier;
 				player.late = this.model.scores[day].values[id].late === 1;
-				player.powerup = this.model.scores[day].values[id].manualbadges.indexOf("powerup") > -1;
+
+				if (this.model.scores[day].values[id].manualbadges) {
+					player.powerup = this.model.scores[day].values[id].manualbadges.indexOf("powerup") > -1;
+				}
 
 				
 				players.push(player);
@@ -481,14 +484,18 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return [];
 
-		var order:any[] = [];
+		var order: any[] = [];
+		var total: number = this.getNumPlayers();
 
-		for (var i = 0; i < this.getNumPlayers(); ++i) {
-			if (day === 0) {
-				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerLastTotalScore(this.getPlayedIDAtIndex(i)) })
-			} else {
-				order.push({ id: this.getPlayedIDAtIndex(i), score: this.getPlayerTotalScoreOnDay(this.getPlayedIDAtIndex(i), day) })
-			}
+		for (var i = 0; i < total; ++i) {
+
+			var playerid: string = this.getPlayedIDAtIndex(i);
+			var player: Object = {
+				id: playerid,
+				score: this.getPlayerTotalScoreOnDay(playerid, day)
+			};
+
+			order.push(player);
 		}
 	
 		order = this.ranker.rank(order, "score");
