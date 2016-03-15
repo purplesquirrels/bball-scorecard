@@ -176,51 +176,85 @@
 					<th></th>
 					<th></th>
 					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
 					<th colspan="3" class="bonus">Bonus</th>
+					<th></th>
 				</tr>
 				<tr class="mainhead">
-					<th width='10%'>Player</th>
-					<th width='10%'>L8</th>
-					<th width='8%'>B</th>
-					<th width='8%'>HK</th>
-					<th width='8%'>FK</th>
-					<th width='8%'>H3</th>
-					<th width='8%'>F3</th>
-					<th width='8%'>BN</th>
-					<th width='8%'>K1</th>
-					<th width='8%'>K2</th>
-					<th width='8%'>F3</th>
+					<th width='11.11111%'>HK</th>
+					<th width='11.11111%'>FK</th>
+					<th width='11.11111%'>H3</th>
+					<th width='11.11111%'>F3</th>
+					<th width='11.11111%'>BN</th>
+					<th width='11.11111%'>K1</th>
+					<th width='11.11111%'>K2</th>
+					<th width='11.11111%'>F3</th>
+					<th width='11.11111%'>B</th>
 				</tr>
 			</thead>
-			<tbody>
+			</table>
+			<ul class="collapsible" data-collapsible="accordion">
 			{{#each players}}
 				{{#if this.active}}
 				{{> newdayItem }}
 				{{/if}}
 			{{/each}}
-			</tbody>
+			</ul>
 		</table>
 	</div>
 </script>
 
 <script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
-	<tr class='player-row{{#if this.played}} isPlaying{{/if}}'>
-		<td><div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div></td>
-		<td><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'></label></td>
-		<td><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'>+</a></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point02B}}" data-for="{{this.id}}" data-value="point02B"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.boundy}}" data-for="{{this.id}}" data-value="boundy"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01"></td>
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02"></td>
-		<!--td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus03}}" data-for="{{this.id}}" data-value="bonus03"></td-->
-		<td><input {{isPlayingEnable this.played}} type='number' min='0' class='point-input' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04"></td>
-	</tr>
+	<li class='player-row{{#if this.played}} isPlaying{{/if}}'>
+		<div class="collapsible-header"><table>
+			<thead>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+				<tr width="11.11111%"> </tr>
+			</thead>
+			<tbody>
+			<tr class="player-row-header">
+				<td colspan="9">
+					<div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div>
+				</td>
+			</tr>
+			<tr class="player-row-main-buttons">
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01">{{this.point01}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02">{{this.point02}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02B}}" data-for="{{this.id}}" data-value="point02B">{{this.point02B}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03">{{this.point03}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.boundy}}" data-for="{{this.id}}" data-value="boundy">{{this.boundy}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01">{{this.bonus01}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02">{{this.bonus02}}</button></div></td>
+				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04">{{this.bonus04}}</button></div></td>
+				<td width="11.11111%"><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'>+</a></td>
+			</tr>
+			</tbody>
+		</table></div>
+		<div class="player-row-secondary-buttons collapsible-body">
+			<table>
+				<tbody>
+				<tr>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point01">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point02">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point02B">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point03">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="boundy">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus01">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus02">-</button></td>
+					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus04">-</button></td>
+					<td width="11.11111%"></td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
+		</div>
+	</li>
 </script>
 
 <script id="modal-new-player" type="text/x-handlebars-template">
