@@ -535,6 +535,10 @@ table.editmode td:nth-last-of-type(3) {
 	-webkit-tap-highlight-color: transparent;
 }
 
+.player-row thead {
+	border: none;
+}
+
 .player-row .player-row-header {
     background: rgba(255,255,255,0.1);
 }
@@ -572,7 +576,8 @@ table.editmode td:nth-last-of-type(3) {
 	border-radius: 20px;
 }
 
-.point-input {
+.circle-button button.point-input {
+	background: #20202D;
 	font-size: 2rem;
 }
 .point-input:disabled {
