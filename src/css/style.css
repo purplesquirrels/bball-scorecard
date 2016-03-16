@@ -858,9 +858,15 @@ table.editmode td:nth-last-of-type(3) {
 	background: #353B51;
 	color: #E2E2E2;
 }
+.modal .modal-content {
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
 .modal .modal-footer {
 	background: transparent;
 	color: #E2E2E2;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 .input-field {
 	color: black;
