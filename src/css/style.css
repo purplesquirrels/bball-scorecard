@@ -658,8 +658,8 @@ table.editmode td:nth-last-of-type(3) {
 }
 
 .multiplier-5 {
-	background: #d1c4e9;
-	color: #5e35b1;
+	background: rgba(116, 99, 231, 0.2);
+    color: #A193FF;
 }
 
 .icon-latebonus,
