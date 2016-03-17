@@ -539,9 +539,43 @@ label {
 
 .edit-state .collapsible-header,
 .newday-state .collapsible-header {
+	position: relative;
 	background: transparent;
 	border: none;
 	-webkit-tap-highlight-color: transparent;
+}
+
+.collapsible-header .accordion-header-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 11.1111%;
+	height: 54px;
+	font-size: 1.5rem;
+	text-align: center;
+	line-height: 1;
+	padding-top: 1.25rem;
+	background: rgba(33, 38, 51, 0.14);
+	font-family: 'Material Icons';
+	-webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga' 1;
+}
+
+.collapsible-header .accordion-header-icon:before {
+	content: "keyboard_arrow_down";
+}
+.collapsible-header.active .accordion-header-icon:before {
+	content: "keyboard_arrow_up";
+}
+
+.accordion-header-blocker {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: calc(100% - 54px);
+	background: rgba(0,0,0,0);
+	height: 54px;
+	cursor: default;
 }
 
 .player-row thead {
