@@ -1239,8 +1239,6 @@ table.editmode .switch label .lever {
 	fill: #e2e2e2;
 	font-weight: 200;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 }
 
 .pieCentreLabelValue {
@@ -1249,8 +1247,6 @@ table.editmode .switch label .lever {
 	fill: #e2e2e2;
 	font-weight: 400;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 
 }
 .pieCentreLabelKey {
@@ -1260,8 +1256,6 @@ table.editmode .switch label .lever {
 	font-weight: 200;
 	text-transform: uppercase;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 }
 
 
