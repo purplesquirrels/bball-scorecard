@@ -47,7 +47,7 @@ class NewDayState extends AppState {
 		});
 		
 		//$('.editmode').on("change input", "input", this.onInputChange);
-		$('input.isPlaying').on("change", this.onInputChange);
+		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
 		$('button.point-input').on("click", this.onAddPoint);
 		$('button.point-subtract').on("click", this.onSubtractPoint);
 
@@ -349,9 +349,8 @@ class NewDayState extends AppState {
 
 					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
 
-					
 					if (!checked) {
-						$("button[data-for='" + player + "']:not(.isPlaying)").val("0");
+						$("button.point-input[data-for='" + player + "']:not(.isPlaying)").text("0");
 						$("[type='checkbox'][data-for='" + player + "']:not(.isPlaying)").prop("checked", false);
 						$(".player-row a[data-for='" + player + "']").addClass("disabled");
 
