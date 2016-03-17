@@ -46,7 +46,7 @@
 	<a class="sort bb-button bb-purple sort-default active" data-sort="default" title="Official score">Score</a>
 	<a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a>
 	<a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a>
-	<a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a>
+	<!-- <a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a> -->
 	<a class="sort bb-button bb-purple" data-sort="averagerawandbonus:desc" title="Average raw score plus bonuses">Av raw + bonus</a>
 	
 
@@ -205,7 +205,7 @@
 
 <script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
 	<li class='player-row{{#if this.played}} isPlaying{{/if}}'>
-		<div class="collapsible-header"><table>
+		<div class="collapsible-header"><div class="accordion-header-blocker"></div><div class="accordion-header-icon"></div><table>
 			<thead>
 				<tr width="11.11111%"> </tr>
 				<tr width="11.11111%"> </tr>
