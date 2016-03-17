@@ -513,6 +513,14 @@ table.editmode td:nth-last-of-type(3) {
 	border-left: 1px solid #26A69A;
 }*/
 
+label {
+	color: #FFF;
+}
+
+[type="checkbox"]+label:before {
+	border-color: #FFF;
+}
+
 .newday-tools {
 	margin: 1rem 0;
 	width: 100%;
@@ -529,9 +537,10 @@ table.editmode td:nth-last-of-type(3) {
 	padding: 0 0.7rem;
 }
 
+.edit-state .collapsible-header,
 .newday-state .collapsible-header {
 	background: transparent;
-	border-bottom: none;
+	border: none;
 	-webkit-tap-highlight-color: transparent;
 }
 
@@ -540,7 +549,7 @@ table.editmode td:nth-last-of-type(3) {
 }
 
 .player-row .player-row-header {
-    background: rgba(255,255,255,0.1);
+    background: rgb(65, 72, 99);
 }
 
 .player-row-header td {
