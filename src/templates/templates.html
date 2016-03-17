@@ -240,19 +240,19 @@
 			<table>
 				<tbody>
 				<tr>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point01">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point02">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point02B">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="point03">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="boundy">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus01">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus02">-</button></td>
-					<td width="11.11111%"><button disabled class="point-subtract" data-for="{{this.id}}" data-value="bonus04">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point01">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02B">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point03">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="boundy">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus01">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus02">-</button></td>
+					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus04">-</button></td>
 					<td width="11.11111%"></td>
 				</tr>
 				</tbody>
 			</table>
-			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
+			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='isLate point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
 		</div>
 	</li>
 </script>
