@@ -39,26 +39,22 @@ class EditState extends AppState {
 		$('.datepicker').pickadate({
 			selectMonths: false, // Creates a dropdown to control month
 			selectYears: false // Creates a dropdown of 15 years to control year
-		});//.prop("disabled", true);
+		});
 		$('.datepicker').prop("disabled", true);
 		
 		$('.collapsible').collapsible({
 			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 		});
 
-		//$('.editmode').on("change input", "input", this.onInputChange);
 		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
 		$('button.point-input').on("click", this.onAddPoint);
 		$('button.point-subtract').on("click", this.onSubtractPoint);
-		
-		/*$('.editmode').on("focus", "input", (e) => {
-			var currentTarget = $(e.currentTarget);
-			var inputtype = currentTarget.attr("type");
 
-			if (inputtype === "number") {
-				currentTarget.select();
-			}
-		});*/
+		$('.collapsible').on("click", '.accordion-header-blocker', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
+		
 
 		$(".add-player").prop("disabled", true);
 		/*$(".add-player").bind("click", (e) => {
@@ -101,7 +97,6 @@ class EditState extends AppState {
 
 			$(".app-header").removeClass("hidden");
 
-			//this.controller.deleteDay(0);
 			this.app.setState(StateType.VIEW);
 		});
 
@@ -228,12 +223,9 @@ class EditState extends AppState {
 		e.preventDefault();
 		e.stopPropagation();
 
-
 		var currentTarget = $(e.currentTarget);
-		//var inputtype = currentTarget.attr("type");
 		var player: string = currentTarget.data("for");
 		var pointtype: string = currentTarget.data("value");
-		//console.log("oninputchange", player);
 
 		var value = parseInt(currentTarget.text(), 10);
 
@@ -255,10 +247,8 @@ class EditState extends AppState {
 
 
 		var currentTarget = $(e.currentTarget);
-		//var inputtype = currentTarget.attr("type");
 		var player: string = currentTarget.data("for");
 		var pointtype: string = currentTarget.data("value");
-		//console.log("oninputchange", player);
 		var targ = $("button.point-input[data-value='" + pointtype + "'][data-for='" + player + "']");
 
 		var value = parseInt(targ.text(), 10);
@@ -267,8 +257,6 @@ class EditState extends AppState {
 
 		value -= 1;
 
-
-		//currentTarget.text(value);
 		targ.text(value);
 
 		if (pointtype.indexOf("bonus") > -1) {
@@ -287,14 +275,6 @@ class EditState extends AppState {
 
 		switch (inputtype) {
 			case "number":
-
-				/*var value = parseInt(currentTarget.val(), 10);
-
-				if (pointtype.indexOf("bonus") > -1) {
-					this.controller.setPlayerBonus(player, pointtype, value);
-				} else {
-					this.controller.setPlayerPoint(player, pointtype, value);
-				}*/
 				
 				break;
 			case "checkbox":
