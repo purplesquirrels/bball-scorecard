@@ -19,10 +19,10 @@ class ViewState extends AppState {
 			"averagescore:asc"	: "Av points",
 			"rawscore:desc"	: "Raw score",
 			"rawscore:asc"	: "Raw score",
-			"averagerawscore:desc"	: "Av raw score",
-			"averagerawscore:asc"	: "Av raw score",
-			"rawandbonus:desc"	: "Raw + bonus",
-			"rawandbonus:asc"	: "Raw + bonus",
+			"averagerawscore:desc"	: "Av raw points",
+			"averagerawscore:asc": "Av raw points",
+			"averagerawandbonus:desc": "Av raw + bonus",
+			"averagerawandbonus:asc": "Av raw + bonus"
 		}
 	}
 
@@ -153,6 +153,7 @@ class ViewState extends AppState {
 			context.rankings[i].latestarts = NumberCruncher.getPlayLateStarts(playerid);
 			context.rankings[i].averagerawscore = NumberCruncher.getPlayerAverageRawScore(playerid, false);
 			context.rankings[i].rawandbonus = NumberCruncher.getPlayerRawScore(playerid, true);
+			context.rankings[i].averagerawandbonus = NumberCruncher.getPlayerAverageRawScore(playerid, true);
 		}
 
 		var html = template(context);

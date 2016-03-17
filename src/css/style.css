@@ -743,8 +743,8 @@ label {
 }
 
 .multiplier-5 {
-	background: #d1c4e9;
-	color: #5e35b1;
+	background: rgba(116, 99, 231, 0.2);
+    color: #A193FF;
 }
 
 .icon-latebonus,
@@ -943,9 +943,15 @@ label {
 	background: #353B51;
 	color: #E2E2E2;
 }
+.modal .modal-content {
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
 .modal .modal-footer {
 	background: transparent;
 	color: #E2E2E2;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 .input-field {
 	color: black;

@@ -47,7 +47,7 @@
 	<a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a>
 	<a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a>
 	<a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a>
-	<a class="sort bb-button bb-purple" data-sort="rawandbonus:desc" title="Raw score plus bonuses">Raw + bonus</a>
+	<a class="sort bb-button bb-purple" data-sort="averagerawandbonus:desc" title="Average raw score plus bonuses">Av raw + bonus</a>
 	
 
 </div>
@@ -63,7 +63,7 @@
 </table>
 <ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion">
 	{{#each rankings}}
-	<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}" data-rawandbonus="{{this.rawandbonus}}">
+	<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}" data-averagerawandbonus="{{this.averagerawandbonus}}">
 		<div class="playeritem collapsible-header">
 			<table class="mainlist">	
 				<tbody >
