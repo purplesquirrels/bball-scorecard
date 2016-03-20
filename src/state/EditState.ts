@@ -39,19 +39,22 @@ class EditState extends AppState {
 		$('.datepicker').pickadate({
 			selectMonths: false, // Creates a dropdown to control month
 			selectYears: false // Creates a dropdown of 15 years to control year
-		});//.prop("disabled", true);
+		});
 		$('.datepicker').prop("disabled", true);
 		
-		$('.editmode').on("change input", "input", this.onInputChange);
-		
-		$('.editmode').on("focus", "input", (e) => {
-			var currentTarget = $(e.currentTarget);
-			var inputtype = currentTarget.attr("type");
-
-			if (inputtype === "number") {
-				currentTarget.select();
-			}
+		$('.collapsible').collapsible({
+			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 		});
+
+		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
+		$('button.point-input').on("click", this.onAddPoint);
+		$('button.point-subtract').on("click", this.onSubtractPoint);
+
+		$('.collapsible').on("click", '.accordion-header-blocker', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
+		
 
 		$(".add-player").prop("disabled", true);
 		/*$(".add-player").bind("click", (e) => {
@@ -94,7 +97,6 @@ class EditState extends AppState {
 
 			$(".app-header").removeClass("hidden");
 
-			//this.controller.deleteDay(0);
 			this.app.setState(StateType.VIEW);
 		});
 
@@ -216,6 +218,54 @@ class EditState extends AppState {
 		$('.select-dropdown').prop("disabled", true);
 	}
 
+	onAddPoint = (e: any) => {
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		var currentTarget = $(e.currentTarget);
+		var player: string = currentTarget.data("for");
+		var pointtype: string = currentTarget.data("value");
+
+		var value = parseInt(currentTarget.text(), 10);
+
+		value += 1;
+
+		currentTarget.text(value);
+
+		if (pointtype.indexOf("bonus") > -1) {
+			this.controller.setPlayerBonus(player, pointtype, value);
+		} else {
+			this.controller.setPlayerPoint(player, pointtype, value);
+		}
+	}
+
+	onSubtractPoint = (e: any) => {
+
+		e.preventDefault();
+		e.stopPropagation();
+
+
+		var currentTarget = $(e.currentTarget);
+		var player: string = currentTarget.data("for");
+		var pointtype: string = currentTarget.data("value");
+		var targ = $("button.point-input[data-value='" + pointtype + "'][data-for='" + player + "']");
+
+		var value = parseInt(targ.text(), 10);
+
+		if (value <= 0) return;
+
+		value -= 1;
+
+		targ.text(value);
+
+		if (pointtype.indexOf("bonus") > -1) {
+			this.controller.setPlayerBonus(player, pointtype, value);
+		} else {
+			this.controller.setPlayerPoint(player, pointtype, value);
+		}
+	}
+
 	onInputChange = (e:any) => {
 
 		var currentTarget = $(e.currentTarget);
@@ -225,14 +275,6 @@ class EditState extends AppState {
 
 		switch (inputtype) {
 			case "number":
-
-				var value = parseInt(currentTarget.val(), 10);
-
-				if (pointtype.indexOf("bonus") > -1) {
-					this.controller.setPlayerBonus(player, pointtype, value);
-				} else {
-					this.controller.setPlayerPoint(player, pointtype, value);
-				}
 				
 				break;
 			case "checkbox":
@@ -246,11 +288,11 @@ class EditState extends AppState {
 					// enable/disable player controls
 
 					currentTarget.parents(".player-row")[checked ? "addClass" : "removeClass"]("isPlaying");
-
-					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
 					
+					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
+
 					if (!checked) {
-						$("[type='number'][data-for='" + player + "']:not(.isPlaying)").val("0");
+						$("button.point-input[data-for='" + player + "']:not(.isPlaying)").text("0");
 						$("[type='checkbox'][data-for='" + player + "']:not(.isPlaying)").prop("checked", false);
 						$(".player-row a[data-for='" + player + "']").addClass("disabled");
 

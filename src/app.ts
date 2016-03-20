@@ -121,7 +121,7 @@ class App {
 
 		this.templates = {};
 
-		$.get("templates/templates.html").then((data) => {
+		$.get("templates/templates.html?_"+Math.round(Math.random()*100000)).then((data) => {
 
 			$(data).each((index, element) => {
 

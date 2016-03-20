@@ -444,7 +444,10 @@ table.editmode td {
 }
 
 .playername {
-	margin: 10px 0 5px;
+	margin: 0 1rem;
+    float: left;
+    width: 15%;
+    font-weight: bold;
 }
 
 table.editmode [type="number"] {
@@ -497,18 +500,26 @@ table.editmode th:nth-last-of-type(3) {
 	text-align: center;
 	color: #FFF;
 }*/
-table.editmode td:nth-last-of-type(1),
 table.editmode td:nth-last-of-type(2),
 table.editmode td:nth-last-of-type(3),
-table.editmode .mainhead th:nth-last-of-type(1),
+table.editmode td:nth-last-of-type(4),
 table.editmode .mainhead th:nth-last-of-type(2),
-table.editmode .mainhead th:nth-last-of-type(3) {
+table.editmode .mainhead th:nth-last-of-type(3),
+table.editmode .mainhead th:nth-last-of-type(4) {
 	background-color: rgba(38, 166, 154, 0.4);
 }
 /*table.editmode .mainhead th:nth-last-of-type(3),
 table.editmode td:nth-last-of-type(3) {
 	border-left: 1px solid #26A69A;
 }*/
+
+label {
+	color: #FFF;
+}
+
+[type="checkbox"]+label:before {
+	border-color: #FFF;
+}
 
 .newday-tools {
 	margin: 1rem 0;
@@ -526,8 +537,115 @@ table.editmode td:nth-last-of-type(3) {
 	padding: 0 0.7rem;
 }
 
+.edit-state .collapsible-header,
+.newday-state .collapsible-header {
+	position: relative;
+	background: transparent;
+	border: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.collapsible-header .accordion-header-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 11.1111%;
+	height: 54px;
+	font-size: 1.5rem;
+	text-align: center;
+	line-height: 1;
+	padding-top: 1.25rem;
+	background: rgba(33, 38, 51, 0.14);
+	font-family: 'Material Icons';
+	-webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga' 1;
+}
+
+.collapsible-header .accordion-header-icon:before {
+	content: "keyboard_arrow_down";
+}
+.collapsible-header.active .accordion-header-icon:before {
+	content: "keyboard_arrow_up";
+}
+
+.accordion-header-blocker {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: calc(100% - 54px);
+	background: rgba(0,0,0,0);
+	height: 54px;
+	cursor: default;
+}
+
+.player-row thead {
+	border: none;
+}
+
+.player-row .player-row-header {
+    background: rgb(65, 72, 99);
+}
+
+.player-row-header td {
+    padding: 5px;
+}
+
+.player-row-main-buttons td {
+    padding: 10px 2px;
+}
+
+.player-row-secondary-buttons td {
+	padding: 0 2px;
+}
+
 .player-row.hide-row {
 	display: none;
+}
+
+.circle-button {
+	width: 100%;
+	padding-bottom: 150%;
+	position: relative;
+}
+
+.circle-button button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #7E57C2;
+	border: none;
+	border-radius: 20px;
+}
+
+.circle-button button.point-input {
+	background: #20202D;
+	font-size: 2rem;
+}
+.point-input:disabled {
+	opacity: 0.3;
+}
+
+.point-subtract {
+	width: 100%;
+	border: none;
+	background: #D03535;
+	border-radius: 10px;
+	padding: 5px 0 7px;
+	line-height: 1;
+	font-size: 2rem;
+	-webkit-tap-highlight-color: transparent;
+}
+.point-subtract:focus {
+	background: #D03535;
+}
+.point-subtract:disabled {
+	opacity: 0.3;
+}
+.late-control {
+	float: left;
+	margin-top: 1rem;
 }
 
 .collapsible {
@@ -542,6 +660,7 @@ table.editmode td:nth-last-of-type(3) {
 }
 .collapsible .collapsible-header {
 	padding: 0;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .collapsible-body {
@@ -1120,8 +1239,6 @@ table.editmode .switch label .lever {
 	fill: #e2e2e2;
 	font-weight: 200;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 }
 
 .pieCentreLabelValue {
@@ -1130,8 +1247,6 @@ table.editmode .switch label .lever {
 	fill: #e2e2e2;
 	font-weight: 400;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 
 }
 .pieCentreLabelKey {
@@ -1141,8 +1256,6 @@ table.editmode .switch label .lever {
 	font-weight: 200;
 	text-transform: uppercase;
 	pointer-events: none;
-	-webkit-transform: translateY(50%);
-	transform: translateY(50%);
 }
 
 
@@ -1417,15 +1530,18 @@ table.editmode .switch label .lever {
 }
 
 .add-badge {
-    height: 35px;
-    width: 35px;
+    height: 45px;
+    width: 100%;
     display: block;
     line-height: 1;
     background: #7463e7;
     color: #FFF;
     border: none;
-    padding-top: 10px;
+    padding: 0;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

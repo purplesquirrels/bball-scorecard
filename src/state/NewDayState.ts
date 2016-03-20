@@ -41,16 +41,18 @@ class NewDayState extends AppState {
 			selectMonths: true, // Creates a dropdown to control month
 			selectYears: true // Creates a dropdown of 15 years to control year
 		});
+
+		$('.collapsible').collapsible({
+			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+		});
 		
-		$('.editmode').on("change input", "input", this.onInputChange);
+		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
+		$('button.point-input').on("click", this.onAddPoint);
+		$('button.point-subtract').on("click", this.onSubtractPoint);
 
-		$('.editmode').on("focus", "input", (e) => {
-			var currentTarget = $(e.currentTarget);
-			var inputtype = currentTarget.attr("type");
-
-			if (inputtype === "number") {
-				currentTarget.select();
-			}
+		$('.collapsible').on("click", '.accordion-header-blocker', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
 		});
 
 		$(".add-player").bind("click", (e) => {
@@ -120,7 +122,6 @@ class NewDayState extends AppState {
 
 				this.send(this.controller.getJSONString(), "update/all").done((data) => {
 					console.log("Success cancel update");
-					//console.log(data);
 				})
 				.fail((data) => {
 					console.log("Error cancel update", data);
@@ -243,6 +244,54 @@ class NewDayState extends AppState {
 		return t.total <= 0;
 	}
 
+	onAddPoint = (e: any) => {
+
+		e.preventDefault();
+		e.stopPropagation();
+
+
+		var currentTarget = $(e.currentTarget);
+		var player: string = currentTarget.data("for");
+		var pointtype: string = currentTarget.data("value");
+
+		var value = parseInt(currentTarget.text(), 10);
+
+		value += 1;
+
+		currentTarget.text(value);
+
+		if (pointtype.indexOf("bonus") > -1) {
+			this.controller.setPlayerBonus(player, pointtype, value);
+		} else {
+			this.controller.setPlayerPoint(player, pointtype, value);
+		}
+	}
+
+	onSubtractPoint = (e: any) => {
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		var currentTarget = $(e.currentTarget);
+		var player: string = currentTarget.data("for");
+		var pointtype: string = currentTarget.data("value");
+		var targ = $("button.point-input[data-value='" + pointtype + "'][data-for='" + player + "']");
+
+		var value = parseInt(targ.text(), 10);
+
+		if (value <= 0) return;
+		
+		value -= 1;
+
+		targ.text(value);
+
+		if (pointtype.indexOf("bonus") > -1) {
+			this.controller.setPlayerBonus(player, pointtype, value);
+		} else {
+			this.controller.setPlayerPoint(player, pointtype, value);
+		}
+	}
+
 	onInputChange = (e:any) => {
 
 		var currentTarget = $(e.currentTarget);
@@ -252,14 +301,6 @@ class NewDayState extends AppState {
 
 		switch (inputtype) {
 			case "number":
-
-				var value = parseInt(currentTarget.val(), 10);
-
-				if (pointtype.indexOf("bonus") > -1) {
-					this.controller.setPlayerBonus(player, pointtype, value);
-				} else {
-					this.controller.setPlayerPoint(player, pointtype, value);
-				}
 				
 				break;
 			case "checkbox":
@@ -270,7 +311,6 @@ class NewDayState extends AppState {
 					this.controller.setPlayerLate(player, checked);
 				}
 				if (pointtype === "playing") {
-					// enable/disable player controls
 
 					var isPlaying = this.controller.getPlayerIsPlaying(player, 0);
 
@@ -284,9 +324,8 @@ class NewDayState extends AppState {
 
 					$("[data-for='" + player + "']:not(.isPlaying)").prop("disabled", !checked);
 
-					
 					if (!checked) {
-						$("[type='number'][data-for='" + player + "']:not(.isPlaying)").val("0");
+						$("button.point-input[data-for='" + player + "']:not(.isPlaying)").text("0");
 						$("[type='checkbox'][data-for='" + player + "']:not(.isPlaying)").prop("checked", false);
 						$(".player-row a[data-for='" + player + "']").addClass("disabled");
 
