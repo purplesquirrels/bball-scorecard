@@ -792,7 +792,8 @@ class ScoreController {
 		var player = {
 			"id": newid,
 			"firstname": firstname,
-			"lastname": lastname
+			"lastname": lastname,
+			"avatar": (firstname.split(" ").join("_")) + ".jpg"
 		};
 
 		this.model.players.push(player); // add to player list

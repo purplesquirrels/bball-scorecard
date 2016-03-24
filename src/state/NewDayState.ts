@@ -50,10 +50,7 @@ class NewDayState extends AppState {
 		$('button.point-input').on("click", this.onAddPoint);
 		$('button.point-subtract').on("click", this.onSubtractPoint);
 
-		$('.collapsible').on("click", '.accordion-header-blocker', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-		});
+		$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
 
 		$(".add-player").bind("click", (e) => {
 
@@ -61,9 +58,35 @@ class NewDayState extends AppState {
 
 				if (player) {
 					var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["partial_newday-item"]);
+					//player.scores["played"] = 1;
 					var html = template(player.scores);
 
-					$(".mainlist tbody").append(html);
+					$(".playerlist").append(html);
+
+
+					// remove old listeners
+					$('input.isPlaying, input.isLate').off("change", this.onInputChange);
+					$('button.point-input').off("click", this.onAddPoint);
+					$('button.point-subtract').off("click", this.onSubtractPoint);
+
+					// add new listeners
+					$('input.isPlaying, input.isLate').on("change", this.onInputChange);
+					$('button.point-input').on("click", this.onAddPoint);
+					$('button.point-subtract').on("click", this.onSubtractPoint);
+
+
+					$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
+
+					$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
+
+					var data = this.controller.getJSONString();
+					var command = "update/all";
+
+					this.send(data, command).done((data) => {})
+					.fail((data) => {})
+					.always((data) => {});
+
+
 				}
 
 			});
@@ -212,6 +235,11 @@ class NewDayState extends AppState {
 		this.saveChanges(true);
 
 		this.startProgressTimer();
+	}
+
+	stopAndPreventDefault = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
 	}
 
 	startProgressTimer = () => {
