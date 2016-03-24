@@ -46,11 +46,11 @@ class NewDayState extends AppState {
 			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 		});
 		
-		/*$('input.isPlaying, input.isLate').on("change", this.onInputChange);
+		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
 		$('button.point-input').on("click", this.onAddPoint);
 		$('button.point-subtract').on("click", this.onSubtractPoint);
 
-		$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);*/
+		$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
 
 		$(".add-player").bind("click", (e) => {
 
