@@ -68,15 +68,12 @@ class NewDayState extends AppState {
 					$('input.isPlaying, input.isLate').off("change", this.onInputChange);
 					$('button.point-input').off("click", this.onAddPoint);
 					$('button.point-subtract').off("click", this.onSubtractPoint);
+					$('.collapsible').off("click", '.accordion-header-blocker', this.stopAndPreventDefault);
 
 					// add new listeners
 					$('input.isPlaying, input.isLate').on("change", this.onInputChange);
 					$('button.point-input').on("click", this.onAddPoint);
 					$('button.point-subtract').on("click", this.onSubtractPoint);
-
-
-					$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
-
 					$('.collapsible').on("click", '.accordion-header-blocker', this.stopAndPreventDefault);
 
 					var data = this.controller.getJSONString();

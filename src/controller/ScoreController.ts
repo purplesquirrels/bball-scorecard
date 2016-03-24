@@ -793,7 +793,7 @@ class ScoreController {
 			"id": newid,
 			"firstname": firstname,
 			"lastname": lastname,
-			"avatar": (firstname.split(" ").join("_")) + ".jpg"
+			"avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()
 		};
 
 		this.model.players.push(player); // add to player list

@@ -572,19 +572,26 @@
 <h1 class="header">Admin</h1>
 <div class="body">
 	<div class="newday-tools">
-		<!-- <button class="waves-effect waves-light deep-purple lighten-1 btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button> -->
-		<!-- <button class="waves-effect waves-light deep-purple lighten-1 btn action-btn save-newday"><i class='material-icons left'>done</i>Finish</button> -->
 		<button class="waves-effect waves-light btn action-btn cancel-admin red"><i class='material-icons left'>not_interested</i>Exit</button>
 	</div>
 	<ul>
-		<li>Create new season - archive old</li>
-		<li>Add/delete/arhive player</li>
+		<li>TODO:</li>
 		<li>Add/delete badge</li>
 		<li>Adjust bonus/point values</li>
 		<li>Add/remove bonus/points</li>
 		<li>Show/hide Sort options for main board</li>
 	</ul>
 	<hr />
+	<h4>Add player</h4>
+	<label for="first_name">First Name</label>
+    <input id="first_name" type="text" class="validate">
+    <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
+	<hr />
+	<h4>Edit player</h4>
+	<!-- <li>Add/delete/arhive player</li> -->
+	<!-- <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Edit player</a> -->
+	<hr />
+	<h4>Create new season</h4>
 	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
 </div>
 </script>
@@ -616,6 +623,7 @@
 			</div>
 		</div>
 	    <div class="modal-footer">
+	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-season"><i class='material-icons left'>done</i>Confirm new season</button>
 	      <!-- <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a> -->
 	    </div>
