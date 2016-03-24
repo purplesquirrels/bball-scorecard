@@ -119,6 +119,7 @@
     <li><a href="#" data-action='state:newDay' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
   {{/if}}
     <li><a href="#" data-action="state:edit" class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
+    <li><a href="#" data-action="state:admin" class="deep-purple-text text-lighten-1"><i class='material-icons left'>security</i>Admin</a></li>
   </ul>
 </script>
 
@@ -568,3 +569,58 @@
 </div>
 </script>
 
+<script id="admin-template" type="text/x-handlebars-template">
+<h1 class="header">Admin</h1>
+<div class="body">
+	<div class="newday-tools">
+		<!-- <button class="waves-effect waves-light deep-purple lighten-1 btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button> -->
+		<!-- <button class="waves-effect waves-light deep-purple lighten-1 btn action-btn save-newday"><i class='material-icons left'>done</i>Finish</button> -->
+		<button class="waves-effect waves-light btn action-btn cancel-admin red"><i class='material-icons left'>not_interested</i>Exit</button>
+	</div>
+	<ul>
+		<li>Create new season - archive old</li>
+		<li>Add/delete/arhive player</li>
+		<li>Add/delete badge</li>
+		<li>Adjust bonus/point values</li>
+		<li>Add/remove bonus/points</li>
+		<li>Show/hide Sort options for main board</li>
+	</ul>
+	<hr />
+	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
+</div>
+</script>
+
+<script id="modal-new-season" type="text/x-handlebars-template">
+	<div id="newseason-modal" class="modal">
+	    <div class="modal-content">
+
+	    <h2>New season details</h2>
+
+			<div class="input-field">
+				<input id="season-id" type="text" class="validate" value="{{season_id}}">
+				<label for="season-id">ID</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-name" type="text" class="validate" value="{{season_name}}">
+				<label for="season-name">Name</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-banner" type="text" class="validate" value="{{banner}}">
+				<label for="season-banner">Banner</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-end" type="text" class="validate" value="{{end_date}}">
+				<label for="season-end">End date</label>
+			</div>
+		</div>
+	    <div class="modal-footer">
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-season"><i class='material-icons left'>done</i>Confirm new season</button>
+	      <!-- <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a> -->
+	    </div>
+	</div>
+
+
+</script>

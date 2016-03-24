@@ -2,11 +2,12 @@
 /// <reference path="typing/jquery.d.ts" />
 /// <reference path="typing/gsap/TweenLite.d.ts" />
 /// <reference path="typing/d3.d.ts" />
-/// <reference path="state/ViewState" />
-/// <reference path="state/NewDayState" />
-/// <reference path="state/EditState" />
-/// <reference path="state/view/StatsView" />
-/// <reference path="modal/NewPlayer" />
+/// <reference path="state/ViewState.ts" />
+/// <reference path="state/NewDayState.ts" />
+/// <reference path="state/EditState.ts" />
+/// <reference path="state/AdminState.ts" />
+/// <reference path="state/view/StatsView.ts" />
+/// <reference path="modal/NewPlayer.ts" />
 
 interface JQuery {
 	pickadate(options?: any): JQuery;
@@ -27,12 +28,14 @@ interface States {
 	view: ViewState;
 	newDay: NewDayState;
 	edit: EditState;
+	admin: AdminState;
 }
 
 class StateType {
 	static VIEW: string = "view";
 	static NEW_DAY: string = "newDay";
 	static EDIT: string = "edit";
+	static ADMIN: string = "admin";
 }
 
 interface Rectangle {
@@ -166,7 +169,8 @@ class App {
 		this.states = {
 			"edit": null,
 			"view": null,
-			"newDay": null
+			"newDay": null,
+			"admin": null
 		}
 
 		if (isEditable === "1") {
@@ -232,6 +236,7 @@ class App {
 			
 			this.states.edit = new EditState(this.scoreController, this);
 			this.states.newDay = new NewDayState(this.scoreController, this);
+			this.states.admin = new AdminState(this.scoreController, this);
 			
 
 		}

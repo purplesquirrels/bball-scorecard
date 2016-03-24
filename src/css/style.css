@@ -125,7 +125,8 @@ html, body {
 }
 
 .edit-state,
-.newday-state {
+.newday-state,
+.admin-state {
 	color: #e2e2e2;
 	padding: 10px;
 }

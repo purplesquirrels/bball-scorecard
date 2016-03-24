@@ -67,6 +67,63 @@ class ScoreController {
 		}
 	}
 
+	getNewSeason = (options?: any): ScoreData => {
+
+		var seasonIndex:number = this.model.season === 4 ? 0 : this.model.season + 1;
+		var date: Date = new Date();
+		var endyear: number = date.getFullYear() + (seasonIndex === 4 ? 1 : 0);
+
+		var feb = new Date("1 February " + (endyear))
+		feb.setDate(29);
+
+		var seasons = [
+			{
+				banner: "autumn/Autumn_3.html",
+				name: "Autumn " + endyear,
+				end: "31 May " + endyear
+			},
+			{
+				banner: "winter/Winter_3.html",
+				name: "Winter " + endyear,
+				end: "31 August " + endyear
+			},
+			{
+				banner: "spring/Spring_3.html",
+				name: "Spring " + endyear,
+				end: "30 November " + endyear
+			},
+			{
+				banner: "summer/Summer_2.html",
+				name: "Summer " + endyear,
+				end: (feb.getDate() === 29 ? "29" : "28") + " February " + endyear
+			}
+		]
+
+		
+		var season: ScoreData = {
+			season_id: this.model.season_id + 1,
+			season: seasonIndex,
+			banner: seasons[seasonIndex - 1].banner,
+			enableBadges: true,
+			end_date: new Date(seasons[seasonIndex - 1].end).toString(),
+			season_name: seasons[seasonIndex - 1].name,
+			players: this.model.players,
+			games: {},
+			points: this.model.points,
+			bonuses: this.model.bonuses,
+			badges: this.model.badges,
+			playerBadges: {},
+			scores: []
+		}
+
+		for (var p in season.players) {
+			season.games[season.players[p].id] = 0;
+		}
+
+
+		return season;
+	}
+
 	/// SAVE / RESTORE STATE
 
 	saveState = () => {
