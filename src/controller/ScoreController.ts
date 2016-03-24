@@ -7,9 +7,11 @@ interface ScoreData {
 	season_name: string;
 	players: any[];
 	games: Object;
+	powerbank: Object;
 	points: Object;
 	bonuses: Object;
 	badges: Badge[];
+	powerups: PowerUp[];
 	playerBadges: Object;
 	scores: any[];
 }
@@ -24,6 +26,10 @@ interface Badge {
 	description: string;
 	condition?: string;
 	series: BadgeSeries;
+}
+interface PowerUp {
+	name: string;
+	description: string;
 }
 
 interface BadgeSeries {
@@ -848,6 +854,20 @@ class ScoreController {
 		}
 
 		this.model.scores[day].values[playerid].manualbadges.push(badgeid);
+	}
+
+	generatePlayerPowerup = (playerid: string) => {
+
+		var powerups:PowerUp[] = this.model.powerups;
+
+		var n:number = Math.floor(Math.random() * powerups.length);
+
+		if (!this.model.powerbank[playerid]) {
+			this.model.powerbank[playerid] = [];
+		}
+
+		this.model.powerbank[playerid].push(powerups[n]);
+
 	}
 
 	deletePlayerManualBadge = (playerid:string, badgeindex:number, day:number = 0) => {

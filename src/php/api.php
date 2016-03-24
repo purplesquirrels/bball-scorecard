@@ -72,6 +72,7 @@ function updateData($parts) {
 			unset($data->bonuses);
 			unset($data->conditions);
 			unset($data->badges);
+			unset($data->powerups);
 
 			$file = '../data/players.json';
 
@@ -148,6 +149,13 @@ function getData($parts) {
 		$badge = json_decode(fread($fh, filesize($file)));
 		fclose($fh);
 
+		// POWERUPS
+		$file = '../data/powerups.json';
+
+		$fh = fopen($file, 'r') or die("Error: Can't open file.");
+		$powerup = json_decode(fread($fh, filesize($file)));
+		fclose($fh);
+
 
 	 	// COMBINE ALL
 		$season->players = $players->players;
@@ -155,6 +163,7 @@ function getData($parts) {
 		$season->bonuses = $points->bonuses;
 		$season->conditions = $cond->conditions;
 		$season->badges = $badge->badges;
+		$season->powerups = $powerup->powerups;
 
 		echo json_encode($season);
 	}
