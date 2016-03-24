@@ -191,15 +191,14 @@
 					<th width='11.11111%'>B</th>
 				</tr>
 			</thead>
-			</table>
-			<ul class="collapsible" data-collapsible="accordion">
-			{{#each players}}
-				{{#if this.active}}
-				{{> newdayItem }}
-				{{/if}}
-			{{/each}}
-			</ul>
 		</table>
+		<ul class="playerlist collapsible" data-collapsible="accordion">
+		{{#each players}}
+			{{#if this.active}}
+			{{> newdayItem }}
+			{{/if}}
+		{{/each}}
+		</ul>
 	</div>
 </script>
 
