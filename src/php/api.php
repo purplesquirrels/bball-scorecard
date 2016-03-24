@@ -45,25 +45,31 @@ function addData($parts, $data) {
 	switch ($parts[0]) {
 		case "season" :
 
-			$current = getData([0 => "all"]);
+			$cmd = [0 => "all"];
+
+			$current = getData($cmd);
 			$new = json_decode($data);
 
 			$seasons = [
+				0 => "none",
 				1 => "autumn",
 				2 => "winter",
 				3 => "spring",
 				4 => "summer"
 			];
 
-			$file = '../data/archive/'.'2016'.'_'.($seasons[$data=>season]).'_archive.json';
+			$oldseasonname = $current->season_name;
+			$seasonid = $current->season;
+
+			$name = explode(" ", $oldseasonname);
+
+			$file = '../data/archive/'.$name[1].'_'.$seasons[$seasonid].'_archive.json';
 
 			$fh = fopen($file, 'w') or die("Error: Can't open file.");
 			fwrite($fh, $current);
 			fclose($fh);
 
 			updateData([0 => "all"],  $new);
-
-
 
 			break;
 	}
