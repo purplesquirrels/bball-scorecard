@@ -734,6 +734,7 @@ class ScoreController {
 
 		var player = {
 			"id": newid,
+			"active": true,
 			"firstname": firstname,
 			"lastname": lastname,
 			"avatar": (firstname.split(" ").join("_")) + ".jpg"
