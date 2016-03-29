@@ -341,7 +341,9 @@
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
 			<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
 			<td>{{this.score}}</td>
-			<td>{{#if this.powerup}} <i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{/if}}</td>
+			<td>{{#if this.powerup}}<i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>
+			{{/if}}
+			</td>
 		</tr>
 		{{/each}}
 	</tbody>
@@ -469,7 +471,14 @@
 	<div class="player-stat-name"><h2>{{firstname}}</h2></div>
 	<div class="col-1-4 season-stats-left">
 		<div class="stat-holder left-1">
-			<h3>Attendance</h3>
+			<h3>Powerups</h3>
+			{{#if hasPowerups}}
+				{{#each powerups}}
+					<div class="powerup" title="{{this.description}}" style="background:url(images/powerup/{{this.image}}) no-repeat center top;background-size: 100%;"><span class="powerup-label">{{this.name}}</span>{{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+				{{/each}}
+			{{else}}
+				<div><h2 class="empty-state-message small-message">No powerups yet</h2></div>
+			{{/if}}
 		</div>
 		<div class="stat-holder left-2">
 			{{#if enableBadges}}
@@ -488,6 +497,13 @@
 		<div class="stat-holder right-1">
 
 			<div class="leader-stats">
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span>{{percentplayed}}%</span>
+					</div>
+					<h3>Attendance</h3>
+				</div>
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
 						<span>{{daysatfirst}}</span>
