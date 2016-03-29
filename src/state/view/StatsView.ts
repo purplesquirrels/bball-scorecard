@@ -122,6 +122,7 @@ class StatsView {
 		var _d = this.controller.getAsObject();
 		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
+		var powerups: PowerUp[] = this.controller.getPlayerPowerups(playerid);
 		
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
@@ -130,7 +131,7 @@ class StatsView {
 			rawscore: NumberCruncher.getPlayerRawScore(playerid, false),
 			highestscore: NumberCruncher.getPlayerHighestScore(playerid),
 			incompletekeys: NumberCruncher.getPlayerIncompleteKeys(playerid),
-			percentplayed: NumberCruncher.getPlayerPercentPlayed(playerid),
+			percentplayed: Math.round(NumberCruncher.getPlayerPercentPlayed(playerid)),
 			daysatfirst: NumberCruncher.getPlayerDaysAtFirstPlace(playerid),
 			latestarts: NumberCruncher.getPlayLateStarts(playerid),
 			averagerawscore: NumberCruncher.getPlayerAverageRawScore(playerid, false),
@@ -141,10 +142,13 @@ class StatsView {
 			enableBadges: this.controller.badgesEnabled(),
 
 			hasBadges: badges.length > 0,
-			badges: badges
+			badges: badges,
+
+			hasPowerups: powerups.length > 0,
+			powerups: powerups
 		};
 
-		var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
+		/*var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
 		var seasonProgData: {}[] = [
 			{
 				name: "Played",
@@ -157,7 +161,7 @@ class StatsView {
 				colour: '#2e3548'
 			}
 		];
-		
+		*/
 
 		var seasonRank: PlayerDataObject[] = [];
 
@@ -260,7 +264,7 @@ class StatsView {
 
 			$(this.statsRoot).find(".season-stats-holder").append(stathtml);
 
-			$(".left-1").prepend('<svg class="chart playerAtt"></svg>');
+			/*$(".left-1").prepend('<svg class="chart playerAtt"></svg>');
 
 			var seasonProg: PieChart = new PieChart('.playerAtt', {
 				innerRadius: 36,
@@ -271,7 +275,7 @@ class StatsView {
 			});
 
 			this.playerCharts.push(seasonProg);
-
+*/
 			$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
 			var c1: AreaChart = new AreaChart(".seasonRank", {
 				xlabel: "Time",

@@ -39,12 +39,21 @@
 	fclose($fh);
 
 
+	// POWERUPS
+	$file = '../data/powerups.json';
+
+	$fh = fopen($file, 'r') or die("Error: Can't open file.");
+	$powerups = json_decode(fread($fh, filesize($file)));
+	fclose($fh);
+
+
  	// COMBINE ALL
 	$season->players = $players->players;
 	$season->points = $points->points;
 	$season->bonuses = $points->bonuses;
 	$season->conditions = $cond->conditions;
 	$season->badges = $badge->badges;
+	$season->powerups = $powerups->powerups;
 
 	echo json_encode($season);
 

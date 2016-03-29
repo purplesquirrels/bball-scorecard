@@ -205,6 +205,12 @@ class NewDayState extends AppState {
 				var badge: Badge = Badger.getBadgeByID($(e.currentTarget).attr("data-id"));
 
 				this.controller.addPlayerManualBadge(playerid, badge.id);
+
+				if (badge.id === "powerup") {
+
+					var powerup:PowerUp = this.controller.generatePowerup(playerid);
+					this.controller.addPlayerPowerup(playerid, powerup);
+				}
 			});
 
 			$(".current-badge .badge-remove").bind("click", (e) => {
@@ -216,6 +222,10 @@ class NewDayState extends AppState {
 				var id: number = parseInt($(e.currentTarget).parents(".badge").attr("data-index"), 10);
 
 				this.controller.deletePlayerManualBadge(playerid, id, 0);
+
+				//if (id === "powerup") {
+
+				//}
 
 				var remaining = $(".current-badge:not(.removed)");
 
