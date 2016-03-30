@@ -655,8 +655,7 @@ class ScoreController {
 
 		var powerups: PowerUp[] = [];
 
-		if (!this.model.powerbank[playerid]) return powerups;
-
+		if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
 
 		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 			powerups.push(this.model.powerups[this.model.powerbank[playerid][i]]);
