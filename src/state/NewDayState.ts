@@ -1,6 +1,7 @@
 class NewDayState extends AppState {
 
 	playersLocked: boolean;
+	firstPointSet: boolean;
 
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
@@ -10,6 +11,7 @@ class NewDayState extends AppState {
 
 		$(".app-header").addClass("hidden");
 
+		this.firstPointSet = false;
 		this.playersLocked = false;
 
 		this.element.classList.add("newday-state");
@@ -171,7 +173,8 @@ class NewDayState extends AppState {
 
 		$(".add-badge").bind("click", (e) => {
 			//badges-selector
-
+			
+			e.stopPropagation();
 			e.preventDefault();
 
 			if ($(e.currentTarget).hasClass("disabled")) return;
@@ -302,6 +305,16 @@ class NewDayState extends AppState {
 			this.controller.setPlayerBonus(player, pointtype, value);
 		} else {
 			this.controller.setPlayerPoint(player, pointtype, value);
+		}
+
+		if (!this.firstPointSet) {
+
+			if (confirm("This is the first point, award player with Pointman badge?")) {
+
+				this.firstPointSet = true;
+				this.controller.addPlayerManualBadge(player, "pointman");
+
+			}
 		}
 	}
 
