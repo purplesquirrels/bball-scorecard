@@ -173,7 +173,8 @@ class NewDayState extends AppState {
 
 		$(".add-badge").bind("click", (e) => {
 			//badges-selector
-
+			
+			e.stopPropagation();
 			e.preventDefault();
 
 			if ($(e.currentTarget).hasClass("disabled")) return;
