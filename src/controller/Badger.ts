@@ -31,8 +31,6 @@ class Badger {
 
 		for (var i = badges.length-1; i >= 0; i--) {
 
-			console.log(badges[i].name);
-
 			if (badges[i].series && badges[i].series.name) {
 
 				var seriesName = badges[i].series.name;

@@ -347,14 +347,11 @@ class NumberCruncher {
 			if (this.model.scores[i].values[playerid] &&
 				this.model.scores[i].values[playerid].played > 0) {
 
-				console.log(this.model.scores[i].values[playerid].rank);
 				var rank = this.model.scores[i].values[playerid].rank;
 				var late = this.model.scores[i].values[playerid].late === 1;
 				var multi = multiplier;
 
 				if (includelate && late) multi = multiplier + 1;
-
-				console.log(includelate, late, multi);
 
 				switch (multi) {
 					case 1:
