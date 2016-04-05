@@ -229,13 +229,16 @@ class NumberCruncher {
 		var ranks: number[] = [];
 
 		for (var i = this.model.scores.length-1; i >= 0; i--) {
-			if (this.model.scores[i].values[playerid]) {
+
+			if (i < this.model.scores.length - 1 && this.model.scores[i].values[playerid] && this.model.scores[i + 1].values[playerid]) {
 
 				if (i < this.model.scores.length - 1) {
 					ranks.push(this.model.scores[i+1].values[playerid].rank - this.model.scores[i].values[playerid].rank);
 				} else {
 					ranks.push(0);
 				}
+			} else {
+				ranks.push(0);
 			}
 
 		}
@@ -327,6 +330,48 @@ class NumberCruncher {
 
 				if (this.model.scores[i].values[playerid].rank === 1) {
 					total++;
+				}
+			}
+
+		}
+
+		return total;
+	}
+
+	static getPlayerDaysInMultiplier(playerid: string, multiplier:number, includelate:boolean = true): number {
+
+		var total = 0;
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid] &&
+				this.model.scores[i].values[playerid].played > 0) {
+
+				console.log(this.model.scores[i].values[playerid].rank);
+				var rank = this.model.scores[i].values[playerid].rank;
+				var late = this.model.scores[i].values[playerid].late === 1;
+				var multi = multiplier;
+
+				if (includelate && late) multi = multiplier + 1;
+
+				console.log(includelate, late, multi);
+
+				switch (multi) {
+					case 1:
+						if (rank >= 0 && rank <= 3) total++;
+						break;
+					case 2:
+						if (rank >= 4 && rank <= 6) total++;
+						break;
+					case 3:
+						if (rank >= 7 && rank <= 9) total++;
+						break;
+					case 4:
+						if (rank >= 10) total++;
+						break;
+					case 5:
+						if (late && rank >= 10) total++;
+						break;
 				}
 			}
 
