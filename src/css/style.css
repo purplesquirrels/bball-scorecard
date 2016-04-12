@@ -645,7 +645,7 @@ label {
 }
 .late-control {
 	float: left;
-	margin-top: 1rem;
+	margin-top: 2rem;
 }
 
 .collapsible {
@@ -1165,6 +1165,12 @@ table.editmode .switch label .lever {
 	border-bottom: 1px solid #272e41;
 }
 
+.stat-holder:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
 .player-stat-name {
 	border-bottom: 1px solid #272e41;
 }
@@ -1403,7 +1409,8 @@ table.editmode .switch label .lever {
 	margin: -0.15em 0.2em 0 0.4em;
 }
 
-.badge {
+.badge,
+.powerup {
 	width: 45%;
     padding-bottom: 45%;
     background: #CCC;
@@ -1412,12 +1419,14 @@ table.editmode .switch label .lever {
     position: relative;
 }
 
-.stat-holder .badge {
+.stat-holder .badge,
+.stat-holder .powerup {
 	width: 45%;
     padding-bottom: calc(45% + 2em);
 }
 
-.badge-label {
+.badge-label,
+.powerup-label {
 	position: absolute;
     width: 100%;
     height: 100%;
@@ -1427,6 +1436,7 @@ table.editmode .switch label .lever {
     opacity: 0;
 }
 
+.stat-holder  .powerup-label,
 .stat-holder  .badge-label {
 	height: auto;
     opacity: 1;
@@ -1439,6 +1449,7 @@ table.editmode .switch label .lever {
     text-transform: uppercase;
 }
 
+.powerup-count,
 .badge-count {
 	position: absolute;
     font-size: 0.9em;
@@ -1457,10 +1468,12 @@ table.editmode .switch label .lever {
     line-height: 1;
 }
 
+.powerup-count[data-count='1'],
 .badge-count[data-count='1'] {
 	display: none;
 }
 
+.powerup-selector-wrapper,
 .badges-selector-wrapper {
 	position: fixed;
     top: 0;
@@ -1470,6 +1483,7 @@ table.editmode .switch label .lever {
     height: 100%;
     background: rgba(0,0,0,0.5);
 }
+.powerup-selector,
 .badges-selector {
     position: absolute;
     top: 5%;
@@ -1485,6 +1499,7 @@ table.editmode .switch label .lever {
     -webkit-tap-highlight-color: transparent;
 }
 
+.powerup-current,
 .badges-current {
 	position: absolute;
 	top: 0;
@@ -1518,6 +1533,7 @@ table.editmode .switch label .lever {
 }
 
 
+.powerup-selector .powerup,
 .badges-selector .badge {
 	display: inline-block;
     width: 28.333%;
@@ -1529,6 +1545,22 @@ table.editmode .switch label .lever {
     
 }
 
+.new-powerup,
+.use-powerup {
+	width: 45px;
+	height: 45px;
+	line-height: 1;
+    background: #7463e7;
+    color: #FFF;
+    border: none;
+    padding: 0;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    float: right;
+    margin: 1rem 0 1rem 1rem;
+}
 .add-badge {
     height: 45px;
     width: 100%;
@@ -1547,6 +1579,7 @@ table.editmode .switch label .lever {
 
 
 @media (min-width: 520px) {
+	.powerup-selector .powerup,
 	.badges-selector .badge {
     	width: 20%;
     	padding-bottom: 20%;
@@ -1554,12 +1587,14 @@ table.editmode .switch label .lever {
 }
 
 @media (min-width: 770px) {
+	.powerup-selector .powerup,
 	.badges-selector .badge {
     	width: 15.2%;
     	padding-bottom: 15.2%;
     }
 }
 @media (min-width: 900px) {
+	.powerup-selector .powerup,
 	.badges-selector .badge {
     	width: 120px;
     	padding-bottom: 120px;
