@@ -450,6 +450,10 @@ class ScoreController {
 			return false;
 		}
 
+		if (typeof this.model.scores[day].values[playerid] == "undefined") {
+			return false;
+		}
+
 		return this.model.scores[day].values[playerid].late === 1;
 	}
 
