@@ -1,43 +1,48 @@
 <?php
 
-//$powerup = $_POST["powerup"];//'Timewarp'; //
-$to = $_POST["to"];//'benfoster4130@gmail.com'; //$_POST["email"]
-$subject = $_POST["subject"];//'Bankulator: You recieved a powerup.';  //$_POST["subject"]
-$message = $_POST["message"];//'Hi Ben,\r\n\r\nYou recieved the following powerup today: Timewarp.\r\n\r\nRegardsr\nThe Founding Fathers.';  //$_POST["message"]
-/*
-$message = '
-<html>
-<head>
-  <title>You recieved a powerup</title>
-</head>
-<body>
-  <p>Hi Ben, you received the following powerups today:</p>
-  <ul><li><strong>Timewarp</strong>: Take and extra shot.</li></ul>
-  <p>Regards,<br>The Founding Fathers</p>
-</body>
-</html>
-';
-*/
+if(isset($_POST['auth'])) {
 
-/*
-$header = "From:foundingfathers@bankulator.com\r\n";
-$header .= "MIME-Version: 1.0\r\n";
-$header .= "Content-type: text/html\r\n";
-*/
-// To send HTML mail, the Content-type header must be set
-$headers  = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$filename = "../auth/auth.txt";
+	$handle = fopen($filename, "r") or die("Error: unauthorised.");
+	$authServer = fread($handle, filesize($filename));
+	fclose($handle);
 
-// Additional headers
-//$headers .= 'To: Ben <benfoster4130@gmail.com>' . "\r\n";
-$headers .= 'From: The Founding Fathers <foundingfathers@bankulator.com>' . "\r\n";
+	$auth = $_POST['auth'];
 
-$retval = mail( $to, $subject, $message, $headers);
+	if($auth == $authServer) {
 
-if( $retval == true ) {
-	echo "Message sent successfully...";
-}else {
-	echo "Message could not be sent...";
+		$to = $_POST["to"];
+		$subject = $_POST["subject"];
+		$message = "<html>".
+						"<head>".
+							"<title>".$subject."</title>".
+						"</head>".
+						"<body>";
+
+		$message .= $_POST["message"];
+
+		$message .= 	"<p>Regards,<br>The Founding Fathers</p>";
+		$message .= 	"<p style='font-size:0.9em'>Note: please do not respond to this message as it was sent form an unattended mail box.</p>";
+		$message .= 	"</body>".
+					"</html>";
+
+		$headers = "From: \"BBall Founding Fathers\" <noreply@bankulator.com>\r\n";
+		$headers .= "Reply-To: \"BBall Founding Fathers\" <noreply@bankulator.com>\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+		$retval = mail( $to, $subject, $message, $headers);
+
+		if( $retval == true ) {
+			echo "Message sent successfully.";
+		}else {
+			echo "Error: message could not be sent.";
+		}
+	} else {
+		die("Error: unauthorised.");
+	}
+} else {
+	die("Error: unauthorised.");
 }
 
 
