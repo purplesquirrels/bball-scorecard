@@ -172,22 +172,13 @@ class NewDayState extends AppState {
 					this.app.setState(StateType.VIEW);
 				});
 
-				//console.log(this.playersReceivedPowerup);
 
-				/*for (var player in this.playersReceivedPowerup) {
+				for (var player in this.playersReceivedPowerup) {
 
 					var p_details = this.controller.getPlayerDetails(player);
 					var p_message =
-					"<html>"+
-						"<head>"+
-							"<title>You recieved a powerup</title>"+
-						"</head>"+
-						"<body>"+
-							"<p>Hi {{firstname}}, you received the following powerups today: </p>"+
-							"<ul>{{powerups}}</ul>"+
-							"<p>Regards,<br>The Founding Fathers</p>"+
-						"</body>"+
-					"</html>";
+							"<p>Hi {{firstname}},</p><p>You received the following powerups today: </p>"+
+							"<ul>{{powerups}}</ul>";
 
 					var powerups = [];
 
@@ -211,7 +202,7 @@ class NewDayState extends AppState {
 					});
 					
 				}
-*/
+
 				this.playersReceivedPowerup = {};
 			}
 
