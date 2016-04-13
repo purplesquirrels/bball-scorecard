@@ -3,6 +3,8 @@ class NewDayState extends AppState {
 	playersLocked: boolean;
 	firstPointSet: boolean;
 
+	playersReceivedPowerup: Object;
+
 	constructor(controller: ScoreController, app: App) {
 		super(controller, app);
 	}
@@ -10,6 +12,8 @@ class NewDayState extends AppState {
 	render() {
 
 		$(".app-header").addClass("hidden");
+
+		this.playersReceivedPowerup = {};
 
 		this.firstPointSet = false;
 		this.playersLocked = false;
@@ -167,8 +171,131 @@ class NewDayState extends AppState {
 				this.saveChanges(true, () => {
 					this.app.setState(StateType.VIEW);
 				});
+
+				//console.log(this.playersReceivedPowerup);
+
+				/*for (var player in this.playersReceivedPowerup) {
+
+					var p_details = this.controller.getPlayerDetails(player);
+					var p_message =
+					"<html>"+
+						"<head>"+
+							"<title>You recieved a powerup</title>"+
+						"</head>"+
+						"<body>"+
+							"<p>Hi {{firstname}}, you received the following powerups today: </p>"+
+							"<ul>{{powerups}}</ul>"+
+							"<p>Regards,<br>The Founding Fathers</p>"+
+						"</body>"+
+					"</html>";
+
+					var powerups = [];
+
+					for (var i = 0; i < this.playersReceivedPowerup[player].length;i++) {
+						var powerup_details = this.controller.getPowerupDetails(this.playersReceivedPowerup[player][i]);
+						powerups.push("<li><strong>" + (powerup_details.name) + " </strong>: " + (powerup_details.description) + "</li>");
+					}
+
+					p_message = p_message.split("{{firstname}}").join(p_details["firstname"]);
+					p_message = p_message.split("{{powerups}}").join(powerups.join(""));
+
+					$.post(Config.MAIL_PATH, {
+						auth: Config.SERVER_KEY,
+						to: p_details["email"],
+						subject: "Bankulator: you received a powerup",
+						message: p_message
+					}).then(function(e){
+						console.log("then", e);
+					}).fail(function(e){
+						console.log("fail", e);
+					});
+					
+				}
+*/
+				this.playersReceivedPowerup = {};
 			}
 
+		});
+
+
+		$(".new-powerup").bind("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			if ($(e.currentTarget).hasClass("disabled")) return;
+
+			if (!confirm("Generate powerup for player?")) return;
+
+			var playerid: string = $(e.currentTarget).attr("data-for");
+
+			var newpowerup:PowerUp = this.controller.generatePowerup();
+
+			this.controller.addPlayerPowerup(playerid, newpowerup, 0);
+
+			if (confirm("Player received: " + newpowerup.name + ".\n\nAdd Powerup badge?")) {
+				this.controller.addPlayerManualBadge(playerid, "powerup");
+
+				if (!this.playersReceivedPowerup[playerid]) {
+					this.playersReceivedPowerup[playerid] = [];
+				}
+
+				this.playersReceivedPowerup[playerid].push(newpowerup.id);
+			}
+
+			//console.log('new-powerup');
+		});
+
+
+		$(".use-powerup").bind("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			if ($(e.currentTarget).hasClass("disabled")) return;
+
+			var playerid: string = $(e.currentTarget).attr("data-for");
+			//var powerup: string = $(e.currentTarget).attr("data-id");
+
+			//this.controller.usePlayerPowerup(playerid, powerup);
+
+			//console.log('use-powerup');
+
+
+			var playerid: string = $(e.currentTarget).attr("data-for");
+
+			var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["powerup-selector"]);
+			var context = {
+				//currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
+				powerups: this.controller.getPlayerPowerups(playerid)
+			};
+
+			var html = template(context);
+
+			$("body").append(html);
+
+			$(".powerup-selector-wrapper").bind("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				$(".powerup-selector-wrapper").unbind("click");
+				$(".pick-powerup").unbind("click");
+				$(".powerup-selector-wrapper").remove();
+			});
+
+			$(".pick-powerup").bind("click", (e) => {
+
+				var powerup: string = $(e.currentTarget).attr("data-id");
+
+				if (confirm("Use " + powerup + " power?")) {
+					var success = this.controller.usePlayerPowerup(playerid, powerup);
+					
+					if (success) {
+						alert('Succesfully used ' + powerup);
+					} else {
+						alert('Unable to use ' + powerup);
+					}
+				}
+
+			});
 		});
 
 		$(".add-badge").bind("click", (e) => {
@@ -209,12 +336,16 @@ class NewDayState extends AppState {
 
 				this.controller.addPlayerManualBadge(playerid, badge.id);
 
-				if (badge.id === "powerup") {
+				if (badge.id === "powerup" && confirm("Generate powerup for player?")) {
 
-					var powerup:PowerUp = this.controller.generatePowerup(playerid);
+					var powerup:PowerUp = this.controller.generatePowerup();
 					this.controller.addPlayerPowerup(playerid, powerup);
+
+					alert("Player received: " + powerup.name + ".");
+					
 				}
 			});
+
 
 			$(".current-badge .badge-remove").bind("click", (e) => {
 

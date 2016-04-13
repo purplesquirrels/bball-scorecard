@@ -31,6 +31,9 @@ interface PowerUp {
 	id: string;
 	name: string;
 	description: string;
+	image: string;
+	multi?: boolean;
+	count?: number;
 }
 
 interface BadgeSeries {
@@ -410,6 +413,24 @@ class ScoreController {
 		return "Player " + playerid + " not found.";
 	}
 
+	getPlayerDetails = (playerid: string): Object => {
+		//return this.model.players[playerid];
+
+		for (var i = 0; i < this.model.players.length; ++i) {
+
+			if (this.model.players[i].id === playerid) {
+				return this.model.players[i];
+			}
+
+		}
+
+		return {};
+	}
+
+	getPowerupDetails = (powerup: string): PowerUp => {
+		return this.model.powerups[powerup];
+	}
+
 	getPlayerManualBadgesOnDay = (playerid: string, day: number = 0): any[] => {
 
 		var b = this.model.scores[day].values[playerid].manualbadges;
@@ -661,10 +682,28 @@ class ScoreController {
 
 		if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
 
-		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-			powerups.push(this.model.powerups[this.model.powerbank[playerid][i]]);
-		}
+		for (var powerup in this.model.powerups) {
 
+			var count = 0;
+
+			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+				if (this.model.powerbank[playerid][i].id === powerup &&
+					!this.model.powerbank[playerid][i].used) {
+					count++;
+				}
+			}
+
+			if (count) {
+				powerups.push({
+					id: this.model.powerups[powerup].id,
+					name: this.model.powerups[powerup].name,
+					description: this.model.powerups[powerup].description,
+					image: this.model.powerups[powerup].image,
+					multi: count > 1,
+					count: count
+				});
+			}
+		}
 
 		return powerups;
 
@@ -730,7 +769,7 @@ class ScoreController {
 			"rank": 0,
 			"multiplier": 1,
 			"manualbadges" : [],
-			"powerups" : 0,
+			//"powerups" : 0,
 			"lasttotal":this.model.scores.length > 0 &&
 						this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
 			"newtotal":	this.model.scores.length > 0 &&
@@ -895,17 +934,38 @@ class ScoreController {
 			this.model.powerbank[playerid] = [];
 		}
 
-		this.model.powerbank[playerid].push(powerup.id);
-
-		if (typeof this.model.scores[day].values[playerid].powerups == "undefined") {
-			this.model.scores[day].values[playerid].powerups = 0;
-		}
-
-		this.model.scores[day].values[playerid].powerups += 1;
+		this.model.powerbank[playerid].push({
+			id: powerup.id,
+			date: new Date().toString(),
+			game: this.model.scores.length - day,
+			used: false,
+			dateused: ""
+		});
 
 	}
 
-	generatePowerup = (playerid: string) => {
+	usePlayerPowerup = (playerid: string, powerup:string):boolean => {
+
+		if (!this.model.powerbank[playerid]) {
+			return false;
+		}
+
+		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+			if (this.model.powerbank[playerid][i].id === powerup &&
+				!this.model.powerbank[playerid][i].used) {
+				//count++;
+
+				this.model.powerbank[playerid][i].used = true;
+				this.model.powerbank[playerid][i].dateused = new Date().toString();
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	generatePowerup = () => {
 
 		var powerups:PowerUp[] = [];
 

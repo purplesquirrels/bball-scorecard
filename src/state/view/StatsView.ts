@@ -148,6 +148,8 @@ class StatsView {
 			powerups: powerups
 		};
 
+		console.log(powerups);
+
 		/*var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
 		var seasonProgData: {}[] = [
 			{

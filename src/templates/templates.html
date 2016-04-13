@@ -231,7 +231,7 @@
 				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01">{{this.bonus01}}</button></div></td>
 				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02">{{this.bonus02}}</button></div></td>
 				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04">{{this.bonus04}}</button></div></td>
-				<td width="11.11111%"><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'>+</a></td>
+				<td width="11.11111%"><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'><i class='material-icons' style='margin:0'>brightness_high</i></a></td>
 			</tr>
 			</tbody>
 		</table></div>
@@ -252,6 +252,10 @@
 				</tbody>
 			</table>
 			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='isLate point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
+			<div>
+				<a href="#" class='bb-button bb-purple point-button new-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="addpowerup" id='powerup-{{@index}}'>+<i class='material-icons'>flash_on</i></a>
+				<a href="#" class='bb-button bb-purple point-button use-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="usepowerup" id='use-powerup-{{@index}}'><i class='material-icons'>flash_off</i></a>
+			</div>
 		</div>
 	</li>
 </script>
@@ -518,6 +522,22 @@
 					<h3>Raw<br>score</h3>
 				</div-->
 
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span>{{rawscore}}</span>
+					</div>
+					<h3>TBD</h3>
+				</div>
+
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span>{{rawscore}}</span>
+					</div>
+					<h3>TBD</h3>
+				</div>
+
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
 						<span>{{highestscore}}</span>
@@ -585,4 +605,14 @@
 	</div>
 </div>
 </script>
-
+<script id="powerup-selector" type="text/x-handlebars-template">
+<div class="powerup-selector-wrapper">
+	<div class="powerup-selector">
+		<div class="powerups-available">
+			{{#each powerups}}
+				<div class="powerup pick-powerup" data-id="{{this.id}}" title="{{this.description}}" style="background-image:url(images/powerup/{{this.image}})"><span class="powerup-label">{{this.name}}</span></div>
+			{{/each}}
+		</div>
+	</div>
+</div>
+</script>
