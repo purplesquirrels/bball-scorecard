@@ -3,9 +3,14 @@
 
 if(isset($_POST['auth'])) {
 
+	$filename = "../auth/auth.txt";
+	$handle = fopen($filename, "r") or die("Error: unauthorised.");
+	$authServer = fread($handle, filesize($filename));
+	fclose($handle);
+
 	$auth = $_POST['auth'];
 
-	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == '1qaz@WSX') {
+	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == $authServer) {
 
 		
 		$command = $_POST["command"];

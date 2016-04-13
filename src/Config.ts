@@ -6,7 +6,7 @@ class Config {
 	static CURL_PATH: string = "php/curl.php";
 	static AUTH_PATH: string = "php/auth.php";
 	static MAIL_PATH: string = "php/mail.php";
-	static SERVER_KEY: string = "1qaz@WSX";
+	static SERVER_KEY: string = "";
 
 	static RANKING: string = "standard"; 
 

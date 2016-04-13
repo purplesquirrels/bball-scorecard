@@ -219,8 +219,13 @@ class App {
 						$.post(Config.AUTH_PATH, {
 							pin: o + n
 						}).then((result) => {
+
 							if (result.authenticated) {
 								$('#authmodal').closeModal();
+							}
+
+							if (result.key) {
+								Config.SERVER_KEY = result.key;
 							}
 						});
 
