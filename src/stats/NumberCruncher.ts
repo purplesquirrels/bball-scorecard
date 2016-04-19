@@ -56,7 +56,7 @@ class NumberCruncher {
 				game["g_1s1s"] = osos * 1.5;
 				game["g_pointman"] = pointman * 0.5;
 				game["g_players"] = this.model.scores[i].numPlayers;
-				game["g_score"] = (NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true) + game["g_choker"] + game["g_1s1s"] + game["g_pointman"]) * game["g_players"];
+				game["g_score"] = NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true);// + game["g_choker"] + game["g_1s1s"] + game["g_pointman"]) * game["g_players"];
 				game["g_laps"] = this.model.scores[i].values[playerid]["point03"];
 				game["g_bndy"] = this.model.scores[i].values[playerid]["boundy"];
 				game["g_bndyh"] = bndyhunters;
@@ -79,6 +79,13 @@ class NumberCruncher {
 
 		for (var i = 0; i < games.length; ++i) {
 
+			games[i]["g_choker"] /= games.length / 10;
+			games[i]["g_1s1s"] /= games.length / 10;
+			games[i]["g_pointman"] /= games.length / 10;
+			games[i]["g_bndy"] /= games.length / 10;
+
+			games[i]["g_score"] = (games[i]["g_score"] + games[i]["g_choker"] + games[i]["g_1s1s"] + games[i]["g_pointman"]) * games[i]["g_players"];
+
 			season["s_score"] += games[i]["g_score"];
 			season["s_laps"] += games[i]["g_laps"];
 			season["s_bndy"] += games[i]["g_bndy"];
@@ -92,10 +99,10 @@ class NumberCruncher {
 		season["s_bndyh"] = season["s_bndyh"] > 1 ? season["s_bndyh"] - 1 : 0;
 		season["s_total"] = season["s_score"] + season["s_bndy"] + season["s_bndyh"];
 
-		result = (season["s_total"] / games.length) / (season["s_avplayers"] / 2);
 
+		result = (season["s_total"]) / games.length;
 
-		return Math.round(result * 1000) / 100;
+		return Math.round(result * 100) / 100;
 	}
 
 
