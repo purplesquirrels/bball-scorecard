@@ -116,9 +116,9 @@
   <a class='header-settings btn-flat btn-large waves-effect waves-light deep-purple lighten-1' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
   <ul id='settings-dropdown' class='dropdown-content'>
   {{#if daynotcreated }}
-    <li><a href="#" data-action='state:newDay' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
+    <li><a href="#" data-action='state:newDay' data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
   {{/if}}
-    <li><a href="#" data-action="state:edit" class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
+    <li><a href="#" data-action="state:edit" data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
   </ul>
 </script>
 

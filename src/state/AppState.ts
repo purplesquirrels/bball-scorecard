@@ -4,12 +4,14 @@ class AppState {
 	app: App;
 	root: HTMLDivElement;
 	element: HTMLDivElement;
+	options: any;
 
-	constructor(controller: ScoreController, app: App) {
+	constructor(controller: ScoreController, app: App, options: any) {
 
 		this.controller = controller;
 		this.app = app;
 		this.root = app.scoreboardRoot;
+		this.options = options;
 
 		this.element = document.createElement("div");
 
@@ -19,6 +21,6 @@ class AppState {
 
 	}
 
-	render() {}
+	render(renderoptions?: any) { }
 
 }

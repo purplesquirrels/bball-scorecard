@@ -8,8 +8,8 @@ class ViewState extends AppState {
 
 	sortCommandLabelMap: Object;
 	
-	constructor(controller: ScoreController, app: App) {
-		super(controller, app);
+	constructor(controller: ScoreController, app: App, options:any) {
+		super(controller, app, options);
 
 		this.sortCommandLabelMap = {
 			"default"		: "Score",
@@ -26,7 +26,7 @@ class ViewState extends AppState {
 		}
 	}
 
-	render() {
+	render(renderoptions?: any) {
 
 		var today = new Date();
 		var dayToDisplay = 0;//this.controller.getLastCompletedDay();

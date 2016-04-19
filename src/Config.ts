@@ -12,4 +12,5 @@ class Config {
 
 	static MSG_FINISHGAME: string = "Are you sure you want to finish the current game?\n\nFinishing the game will mark the game as completed and you will no longer be able to live update.";
 	static MSG_CANCELGAME: string = "Are you sure you want to cancel the current game?\n\nCancelling the game will delete any data that has been saved for this game.";
+	static MSG_CANCELUPDATE: string = "Are you sure you want to cancel?\n\nCancelling will delete any changes that have been made.";
 }

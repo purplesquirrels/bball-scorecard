@@ -2,11 +2,10 @@
 /// <reference path="typing/jquery.d.ts" />
 /// <reference path="typing/gsap/TweenLite.d.ts" />
 /// <reference path="typing/d3.d.ts" />
-/// <reference path="state/ViewState" />
-/// <reference path="state/NewDayState" />
-/// <reference path="state/EditState" />
-/// <reference path="state/view/StatsView" />
-/// <reference path="modal/NewPlayer" />
+/// <reference path="state/ViewState.ts" />
+/// <reference path="state/EditDayState.ts" />
+/// <reference path="state/view/StatsView.ts" />
+/// <reference path="modal/NewPlayer.ts" />
 
 interface JQuery {
 	pickadate(options?: any): JQuery;
@@ -25,8 +24,8 @@ interface WindowLocalStorage {
 }
 interface States {
 	view: ViewState;
-	newDay: NewDayState;
-	edit: EditState;
+	newDay: EditDayState;
+	edit: EditDayState;
 }
 
 class StateType {
@@ -235,13 +234,13 @@ class App {
 				complete: function() {  }
 			});
 			
-			this.states.edit = new EditState(this.scoreController, this);
-			this.states.newDay = new NewDayState(this.scoreController, this);
+			this.states.edit = new EditDayState(this.scoreController, this, {mode:"edit"});
+			this.states.newDay = new EditDayState(this.scoreController, this, { mode: "new" });
 			
 
 		}
 
-		this.states.view = new ViewState(this.scoreController, this);
+		this.states.view = new ViewState(this.scoreController, this, {});
 
 		this.setState(StateType.VIEW);
 
@@ -259,10 +258,17 @@ class App {
 
 		action = action.split(":");
 
-		this.buttonActions[action[0]](action[1]);
+		var options = $(e.currentTarget).data("options");
+
+
+		if (options) {
+			//options = JSON.parse(options);
+		}
+
+		this.buttonActions[action[0]](action[1], options);
 	}
 
-	setState = (state:string) => {
+	setState = (state:string, renderoptions?:any) => {
 
 		for (var s in this.states) {
 			if (this.states.hasOwnProperty(s)) {
@@ -272,7 +278,7 @@ class App {
 			}
 		}
 
-		this.states[state].render();
+		this.states[state].render(renderoptions);
 		this.states[state].element.style.display = "block";
 	}
 
