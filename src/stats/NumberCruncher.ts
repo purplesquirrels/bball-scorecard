@@ -23,7 +23,8 @@ class NumberCruncher {
 
 		for (var i = 0; i < this.model.scores.length; ++i) {
 
-			if (this.model.scores[i].values[playerid]) {
+			if (this.model.scores[i].values[playerid] && 
+				this.model.scores[i].values[playerid].played === 1) {
 
 				var game:Object = {
 					g_score: 0,
@@ -37,21 +38,25 @@ class NumberCruncher {
 				var chokers = 0;
 				var bndyhunters = 0;
 				var osos = 0;
+				var pointman = 0;
 
 				for (var j = 0; j < this.model.scores[i].values[playerid].manualbadges.length; ++j) {
-					if (this.model.scores[i].values[playerid].manualbadges[i] === "choker") {
+					if (this.model.scores[i].values[playerid].manualbadges[j] === "choker") {
 						chokers++;
-					} else if (this.model.scores[i].values[playerid].manualbadges[i] === "boundyhunter") {
+					} else if (this.model.scores[i].values[playerid].manualbadges[j] === "boundyhunter") {
 						bndyhunters++;
-					} else if (this.model.scores[i].values[playerid].manualbadges[i] === "1s1k") {
+					} else if (this.model.scores[i].values[playerid].manualbadges[j] === "1s1k") {
 						osos++;
+					} else if (this.model.scores[i].values[playerid].manualbadges[j] === "pointman") {
+						pointman++;
 					}
 				}
 
-				game["g_choker"] = chokers * 0.75;
-				game["g_1s1s"] = osos * 0.5;
+				game["g_choker"] = chokers * 0.66;
+				game["g_1s1s"] = osos * 1.5;
+				game["g_pointman"] = pointman * 0.5;
 				game["g_players"] = this.model.scores[i].numPlayers;
-				game["g_score"] = (NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true) + game["g_choker"] + game["g_1s1s"]) * game["g_players"];
+				game["g_score"] = (NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true) + game["g_choker"] + game["g_1s1s"] + game["g_pointman"]) * game["g_players"];
 				game["g_laps"] = this.model.scores[i].values[playerid]["point03"];
 				game["g_bndy"] = this.model.scores[i].values[playerid]["boundy"];
 				game["g_bndyh"] = bndyhunters;
@@ -90,7 +95,7 @@ class NumberCruncher {
 		result = (season["s_total"] / games.length) / season["s_avplayers"];
 
 
-		return result;
+		return Math.round(result * 100) / 10;
 	}
 
 
