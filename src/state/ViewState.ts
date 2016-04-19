@@ -22,7 +22,8 @@ class ViewState extends AppState {
 			"averagerawscore:desc"	: "Av raw points",
 			"averagerawscore:asc": "Av raw points",
 			"averagerawandbonus:desc": "Av raw + bonus",
-			"averagerawandbonus:asc": "Av raw + bonus"
+			"skillrating:asc": "Skill rating",
+			"skillrating:desc": "Skill rating"
 		}
 	}
 
@@ -156,6 +157,7 @@ class ViewState extends AppState {
 			context.rankings[i].averagerawscore = NumberCruncher.getPlayerAverageRawScore(playerid, false);
 			context.rankings[i].rawandbonus = NumberCruncher.getPlayerRawScore(playerid, true);
 			context.rankings[i].averagerawandbonus = NumberCruncher.getPlayerAverageRawScore(playerid, true);
+			context.rankings[i].skillrating = NumberCruncher.getPlayerSkillRating(playerid);
 		}
 
 		var html = template(context);
@@ -391,7 +393,7 @@ class ViewState extends AppState {
 
 		$(".sort-default").addClass("active");
 
-		var p = this.controller.getAllActivePlayers();
+		/*var p = this.controller.getAllActivePlayers();
 
 		
 
@@ -416,7 +418,7 @@ class ViewState extends AppState {
 
 		for (var i = 0; i < p.length; ++i) {
 			console.log(p[i].name, p[i].value);
-		}
+		}*/
 
 
 	}
