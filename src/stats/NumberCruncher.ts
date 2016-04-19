@@ -90,12 +90,12 @@ class NumberCruncher {
 
 		season["s_avplayers"] /= games.length;
 		season["s_bndyh"] = season["s_bndyh"] > 1 ? season["s_bndyh"] - 1 : 0;
-		season["s_total"] = season["s_score"] + season["s_laps"] + season["s_bndy"] + season["s_bndyh"] + season["s_choker"];
+		season["s_total"] = season["s_score"] + season["s_bndy"] + season["s_bndyh"];
 
-		result = (season["s_total"] / games.length) / season["s_avplayers"];
+		result = (season["s_total"] / games.length) / (season["s_avplayers"] / 2);
 
 
-		return Math.round(result * 100) / 10;
+		return Math.round(result * 1000) / 100;
 	}
 
 
