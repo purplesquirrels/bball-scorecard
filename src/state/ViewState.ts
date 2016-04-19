@@ -391,6 +391,34 @@ class ViewState extends AppState {
 
 		$(".sort-default").addClass("active");
 
+		var p = this.controller.getAllActivePlayers();
+
+		
+
+		for (var i = 0; i < p.length; ++i) {
+
+			var skill = NumberCruncher.getPlayerSkillRating(p[i].id);
+
+			p[i] = {
+				name: p[i].firstname,
+				value: skill
+			};
+
+			//console.log(p[i].firstname, skill);
+
+		}
+
+		p = p.sort(function(a, b) {
+			if (a.value < b.value) return 1;
+			if (a.value > b.value) return -1;
+			return 0;
+		});
+
+		for (var i = 0; i < p.length; ++i) {
+			console.log(p[i].name, p[i].value);
+		}
+
+
 	}
 
 	startProgressTimer = () => {

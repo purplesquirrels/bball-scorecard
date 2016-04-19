@@ -15,6 +15,85 @@ class NumberCruncher {
 		this.model = model;
 	}
 
+
+	static getPlayerSkillRating(playerid: string): number {
+
+		var games: any[] = [];
+		var result = 0;
+
+		for (var i = 0; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid]) {
+
+				var game:Object = {
+					g_score: 0,
+					g_players: 0,
+					g_laps: 0,
+					g_bndy: 0,
+					g_bndyh: 0,
+					g_choker: 0
+				}
+
+				var chokers = 0;
+				var bndyhunters = 0;
+				var osos = 0;
+
+				for (var j = 0; j < this.model.scores[i].values[playerid].manualbadges.length; ++j) {
+					if (this.model.scores[i].values[playerid].manualbadges[i] === "choker") {
+						chokers++;
+					} else if (this.model.scores[i].values[playerid].manualbadges[i] === "boundyhunter") {
+						bndyhunters++;
+					} else if (this.model.scores[i].values[playerid].manualbadges[i] === "1s1k") {
+						osos++;
+					}
+				}
+
+				game["g_choker"] = chokers * 0.75;
+				game["g_1s1s"] = osos * 0.5;
+				game["g_players"] = this.model.scores[i].numPlayers;
+				game["g_score"] = (NumberCruncher.getPlayerRawScoreOnDay(playerid, i, true) + game["g_choker"] + game["g_1s1s"]) * game["g_players"];
+				game["g_laps"] = this.model.scores[i].values[playerid]["point03"];
+				game["g_bndy"] = this.model.scores[i].values[playerid]["boundy"];
+				game["g_bndyh"] = bndyhunters;
+
+				games.push(game);
+
+			}
+
+		}
+
+		var season = {
+			s_score: 0,
+			s_laps: 0,
+			s_bndy: 0,
+			s_bndyh: 0,
+			s_choker: 0,
+			s_total: 0,
+			s_avplayers: 0,
+		}
+
+		for (var i = 0; i < games.length; ++i) {
+
+			season["s_score"] += games[i]["g_score"];
+			season["s_laps"] += games[i]["g_laps"];
+			season["s_bndy"] += games[i]["g_bndy"];
+			season["s_bndyh"] += games[i]["g_bndyh"];
+			season["s_choker"] += games[i]["g_choker"];
+			season["s_avplayers"] += games[i]["g_players"];
+
+		}
+
+		season["s_avplayers"] /= games.length;
+		season["s_bndyh"] = season["s_bndyh"] > 1 ? season["s_bndyh"] - 1 : 0;
+		season["s_total"] = season["s_score"] + season["s_laps"] + season["s_bndy"] + season["s_bndyh"] + season["s_choker"];
+
+		result = (season["s_total"] / games.length) / season["s_avplayers"];
+
+
+		return result;
+	}
+
+
 	static getPlayerTotalPointsOfType(playerid:string, pointtype:string):number {
 
 		var total = 0;
