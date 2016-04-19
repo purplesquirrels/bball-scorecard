@@ -158,6 +158,13 @@ class ViewState extends AppState {
 			context.rankings[i].rawandbonus = NumberCruncher.getPlayerRawScore(playerid, true);
 			context.rankings[i].averagerawandbonus = NumberCruncher.getPlayerAverageRawScore(playerid, true);
 			context.rankings[i].skillrating = NumberCruncher.getPlayerSkillRating(playerid);
+
+			if (context.rankings[i].skillrating < 10) {
+				context.rankings[i].skillrating = "0" + context.rankings[i].skillrating;
+			}
+			if (context.rankings[i].skillrating % 1 === 0) {
+				context.rankings[i].skillrating = context.rankings[i].skillrating + ".00"
+			}
 		}
 
 		var html = template(context);
