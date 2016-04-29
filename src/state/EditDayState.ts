@@ -199,59 +199,30 @@ class EditDayState extends AppState {
 
 		$(".save-newday").bind("click", (e) => {
 
+			var msg = Config.MSG_FINISHGAME;
+
 			if (this.options["mode"] === EditDayState.MODE_EDIT) {
+				msg = "Save the changes?";
+			}
+
+			/*if (this.options["mode"] === EditDayState.MODE_EDIT) {
 
 				$(".app-header").removeClass("hidden");
 
-				var numPlayers = 0;
-
-				$(".app-header").removeClass("hidden");
-
-				$("[data-value='playing']").each((index, elem) => {
-					var checked = $(elem).prop("checked");
-					var player = $(elem).data("for");
-
-					if (checked) {
-						numPlayers++;
-					}
-
-					if (this.controller.getPlayerIsPlaying(player, editday) != checked) {
-						// Playing has changed
-
-						this.controller.setPlayerIsPlaying(player, checked, editday);
-					}
-
-
-				});
-
-				var cond: string[] = [];
-				$(".conditions-select :selected").each((i, e) => { cond.push($(e).val()) })
-
-				this.controller.setDayNumPlayers(numPlayers);
-				this.controller.setDayManualConditions(cond);
 				this.controller.setDayComplete(0); // ensures day is complete if app unexpectedly quit during new day
 
-				this.controller.updatePlayerRankings();
-
-				$.post(Config.PUT_PATH, {
-					auth: Config.SERVER_KEY,
-					data: this.controller.getJSONString()
-				})
-				.done((data) => {
-					console.log("Success");
-				})
-				.fail((data) => {
-					console.log("Error", data);
-				})
-				.always((data) => {
-					console.log("Finished");
+				this.saveChanges(true, () => {
 					this.app.setState(StateType.VIEW);
 				});
 
+			} else if (this.options["mode"] === EditDayState.MODE_NEW) {*/
 
-			} else if (this.options["mode"] === EditDayState.MODE_NEW) {
+				
 
-				if (confirm(Config.MSG_FINISHGAME)) {
+				if (confirm(msg)) {
+
+					$(".app-header").removeClass("hidden");
+
 					this.controller.setDayComplete(0);
 
 					this.saveChanges(true, () => {
@@ -262,8 +233,15 @@ class EditDayState extends AppState {
 					for (var player in this.playersReceivedPowerup) {
 
 						var p_details = this.controller.getPlayerDetails(player);
+
+						console.log("send email to", p_details["firstname"]);
+
+						if (!p_details["email"]) {
+							continue;
+						}
+
 						var p_message =
-								"<p>Hi {{firstname}},</p><p>You received the following powerups today: </p>"+
+							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (this.playersReceivedPowerup[player].length > 1 ? "s" : "") + " today: </p>" +
 								"<ul>{{powerups}}</ul>";
 
 						var powerups = [];
@@ -291,7 +269,7 @@ class EditDayState extends AppState {
 
 					this.playersReceivedPowerup = {};
 				}
-			}
+			//}
 
 		});
 
@@ -372,10 +350,6 @@ class EditDayState extends AppState {
 
 			this.controller.deletePlayerManualBadge(playerid, id, 0);
 
-			//if (id === "powerup") {
-
-			//}
-
 			var remaining = $(".current-badge:not(.removed)");
 
 			for (var i = 0; i < remaining.length; ++i) {
@@ -422,15 +396,6 @@ class EditDayState extends AppState {
 		if ($(e.currentTarget).hasClass("disabled")) return;
 
 		var playerid: string = $(e.currentTarget).attr("data-for");
-		//var powerup: string = $(e.currentTarget).attr("data-id");
-
-		//this.controller.usePlayerPowerup(playerid, powerup);
-
-		//console.log('use-powerup');
-
-
-		var playerid: string = $(e.currentTarget).attr("data-for");
-
 		var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["powerup-selector"]);
 		var context = {
 			//currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
