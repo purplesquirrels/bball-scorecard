@@ -1359,6 +1359,12 @@ table.editmode .switch label .lever {
 .leader-stat:nth-of-type(7) {
 	color: #6C8BED;
 }
+.leader-stat:nth-of-type(8) {
+	color: #D57FFF;
+}
+.leader-stat:nth-of-type(9) {
+	color: #FF7FD7;
+}
 
 .leader-stat hr {
 	height: 0;
@@ -1451,6 +1457,12 @@ table.editmode .switch label .lever {
     justify-content: center;
     align-items: center;
     opacity: 0;
+}
+
+.powerup-label {
+	position: relative;
+	opacity: 1;
+	color: #EFEFEF;
 }
 
 .stat-holder  .powerup-label,
