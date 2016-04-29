@@ -310,7 +310,7 @@ class StatsView {
 			var c1: AreaChart = new AreaChart(".seasonRank", {
 				xlabel: "Time",
 				ylabel: "Rank",
-				interpolation: "basis", // basis
+				interpolation: "monotone", // basis
 				//tension: 1.2,
 				invertY: true,
 				invertX: true,
@@ -329,7 +329,7 @@ class StatsView {
 			var c2: AreaChart = new AreaChart(".seasonScore", {
 				xlabel: "Time",
 				ylabel: "Score",
-				interpolation: "basis",
+				interpolation: "monotone",
 				invertY: false,
 				invertX: true,
 				data: seasonScore,
@@ -498,8 +498,8 @@ class StatsView {
 		var c1: LineChart = new LineChart(".seasonRank", {
 			xlabel: "Time",
 			ylabel: "Rank",
-			interpolation: "basis", // basis
-			//tension: 1.2,
+			interpolation: "monotone", // basis
+			//tension: 0.9,
 			invertY: true,
 			invertX: true,
 			data: seasonRank,
