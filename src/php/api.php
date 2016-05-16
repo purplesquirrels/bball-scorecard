@@ -3,9 +3,14 @@
 
 if(isset($_POST['auth'])) {
 
+	$filename = "../auth/auth.txt";
+	$handle = fopen($filename, "r") or die("Error: unauthorised.");
+	$authServer = fread($handle, filesize($filename));
+	fclose($handle);
+
 	$auth = $_POST['auth'];
 
-	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == '1qaz@WSX') {
+	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == $authServer) {
 
 		
 		$command = $_POST["command"];
@@ -72,6 +77,7 @@ function updateData($parts) {
 			unset($data->bonuses);
 			unset($data->conditions);
 			unset($data->badges);
+			unset($data->powerups);
 
 			$file = '../data/players.json';
 
@@ -148,6 +154,13 @@ function getData($parts) {
 		$badge = json_decode(fread($fh, filesize($file)));
 		fclose($fh);
 
+		// POWERUPS
+		$file = '../data/powerups.json';
+
+		$fh = fopen($file, 'r') or die("Error: Can't open file.");
+		$powerup = json_decode(fread($fh, filesize($file)));
+		fclose($fh);
+
 
 	 	// COMBINE ALL
 		$season->players = $players->players;
@@ -155,6 +168,7 @@ function getData($parts) {
 		$season->bonuses = $points->bonuses;
 		$season->conditions = $cond->conditions;
 		$season->badges = $badge->badges;
+		$season->powerups = $powerup->powerups;
 
 		echo json_encode($season);
 	}
