@@ -120,6 +120,7 @@
     <li><a href="#" data-action='state:newDay' data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
   {{/if}}
     <li><a href="#" data-action="state:edit" data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
+    <li><a href="#" data-action="state:admin" class="deep-purple-text text-lighten-1"><i class='material-icons left'>security</i>Admin</a></li>
   </ul>
 </script>
 
@@ -606,6 +607,7 @@
 	</div>
 </div>
 </script>
+
 <script id="powerup-selector" type="text/x-handlebars-template">
 <div class="powerup-selector-wrapper">
 	<div class="powerup-selector">
@@ -616,4 +618,68 @@
 		</div>
 	</div>
 </div>
+</script>
+
+<script id="admin-template" type="text/x-handlebars-template">
+<h1 class="header">Admin</h1>
+<div class="body">
+	<div class="newday-tools">
+		<button class="waves-effect waves-light btn action-btn cancel-admin red"><i class='material-icons left'>not_interested</i>Exit</button>
+	</div>
+	<ul>
+		<li>TODO:</li>
+		<li>Add/delete badge</li>
+		<li>Adjust bonus/point values</li>
+		<li>Add/remove bonus/points</li>
+		<li>Show/hide Sort options for main board</li>
+	</ul>
+	<hr />
+	<h4>Add player</h4>
+	<label for="first_name">First Name</label>
+    <input id="first_name" type="text" class="validate">
+    <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
+	<hr />
+	<h4>Edit player</h4>
+	<!-- <li>Add/delete/arhive player</li> -->
+	<!-- <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Edit player</a> -->
+	<hr />
+	<h4>Create new season</h4>
+	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
+</div>
+</script>
+
+<script id="modal-new-season" type="text/x-handlebars-template">
+	<div id="newseason-modal" class="modal">
+	    <div class="modal-content">
+
+	    <h2>New season details</h2>
+
+			<div class="input-field">
+				<input id="season-id" type="text" class="validate" value="{{season_id}}">
+				<label for="season-id">ID</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-name" type="text" class="validate" value="{{season_name}}">
+				<label for="season-name">Name</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-banner" type="text" class="validate" value="{{banner}}">
+				<label for="season-banner">Banner</label>
+			</div>
+
+			<div class="input-field">
+				<input id="season-end" type="text" class="validate" value="{{end_date}}">
+				<label for="season-end">End date</label>
+			</div>
+		</div>
+	    <div class="modal-footer">
+	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-season"><i class='material-icons left'>done</i>Confirm new season</button>
+	      <!-- <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a> -->
+	    </div>
+	</div>
+
+
 </script>

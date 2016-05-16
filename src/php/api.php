@@ -12,20 +12,25 @@ if(isset($_POST['auth'])) {
 
 	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == $authServer) {
 
-		
+		$data = $_POST['data'];
 		$command = $_POST["command"];
 
 		$parts = explode("/", $command); // update/game/day
 
 		switch ($parts[0]) {
 			case "update" :  // update/game/day
-				updateData(array_slice($parts, 1));
+				updateData(array_slice($parts, 1), json_decode($data));
 				break;
 			case "create" : // create/season
-				addData(array_slice($parts, 1));
+				addData(array_slice($parts, 1), $data);
 				break;
 			case "get" : // get/all
-				getData(array_slice($parts, 1));
+
+				$result = getData(array_slice($parts, 1));
+
+				header('Content-Type: application/json');
+				echo json_encode($result);
+
 				break;
 			default: 
 				die("Error: no command provided.");
@@ -40,10 +45,36 @@ if(isset($_POST['auth'])) {
 }
 
 
-function addData($parts) {
+function addData($parts, $data) {
 
 	switch ($parts[0]) {
 		case "season" :
+
+			$cmd = [0 => "all"];
+
+			$current = getData($cmd);
+			$new = json_decode($data);
+
+			$seasons = [
+				0 => "none",
+				1 => "autumn",
+				2 => "winter",
+				3 => "spring",
+				4 => "summer"
+			];
+
+			$oldseasonname = $current->season_name;
+			$seasonid = $current->season;
+
+			$name = explode(" ", $oldseasonname);
+
+			$file = '../data/archive/'.$name[1].'_'.$seasons[$seasonid].'_archive.json';
+
+			$fh = fopen($file, 'w') or die("Error: Can't open file.");
+			fwrite($fh, $current);
+			fclose($fh);
+
+			updateData([0 => "all"],  $new);
 
 			break;
 	}
@@ -51,9 +82,9 @@ function addData($parts) {
 }
 
 
-function updateData($parts) {
+function updateData($parts, $data) {
 
-	$data = json_decode($_POST['data']);
+	//$data = json_decode($_POST['data']);
 
 	
 
@@ -114,7 +145,7 @@ function updateData($parts) {
 
 function getData($parts) {
 
-	header('Content-Type: application/json');
+	//header('Content-Type: application/json');
 
 	if ($parts[0] == "all") {
 
@@ -170,7 +201,9 @@ function getData($parts) {
 		$season->badges = $badge->badges;
 		$season->powerups = $powerup->powerups;
 
-		echo json_encode($season);
+		//echo json_encode($season);
+
+		return $season;
 	}
 
 }

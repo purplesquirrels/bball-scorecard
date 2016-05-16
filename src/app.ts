@@ -4,6 +4,7 @@
 /// <reference path="typing/d3.d.ts" />
 /// <reference path="state/ViewState.ts" />
 /// <reference path="state/EditDayState.ts" />
+/// <reference path="state/AdminState.ts" />
 /// <reference path="state/view/StatsView.ts" />
 /// <reference path="modal/NewPlayer.ts" />
 
@@ -26,12 +27,14 @@ interface States {
 	view: ViewState;
 	newDay: EditDayState;
 	edit: EditDayState;
+	admin: AdminState;
 }
 
 class StateType {
 	static VIEW: string = "view";
 	static NEW_DAY: string = "newDay";
 	static EDIT: string = "edit";
+	static ADMIN: string = "admin";
 }
 
 interface Rectangle {
@@ -165,7 +168,8 @@ class App {
 		this.states = {
 			"edit": null,
 			"view": null,
-			"newDay": null
+			"newDay": null,
+			"admin": null
 		}
 
 		if (isEditable === "1") {
@@ -236,7 +240,7 @@ class App {
 			
 			this.states.edit = new EditDayState(this.scoreController, this, {mode:"edit"});
 			this.states.newDay = new EditDayState(this.scoreController, this, { mode: "new" });
-			
+			this.states.admin = new AdminState(this.scoreController, this);			
 
 		}
 
