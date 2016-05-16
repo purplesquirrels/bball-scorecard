@@ -13,7 +13,6 @@ interface ScoreData {
 	badges: Badge[];
 	powerups: Object;
 	playerBadges: Object;
-	powerbank: Object;
 	scores: any[];
 }
 
@@ -125,6 +124,7 @@ class ScoreController {
 			badges: this.model.badges,
 			playerBadges: {},
 			powerbank: {},
+			powerups:this.model.powerups,
 			scores: []
 		}
 

@@ -240,7 +240,7 @@ class App {
 			
 			this.states.edit = new EditDayState(this.scoreController, this, {mode:"edit"});
 			this.states.newDay = new EditDayState(this.scoreController, this, { mode: "new" });
-			this.states.admin = new AdminState(this.scoreController, this);			
+			this.states.admin = new AdminState(this.scoreController, this, {mode:"admin"});			
 
 		}
 

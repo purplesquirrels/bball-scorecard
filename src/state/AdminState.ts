@@ -3,13 +3,11 @@
 class AdminState extends AppState {
 
 	
-	constructor(controller: ScoreController, app: App) {
-		super(controller, app);
-
-		
+	constructor(controller: ScoreController, app: App, options:any) {
+		super(controller, app, options);
 	}
 
-	render() {
+	render(renderoptions?:any) {
 
 		$(".app-header").addClass("hidden");
 
