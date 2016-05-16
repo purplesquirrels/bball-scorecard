@@ -11,6 +11,7 @@ interface ScoreData {
 	bonuses: Object;
 	badges: Badge[];
 	playerBadges: Object;
+	powerbank: Object;
 	scores: any[];
 }
 
@@ -113,6 +114,7 @@ class ScoreController {
 			bonuses: this.model.bonuses,
 			badges: this.model.badges,
 			playerBadges: {},
+			powerbank: {},
 			scores: []
 		}
 
@@ -493,10 +495,6 @@ class ScoreController {
 			return false;
 		}
 
-		if (typeof this.model.scores[day].values[playerid] == "undefined") {
-			return false;
-		}
-
 		return this.model.scores[day].values[playerid].late === 1;
 	}
 
@@ -795,7 +793,6 @@ class ScoreController {
 
 		var player = {
 			"id": newid,
-			"active": true,
 			"firstname": firstname,
 			"lastname": lastname,
 			"avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()
