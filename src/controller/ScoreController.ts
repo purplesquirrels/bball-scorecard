@@ -493,6 +493,10 @@ class ScoreController {
 			return false;
 		}
 
+		if (typeof this.model.scores[day].values[playerid] == "undefined") {
+			return false;
+		}
+
 		return this.model.scores[day].values[playerid].late === 1;
 	}
 
@@ -791,6 +795,7 @@ class ScoreController {
 
 		var player = {
 			"id": newid,
+			"active": true,
 			"firstname": firstname,
 			"lastname": lastname,
 			"avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()

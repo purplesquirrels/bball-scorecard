@@ -61,12 +61,13 @@ class ViewState extends AppState {
 		context.gamesPlayed = context.rankings.length > 0;
 
 		/* remove players from leaderboard if... */
-		for (var i = context.rankings.length-1; i > 0; i--) {
-			if (!this.controller.getPlayerTotalGames(context.rankings[i].id) || /* havent played any games this season or..*/
-				!this.app.isArchiveMode && /* dont delete if archive mode */
-				(this.controller.getPlayersDaysSinceLastGame(context.rankings[i].id) >= 5 &&
-					this.controller.getPlayerLastTotalScore(context.rankings[i].id) <= 0)) { /* havent played for 5 days */
-				context.rankings.splice(i, 1);
+		if (!this.app.isArchiveMode) { /* dont delete if archive mode */
+			for (var i = context.rankings.length - 1; i > 0; i--) {
+				if (!this.controller.getPlayerTotalGames(context.rankings[i].id) || /* havent played any games this season or..*/
+					(this.controller.getPlayersDaysSinceLastGame(context.rankings[i].id) >= 5 &&
+					this.controller.getPlayerLastTotalScore(context.rankings[i].id) <= 0)) { /* havent played for 5 days, and score is 0 */
+					context.rankings.splice(i, 1);
+				}
 			}
 		}
 

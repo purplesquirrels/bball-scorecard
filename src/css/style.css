@@ -40,6 +40,23 @@ html, body {
     float: left;
 }
 
+.suggestion-link {
+	float: right;
+	clear: right;
+    color: #E2E2E2;
+    border: 1px solid #212633;
+    background: #2B3042;
+    font-size: 0.8rem;
+    padding: 0.4em;
+    display: flex;
+    align-items: center;
+    margin: 1em 0 0;
+}
+
+.suggestion-link i {
+	margin-right: 0.2em;
+}
+
 .season-selector:focus {
 	outline: none;
 	border: 1px dotted #212633;

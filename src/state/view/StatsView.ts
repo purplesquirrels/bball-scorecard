@@ -227,6 +227,34 @@ class StatsView {
 				break;
 			}
 		}
+
+		var seasonRanks = [
+			{
+				"name" : "Gold",
+				"value": NumberCruncher.getPlayerDaysInMultiplier(playerid, 1),
+				"color": "#F9B450"
+			},
+			{
+				"name": "Silver",
+				"value": NumberCruncher.getPlayerDaysInMultiplier(playerid, 2),
+				"color": "#5DDCF9"
+			},
+			{
+				"name": "Bronze",
+				"value": NumberCruncher.getPlayerDaysInMultiplier(playerid, 3),
+				"color": "#FB6C70"
+			},
+			{
+				"name": "Iron",
+				"value": NumberCruncher.getPlayerDaysInMultiplier(playerid, 4),
+				"color": "#29DDC0"
+			},
+			{
+				"name": "Tin",
+				"value": NumberCruncher.getPlayerDaysInMultiplier(playerid, 5),
+				"color": "#A193FF"
+			}
+		]
 		
 
 		/*if (update) {
@@ -276,7 +304,7 @@ class StatsView {
 			var c1: AreaChart = new AreaChart(".seasonRank", {
 				xlabel: "Time",
 				ylabel: "Rank",
-				interpolation: "basis", // basis
+				interpolation: "monotone", // basis
 				//tension: 1.2,
 				invertY: true,
 				invertX: true,
@@ -295,7 +323,7 @@ class StatsView {
 			var c2: AreaChart = new AreaChart(".seasonScore", {
 				xlabel: "Time",
 				ylabel: "Score",
-				interpolation: "basis",
+				interpolation: "monotone",
 				invertY: false,
 				invertX: true,
 				data: seasonScore,
@@ -306,6 +334,15 @@ class StatsView {
 			});
 
 			this.playerCharts.push(c2);
+
+			$(".right-4").prepend('<svg class="chart seasonRankPercent"></svg>');
+			var c3: BarSegmentChart = new BarSegmentChart(".seasonRankPercent", {
+				data: seasonRanks,
+				width: 700,
+				height: 60
+			});
+
+			this.playerCharts.push(c3);
 		//}
 
 
@@ -455,8 +492,8 @@ class StatsView {
 		var c1: LineChart = new LineChart(".seasonRank", {
 			xlabel: "Time",
 			ylabel: "Rank",
-			interpolation: "basis", // basis
-			//tension: 1.2,
+			interpolation: "monotone", // basis
+			//tension: 0.9,
 			invertY: true,
 			invertX: true,
 			data: seasonRank,
