@@ -50,6 +50,8 @@ function addData($parts, $data) {
 	switch ($parts[0]) {
 		case "season" :
 
+			//header('Content-Type: application/json');
+			
 			$cmd = [0 => "all"];
 
 			$current = getData($cmd);
@@ -71,7 +73,7 @@ function addData($parts, $data) {
 			$file = '../data/archive/'.$name[1].'_'.$seasons[$seasonid].'_archive.json';
 
 			$fh = fopen($file, 'w') or die("Error: Can't open file.");
-			fwrite($fh, $current);
+			fwrite($fh, json_encode($current));
 			fclose($fh);
 
 			updateData([0 => "all"],  $new);
