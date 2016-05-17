@@ -233,16 +233,19 @@ class EditDayState extends AppState {
 					for (var player in this.playersReceivedPowerup) {
 
 						var p_details = this.controller.getPlayerDetails(player);
+						var multiple = this.playersReceivedPowerup[player].length > 1;
 
 						console.log("send email to", p_details["firstname"]);
 
-						if (!p_details["email"]) {
+						// uncomment when proper email in use
+						/*if (!p_details["email"]) {
 							continue;
-						}
+						}*/
 
 						var p_message =
-							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (this.playersReceivedPowerup[player].length > 1 ? "s" : "") + " today: </p>" +
-								"<ul>{{powerups}}</ul>";
+							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
+								"<ul>{{powerups}}</ul>" + 
+							"<p>Use " + (multiple ? "them" : "it") + " wisely!</p>";
 
 						var powerups = [];
 
@@ -336,6 +339,12 @@ class EditDayState extends AppState {
 				this.controller.addPlayerPowerup(playerid, powerup);
 
 				alert("Player received: " + powerup.name + ".");
+
+				if (!this.playersReceivedPowerup[playerid]) {
+					this.playersReceivedPowerup[playerid] = [];
+				}
+
+				this.playersReceivedPowerup[playerid].push(powerup.id);
 
 			}
 		});
