@@ -635,8 +635,8 @@
 	</ul>
 	<hr />
 	<h4>Add player</h4>
-	<label for="first_name">First Name</label>
-    <input id="first_name" type="text" class="validate">
+	<div><label for="first_name">First Name</label>
+    <input id="first_name" type="text" class="validate"></div>
     <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
 	<hr />
 	<h4>Edit player</h4>
@@ -645,6 +645,11 @@
 	<hr />
 	<h4>Create new season</h4>
 	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
+	<hr />
+	<h4>Send test email</h4>
+	<div><label for="email">Email</label>
+    <input id="email" type="email" class="validate"></div>
+	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn send-test-email"><i class='material-icons left'>email</i>Send now</button>
 </div>
 </script>
 
@@ -655,23 +660,23 @@
 	    <h2>New season details</h2>
 
 			<div class="input-field">
-				<input id="season-id" type="text" class="validate" value="{{season_id}}">
 				<label for="season-id">ID</label>
+				<input id="season-id" type="text" class="validate" value="{{season_id}}">
 			</div>
 
 			<div class="input-field">
-				<input id="season-name" type="text" class="validate" value="{{season_name}}">
 				<label for="season-name">Name</label>
+				<input id="season-name" type="text" class="validate" value="{{season_name}}">
 			</div>
 
 			<div class="input-field">
-				<input id="season-banner" type="text" class="validate" value="{{banner}}">
 				<label for="season-banner">Banner</label>
+				<input id="season-banner" type="text" class="validate" value="{{banner}}">
 			</div>
 
 			<div class="input-field">
-				<input id="season-end" type="text" class="validate" value="{{end_date}}">
 				<label for="season-end">End date</label>
+				<input id="season-end" type="text" class="validate" value="{{end_date}}">
 			</div>
 		</div>
 	    <div class="modal-footer">
