@@ -526,7 +526,7 @@ class ScoreController {
 
 	getPlayerIsLate = (playerid: string, day: number = 0): boolean => {
 
-		if (typeof this.model.games[playerid] == "undefined") {
+		if (typeof this.model.scores[day].values[playerid] == "undefined") {
 			return false;
 		}
 
@@ -537,7 +537,7 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return false;
 
-		if (typeof this.model.games[playerid] == "undefined") {
+		if (typeof this.model.scores[day].values[playerid] == "undefined") {
 			return false;
 		}
 
@@ -626,13 +626,13 @@ class ScoreController {
 
 	getPlayerScoreForDay = (playerid: string, day: number = 0): number => {
 
-		if (this.model.scores.length === 0) return 0;
+		if (this.model.scores.length === 0) return -1;
 
-		if (this.model.scores[day].values[playerid]) {
+		if (this.model.scores[day].values[playerid] && this.model.scores[day].values[playerid].played) {
 			return this.model.scores[day].values[playerid].newtotal - this.model.scores[day].values[playerid].lasttotal;
 		}
 
-		return 0;
+		return -1;
 
 	}
 
@@ -993,30 +993,40 @@ class ScoreController {
 			date: new Date().toString(),
 			game: this.model.scores.length - day,
 			used: false,
-			dateused: ""
+			dateused: "",
+			gameused: -1
 		});
 
 	}
 
 	usePlayerPowerup = (playerid: string, powerup:string):boolean => {
 
-		if (!this.model.powerbank[playerid]) {
+		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
 			return false;
 		}
 
 		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 			if (this.model.powerbank[playerid][i].id === powerup &&
 				!this.model.powerbank[playerid][i].used) {
-				//count++;
 
 				this.model.powerbank[playerid][i].used = true;
 				this.model.powerbank[playerid][i].dateused = new Date().toString();
+				this.model.powerbank[playerid][i].gameused = this.model.scores.length;
 
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	getPlayerNumPowerupsEarned = (playerid: string): number => {
+
+		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
+			return 0;
+		}
+
+		return this.model.powerbank[playerid].length;
 	}
 
 	generatePowerup = () => {
@@ -1027,13 +1037,7 @@ class ScoreController {
 			powerups.push(this.model.powerups[p]);
 		}
 
-		//console.log(powerups);
-
 		var n:number = Math.floor(Math.random() * powerups.length);
-
-		//var pu: PowerUp = powerups[n];
-
-		//this.model.powerbank[playerid].push(pu);
 
 		return powerups[n];
 
