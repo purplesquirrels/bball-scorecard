@@ -76,6 +76,14 @@ class Badger {
 		return badges;
 	}
 
+	static getTotalBadgesOfType(playerid: string, type: string): number {
+
+		var count = 0;
+
+
+		return count;
+	}
+
 	static playerHasBadge(playerid:string, badge:Badge): number {
 
 		var totalGames = this.controller.getTotalGamesPlayed();
@@ -88,6 +96,8 @@ class Badger {
 			"attendance": Math.floor(played / totalGames * 100),
 			"latecount": NumberCruncher.getPlayLateStarts(playerid),
 			"shots": NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
+			"powerups": this.controller.getPlayerNumPowerupsEarned(playerid),
+			"distance": NumberCruncher.getPlayerDistance(playerid),
 
 			/* variable data per game */
 			"rankchange" : 0,
@@ -135,7 +145,7 @@ class Badger {
 				
 				context.rankchange = rankChanges[i] || 0;
 				context.late = this.controller.getPlayerIsLate(playerid, i) || false;
-				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i) || 0;
+				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i);
 
 				context.bonus01 = this.controller.getPlayerBonusesForDay(playerid, "bonus01", i);
 				context.bonus02 = this.controller.getPlayerBonusesForDay(playerid, "bonus02", i);
