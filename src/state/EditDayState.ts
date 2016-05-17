@@ -256,7 +256,8 @@ class EditDayState extends AppState {
 
 						$.post(Config.MAIL_PATH, {
 							auth: Config.SERVER_KEY,
-							to: p_details["email"],
+							//to: p_details["email"],
+							to: "ben.foster@learningseat.com", // for testing - to be replaced with above line
 							subject: "Bankulator: you received a powerup",
 							message: p_message
 						}).then(function(e){
