@@ -148,6 +148,14 @@ html, body {
 	padding: 10px;
 }
 
+.admin h4 {
+	font-size: 1.5rem;
+}
+.admin hr {
+	margin: 2rem 0;
+}
+
+
 @media (max-width: 1023px) {
 	.scoreboard {
 		margin: 0 auto;
@@ -539,11 +547,13 @@ label {
 	border-color: #FFF;
 }
 
+.admin-tools,
 .newday-tools {
 	margin: 1rem 0;
 	width: 100%;
 }
 
+.admin-tools:after,
 .newday-tools:after {
 	content: "";
 	display: block;
@@ -551,6 +561,7 @@ label {
 	clear: both;
 }
 
+.admin-tools button,
 .newday-tools button {
 	padding: 0 0.7rem;
 }
