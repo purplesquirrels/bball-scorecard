@@ -1477,6 +1477,19 @@ table.editmode .switch label .lever {
 	color: #EFEFEF;
 }
 
+.badges-selector .badge-label {
+	display: block;
+	position: absolute;
+    width: 100%;
+    color: #FFF;
+    top: 100%;
+    left: 0;
+    text-align: center;
+    line-height: 1.2;
+	height: auto;
+	opacity: 1;
+}
+
 .stat-holder  .powerup-label,
 .stat-holder  .badge-label {
 	height: auto;
