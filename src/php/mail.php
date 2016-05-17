@@ -17,12 +17,13 @@ if(isset($_POST['auth'])) {
 						"<head>".
 							"<title>".$subject."</title>".
 						"</head>".
-						"<body>";
+						"<body style='font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#4C4C4C;'>";
 
 		$message .= $_POST["message"];
 
-		$message .= 	"<p>Regards,<br>The Founding Fathers</p>";
-		$message .= 	"<p style='font-size:0.9em'>Note: please do not respond to this message as it was sent form an unattended mail box.</p>";
+		$message .= 	"<p>Regards,<br>The Founding Fathers<br><br>";
+		$message .= 	"<img src='http://www.bankulator.com/images/logo/foundingfathers.png' width='180' height='92' title='Founding Fathers logo'></p>";
+		$message .= 	"<p style='font-size:0.75em'>Note: please do not respond to this message as it was sent from an unattended mail box.</p>";
 		$message .= 	"</body>".
 					"</html>";
 
