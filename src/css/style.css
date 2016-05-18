@@ -1460,6 +1460,11 @@ table.editmode .switch label .lever {
     padding-bottom: calc(45% + 2em);
 }
 
+
+.stat-holder .powerup {
+	padding-bottom: calc(45% + 3em);
+}
+
 .badge-label,
 .powerup-label {
 	position: absolute;
@@ -1472,7 +1477,7 @@ table.editmode .switch label .lever {
 }
 
 .powerup-label {
-	position: relative;
+	/*position: relative;*/
 	opacity: 1;
 	color: #EFEFEF;
 }
@@ -1508,23 +1513,62 @@ table.editmode .switch label .lever {
 	position: absolute;
     font-size: 0.9em;
     top: 0.8em;
-    width: 2em;
+    /*width: 2em;*/
     height: 2em;
     text-align: center;
     font-weight: bold;
     right: -0.8em;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    background: #28FF93;
-    color: #2D5D57;
+
+   /* background: #28FF93;
+    color: #2D5D57;*/
+
+   /* background: #133531;
+    color: #54FFA9;
+    border: 1px solid #54FFA9;*/
+
+    background: #54FFA9;
+    color: #224232;
+    border: 1px solid #54FFA9;
+
     padding: 0.5em;
-    border-radius: 50%;
+    -webkit-border-radius: 30%;
+    border-radius: 30%;
     line-height: 1;
 }
 
 .powerup-count[data-count='1'],
 .badge-count[data-count='1'] {
 	display: none;
+}
+
+.powerup-expiry {
+	background-color: #52DD5C;
+    border-radius: 20px;
+    color: #FFF;
+    position: absolute;
+    bottom: -0.3em;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 0.25em;
+}
+
+.powerup-expiry.health5 {
+	background-color: #52DD5C;
+}
+.powerup-expiry.health4 {
+	background-color: #72B04F;
+}
+.powerup-expiry.health3 {
+	background-color: #928342;
+}
+.powerup-expiry.health2 {
+	background-color: #B15535;
+}
+.powerup-expiry.health1 {
+	background-color: #D12828;
 }
 
 .powerup-selector-wrapper,

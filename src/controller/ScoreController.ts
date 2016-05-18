@@ -34,6 +34,7 @@ interface PowerUp {
 	image: string;
 	multi?: boolean;
 	count?: number;
+	health?: number;
 }
 
 interface BadgeSeries {
@@ -740,11 +741,17 @@ class ScoreController {
 		for (var powerup in this.model.powerups) {
 
 			var count = 0;
+			var lowestHealth = 5;
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 				if (this.model.powerbank[playerid][i].id === powerup &&
+					this.model.powerbank[playerid][i].health >= 0 &&
 					!this.model.powerbank[playerid][i].used) {
 					count++;
+
+					if (this.model.powerbank[playerid][i].health < lowestHealth) {
+						lowestHealth = this.model.powerbank[playerid][i].health;
+					}
 				}
 			}
 
@@ -755,7 +762,8 @@ class ScoreController {
 					description: this.model.powerups[powerup].description,
 					image: this.model.powerups[powerup].image,
 					multi: count > 1,
-					count: count
+					count: count,
+					health: lowestHealth
 				});
 			}
 		}
@@ -993,6 +1001,7 @@ class ScoreController {
 			date: new Date().toString(),
 			game: this.model.scores.length - day,
 			used: false,
+			health: 5,
 			dateused: "",
 			gameused: -1
 		});
@@ -1027,6 +1036,21 @@ class ScoreController {
 		}
 
 		return this.model.powerbank[playerid].length;
+	}
+
+	decayPowerups = (playerid:string, amount: number) => {
+
+		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
+			return;
+		}
+
+		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+
+			if (!this.model.powerbank[playerid][i].used) {
+				this.model.powerbank[playerid][i].health += amount;
+			}
+		}
+
 	}
 
 	generatePowerup = () => {
@@ -1104,8 +1128,10 @@ class ScoreController {
 
 			if (isPlaying) {
 				this.model.games[playerid] += 1;
+				this.decayPowerups(playerid , - 1);
 			} else {
 				this.model.games[playerid] -= 1;
+				this.decayPowerups(playerid, 1);
 			}
 
 		}

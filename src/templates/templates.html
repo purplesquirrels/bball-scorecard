@@ -476,22 +476,22 @@
 <div class="stat-view">
 	<div class="player-stat-name"><h2>{{firstname}}</h2></div>
 	<div class="col-1-4 season-stats-left">
-		<!-- <div class="stat-holder left-1">
+		<div class="stat-holder left-1">
 			<h3>Powerups</h3>
 			{{#if hasPowerups}}
 				{{#each powerups}}
-					<div class="powerup" title="{{this.description}}" style="background:url(images/powerup/{{this.image}}) no-repeat center top;background-size: 100%;"><span class="powerup-label">{{this.name}}</span>{{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+					<div class="powerup" title="{{this.description}}" style="background:url(images/powerup/{{this.image}}) no-repeat center top;background-size: 100%;"><span class="powerup-label">{{this.name}}</span>{{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}}<span class="powerup-expiry health{{this.health}}" data-count="{{this.health}}">{{this.health}} games</span></div>
 				{{/each}}
 			{{else}}
 				<div><h2 class="empty-state-message small-message">No powerups yet</h2></div>
 			{{/if}}
-		</div> -->
+		</div>
 		<div class="stat-holder left-2">
 			{{#if enableBadges}}
 				<h3>Badges</h3>
 				{{#if hasBadges}}
 					{{#each badges}}
-						<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center top;background-size: 100%;"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">{{this.count}}</span>{{/if}}</div>
+						<div class="badge" title="{{this.description}}" style="background:url(images/badge/{{this.image}}) no-repeat center top;background-size: 100%;"><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}}</div>
 					{{/each}}
 				{{else}}
 					<div><h2 class="empty-state-message small-message">No badges yet</h2></div>
