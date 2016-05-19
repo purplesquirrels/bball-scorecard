@@ -35,6 +35,7 @@ interface PowerUp {
 	multi?: boolean;
 	count?: number;
 	health?: number;
+	healths?: number[];
 }
 
 interface BadgeSeries {
@@ -279,7 +280,8 @@ class ScoreController {
 					multiplier: 1,
 					late: false,
 					powerup: false,
-					numpowerups: 0
+					numpowerups: 0,
+					receivedPowerups: []
 				};
 
 
@@ -323,12 +325,15 @@ class ScoreController {
 				player.late = this.model.scores[day].values[id].late === 1;
 
 				if (this.model.scores[day].values[id].manualbadges) {
-					if (typeof this.model.scores[day].values[id].powerups != "undefined") {
-						player.powerup = this.model.scores[day].values[id].powerups > 0;
-						player.numpowerups = this.model.scores[day].values[id].powerups;
+					var receivedPowerups = this.getPlayerPowerupsReceivedOnDay(id, day);
+					if (receivedPowerups.length > 0) {
+						player.powerup = true;
+						player.numpowerups = receivedPowerups.length;
+						player.receivedPowerups = receivedPowerups;
 					} else {
 						player.powerup = this.model.scores[day].values[id].manualbadges.indexOf("powerup") > -1;
 						player.numpowerups = 1;
+						player.receivedPowerups = [];
 					}
 				}
 
@@ -489,6 +494,31 @@ class ScoreController {
 
 	getPowerupDetails = (powerup: string): PowerUp => {
 		return this.model.powerups[powerup];
+	}
+
+	getPlayerPowerupsReceivedOnDay = (playerid: string, day: number = 0): any[] => {
+
+		if (!this.model.powerbank) return [];
+
+		var p = this.model.powerbank[playerid];
+		var totalgames = this.model.scores.length;
+
+		var powerups = [];
+
+		for (var i = 0; i < p.length; ++i) {
+
+			if (totalgames - p[i].game === day) {
+
+				var p2 = $.extend(true, {}, p[i]);
+
+				p2["dataindex"] = i;
+				powerups.push(p2);
+			}
+
+		}
+
+		return powerups;
+
 	}
 
 	getPlayerManualBadgesOnDay = (playerid: string, day: number = 0): any[] => {
@@ -742,12 +772,15 @@ class ScoreController {
 
 			var count = 0;
 			var lowestHealth = 5;
+			var healths = [];
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 				if (this.model.powerbank[playerid][i].id === powerup &&
 					this.model.powerbank[playerid][i].health >= 0 &&
 					!this.model.powerbank[playerid][i].used) {
 					count++;
+
+					healths.push(this.model.powerbank[playerid][i].health);
 
 					if (this.model.powerbank[playerid][i].health < lowestHealth) {
 						lowestHealth = this.model.powerbank[playerid][i].health;
@@ -756,6 +789,13 @@ class ScoreController {
 			}
 
 			if (count) {
+
+				healths = healths.sort((a, b) => {
+					if (a < b) return -1;
+					if (a > b) return 1;
+					return 0;
+				});
+
 				powerups.push({
 					id: this.model.powerups[powerup].id,
 					name: this.model.powerups[powerup].name,
@@ -763,10 +803,13 @@ class ScoreController {
 					image: this.model.powerups[powerup].image,
 					multi: count > 1,
 					count: count,
-					health: lowestHealth
+					health: lowestHealth,
+					healths: healths.length > 1 ? healths : []
 				});
 			}
 		}
+
+		console.log(powerups)
 
 		return powerups;
 

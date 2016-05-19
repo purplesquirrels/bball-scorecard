@@ -25,6 +25,14 @@ html, body {
 }
 
 
+.col-1-3 {
+	float: left;
+	width: 33.3333%;
+}
+.col-2-3 {
+	float: left;
+	width: 66.6667%;
+}
 
 /* ================ */
 
@@ -1268,6 +1276,15 @@ table.editmode .switch label .lever {
 
 }
 
+@media (max-width: 560px) {
+	.season-stats-left {
+		display: block;
+	}
+	.season-stats-left .stat-holder {
+		width: 100%;
+	}
+}
+
 .pieCentreLabel {
 	font-size: 22px;
 	font-family: "Roboto", Arial, sans-serif;
@@ -1448,10 +1465,13 @@ table.editmode .switch label .lever {
 .powerup {
 	width: 45%;
     padding-bottom: 45%;
-    background: #CCC;
+    background: transparent;
     margin: 2.4%;
     float: left;
     position: relative;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100%;
 }
 
 .stat-holder .badge,
@@ -1462,7 +1482,12 @@ table.editmode .switch label .lever {
 
 
 .stat-holder .powerup {
-	padding-bottom: calc(45% + 3em);
+	width: 40%;
+	background-size: 80%;
+	padding-bottom: calc(40% + 5em);
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin-right: 7%;
 }
 
 .badge-label,
@@ -1480,6 +1505,7 @@ table.editmode .switch label .lever {
 	/*position: relative;*/
 	opacity: 1;
 	color: #EFEFEF;
+	font-style: 1.2rem;
 }
 
 .badges-selector .badge-label {
@@ -1506,6 +1532,11 @@ table.editmode .switch label .lever {
     margin-top: 95%;
     font-size: 0.8em;
     text-transform: uppercase;
+}
+
+.stat-holder  .powerup-label {
+	margin-top: 82%;
+    font-size: 0.9em;
 }
 
 .powerup-count,
@@ -1543,32 +1574,68 @@ table.editmode .switch label .lever {
 	display: none;
 }
 
-.powerup-expiry {
-	background-color: #52DD5C;
-    border-radius: 20px;
-    color: #FFF;
-    position: absolute;
-    bottom: -0.3em;
-    width: 100%;
-    text-align: center;
-    font-size: 0.9em;
-    padding: 0.25em;
+.powerup-stack {
+	color: #000;
+	width: 4%;
+	height: 100%;
+	position: absolute;
+	left: 102%;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
-.powerup-expiry.health5 {
-	background-color: #52DD5C;
+.powerup-stack:nth-of-type(1) {
+	left: 102%;
 }
-.powerup-expiry.health4 {
-	background-color: #72B04F;
+.powerup-stack:nth-of-type(2) {
+	left: 108%;
 }
-.powerup-expiry.health3 {
-	background-color: #928342;
+.powerup-stack:nth-of-type(3) {
+	left: 114%;
 }
-.powerup-expiry.health2 {
-	background-color: #B15535;
+.powerup-stack:nth-of-type(4) {
+	left: 120%;
 }
-.powerup-expiry.health1 {
-	background-color: #D12828;
+
+.powerup-expiry {
+	
+    color: #FFF;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    width: calc(100% - 10px);
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.8rem;
+    
+}
+
+.powerup-expiry-counter {
+	display: block;
+	background-color: rgba(255,255,255,0.8);
+	color: #222;
+	padding: 0.25em;
+    font-weight: bold;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	width: 90%;
+	margin-left: 5%;
+}
+
+.health5 {
+	background-color: rgb(137, 202, 140);
+}
+.health4 {
+	background-color: rgb(201, 189, 106);
+}
+.health3 {
+	background-color: rgb(249, 174, 82);
+}
+.health2 {
+	background-color: rgb(250, 152, 92);
+}
+.health1 {
+	background-color: rgb(251, 108, 112);
 }
 
 .powerup-selector-wrapper,
