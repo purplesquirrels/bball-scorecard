@@ -1488,6 +1488,8 @@ table.editmode .switch label .lever {
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	margin-right: 7%;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .badge-label,
@@ -1506,6 +1508,21 @@ table.editmode .switch label .lever {
 	opacity: 1;
 	color: #EFEFEF;
 	font-style: 1.2rem;
+}
+
+.powerup-image {
+	width: 80%;
+    padding-bottom: 80%;
+    background: #212633;
+    position: absolute;
+    left: 10%;
+    top: 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background-size: 100%;
+
+	background-repeat: no-repeat;
+    background-position: center top;
 }
 
 .badges-selector .badge-label {
@@ -1535,7 +1552,7 @@ table.editmode .switch label .lever {
 }
 
 .stat-holder  .powerup-label {
-	margin-top: 82%;
+	margin-top: 95%;
     font-size: 0.9em;
 }
 
@@ -1564,14 +1581,36 @@ table.editmode .switch label .lever {
     border: 1px solid #54FFA9;
 
     padding: 0.5em;
-    -webkit-border-radius: 30%;
-    border-radius: 30%;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
     line-height: 1;
 }
 
 .powerup-count[data-count='1'],
 .badge-count[data-count='1'] {
 	display: none;
+}
+
+
+.health5 {
+	border-color: rgb(137, 202, 140);
+	background-color: rgba(137, 202, 140, 0.32);
+}
+.health4 {
+	border-color: rgb(201, 189, 106);
+	background-color: rgba(201, 189, 106, 0.32);
+}
+.health3 {
+	border-color: rgb(249, 174, 82);
+	background-color: rgba(249, 174, 82, 0.32);
+}
+.health2 {
+	border-color: rgb(250, 152, 92);
+	background-color: rgba(250, 152, 92, 0.32);
+}
+.health1 {
+	border-color: rgb(251, 108, 112);
+	background-color: rgba(251, 108, 112, 0.32);
 }
 
 .powerup-stack {
@@ -1597,6 +1636,27 @@ table.editmode .switch label .lever {
 	left: 120%;
 }
 
+.powerup-stack.health5 {
+	background-color: rgb(137, 202, 140);
+	border: none;
+}
+.powerup-stack.health4 {
+	background-color: rgb(201, 189, 106);
+	border: none;
+}
+.powerup-stack.health3 {
+	background-color: rgb(249, 174, 82);
+	border: none;
+}
+.powerup-stack.health2 {
+	background-color: rgb(250, 152, 92);
+	border: none;
+}
+.powerup-stack.health1 {
+	background-color: rgb(251, 108, 112);
+	border: none;
+}
+
 .powerup-expiry {
 	
     color: #FFF;
@@ -1606,7 +1666,9 @@ table.editmode .switch label .lever {
     width: calc(100% - 10px);
     text-align: center;
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: .6rem;
+    text-transform: uppercase;
+    line-height: 1.2;
     
 }
 
@@ -1620,23 +1682,9 @@ table.editmode .switch label .lever {
 	text-transform: uppercase;
 	width: 90%;
 	margin-left: 5%;
+	margin-top: 0.1em;
 }
 
-.health5 {
-	background-color: rgb(137, 202, 140);
-}
-.health4 {
-	background-color: rgb(201, 189, 106);
-}
-.health3 {
-	background-color: rgb(249, 174, 82);
-}
-.health2 {
-	background-color: rgb(250, 152, 92);
-}
-.health1 {
-	background-color: rgb(251, 108, 112);
-}
 
 .powerup-selector-wrapper,
 .badges-selector-wrapper {

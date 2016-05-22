@@ -145,6 +145,10 @@ class App {
 
 		$(".initital-preloader").remove(); // removes the preloader
 
+		Handlebars.registerHelper('plural', function(v1) {
+			return v1 > 1 ? "s" : "";
+		});
+
 		Handlebars.registerHelper('isPlayingCheck', function(played) {
 			return played ? 'checked' : '';
 		});

@@ -796,6 +796,10 @@ class ScoreController {
 					return 0;
 				});
 
+				healths.length = 5; // limit to 5
+
+				//healths.splice(0, 1);
+
 				powerups.push({
 					id: this.model.powerups[powerup].id,
 					name: this.model.powerups[powerup].name,
@@ -804,7 +808,7 @@ class ScoreController {
 					multi: count > 1,
 					count: count,
 					health: lowestHealth,
-					healths: healths.length > 1 ? healths : []
+					healths: healths//healths.length > 1 ? healths : []
 				});
 			}
 		}
