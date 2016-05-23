@@ -483,7 +483,7 @@
 					<div class="powerup health{{this.health}}" title="{{this.description}}">
 						<span class="powerup-image" style="background-image:url(images/powerup/{{this.image}});"></span>
 						<span class="powerup-label">{{this.name}}</span>
-						{{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}}
+						<!-- {{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}} -->
 						<span class="powerup-expiry" data-count="{{this.health}}">Oldest expires in:<span class="powerup-expiry-counter">{{this.health}} game{{#plural this.health}}{{/plural}}</span>
 						</span>
 					{{#each this.healths}}

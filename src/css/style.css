@@ -1521,6 +1521,9 @@ table.editmode .switch label .lever {
     border-radius: 50%;
     background-size: 100%;
 
+    border-width: 1px;
+    border-style: solid;
+
 	background-repeat: no-repeat;
     background-position: center top;
 }
@@ -1613,6 +1616,41 @@ table.editmode .switch label .lever {
 	background-color: rgba(251, 108, 112, 0.32);
 }
 
+
+
+.health5 .powerup-image {
+	border-color: rgb(137, 202, 140);
+}
+.health4 .powerup-image {
+	border-color: rgb(201, 189, 106);
+}
+.health3 .powerup-image {
+	border-color: rgb(249, 174, 82);
+}
+.health2 .powerup-image {
+	border-color: rgb(250, 152, 92);
+}
+.health1 .powerup-image {
+	border-color: rgb(251, 108, 112);
+}
+
+.health5 .powerup-expiry-counter {
+	background-color: rgb(137, 202, 140);
+}
+.health4 .powerup-expiry-counter {
+	background-color: rgb(201, 189, 106);
+}
+.health3 .powerup-expiry-counter {
+	background-color: rgb(249, 174, 82);
+}
+.health2 .powerup-expiry-counter {
+	background-color: rgb(250, 152, 92);
+}
+.health1 .powerup-expiry-counter {
+	background-color: rgb(251, 108, 112);
+}
+
+
 .powerup-stack {
 	color: #000;
 	width: 4%;
@@ -1675,7 +1713,7 @@ table.editmode .switch label .lever {
 .powerup-expiry-counter {
 	display: block;
 	background-color: rgba(255,255,255,0.8);
-	color: #222;
+	color: #FFF;
 	padding: 0.25em;
     font-weight: bold;
 	font-size: 0.8rem;
@@ -1683,6 +1721,8 @@ table.editmode .switch label .lever {
 	width: 90%;
 	margin-left: 5%;
 	margin-top: 0.1em;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
 }
 
 

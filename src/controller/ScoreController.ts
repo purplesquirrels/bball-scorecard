@@ -34,6 +34,7 @@ interface PowerUp {
 	image: string;
 	multi?: boolean;
 	count?: number;
+	expired?: boolean;
 	health?: number;
 	healths?: number[];
 }
@@ -762,7 +763,7 @@ class ScoreController {
 		return 0;
 	}
 
-	getPlayerPowerups = (playerid: string): PowerUp[] => {
+	getPlayerPowerups = (playerid: string, includetoday:boolean=false): PowerUp[] => {
 
 		var powerups: PowerUp[] = [];
 
@@ -773,10 +774,14 @@ class ScoreController {
 			var count = 0;
 			var lowestHealth = 5;
 			var healths = [];
+			var min = includetoday ? -1 : 0;
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+
+				
+
 				if (this.model.powerbank[playerid][i].id === powerup &&
-					this.model.powerbank[playerid][i].health >= 0 &&
+					this.model.powerbank[playerid][i].health > min &&
 					!this.model.powerbank[playerid][i].used) {
 					count++;
 
@@ -879,7 +884,6 @@ class ScoreController {
 			"rank": 0,
 			"multiplier": 1,
 			"manualbadges" : [],
-			//"powerups" : 0,
 			"lasttotal":this.model.scores.length > 0 &&
 						this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
 			"newtotal":	this.model.scores.length > 0 &&
@@ -1061,16 +1065,30 @@ class ScoreController {
 			return false;
 		}
 
+		var oldest = 6;
+		var id = -1;
+
 		for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 			if (this.model.powerbank[playerid][i].id === powerup &&
 				!this.model.powerbank[playerid][i].used) {
 
-				this.model.powerbank[playerid][i].used = true;
-				this.model.powerbank[playerid][i].dateused = new Date().toString();
-				this.model.powerbank[playerid][i].gameused = this.model.scores.length;
+				//this.model.powerbank[playerid][i].used = true;
+				//this.model.powerbank[playerid][i].dateused = new Date().toString();
+				//this.model.powerbank[playerid][i].gameused = this.model.scores.length;
 
-				return true;
+				//return true;
+				if (this.model.powerbank[playerid][i].health < oldest) {
+					id = i;
+				}
 			}
+		}
+
+		if (id > -1) {
+			this.model.powerbank[playerid][id].used = true;
+			this.model.powerbank[playerid][id].dateused = new Date().toString();
+			this.model.powerbank[playerid][id].gameused = this.model.scores.length;
+
+			return true;
 		}
 
 		return false;

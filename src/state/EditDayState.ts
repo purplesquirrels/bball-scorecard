@@ -409,7 +409,7 @@ class EditDayState extends AppState {
 		var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["powerup-selector"]);
 		var context = {
 			//currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
-			powerups: this.controller.getPlayerPowerups(playerid)
+			powerups: this.controller.getPlayerPowerups(playerid, true)
 		};
 
 		var html = template(context);
