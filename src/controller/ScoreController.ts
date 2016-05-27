@@ -61,11 +61,13 @@ class ScoreController {
 	savedState: ScoreData;
 	model: ScoreData;
 	ranker: IRanking;
+	gameplayercache: any[];
 
 	constructor(model: ScoreData) {
 
 		this.model = model;
 		this.savedState = null;
+		this.gameplayercache = [];
 
 		this.ranker = this.getRankingSystem(Config.RANKING);
 
@@ -303,6 +305,8 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return [];
 
+		if (this.gameplayercache[day]) return this.gameplayercache[day];
+
 		//return this.model.scores[day].numPlayers;
 		var players:any[] = [];
 
@@ -315,6 +319,7 @@ class ScoreController {
 				var bonuses = 0;
 				var i = 0;
 				var player = {
+					id: id,
 					firstname: "",
 					rank: 0,
 					score: 0,
@@ -366,6 +371,7 @@ class ScoreController {
 				player.rawscore = rawscore;
 				player.multiplier = multiplier;
 				player.late = this.model.scores[day].values[id].late === 1;
+				player.numpowerups = 0;
 
 				if (this.model.scores[day].values[id].manualbadges) {
 					var receivedPowerups = this.getPlayerPowerupsReceivedOnDay(id, day);
@@ -392,6 +398,7 @@ class ScoreController {
 			return 0;
 		});
 
+		this.gameplayercache[day] = players;
 
 		return players;
 	}
@@ -695,6 +702,22 @@ class ScoreController {
 		}
 
 		return null;
+
+	}
+
+	getPlayerRankForDay = (playerid: string, day: number = 0): number => {
+
+		var players = this.getGamePlayers(day);
+		var rank = this.model.scores.length;
+
+		for (var i = 0; i < players.length; ++i) {
+			if (players[i].id === playerid) {
+				rank = i;
+				break;
+			}
+		}
+
+		return rank;
 
 	}
 
