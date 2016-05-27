@@ -89,7 +89,7 @@ class App {
 
 			//get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
-		
+
 		$.post(get, {
 			auth: Config.SERVER_KEY,
 			data: this.isArchiveMode ? { file: "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json" } : {},
@@ -155,6 +155,10 @@ class App {
 
 		Handlebars.registerHelper('plural', function(v1) {
 			return v1 > 1 ? "s" : "";
+		});
+
+		Handlebars.registerHelper('multiple', function(v1, options) {
+			return v1 > 1 ? options.fn(this) : options.inverse(this);
 		});
 
 		Handlebars.registerHelper('isPlayingCheck', function(played) {

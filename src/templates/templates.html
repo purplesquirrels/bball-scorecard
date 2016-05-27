@@ -331,12 +331,12 @@
 		<tr>
 			<th style="width:22%">Name</th>
 			<th>New rank</th>
-			<th>Points</th>
+			<th>Pts</th>
 			<th>Bonuses</th>
 			<th></th>
 			<th></th>
-			<th>Final score</th>
-			<th style="width:5%"></th>
+			<th>Score</th>
+			<th style="width:7%"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -350,7 +350,7 @@
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
 			<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
 			<td>{{this.score}}</td>
-			<td>{{#if this.powerup}}<i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>
+			<td>{{#if this.powerup}}<i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}}
 			{{/if}}
 			</td>
 		</tr>
