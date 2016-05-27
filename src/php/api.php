@@ -10,7 +10,7 @@ if(isset($_POST['auth'])) {
 
 	$auth = $_POST['auth'];
 
-	if(isset($_POST['data']) && isset($_POST["command"]) && $auth == $authServer) {
+	if(isset($_POST["command"])) {
 
 		$data = $_POST['data'];
 		$command = $_POST["command"];
@@ -19,14 +19,22 @@ if(isset($_POST['auth'])) {
 
 		switch ($parts[0]) {
 			case "update" :  // update/game/day
-				updateData(array_slice($parts, 1), json_decode($data));
+				if (isset($_POST['data']) && $auth == $authServer) {
+					updateData(array_slice($parts, 1), json_decode($data));
+				} else {
+					die("1Error: no data provided.");
+				}
 				break;
 			case "create" : // create/season
-				addData(array_slice($parts, 1), $data);
+				if (isset($_POST['data']) && $auth == $authServer) {
+					addData(array_slice($parts, 1), $data);
+				} else {
+					die("2 Error: no data provided.");
+				}
 				break;
 			case "get" : // get/all
 
-				$result = getData(array_slice($parts, 1));
+				$result = getData(array_slice($parts, 1), $data);
 
 				header('Content-Type: application/json');
 				echo json_encode($result);
@@ -38,10 +46,10 @@ if(isset($_POST['auth'])) {
 		}
 		
 	} else {
-		die("Error: no data provided.");
+		die("3 Error: no data provided.");
 	}
 } else {
-	die("Error: unauthorised.");
+	die("4 Error: unauthorised.");
 }
 
 
@@ -145,7 +153,7 @@ function updateData($parts, $data) {
 	}
 }
 
-function getData($parts) {
+function getData($parts, $data) {
 
 	//header('Content-Type: application/json');
 
@@ -194,6 +202,15 @@ function getData($parts) {
 		$powerup = json_decode(fread($fh, filesize($file)));
 		fclose($fh);
 
+		// ARCHIVES
+		//$archdir    = '../data/archive';
+
+		$archives = [];
+
+		foreach (glob('../data/archive/*.json') as $arch) {
+			$archives[] = $arch;
+		}
+
 
 	 	// COMBINE ALL
 		$season->players = $players->players;
@@ -202,9 +219,33 @@ function getData($parts) {
 		$season->conditions = $cond->conditions;
 		$season->badges = $badge->badges;
 		$season->powerups = $powerup->powerups;
+		$season->archives = $archives;
 
 		//echo json_encode($season);
 
+		return $season;
+	} else if ($parts[0] == "archive") {
+
+		// ARCHIVE
+
+		if (strpos($data['file'], 'data/archive/') !== 0) {
+		    die("Error: invalid archive");
+		}
+
+		$file = '../'.$data['file'];
+
+		$fh = fopen($file, 'r') or die("Error: Can't open file: ".$data['file']);
+		$season = json_decode(fread($fh, filesize($file)));
+		fclose($fh);
+
+		$archives = [];
+
+		foreach (glob('../data/archive/*.json') as $arch) {
+			$archives[] = $arch;
+		}
+
+		$season->archives = $archives;
+		
 		return $season;
 	}
 

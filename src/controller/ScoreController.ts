@@ -14,6 +14,7 @@ interface ScoreData {
 	powerups: Object;
 	playerBadges: Object;
 	scores: any[];
+	archives: any[];
 }
 
 interface Badge {
@@ -91,22 +92,22 @@ class ScoreController {
 
 		var seasons = [
 			{
-				banner: "autumn/Autumn_3.html",
+				banner: "autumn/Autumn.html",
 				name: "Autumn " + endyear,
 				end: "31 May " + endyear
 			},
 			{
-				banner: "winter/Winter_3.html",
+				banner: "winter/Winter.html",
 				name: "Winter " + endyear,
 				end: "31 August " + endyear
 			},
 			{
-				banner: "spring/Spring_3.html",
+				banner: "spring/Spring.html",
 				name: "Spring " + endyear,
 				end: "30 November " + endyear
 			},
 			{
-				banner: "summer/Summer_2.html",
+				banner: "summer/Summer.html",
 				name: "Summer " + endyear,
 				end: (feb.getDate() === 29 ? "29" : "28") + " February " + endyear
 			}
@@ -128,7 +129,8 @@ class ScoreController {
 			playerBadges: {},
 			powerbank: {},
 			powerups:this.model.powerups,
-			scores: []
+			scores: [],
+			archives: []
 		}
 
 		for (var p in season.players) {
@@ -154,6 +156,46 @@ class ScoreController {
 	}
 
 	/// RETRIEVE
+
+	getArchives = (): any[] => {
+
+		if (!this.model.archives) return [];
+
+		var archives = [];
+
+		for (var i = 0; i < this.model.archives.length; ++i) {
+
+			var val = this.model.archives[i];
+
+			val = val.substring(val.lastIndexOf("/") + 1);
+			val = val.substring(0, val.length - 5);
+			val = val.split("_");
+
+			if (val.length >= 2) {
+				archives.push({
+					year: parseInt(val[0], 10),
+					season: val[1],
+					name: (val[1].charAt(0).toUpperCase()) + (val[1].substring(1) + " " + val[0])
+				});
+			}
+
+			
+		}
+
+		// sort by year, then season
+		var order = { "autumn": 0, "winter": 1, "spring": 2, "summer": 3 };
+
+		archives = archives.sort((a, b) =>{
+
+			if (a.year === b.year) {
+				return (order[a.season] < order[b.season]) ? -1 : (order[a.season] > order[b.season]) ? 1 : 0;
+			} else {
+				return (a.year < b.year) ? 1 : -1;
+			}
+		});
+
+		return archives;
+	}
 
 	badgesEnabled = (): boolean => {
 
@@ -501,7 +543,7 @@ class ScoreController {
 
 		if (!this.model.powerbank) return [];
 
-		var p = this.model.powerbank[playerid];
+		var p = this.model.powerbank[playerid] || [];
 		var totalgames = this.model.scores.length;
 
 		var powerups = [];

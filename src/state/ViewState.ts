@@ -55,8 +55,10 @@ class ViewState extends AppState {
 			grandfinal: false,
 			showDetails: true,
 			gamesPlayed: false,
-			isArchive: this.app.isArchiveMode
+			isArchive: this.app.isArchiveMode,
+			archives: this.controller.getArchives()
 		};
+
 
 		context.gamesPlayed = context.rankings.length > 0;
 

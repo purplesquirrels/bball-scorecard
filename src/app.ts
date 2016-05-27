@@ -82,21 +82,29 @@ class App {
 		var seasonYear: string = this.getQueryParamByName("year");
 		var season: string = this.getQueryParamByName("season");
 
-		var get = Config.GET_PATH;
+		var get = Config.API_PATH;
 
 		if (seasonYear && season) {
 			this.isArchiveMode = true;
 
-			get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
+			//get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
-
-		$.getJSON(get).done((data) => {
+		
+		$.post(get, {
+			auth: Config.SERVER_KEY,
+			data: this.isArchiveMode ? { file: "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json" } : {},
+			command: this.isArchiveMode ? "get/archive" : "get/all"
+		}).done((data) => {
 			this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
 		}).fail((data) => {
 			
 			if (this.isArchiveMode) {
 
-				$.getJSON(Config.GET_PATH).done((data) => {
+				$.post(Config.GET_PATH, {
+					auth: Config.SERVER_KEY,
+					data: {},
+					command: "get/all"
+				}).done((data) => {
 					this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
 				}).fail((data) => {
 					$("body").append(data.responseText);

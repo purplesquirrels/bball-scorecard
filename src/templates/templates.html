@@ -27,7 +27,10 @@
 		{{#if isArchive}}
 			<option value="current">Current season</option>
 		{{/if}}	
-		<option value="2016|summer">Summer 2016</option>
+		{{#each archives}}
+		<!-- <option value="2016|summer">Summer 2016</option> -->
+		<option value="{{year}}|{{season}}">{{name}}</option>
+		{{/each}}
 	</select>
 	{{#if gamesPlayed}}
 		<h4 class="lastupdate">Last update: <strong>Day {{gamenumber}}</strong> ({{lastupdate}})</h4>
