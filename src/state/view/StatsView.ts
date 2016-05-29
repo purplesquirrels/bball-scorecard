@@ -126,6 +126,7 @@ class StatsView {
 		
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
+			avatar: this.controller.getPlayerAvatar(playerid),
 			boundys: NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy"),
 			totallaps: NumberCruncher.getPlayerTotalLaps(playerid),
 			rawscore: NumberCruncher.getPlayerRawScore(playerid, false),
@@ -176,6 +177,7 @@ class StatsView {
 				for (var i = 0; i < _d.scores.length; i++) {
 
 					if (!_d.scores[i].values[playerid]) continue;
+					//if (!_d.scores[i].values[playerid].played) continue;
 
 					var pt: PlayerDataObject = {
 						id : playerid,
@@ -323,64 +325,89 @@ class StatsView {
 
 			this.playerCharts.push(seasonProg);
 */
-			$(".right-2").append('<svg class="chart seasonRank"></svg>');
-			var c1: AreaChart = new AreaChart(".seasonRank", {
-				xlabel: "Time",
-				ylabel: "Rank",
-				interpolation: "monotone", // basis
-				//tension: 1.2,
-				invertY: true,
-				invertX: true,
-				data: seasonRank,
-				width: 700,
-				height: 280,
-				scales: false,
-				colour: '#3ADDD3'
-			});
+			if (seasonRank.length >= 2) {
+				$(".right-2").append('<svg class="chart seasonRank"></svg>');
+				var c1: AreaChart = new AreaChart(".seasonRank", {
+					xlabel: "Time",
+					ylabel: "Rank",
+					interpolation: "monotone", // basis
+					//tension: 1.2,
+					invertY: true,
+					invertX: true,
+					data: seasonRank,
+					width: 700,
+					height: 280,
+					scales: false,
+					colour: '#3ADDD3'
+				});
+			} else {
+				$(".right-2").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+			}
 
 			this.playerCharts.push(c1);
 
 
-			
-			$(".right-3").append('<svg class="chart seasonScore"></svg>');
-			var c2: AreaChart = new AreaChart(".seasonScore", {
-				xlabel: "Time",
-				ylabel: "Score",
-				interpolation: "monotone",
-				invertY: false,
-				invertX: true,
-				data: seasonScore,
-				width: 700,
-				height: 280,
-				scales: false,
-				colour: ['#6c8fee', '#F9B450']
-			});
+			if (seasonScore.length > 4) {
 
-			this.playerCharts.push(c2);
+				console.log("Not enough data for Temp vs Raw Score ");
 
-			$(".right-4").append('<svg class="chart seasonRankPercent"></svg>');
-			var c3: BarSegmentChart = new BarSegmentChart(".seasonRankPercent", {
-				data: seasonRanks,
-				width: 700,
-				height: 60
-			});
+				$(".right-3").append('<svg class="chart seasonScore"></svg>');
+				var c2: AreaChart = new AreaChart(".seasonScore", {
+					xlabel: "Time",
+					ylabel: "Score",
+					interpolation: "monotone",
+					invertY: false,
+					invertX: true,
+					data: seasonScore,
+					width: 700,
+					height: 280,
+					scales: false,
+					colour: ['#6c8fee', '#F9B450']
+				});
 
-			this.playerCharts.push(c3);
+				this.playerCharts.push(c2);
+			} else {
+				$(".right-3").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+			}
 
+			if (seasonRanks.length >= 2) {
 
-			$(".right-6").append('<svg class="chart seasonScorePlayers"></svg>');
-			var c2: AreaChart = new AreaChart(".seasonScorePlayers", {
-				xlabel: "Time",
-				ylabel: "Score",
-				interpolation: "monotone",
-				invertY: false,
-				invertX: true,
-				data: seasonScorePlayers,
-				width: 700,
-				height: 280,
-				scales: false,
-				colour: ['#89CA8C', '#D57FFF']
-			});
+				console.log("Not enough data for Temp vs Raw Score ");
+
+				$(".right-4").append('<svg class="chart seasonRankPercent"></svg>');
+				var c3: BarSegmentChart = new BarSegmentChart(".seasonRankPercent", {
+					data: seasonRanks,
+					width: 700,
+					height: 60
+				});
+
+				this.playerCharts.push(c3);
+			} else {
+				$(".right-4").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+			}
+
+			if (seasonScorePlayers.length > 4) {
+
+				console.log("Not enough data for Num Players vs Raw Score ");
+
+				$(".right-6").append('<svg class="chart seasonScorePlayers"></svg>');
+				var c4: AreaChart = new AreaChart(".seasonScorePlayers", {
+					xlabel: "Time",
+					ylabel: "Score",
+					interpolation: "monotone",
+					invertY: false,
+					invertX: true,
+					data: seasonScorePlayers,
+					width: 700,
+					height: 280,
+					scales: false,
+					colour: ['#89CA8C', '#D57FFF']
+				});
+
+				this.playerCharts.push(c4);
+			} else {
+				$(".right-6").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+			}
 		//}
 
 

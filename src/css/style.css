@@ -1215,8 +1215,18 @@ table.editmode .switch label .lever {
 }
 .player-stat-name h2 {
 	font-weight: 200;
+    font-size: 3rem;
     color: #e2e2e2;
-    margin: 0.3em 0.3em 0.5em 0.3em;
+    padding: 0.3em;
+    margin: 0;
+    background: rgba(33, 38, 51, 0.32);
+    line-height: 1;
+}
+.player-stat-name h2 img {
+	vertical-align: middle;
+    display: inline-block;
+    margin: 0 0.3em 0.1em 0;
+    border-radius: 20px;
 }
 
 
