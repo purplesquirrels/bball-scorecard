@@ -194,6 +194,7 @@ class StatsView {
 		//NumberCruncher.getPlayerRawScore()
 
 		var seasonScore: PlayerDataObject[] = [];
+		var seasonScorePlayers: PlayerDataObject[] = [];
 
 		for (var j = 0; j < _d.players.length; j++) {
 
@@ -206,6 +207,7 @@ class StatsView {
 				for (var i = 0; i < _d.scores.length; i++) {
 
 					if (!_d.scores[i].values[playerid]) continue;
+					if (!_d.scores[i].values[playerid].played) continue;
 
 					var pt: PlayerDataObject = <PlayerDataObject>{};
 
@@ -213,13 +215,17 @@ class StatsView {
 
 					//scores.push(dayraw);
 
+					// PLAYER RAW
 					pt.id = playerid;
 					pt.name = _d.players[j].firstname;
 					pt.x = i;
 					pt.y = dayraw * 3;//(_d.scores[i].values[playerid].newtotal - _d.scores[i].values[playerid].lasttotal) * 1.5;
 
 					seasonScore.push(pt);
+					seasonScorePlayers.push(pt);
 
+
+					// GAME TEMP
 					pt = <PlayerDataObject>{};
 
 					pt.id = "temp";
@@ -228,6 +234,17 @@ class StatsView {
 					pt.y = this.controller.getDayConditions(i).temp / 3.5;
 
 					seasonScore.push(pt);
+
+
+					/// NUM PLAYERS
+					pt = <PlayerDataObject>{};
+
+					pt.id = "temp";
+					pt.name = _d.players[j].firstname;
+					pt.x = i;
+					pt.y = this.controller.getGameNumPlayers(i);
+
+					seasonScorePlayers.push(pt);
 				}
 
 				break;
@@ -294,7 +311,7 @@ class StatsView {
 
 			$(this.statsRoot).find(".season-stats-holder").append(stathtml);
 
-			/*$(".left-1").prepend('<svg class="chart playerAtt"></svg>');
+			/*$(".left-1").append('<svg class="chart playerAtt"></svg>');
 
 			var seasonProg: PieChart = new PieChart('.playerAtt', {
 				innerRadius: 36,
@@ -306,7 +323,7 @@ class StatsView {
 
 			this.playerCharts.push(seasonProg);
 */
-			$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
+			$(".right-2").append('<svg class="chart seasonRank"></svg>');
 			var c1: AreaChart = new AreaChart(".seasonRank", {
 				xlabel: "Time",
 				ylabel: "Rank",
@@ -325,7 +342,7 @@ class StatsView {
 
 
 			
-			$(".right-3").prepend('<svg class="chart seasonScore"></svg>');
+			$(".right-3").append('<svg class="chart seasonScore"></svg>');
 			var c2: AreaChart = new AreaChart(".seasonScore", {
 				xlabel: "Time",
 				ylabel: "Score",
@@ -341,7 +358,7 @@ class StatsView {
 
 			this.playerCharts.push(c2);
 
-			$(".right-4").prepend('<svg class="chart seasonRankPercent"></svg>');
+			$(".right-4").append('<svg class="chart seasonRankPercent"></svg>');
 			var c3: BarSegmentChart = new BarSegmentChart(".seasonRankPercent", {
 				data: seasonRanks,
 				width: 700,
@@ -349,6 +366,21 @@ class StatsView {
 			});
 
 			this.playerCharts.push(c3);
+
+
+			$(".right-6").append('<svg class="chart seasonScorePlayers"></svg>');
+			var c2: AreaChart = new AreaChart(".seasonScorePlayers", {
+				xlabel: "Time",
+				ylabel: "Score",
+				interpolation: "monotone",
+				invertY: false,
+				invertX: true,
+				data: seasonScorePlayers,
+				width: 700,
+				height: 280,
+				scales: false,
+				colour: ['#89CA8C', '#D57FFF']
+			});
 		//}
 
 
