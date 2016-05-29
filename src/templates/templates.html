@@ -352,6 +352,7 @@
 			<td>{{this.score}}</td>
 			<td>{{#if this.powerup}}<i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}}
 			{{/if}}
+			{{#if this.usedPowerup}}<i class='material-icons icon-powerup' title='Used a power up'>flash_off</i>{{/if}}
 			</td>
 		</tr>
 		{{/each}}
@@ -389,7 +390,7 @@
 
 <script id="stats-panel-season-stats-empty" type="text/x-handlebars-template">
 <div class="stat-view">
-	<h2 class="empty-state-message">Stats available from day 2</h2>	
+	<h2 class="empty-state-message">No games played</h2>	
 </div>
 </script>
 
@@ -407,6 +408,7 @@
 	<div class="col-3-4 season-stats-right">
 		<div class="stat-holder right-1">
 
+			<h3>Leaders</h3>
 			<div class="leader-stats">
 				<!-- <div class="leader-stat" data-value="{{totalscore_value}}">
 					<div class="leader-stat-ring">
@@ -463,7 +465,6 @@
 				</div>
 			</div>
 
-			<h3>Leaders</h3>
 		</div>
 		<div class="stat-holder right-2">
 			<h3>Player rank over season</h3>
@@ -495,7 +496,7 @@
 					</div>
 				{{/each}}
 			{{else}}
-				<div><h2 class="empty-state-message small-message">No powerups yet</h2></div>
+				<div><h2 class="empty-state-message small-message">No powerups available</h2></div>
 			{{/if}}
 		</div>
 		<!-- <div class="stat-holder left-2">
@@ -546,8 +547,8 @@
 					<h3>Raw score</h3>
 				</div>
 
-
-				<!-- <div class="leader-stat">
+<!-- 
+				<div class="leader-stat">
 					<div class="leader-stat-ring">
 						<span>{{rawscore}}</span>
 					</div>

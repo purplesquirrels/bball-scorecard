@@ -329,7 +329,8 @@ class ScoreController {
 					late: false,
 					powerup: false,
 					numpowerups: 0,
-					receivedPowerups: []
+					receivedPowerups: [],
+					usedPowerup: false
 				};
 
 
@@ -385,6 +386,8 @@ class ScoreController {
 						player.receivedPowerups = [];
 					}
 				}
+
+				player.usedPowerup = this.getPlayerPowerupsUsedOnDay(id, day).length > 0;
 
 				
 				players.push(player);
@@ -558,6 +561,30 @@ class ScoreController {
 		for (var i = 0; i < p.length; ++i) {
 
 			if (totalgames - p[i].game === day) {
+
+				var p2 = $.extend(true, {}, p[i]);
+
+				p2["dataindex"] = i;
+				powerups.push(p2);
+			}
+
+		}
+
+		return powerups;
+
+	}
+	getPlayerPowerupsUsedOnDay = (playerid: string, day: number = 0): any[] => {
+
+		if (!this.model.powerbank) return [];
+
+		var p = this.model.powerbank[playerid] || [];
+		var totalgames = this.model.scores.length;
+
+		var powerups = [];
+
+		for (var i = 0; i < p.length; ++i) {
+
+			if (p[i].used && totalgames - p[i].gameused === day) {
 
 				var p2 = $.extend(true, {}, p[i]);
 

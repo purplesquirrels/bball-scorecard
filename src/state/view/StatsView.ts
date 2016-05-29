@@ -39,7 +39,8 @@ class StatsView {
 		var statHeaderSource = this.app.templates["stats-panel-header"];
 		var statHeaderTemplate: HandlebarsTemplateDelegate = Handlebars.compile(statHeaderSource);
 		var statheaderhtml = statHeaderTemplate({
-			players: gamesPlayed > 1 ? this.controller.getAllActivePlayers() : []
+			//players: gamesPlayed > 1 ? this.controller.getAllActivePlayers() : []
+			players: this.controller.getAllActivePlayers()
 		});
 
 		$(this.statsRoot).append(statheaderhtml);
@@ -63,7 +64,7 @@ class StatsView {
 			}
 		});
 
-		if (gamesPlayed <= 1) {
+		if (gamesPlayed < 1) {
 			this.setEmptyStatView();
 		} else {
 			this.setSeasonStatView();
@@ -148,8 +149,6 @@ class StatsView {
 			hasPowerups: powerups.length > 0,
 			powerups: powerups
 		};
-
-		console.log(powerups);
 
 		/*var percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
 		var seasonProgData: {}[] = [
@@ -349,8 +348,6 @@ class StatsView {
 
 			if (seasonScore.length > 4) {
 
-				console.log("Not enough data for Temp vs Raw Score ");
-
 				$(".right-3").append('<svg class="chart seasonScore"></svg>');
 				var c2: AreaChart = new AreaChart(".seasonScore", {
 					xlabel: "Time",
@@ -372,8 +369,6 @@ class StatsView {
 
 			if (seasonRanks.length >= 2) {
 
-				console.log("Not enough data for Temp vs Raw Score ");
-
 				$(".right-4").append('<svg class="chart seasonRankPercent"></svg>');
 				var c3: BarSegmentChart = new BarSegmentChart(".seasonRankPercent", {
 					data: seasonRanks,
@@ -387,8 +382,6 @@ class StatsView {
 			}
 
 			if (seasonScorePlayers.length > 4) {
-
-				console.log("Not enough data for Num Players vs Raw Score ");
 
 				$(".right-6").append('<svg class="chart seasonScorePlayers"></svg>');
 				var c4: AreaChart = new AreaChart(".seasonScorePlayers", {
@@ -490,7 +483,7 @@ class StatsView {
 				},
 				{
 					name: "Remaining",
-					value: this.controller.getDaysRemaining(),
+					value: Math.max(0, this.controller.getDaysRemaining()),
 					colour: '#2e3548'
 				}
 			]
@@ -553,21 +546,26 @@ class StatsView {
 			}
 		}
 
-		$(".right-2").prepend('<svg class="chart seasonRank"></svg>');
-		var c1: LineChart = new LineChart(".seasonRank", {
-			xlabel: "Time",
-			ylabel: "Rank",
-			interpolation: "monotone", // basis
-			//tension: 0.9,
-			invertY: true,
-			invertX: true,
-			data: seasonRank,
-			width: 700,
-			height: 280,
-			scales: false
-		});
+		if (this.controller.getTotalGamesPlayed() > 1) {
 
-		$(".right-3").prepend('<svg class="chart playerRaw"></svg>');
+			$(".right-2").append('<svg class="chart seasonRank"></svg>');
+			var c1: LineChart = new LineChart(".seasonRank", {
+				xlabel: "Time",
+				ylabel: "Rank",
+				interpolation: "monotone", // basis
+				//tension: 0.9,
+				invertY: true,
+				invertX: true,
+				data: seasonRank,
+				width: 700,
+				height: 280,
+				scales: false
+			});
+		} else {
+			$(".right-2").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+		}
+
+		$(".right-3").append('<svg class="chart playerRaw"></svg>');
 
 		var playerRaw: {}[] = [];
 
