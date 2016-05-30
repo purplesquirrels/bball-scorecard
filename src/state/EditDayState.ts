@@ -248,7 +248,7 @@ class EditDayState extends AppState {
 						var p_message =
 							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
 								"<ul>{{powerups}}</ul>" + 
-							"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + "will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
+							"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + " will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
 
 						var powerups = [];
 
