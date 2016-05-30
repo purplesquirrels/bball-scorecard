@@ -235,6 +235,9 @@ class EditDayState extends AppState {
 						var p_details = this.controller.getPlayerDetails(player);
 						var multiple = this.playersReceivedPowerup[player].length > 1;
 
+						var host = window.location.origin + window.location.pathname;
+						host = host.split("index.html").join("");
+
 						console.log("send email to", p_details["firstname"]);
 
 						// uncomment when proper email in use
@@ -245,13 +248,14 @@ class EditDayState extends AppState {
 						var p_message =
 							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
 								"<ul>{{powerups}}</ul>" + 
-							"<p>Use " + (multiple ? "them" : "it") + " wisely!</p>";
+							"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + "will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
 
 						var powerups = [];
 
 						for (var i = 0; i < this.playersReceivedPowerup[player].length;i++) {
 							var powerup_details = this.controller.getPowerupDetails(this.playersReceivedPowerup[player][i]);
-							powerups.push("<li><strong>" + (powerup_details.name) + " </strong>: " + (powerup_details.description) + "</li>");
+							var img = powerup_details.image.split(".svg").join(".png");
+							powerups.push("<li><img style='vertical-align:middle' src='" + host + "images/powerup/" + img + "'><strong>" + (powerup_details.name) + " </strong>: " + (powerup_details.description) + "</li>");
 						}
 
 						p_message = p_message.split("{{firstname}}").join(p_details["firstname"]);

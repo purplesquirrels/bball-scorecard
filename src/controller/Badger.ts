@@ -6,15 +6,20 @@ class Badger {
 	private static playerBadges: Object;
 	private static controller: ScoreController;
 
+	private static unqiuecount: number;
+
 	static init(controller:ScoreController) {
 
 		var d = <ScoreData>controller.getAsObject();
 		this.badges = d.badges;
 		this.playerBadges = d.playerBadges;
 		this.controller = controller;
+		this.unqiuecount = 0;
 	}
 
 	static getAllBadgesForPlayer(playerid:string): Badge[] {
+
+		this.unqiuecount = 0;
 
 		var badges: Badge[] = [];
 
@@ -24,6 +29,8 @@ class Badger {
 			if (n > 0) {
 				this.badges[i].count = n;
 				badges.push(this.badges[i]);
+
+				this.unqiuecount++;
 			}
 		}
 
@@ -76,6 +83,11 @@ class Badger {
 		return badges;
 	}
 
+	static getNumUniqueBadges(playerid: string): number {
+
+		return this.unqiuecount;
+	}
+
 	static getTotalBadgesOfType(playerid: string, type: string): number {
 
 		var count = 0;
@@ -98,12 +110,22 @@ class Badger {
 			"shots": NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
 			"powerups": this.controller.getPlayerNumPowerupsEarned(playerid),
 			"distance": NumberCruncher.getPlayerDistance(playerid),
+			"uniquebadges": this.getNumUniqueBadges(playerid),
 
 			/* variable data per game */
+			"rank": 0,
 			"rankchange" : 0,
 			"late" : false,
 			"gamescore" : 0,
 			"gamerank" : 0,
+			"lastrank": 0,
+			"lastrankchange": 0,
+			"lastlate": false,
+			"lastgamescore": 0,
+			"lastgamerank": 0,
+			"lastbonus01": 0,
+			"lastbonus02": 0,
+			"lastbonus04": 0,
 			"bonus01" : 0,
 			"bonus02" : 0,
 			"bonus04" : 0
@@ -139,6 +161,16 @@ class Badger {
 
 			var rankChanges = NumberCruncher.getPlayerRankChanges(playerid);
 			var count = 0;
+			var lastgame = {
+				rank: 0,
+				bonus01: 0,
+				bonus02: 0,
+				bonus04: 0,
+				rankchange: 0,
+				late: false,
+				gamescore: 0,
+				gamerank: 0
+			}
 
 			for (var i = 0; i < totalGames; ++i) {
 				
@@ -146,14 +178,31 @@ class Badger {
 				context.late = this.controller.getPlayerIsLate(playerid, i) || false;
 				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i);
 				context.gamerank = this.controller.getPlayerRankForDay(playerid, i);
+				context.rank = this.controller.getPlayerRank(playerid, i);
 
 				context.bonus01 = this.controller.getPlayerBonusesForDay(playerid, "bonus01", i);
 				context.bonus02 = this.controller.getPlayerBonusesForDay(playerid, "bonus02", i);
 				context.bonus04 = this.controller.getPlayerBonusesForDay(playerid, "bonus04", i);
 
-				//console.log(context);
+				context.lastrank = lastgame.rank;
+				context.lastrankchange = lastgame.rankchange;
+				context.lastlate = lastgame.late;
+				context.lastgamescore = lastgame.gamescore;
+				context.lastgamerank = lastgame.gamerank;
+				context.lastbonus01 = lastgame.bonus01;
+				context.lastbonus02 = lastgame.bonus02;
+				context.lastbonus04 = lastgame.bonus04;
 
 				if (CEEBz.parse(badge.condition, context)) count++;
+
+				lastgame.rank = context.rank;
+				lastgame.rankchange = context.rankchange;
+				lastgame.late = context.late;
+				lastgame.gamescore = context.gamescore;
+				lastgame.gamerank = context.gamerank;
+				lastgame.bonus01 = context.bonus01;
+				lastgame.bonus02 = context.bonus02;
+				lastgame.bonus04 = context.bonus04;
 
 			}
 

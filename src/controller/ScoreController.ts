@@ -32,6 +32,7 @@ interface PowerUp {
 	id: string;
 	name: string;
 	description: string;
+	chance: number;
 	image: string;
 	multi?: boolean;
 	count?: number;
@@ -901,6 +902,7 @@ class ScoreController {
 					id: this.model.powerups[powerup].id,
 					name: this.model.powerups[powerup].name,
 					description: this.model.powerups[powerup].description,
+					chance: this.model.powerups[powerup].chance,
 					image: this.model.powerups[powerup].image,
 					multi: count > 1,
 					count: count,
@@ -1234,9 +1236,30 @@ class ScoreController {
 			powerups.push(this.model.powerups[p]);
 		}
 
-		var n:number = Math.floor(Math.random() * powerups.length);
+		var total = 0;
 
-		return powerups[n];
+		for (var i = 0; i < powerups.length; i++) {
+			total += powerups[i].chance;
+		}
+
+		var rand = Math.random() * total;
+		var result = -1;
+
+		for (var i = 0; i < powerups.length; i++) {
+			var powerup = powerups[i];
+
+			if (rand < powerup.chance) {
+				result = i;
+				break;
+			}
+
+			rand -= powerup.chance;
+		}
+
+		//var result:number = Math.floor(Math.random() * powerups.length);
+		//console.log(powerups[result]);
+
+		return powerups[result];
 
 	}
 

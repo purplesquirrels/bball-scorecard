@@ -122,6 +122,8 @@ class App {
 
 		this.scoreController = new ScoreController(<ScoreData>data);
 
+		window["generatePowerup"] = this.scoreController.generatePowerup;
+
 		NumberCruncher.init(<ScoreData>data);
 		Badger.init(this.scoreController);
 		
