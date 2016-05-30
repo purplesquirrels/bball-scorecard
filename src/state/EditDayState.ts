@@ -247,7 +247,7 @@ class EditDayState extends AppState {
 
 						var p_message =
 							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
-								"<ul>{{powerups}}</ul>" + 
+								"<table>{{powerups}}</table>" + 
 							"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + " will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
 
 						var powerups = [];
@@ -255,7 +255,12 @@ class EditDayState extends AppState {
 						for (var i = 0; i < this.playersReceivedPowerup[player].length;i++) {
 							var powerup_details = this.controller.getPowerupDetails(this.playersReceivedPowerup[player][i]);
 							var img = powerup_details.image.split(".svg").join(".png");
-							powerups.push("<li><img style='vertical-align:middle' src='" + host + "images/powerup/" + img + "'><strong>" + (powerup_details.name) + " </strong>: " + (powerup_details.description) + "</li>");
+
+							powerups.push('<tr>' +
+								'<td width="101px"><img src="' + host + "images/powerup/" + img + '"></td>' +
+								'<td><strong>' + (powerup_details.name) + ':</strong> ' + (powerup_details.description) + '</td>' +
+								'</tr>');
+							//powerups.push("<li><img style='vertical-align:middle' src='" + host + "images/powerup/" + img + "'><strong>" + (powerup_details.name) + " </strong>: " + (powerup_details.description) + "</li>");
 						}
 
 						p_message = p_message.split("{{firstname}}").join(p_details["firstname"]);
