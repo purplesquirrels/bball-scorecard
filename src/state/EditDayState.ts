@@ -238,12 +238,11 @@ class EditDayState extends AppState {
 						var host = window.location.origin + window.location.pathname;
 						host = host.split("index.html").join("");
 
-						console.log("send email to", p_details["firstname"]);
-
-						// uncomment when proper email in use
-						/*if (!p_details["email"]) {
+						if (!p_details["email"]) {
 							continue;
-						}*/
+						}
+
+						console.log("send email to", p_details["firstname"]);
 
 						var p_message =
 							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
@@ -267,8 +266,7 @@ class EditDayState extends AppState {
 
 						$.post(Config.MAIL_PATH, {
 							auth: Config.SERVER_KEY,
-							//to: p_details["email"],
-							to: "ben.foster@learningseat.com", // for testing - to be replaced with above line
+							to: p_details["email"],
 							subject: "Bankulator: you received a powerup",
 							message: p_message
 						}).then(function(e){
