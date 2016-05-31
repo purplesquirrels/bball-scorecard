@@ -71,6 +71,13 @@ class ViewState extends AppState {
 					context.rankings.splice(i, 1);
 				}
 			}
+		} else {
+			// if archive, then delete players who never played or scored
+			for (var i = context.rankings.length - 1; i > 0; i--) {
+				if (!this.controller.getPlayerTotalGames(context.rankings[i].id)) {
+					context.rankings.splice(i, 1);
+				}
+			}
 		}
 
 		// Change lastupdate to human string (eg Yesterday, 2 days ago)
