@@ -7,6 +7,7 @@ class Badger {
 	private static controller: ScoreController;
 
 	private static unqiuecount: number;
+	private static badgecounters: Object;
 
 	static init(controller:ScoreController) {
 
@@ -15,17 +16,22 @@ class Badger {
 		this.playerBadges = d.playerBadges;
 		this.controller = controller;
 		this.unqiuecount = 0;
+		this.badgecounters = {};
 	}
 
 	static getAllBadgesForPlayer(playerid:string): Badge[] {
 
 		this.unqiuecount = 0;
+		this.badgecounters = {};
 
 		var badges: Badge[] = [];
 
 		for (var i = 0; i < this.badges.length; ++i) {
 
 			var n = this.playerHasBadge(playerid, this.badges[i]);
+
+			this.badgecounters[this.badges[i].id] = n;
+
 			if (n > 0) {
 				this.badges[i].count = n;
 				badges.push(this.badges[i]);
@@ -55,6 +61,8 @@ class Badger {
 			}
 
 		}
+
+		console.log(this.badgecounters)
 
 		return badges;
 	}
@@ -87,14 +95,14 @@ class Badger {
 
 		return this.unqiuecount;
 	}
-
+/*
 	static getTotalBadgesOfType(playerid: string, type: string): number {
 
 		var count = 0;
 
 
 		return count;
-	}
+	}*/
 
 	static playerHasBadge(playerid:string, badge:Badge): number {
 
@@ -111,6 +119,9 @@ class Badger {
 			"powerups": this.controller.getPlayerNumPowerupsEarned(playerid),
 			"distance": NumberCruncher.getPlayerDistance(playerid),
 			"uniquebadges": this.getNumUniqueBadges(playerid),
+			"allweather":   (this.badgecounters["hotstuff"] > 0 && 
+							 this.badgecounters["windter"] > 0 && 
+							 this.badgecounters["waterlogged"] > 0),
 
 			/* variable data per game */
 			"rank": 0,
