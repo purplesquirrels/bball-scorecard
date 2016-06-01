@@ -367,7 +367,7 @@ class ScoreController {
 				}
 
 				player.firstname = name;
-				player.rank = this.model.scores[day].values[id].rank
+				player.rank = this.model.scores[day].values[id].rank;
 				player.score = this.model.scores[day].values[id].newtotal - this.model.scores[day].values[id].lasttotal;
 				player.bonuses = bonuses;
 				player.rawscore = rawscore;
@@ -395,12 +395,25 @@ class ScoreController {
 			}
 		}
 
-		// alphabetical
 		players.sort(function(a, b) {
 			if (a.score < b.score) return 1;
 			if (a.score > b.score) return -1;
 			return 0;
 		});
+
+		var gamerank = 0;
+		var lastscore = 9999;
+
+		for (var i = 0; i < players.length; ++i) {
+
+			if (players[i].score < lastscore) {
+				lastscore = players[i].score;
+
+				gamerank++;
+			}
+
+			players[i].scorerank = gamerank;
+		}
 
 		this.gameplayercache[day] = players;
 
@@ -740,7 +753,7 @@ class ScoreController {
 
 		for (var i = 0; i < players.length; ++i) {
 			if (players[i].id === playerid) {
-				rank = i;
+				rank = players[i].scorerank - 1;
 				break;
 			}
 		}

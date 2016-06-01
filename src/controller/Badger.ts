@@ -62,8 +62,6 @@ class Badger {
 
 		}
 
-		console.log(this.badgecounters)
-
 		return badges;
 	}
 
