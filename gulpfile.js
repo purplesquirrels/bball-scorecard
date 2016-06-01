@@ -54,7 +54,7 @@ gulp.task('buildindex', function () {
 	.pipe(gulp.dest('build'));
 });
 
-gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs', 'svg2png'], function () {
+gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs'/*, 'svg2png'*/], function () {
 	var files = [
 		"auth/**/*",
 		"templates/**/*",
@@ -69,7 +69,7 @@ gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs', 'svg2png'], f
 	return gulp.src(files, {cwd:"src/"}).pipe(gulpCopy("build/", {expand:true}));
 });
 
-gulp.task('build', ['clean', 'buildindex',  'minifycss', 'minifyjs', 'copy','svg2png' ]);
+gulp.task('build', [/*'clean', 'buildindex',  'minifycss', 'minifyjs', */'copy'/*,'svg2png'*/ ]);
 
 gulp.task('watch', function() {
 	gulp.watch(['src/**/*','!src/**/*.ts'], ['build']);
