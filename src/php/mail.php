@@ -9,7 +9,7 @@
 //This should be done in your php.ini, but this is how to do it if you don't have access to that
 date_default_timezone_set('Australia/Melbourne');
 
-require 'PHPMailerAutoload.php';
+require 'PHPmailer/PHPMailerAutoload.php';
 
 if(isset($_POST['auth'])) {
 
@@ -37,7 +37,7 @@ if(isset($_POST['auth'])) {
 		// 0 = off (for production use)
 		// 1 = client messages
 		// 2 = client and server messages
-		$mail->SMTPDebug = 2;
+		$mail->SMTPDebug = 0;
 		//Ask for HTML-friendly debug output
 		$mail->Debugoutput = 'html';
 
