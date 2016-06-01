@@ -1,0 +1,6 @@
+{
+	"host" : "mail.mydomain.com",
+	"port" : 587,
+	"un" : "username@mydomain.com",
+	"pw" : "password"
+}
