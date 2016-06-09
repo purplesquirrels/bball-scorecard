@@ -54,7 +54,7 @@ gulp.task('buildindex', function () {
 	.pipe(gulp.dest('build'));
 });
 
-gulp.task('copy', ['clean', 'buildindex', 'minifycss', 'minifyjs'/*, 'svg2png'*/], function () {
+gulp.task('copy', ['clean', 'minifycss', 'minifyjs', 'buildindex' /*, 'svg2png'*/], function () {
 	var files = [
 		"auth/**/*",
 		"templates/**/*",
