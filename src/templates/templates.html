@@ -350,9 +350,19 @@
 			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
 			<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
 			<td>{{this.score}}</td>
-			<td>{{#if this.powerup}}<i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}}
+			<td style="padding-top:10px;padding-bottom:5px;">
+			{{#if this.powerup}}
+				<!-- <i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}} -->
+				{{#each this.receivedPowerups}}
+				<span><img width="24px" height="24px" title="Received: {{this.id}}" src="images/icons/received-{{this.id}}.png" /></span>
+				{{/each}}
 			{{/if}}
-			{{#if this.usedPowerup}}<i class='material-icons icon-powerup' title='Used a power up'>flash_off</i>{{/if}}
+			<!-- {{#if this.usedPowerup}}<i class='material-icons icon-powerup' title='Used a power up'>flash_off</i>{{/if}} -->
+			{{#if this.usedPowerup}}
+				{{#each this.usedPowerups}}
+				<span><img width="24px" height="24px" title="Used: {{this.id}}" src="images/icons/used-{{this.id}}.png" /></span>
+				{{/each}}
+			{{/if}}
 			</td>
 		</tr>
 		{{/each}}

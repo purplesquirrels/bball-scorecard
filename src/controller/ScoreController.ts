@@ -331,7 +331,8 @@ class ScoreController {
 					powerup: false,
 					numpowerups: 0,
 					receivedPowerups: [],
-					usedPowerup: false
+					usedPowerup: false,
+					usedPowerups: []
 				};
 
 
@@ -388,8 +389,11 @@ class ScoreController {
 					}
 				}
 
-				player.usedPowerup = this.getPlayerPowerupsUsedOnDay(id, day).length > 0;
+				var usedpowerups = this.getPlayerPowerupsUsedOnDay(id, day);
 
+				player.usedPowerup = usedpowerups.length > 0;
+				player.usedPowerups = usedpowerups;
+				console.log(usedpowerups);
 				
 				players.push(player);
 			}
