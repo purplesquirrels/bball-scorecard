@@ -15,6 +15,8 @@ if($token != 'qFntaxvMtBNtQrY4kqHyNVb6'){
     $msg = "The token for the slash command doesn't match. Check your script.";
     die($msg);
     echo $msg;
+} else if (strtolower($domain) == "who is the best?") {
+	echo "It's too soon to tell.";
 } else {
 
 	$file = '../../data/data.json';
