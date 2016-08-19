@@ -583,6 +583,9 @@ class EditDayState extends AppState {
 		}
 
 		this.saveChanges(false);
+
+		var nplayers = this.controller.getGameNumPlayers(0);
+		$(".num-players").text(nplayers + " player" + (nplayers !== 1 ? "s" : ""));
 	}
 
 	saveChanges = (create:boolean = false, callback?:Function) => {
