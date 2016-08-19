@@ -21,8 +21,8 @@ class ViewState extends AppState {
 			"rawscore:asc"	: "Raw score",
 			"averagerawscore:desc"	: "Av raw points",
 			"averagerawscore:asc": "Av raw points",
-			"averagerawandbonus:desc": "Av raw + bonus",
-			"averagerawandbonus:asc": "Av raw + bonus"
+			"averagerawandbonus:desc": "Average",
+			"averagerawandbonus:asc": "Average"
 		}
 	}
 
@@ -124,6 +124,7 @@ class ViewState extends AppState {
 
 			var playerid = context.rankings[i].id;
 			var rank = ranks[3];
+			var powerups: PowerUp[] = this.controller.getPlayerPowerups(playerid);
 
 			if (i > 0) {
 				if (context.rankings[i].rank <= 3) {
@@ -154,14 +155,19 @@ class ViewState extends AppState {
 				context.rankings[i].rankdirection = "down" + (context.rankings[i].rankchange <= -5 ? " large-down" : "");
 			}
 
-			context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy");
+			context.rankings[i].hasPowerups = powerups.length > 0;
+			context.rankings[i].powerups = powerups;
+
+			console.log(context.rankings[i])
+
+			/*context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy");
 			context.rankings[i].totallaps = NumberCruncher.getPlayerTotalLaps(playerid);
 			context.rankings[i].rawscore = NumberCruncher.getPlayerRawScore(playerid, false);
 			context.rankings[i].highestscore = NumberCruncher.getPlayerHighestScore(playerid);
 			context.rankings[i].incompletekeys = NumberCruncher.getPlayerIncompleteKeys(playerid);
 			context.rankings[i].percentplayed = NumberCruncher.getPlayerPercentPlayed(playerid);
 			context.rankings[i].daysatfirst = NumberCruncher.getPlayerDaysAtFirstPlace(playerid);
-			context.rankings[i].latestarts = NumberCruncher.getPlayLateStarts(playerid);
+			context.rankings[i].latestarts = NumberCruncher.getPlayLateStarts(playerid);*/
 			context.rankings[i].averagerawscore = NumberCruncher.getPlayerAverageRawScore(playerid, false);
 			context.rankings[i].rawandbonus = NumberCruncher.getPlayerRawScore(playerid, true);
 			context.rankings[i].averagerawandbonus = NumberCruncher.getPlayerAverageRawScore(playerid, true);
@@ -225,6 +231,16 @@ class ViewState extends AppState {
 			chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
 			this.statsShowing = true;
 		} 
+
+		$('.powergreg-button').bind("click", (e: JQueryMouseEventObject) => {
+
+			$('.powergreg-button').toggleClass("active");
+			$(".powergreg").toggleClass("showing");
+			$(".leaderboard").toggleClass("showing");
+			$(".mainlist-header").toggleClass("hidden");
+			$(".sort-options").toggleClass("hidden");
+		});
+
 
 		$('.view-stats').bind("click", (e: JQueryMouseEventObject) => {
 

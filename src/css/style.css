@@ -106,6 +106,12 @@ html, body {
 	cursor: default;
 }
 
+@media (max-width:560px) {
+	.bb-button {
+		padding: .5em 1em;
+	}
+}
+
 
 
 .bb-purple {
@@ -230,6 +236,7 @@ html, body {
 
 .app-header.hidden {
 	visibility: hidden;
+
 }
 
 
@@ -237,6 +244,17 @@ html, body {
 	color: #E2E2E2;
 	text-transform: uppercase;
 	font-size: 0.75em;
+	overflow: hidden;
+	height: 31px;
+
+	-webkit-transition: height 0.3s;
+	transition: height 0.3s;
+}
+
+.mainlist-header.hidden {
+	display: block;
+	visibility: hidden;
+	height: 0;
 }
 
 .mainlist-header thead,
@@ -442,18 +460,35 @@ html, body {
     padding: 10px;
     border-top: 1px solid #272E41;
     border-bottom: 1px solid #272E41;
+    line-height: 1;
+}
+
+.sort-options {
+	opacity: 1;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+.sort-options.hidden {
+	opacity: 0;
 }
 
 .sort-label {
 	text-transform: uppercase;
     font-size: 0.8em;
     padding-right: 0.65em;
-    float: left;
+    color: #EFEFEF;
     line-height: 1.9;
 }
 
 .leaderboard {
+	position: absolute;
 	padding: 10px;
+	/*display: none;*/
+}
+
+.leaderboard.showing {
+	position: relative;
+	display: block;
 }
 
 
@@ -572,6 +607,10 @@ label {
 .admin-tools button,
 .newday-tools button {
 	padding: 0 0.7rem;
+}
+
+.edit-state .num-players {
+	display: inline-block;
 }
 
 .edit-state .collapsible-header,
@@ -727,6 +766,7 @@ label {
 	background: #2E3548;
 	border-bottom: none;
 	margin-bottom: 1px;
+	cursor: default;
 }
 
 
@@ -1967,9 +2007,176 @@ table.editmode .switch label .lever {
 	margin: 0 0 0 -80px !important;
 }
 
+.powerbar {
+	position: relative;
+    display: inline-block;
+    width: calc(100% - 40px);
+    margin-right: 10px;
+    vertical-align: middle;
+    height: 10px;
+    background: #272E41;
+}
+
+.powergreg {
+	position: absolute;
+	padding: 10px;
+	top:0;
+	pointer-events: none;
+	/*display: none;*/
+	opacity: 0;
+
+	-webkit-transition: none;
+	transition: none;
+}
+.powergreg.showing {
+	pointer-events: auto;
+	position: relative;
+	/*display: block;*/
+	opacity: 1;
+
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+}
+
+
+.powerbar + img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.powerbar:before {
+	content: "";
+	width: 0;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #FFF;
+}
+
+.powerbar-5:before {
+	background: rgb(137, 202, 140);
+	width: 100%;
+}
+.powerbar-4:before {
+	background: rgb(201, 189, 106);
+	width: 80%;
+}
+.powerbar-3:before {
+	background: rgb(249, 174, 82);
+	width: 60%;
+}
+.powerbar-2:before {
+	background: rgb(250, 152, 92);
+	width: 40%;
+}
+.powerbar-1:before {
+	background: rgb(251, 108, 112);
+	width: 20%;
+
+	-webkit-animation: neon1 1.5s ease-in-out infinite alternate;
+	-moz-animation: neon1 1.5s ease-in-out infinite alternate;
+	animation: neon1 1.5s ease-in-out infinite alternate;
+}
+.powerbar-0:before {
+	content: none;
+}
+
+.powerbar-dividers {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
+.powerbar-dividers span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #353b51;
+}
+
+.powerbar-dividers span:nth-of-type(1) {
+	left: 20%;
+}
+.powerbar-dividers span:nth-of-type(2) {
+	left: 40%;
+}
+.powerbar-dividers span:nth-of-type(3) {
+	left: 60%;
+}
+.powerbar-dividers span:nth-of-type(4) {
+	left: 80%;
+}
+
+.powergreg-button {
+    float: left;
+    font-size: 0.7rem;
+    padding: 0.1rem .6rem 0.1rem .5rem;
+
+   width: 9.6em;
+   white-space: nowrap;
+   overflow: hidden;
+    -webit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.powergreg-button i {
+	vertical-align: middle;
+	margin-right: 0.2rem;
+	font-size: 1.2rem;
+}
+
+.powergreg-button.active {
+    background-color: #7fe083;
+    border-color: #7fe083;
+    color: #000;
+    opacity: 1;
+    width: 13.2em;
+}
+
+
+.powergreg-button.active:after {
+	content: " active";
+}
+
+@media (max-width:560px) {
+	.powergreg-button {
+		padding: .25rem .6rem .25rem .5rem;
+	}
+}
 /* ///////////////////////////////////////// */
 
 .stats-menu-item[data-id='HDG712'] img {
 	width: 140% !important;
 	margin-left: -10px;
+}
+
+@-webkit-keyframes neon1 {
+  from {
+    box-shadow: 0 0 5px #fb6c70, 0 0 15px #F00;
+  }
+  to {
+    box-shadow: 0 0 0 #fb6c70, 0 0 0 #F00;
+  }
+}
+
+@-moz-keyframes neon1 {
+  from {
+    box-shadow: 0 0 5px #fb6c70, 0 0 15px #F00;
+  }
+  to {
+    box-shadow: 0 0 0 #fb6c70, 0 0 0 #F00;
+  }
+}
+
+@keyframes neon1 {
+  from {
+    box-shadow: 0 0 5px #fb6c70, 0 0 15px #F00;
+  }
+  to {
+    box-shadow: 0 0 0 #fb6c70, 0 0 0 #F00;
+  }
 }

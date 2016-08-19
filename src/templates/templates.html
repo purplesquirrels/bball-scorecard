@@ -47,12 +47,15 @@
 
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
 <div class="sort-menu">
-	<a class="sort bb-button bb-purple sort-default active" data-sort="default" title="Official score">Score</a>
-	<a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a>
-	<a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a>
-	<!-- <a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a> -->
-	<a class="sort bb-button bb-purple" data-sort="averagerawandbonus:desc" title="Average raw score plus bonuses">Av raw + bonus</a>
-	
+	<a class="powergreg-button bb-button bb-purple " title="Toggle Powergreg"><i class="material-icons">flash_on</i>Powergreg</a>
+	<span class="sort-options">
+		<span class="sort-label">Sort by</span>
+		<a class="sort bb-button bb-purple sort-default active" data-sort="default" title="Official score">Score</a>
+		<!-- <a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a> -->
+		<!-- <a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a> -->
+		<!-- <a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a> -->
+		<a class="sort bb-button bb-purple" data-sort="averagerawandbonus:desc" title="Average raw score plus bonuses">Average</a>
+	</span>
 
 </div>
 <table class="mainlist-header">
@@ -65,7 +68,8 @@
 		</tr>
 	</thead>
 </table>
-<ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion">
+<!-- <ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion"> -->
+<ul class="collapsible leaderboard showing" id="leaderboard">
 	{{#each rankings}}
 	<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}" data-averagerawandbonus="{{this.averagerawandbonus}}">
 		<div class="playeritem collapsible-header">
@@ -83,7 +87,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="collapsible-body">
+		<!-- <div class="collapsible-body">
 			<div class="stat-box blue"><strong>Av raw score</strong><br><span class="stat-value">{{this.averagerawscore}}</span></div>
 			<div class="stat-box yellow darken-1"><strong>Days in 1<sup>st</sup></strong><br><span class="stat-value">{{this.daysatfirst}}</span></div>
 			<div class="stat-box teal"><strong>Raw score</strong><br><span class="stat-value">{{this.rawscore}}</span></div>
@@ -93,9 +97,57 @@
 			<div class="stat-box deep-purple"><strong>Incomplete keys</strong><br><span class="stat-value">{{this.incompletekeys}}</span></div>
 			<div class="stat-box green darken-4"><strong>Late starts</strong><br><span class="stat-value">{{this.latestarts}}</span></div>
 			<div class="stat-box blue darken-1"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
+		</div> -->
+	</li>
+	{{/each}}
+</ul>
+{{> powergregTemplate }}
+</script>
+
+<script id="partial_view-powergreg" data-name="powergregTemplate" type="text/x-handlebars-template">
+<ul class="collapsible powergreg" id="powergreg">
+	{{#each rankings}}
+	<li class="mix" data-score="{{this.score}}">
+		<div class="playeritem collapsible-header">
+			<table class="mainlist">	
+				<tbody >
+					<tr class="{{this.rankclass}}">
+						<td width='15%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
+						<td width='20%'>{{this.firstname}}</td>
+						<td width='65%'>
+						{{#if this.hasPowerups}}
+							{{#each this.powerups}}
+							<div>
+							<span class='powerbar powerbar-{{this.health}}'>
+								<div class="powerbar-dividers">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+							</span><img src='images/icons/received-{{this.id}}.png'>
+							<div>
+							{{/each}}
+						{{else}}
+							<div>
+							<span class='powerbar powerbar-0'>
+								<div class="powerbar-dividers">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+							</span>
+							<div>
+						{{/if}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</li>
 	{{/each}}
+</ul>
 </script>
 
 <script id="preloader-overlay-template" type="text/x-handlebars-template">
@@ -172,6 +224,7 @@
 		</div>
 
 		<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn lock-players"><i class='material-icons left'>lock_open</i><span>Only show playing</span></button>
+		<div class="num-players">0 players</div>
 		
 		<table class="mainlist striped editmode centered">
 			<thead>
