@@ -117,7 +117,7 @@
 						<td width='65%'>
 						{{#if this.hasPowerups}}
 							{{#each this.powerups}}
-							<div>
+							<div title="{{this.name}}">
 							<span class='powerbar powerbar-{{this.health}}'>
 								<div class="powerbar-dividers">
 									<span></span>
@@ -125,11 +125,11 @@
 									<span></span>
 									<span></span>
 								</div>
-							</span><img src='images/icons/received-{{this.id}}.png'>
+							</span><img src='images/icons/{{this.id}}.png'>
 							<div>
 							{{/each}}
 						{{else}}
-							<div>
+							<div title="No current powerups">
 							<span class='powerbar powerbar-0'>
 								<div class="powerbar-dividers">
 									<span></span>
