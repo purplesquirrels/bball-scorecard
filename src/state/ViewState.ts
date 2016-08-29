@@ -158,7 +158,7 @@ class ViewState extends AppState {
 			context.rankings[i].hasPowerups = powerups.length > 0;
 			context.rankings[i].powerups = powerups;
 
-			console.log(context.rankings[i])
+			//console.log(context.rankings[i])
 
 			/*context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy");
 			context.rankings[i].totallaps = NumberCruncher.getPlayerTotalLaps(playerid);
