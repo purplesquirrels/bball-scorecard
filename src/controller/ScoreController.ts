@@ -116,13 +116,15 @@ class ScoreController {
 			}
 		]
 
+		var enddate = new Date(seasons[seasonIndex - 1].end);
+		enddate.setHours(12);
 		
 		var season: ScoreData = {
 			season_id: this.model.season_id + 1,
 			season: seasonIndex,
 			banner: seasons[seasonIndex - 1].banner,
 			enableBadges: true,
-			end_date: new Date(seasons[seasonIndex - 1].end).toString(),
+			end_date: enddate.toString(),
 			season_name: seasons[seasonIndex - 1].name,
 			players: this.model.players,
 			games: {},
