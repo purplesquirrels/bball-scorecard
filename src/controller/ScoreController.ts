@@ -189,7 +189,7 @@ class ScoreController {
 
 		// sort by year, then season
 		var order = { "summer" : 0, "autumn": 1, "winter": 2, "spring": 3 };
-		
+
 		archives = archives.sort((a, b) =>{
 
 			if (a.year < b.year) return 1;
@@ -401,7 +401,6 @@ class ScoreController {
 
 				player.usedPowerup = usedpowerups.length > 0;
 				player.usedPowerups = usedpowerups;
-				console.log(usedpowerups);
 				
 				players.push(player);
 			}
