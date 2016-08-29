@@ -188,15 +188,21 @@ class ScoreController {
 		}
 
 		// sort by year, then season
-		var order = { "autumn": 0, "winter": 1, "spring": 2, "summer": 3 };
-
+		var order = { "summer" : 0, "autumn": 1, "winter": 2, "spring": 3 };
+		
 		archives = archives.sort((a, b) =>{
 
+			if (a.year < b.year) return 1;
+			if (a.year > b.year) return -1;
+			return 0;
+		});
+
+		archives = archives.sort((a, b) =>{
 			if (a.year === b.year) {
-				return (order[a.season] < order[b.season]) ? -1 : (order[a.season] > order[b.season]) ? 1 : 0;
-			} else {
-				return (a.year < b.year) ? 1 : -1;
+				if (order[a.season] < order[b.season]) return 1;
+				if (order[a.season] > order[b.season]) return -1;
 			}
+			return 0;
 		});
 
 		return archives;
