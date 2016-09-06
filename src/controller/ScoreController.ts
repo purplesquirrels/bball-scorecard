@@ -880,7 +880,7 @@ class ScoreController {
 		return 0;
 	}
 
-	getPlayerPowerups = (playerid: string, includetoday:boolean=false): PowerUp[] => {
+	getPlayerPowerups = (playerid: string, includetoday:boolean=false, separate:boolean=false): PowerUp[] => {
 
 		var powerups: PowerUp[] = [];
 
@@ -894,8 +894,6 @@ class ScoreController {
 			var min = includetoday ? -1 : 0;
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-
-				
 
 				if (this.model.powerbank[playerid][i].id === powerup &&
 					this.model.powerbank[playerid][i].health > min &&
@@ -922,17 +920,37 @@ class ScoreController {
 
 				//healths.splice(0, 1);
 
-				powerups.push({
-					id: this.model.powerups[powerup].id,
-					name: this.model.powerups[powerup].name,
-					description: this.model.powerups[powerup].description,
-					chance: this.model.powerups[powerup].chance,
-					image: this.model.powerups[powerup].image,
-					multi: count > 1,
-					count: count,
-					health: lowestHealth,
-					healths: healths//healths.length > 1 ? healths : []
-				});
+				if (separate) {
+
+					for (var i = 0; i < count; ++i) {
+						powerups.push({
+							id: this.model.powerups[powerup].id,
+							name: this.model.powerups[powerup].name,
+							description: this.model.powerups[powerup].description,
+							chance: this.model.powerups[powerup].chance,
+							image: this.model.powerups[powerup].image,
+							multi: count > 1,
+							count: count,
+							health: this.model.powerbank[playerid][i].health,
+							healths: healths//healths.length > 1 ? healths : []
+						});
+					}
+
+				} else {
+					powerups.push({
+						id: this.model.powerups[powerup].id,
+						name: this.model.powerups[powerup].name,
+						description: this.model.powerups[powerup].description,
+						chance: this.model.powerups[powerup].chance,
+						image: this.model.powerups[powerup].image,
+						multi: count > 1,
+						count: count,
+						health: lowestHealth,
+						healths: healths//healths.length > 1 ? healths : []
+					});
+				}
+
+				
 			}
 		}
 

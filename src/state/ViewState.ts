@@ -124,7 +124,7 @@ class ViewState extends AppState {
 
 			var playerid = context.rankings[i].id;
 			var rank = ranks[3];
-			var powerups: PowerUp[] = this.controller.getPlayerPowerups(playerid);
+			var powerups: PowerUp[] = this.controller.getPlayerPowerups(playerid, false, true);
 
 			if (i > 0) {
 				if (context.rankings[i].rank <= 3) {
@@ -158,8 +158,10 @@ class ViewState extends AppState {
 			context.rankings[i].hasPowerups = powerups.length > 0;
 			context.rankings[i].powerups = powerups;
 
-			//console.log(context.rankings[i])
+			// totallaps incompletekeys latestarts
 
+
+			//console.log(context.rankings[i])
 			/*context.rankings[i].totalboundys = NumberCruncher.getPlayerTotalPointsOfType(playerid, "boundy");
 			context.rankings[i].totallaps = NumberCruncher.getPlayerTotalLaps(playerid);
 			context.rankings[i].rawscore = NumberCruncher.getPlayerRawScore(playerid, false);

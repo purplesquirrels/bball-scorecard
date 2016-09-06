@@ -483,12 +483,14 @@ html, body {
 .leaderboard {
 	position: absolute;
 	padding: 10px;
+	opacity: 0;
 	/*display: none;*/
 }
 
 .leaderboard.showing {
 	position: relative;
 	display: block;
+	opacity: 1;
 }
 
 
