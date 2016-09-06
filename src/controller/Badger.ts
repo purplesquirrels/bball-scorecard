@@ -183,7 +183,7 @@ class Badger {
 
 			for (var i = 0; i < totalGames; ++i) {
 				
-				context.rankchange = rankChanges[i] || 0;
+				context.rankchange = rankChanges[totalGames-i] || 0;
 				context.late = this.controller.getPlayerIsLate(playerid, i) || false;
 				context.gamescore = this.controller.getPlayerScoreForDay(playerid, i);
 				context.gamerank = this.controller.getPlayerRankForDay(playerid, i);
