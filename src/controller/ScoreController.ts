@@ -892,6 +892,7 @@ class ScoreController {
 			var lowestHealth = 5;
 			var healths = [];
 			var min = includetoday ? -1 : 0;
+			var pups = [];
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
 
@@ -901,6 +902,8 @@ class ScoreController {
 					count++;
 
 					healths.push(this.model.powerbank[playerid][i].health);
+
+					pups.push(this.model.powerbank[playerid][i]);
 
 					if (this.model.powerbank[playerid][i].health < lowestHealth) {
 						lowestHealth = this.model.powerbank[playerid][i].health;
@@ -922,7 +925,7 @@ class ScoreController {
 
 				if (separate) {
 
-					for (var i = 0; i < count; ++i) {
+					for (var i = 0; i < pups.length; ++i) {
 						powerups.push({
 							id: this.model.powerups[powerup].id,
 							name: this.model.powerups[powerup].name,
@@ -931,7 +934,7 @@ class ScoreController {
 							image: this.model.powerups[powerup].image,
 							multi: count > 1,
 							count: count,
-							health: this.model.powerbank[playerid][i].health,
+							health: pups[i].health,
 							healths: healths//healths.length > 1 ? healths : []
 						});
 					}
