@@ -821,6 +821,10 @@ class ScoreController {
 
 		if (this.model.scores.length < 2) return 0;
 
+		if (this.model.games[playerid] && this.model.games[playerid] <= 1) {
+			return 0;
+		}
+
 		var ranknow = this.model.scores[0].values[playerid].rank;
 		var ranklast;
 
@@ -1076,8 +1080,10 @@ class ScoreController {
 
 		var player = {
 			"id": newid,
+			"active" : true,
 			"firstname": firstname,
 			"lastname": lastname,
+			"email": "",
 			"avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()
 		};
 

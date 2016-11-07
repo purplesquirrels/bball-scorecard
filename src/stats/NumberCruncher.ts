@@ -232,6 +232,10 @@ class NumberCruncher {
 
 			if (i < this.model.scores.length - 1 && this.model.scores[i].values[playerid] && this.model.scores[i + 1].values[playerid]) {
 
+				if (this.model.games[playerid] && this.model.games[playerid] <= 1) {
+					continue;
+				}
+
 				if (i < this.model.scores.length - 1) {
 					ranks.push(this.model.scores[i+1].values[playerid].rank - this.model.scores[i].values[playerid].rank);
 				} else {
