@@ -34,6 +34,7 @@ interface PowerUp {
 	description: string;
 	chance: number;
 	image: string;
+	useAgainstPlayer: boolean;
 	multi?: boolean;
 	count?: number;
 	expired?: boolean;
@@ -573,6 +574,7 @@ class ScoreController {
 	getPowerupDetails = (powerup: string): PowerUp => {
 		return this.model.powerups[powerup];
 	}
+	
 
 	getPlayerPowerupsReceivedOnDay = (playerid: string, day: number = 0): any[] => {
 
@@ -936,6 +938,7 @@ class ScoreController {
 							description: this.model.powerups[powerup].description,
 							chance: this.model.powerups[powerup].chance,
 							image: this.model.powerups[powerup].image,
+							useAgainstPlayer: this.model.powerups[powerup].useAgainstPlayer,
 							multi: count > 1,
 							count: count,
 							health: pups[i].health,
@@ -950,6 +953,7 @@ class ScoreController {
 						description: this.model.powerups[powerup].description,
 						chance: this.model.powerups[powerup].chance,
 						image: this.model.powerups[powerup].image,
+						useAgainstPlayer: this.model.powerups[powerup].useAgainstPlayer,
 						multi: count > 1,
 						count: count,
 						health: lowestHealth,
@@ -1215,12 +1219,13 @@ class ScoreController {
 			used: false,
 			health: 5,
 			dateused: "",
-			gameused: -1
+			gameused: -1,
+			usedagainst: ""
 		});
 
 	}
 
-	usePlayerPowerup = (playerid: string, powerup:string):boolean => {
+	usePlayerPowerup = (playerid: string, powerup:string, against:string = ""):boolean => {
 
 		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
 			return false;
@@ -1248,6 +1253,7 @@ class ScoreController {
 			this.model.powerbank[playerid][id].used = true;
 			this.model.powerbank[playerid][id].dateused = new Date().toString();
 			this.model.powerbank[playerid][id].gameused = this.model.scores.length;
+			this.model.powerbank[playerid][id].usedagainst = against;
 
 			return true;
 		}

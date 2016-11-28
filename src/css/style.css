@@ -1466,7 +1466,7 @@ table.editmode .switch label .lever {
 	position: relative;
 }
 
-.leader-stat-ring span {
+.leader-stat-ring span.label {
 	position: absolute;
 	width: 100%;
 	top: 32px;
@@ -1508,6 +1508,41 @@ table.editmode .switch label .lever {
 	margin: 0.8em 0;
 }
 
+.powerup-stats {
+	padding-bottom: 2em;
+	width: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+.powerup-stats .leader-stat {
+	margin-bottom: 4%;
+}
+.powerup-stats .leader-stat h3 {
+    margin-top: 0;
+}
+.powerup-stats .leader-stat-ring:after {
+	border: none;
+}
+
+.powerup-stats .leader-stat-ring img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+.powerup-stats .leader-stat-ring span.label {
+    margin-top: 94%;
+
+}
+
+.small-frac {
+	font-size: 0.7em;
+    margin-right: 0.1em;
+    font-weight: 400;
+}
+
 .chart-legend-swatch {
 	display: inline-block;
 	vertical-align: middle;
@@ -1530,6 +1565,14 @@ table.editmode .switch label .lever {
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 100%;
+}
+
+.powerup {
+	margin-top: 1em;
+}
+.powerup.selected {
+	outline: 2px solid #FFF;
+	background-color: rgba(255,255,255,0.1) !important;
 }
 
 .stat-holder .badge {
@@ -1898,6 +1941,32 @@ table.editmode .switch label .lever {
     background-position: center;
     background-color: transparent;
     
+}
+
+.powerups-available {
+    height: 50%;
+    width: 100%;
+    overflow-y: scroll;
+    text-align: center;
+}
+
+.powerup-use-against {
+    height: 50%;
+    width: 100%;
+    text-align: right;
+    padding: 1em;
+    background: rgba(0,0,0, 0.1);
+    vertical-align: top;
+}
+
+.powerup-select-group {
+	width: 200px;
+	margin: 0.3em;
+	display: inline-block;
+}
+.select-powerup-use-against {
+	display: block;
+
 }
 
 .new-powerup,

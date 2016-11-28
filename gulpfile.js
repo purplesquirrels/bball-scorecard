@@ -66,7 +66,7 @@ gulp.task('copy', ['minifycss'], function () {
 		"auth/**/*",
 		"templates/**/*",
 		"images/**/*",
-		"banners/**/*",
+		"headers/**/*",
 		"external/**/*",
 		"php/**/*",
 		"favicon/**/*",

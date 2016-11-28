@@ -15,6 +15,123 @@ class NumberCruncher {
 		this.model = model;
 	}
 
+	static getTotalPowerupsGenerated(id:string = "all"): number {
+		var count:number = 0;
+
+		for (var p in this.model.powerbank) {
+
+			if (id === "all") {
+				count += this.model.powerbank[p].length;
+			} else {
+				for (var i = 0; i < this.model.powerbank[p].length; i++) {
+					if (this.model.powerbank[p][i].id === id) {
+						count++;
+					}
+				}
+			}
+		}
+
+		return count;
+	}
+
+	static getTotalDetailedPowerupsGenerated(): any[] {
+		//var count:number = 0;
+		var types:Object = {
+			total: {
+				used: 0,
+				received: 0
+			}
+		};
+
+		for (var p in this.model.powerbank) {
+
+			types["total"].received += this.model.powerbank[p].length;
+
+			for (var i = 0; i < this.model.powerbank[p].length; i++) {
+				
+				if (!types[this.model.powerbank[p][i].id]) {
+					types[this.model.powerbank[p][i].id] = {
+						used: 0,
+						received: 0
+					}
+				}
+
+				types[this.model.powerbank[p][i].id].received++;
+
+				if (this.model.powerbank[p][i].used ||
+					this.model.powerbank[p][i].id === "nope" || this.model.powerbank[p][i].id === "immunity") {
+					types["total"].used++;
+					types[this.model.powerbank[p][i].id].used++;
+				}
+
+				/*if (this.model.powerbank[p][i].id === "nope" || this.model.powerbank[p][i].id === "immunity") {
+					types[this.model.powerbank[p][i].id].used++;
+				}*/
+
+			}
+		
+		}
+
+		return Object.keys(types).map((item) => {
+			return {
+				image: item === "total" || item === "used" ? "powerup.svg" : this.model.powerups[item].image,
+				label: item,
+				used: types[item].used,
+				received: types[item].received
+			}
+		});
+	}
+
+	static getTotalDetailedPowerupsGeneratedForPlayer(playerid:string): any[] {
+
+		var types:Object = {
+			total: {
+				used: 0,
+				received: 0
+			}
+		};
+
+		if  (this.model.powerbank[playerid]) {
+
+			types["total"].received += this.model.powerbank[playerid].length;
+
+			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+				
+				if (!types[this.model.powerbank[playerid][i].id]) {
+					types[this.model.powerbank[playerid][i].id] = {
+						used: 0,
+						received: 0
+					}
+				}
+
+				types[this.model.powerbank[playerid][i].id].received++;
+
+				if (this.model.powerbank[playerid][i].used ||
+					this.model.powerbank[playerid][i].id === "nope" || this.model.powerbank[playerid][i].id === "immunity") {
+					types["total"].used++;
+					types[this.model.powerbank[playerid][i].id].used++;
+				}
+
+			}
+		
+		} else {
+			return [{
+						image: "powerup.svg",
+						label: "total",
+						used: 0	,
+						received: 0	
+					}]
+		}
+
+		return Object.keys(types).map((item) => {
+			return {
+				image: item === "total" || item === "used" ? "powerup.svg" : this.model.powerups[item].image,
+				label: item,
+				value: types[item]
+			}
+		});
+	}
+
 	static getPlayerTotalPointsOfType(playerid:string, pointtype:string):number {
 
 		var total = 0;

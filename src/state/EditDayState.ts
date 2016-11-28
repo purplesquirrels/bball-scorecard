@@ -415,37 +415,68 @@ class EditDayState extends AppState {
 		var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["powerup-selector"]);
 		var context = {
 			//currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
-			powerups: this.controller.getPlayerPowerups(playerid, true)
+			powerups: this.controller.getPlayerPowerups(playerid, true),
+			players: this.controller.getGamePlayers().sort(function(a, b){
+			    if(a.firstname < b.firstname) return -1;
+			    if(a.firstname > b.firstname) return 1;
+			    return 0;
+			})
 		};
 
 		var html = template(context);
 
+		var selectedpower:string = "";
+		var useagainst:string = "";
+
 		$("body").append(html);
 
-		$(".powerup-selector-wrapper").bind("click", (e) => {
+		$(".select-powerup-use-against").bind("change", (e) => {
+			useagainst = (<HTMLSelectElement>e.currentTarget).value;
+			$(".do-usepower").prop("disabled", false);
+		}).css("display", "none");
+
+		$(".pick-powerup").bind("click", (e) => {
+
+			$(".pick-powerup").removeClass("selected");
+			selectedpower = $(e.currentTarget).attr("data-id");
+			$(e.currentTarget).addClass("selected");
+
+			useagainst = "";
+
+			$(".do-usepower").css("display", "");
+
+			var pd = this.controller.getPowerupDetails(selectedpower);
+
+			if (pd.useAgainstPlayer) {
+				$(".select-powerup-use-against").css("display", "");
+				$(".do-usepower").prop("disabled", true);
+			} else {
+				$(".select-powerup-use-against").css("display", "none");
+				$(".do-usepower").prop("disabled", false);
+			}
+		});
+
+		$(".cancel-usepower").bind("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 
-			$(".powerup-selector-wrapper").unbind("click");
+			$(".cancel-usepower").unbind("click");
+			$(".do-usepower").unbind("click");
 			$(".pick-powerup").unbind("click");
 			$(".powerup-selector-wrapper").remove();
 		});
 
-		$(".pick-powerup").bind("click", (e) => {
+		$(".do-usepower").bind("click", (e) => {
 
-			var powerup: string = $(e.currentTarget).attr("data-id");
-
-			if (confirm("Use " + powerup + " power?")) {
-				var success = this.controller.usePlayerPowerup(playerid, powerup);
-
-				if (success) {
-					alert('Succesfully used ' + powerup);
-				} else {
-					alert('Unable to use ' + powerup);
-				}
+			if (confirm("Use " + selectedpower + " powerup?")) {
+				this.controller.usePlayerPowerup(playerid, selectedpower, useagainst);
 			}
 
-		});
+			$(".cancel-usepower").unbind("click");
+			$(".do-usepower").unbind("click");
+			$(".pick-powerup").unbind("click");
+			$(".powerup-selector-wrapper").remove();
+		}).css("display", "none");
 	}
 
 	startProgressTimer = () => {

@@ -475,7 +475,7 @@
 			<div class="leader-stats">
 				<!-- <div class="leader-stat" data-value="{{totalscore_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Total<br>score</h3>
 					<hr/>
@@ -484,7 +484,7 @@
 
 				<div class="leader-stat" data-value="{{rawscore_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Raw<br>score</h3>
 					<hr/>
@@ -493,7 +493,7 @@
 
 				<div class="leader-stat" data-value="{{highestscore_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Highest<br>score</h3>
 					<hr/>
@@ -502,7 +502,7 @@
 
 				<div class="leader-stat" data-value="{{boundys_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Most<br>boundys</h3>
 					<hr/>
@@ -511,7 +511,7 @@
 
 				<div class="leader-stat" data-value="{{laps_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Most<br>laps</h3>
 					<hr/>
@@ -520,7 +520,7 @@
 
 				<div class="leader-stat" data-value="{{bonuses_value}}">
 					<div class="leader-stat-ring">
-						<span>0</span>
+						<span class="label">0</span>
 					</div>
 					<h3>Most<br>bonuses</h3>
 					<hr/>
@@ -528,6 +528,20 @@
 				</div>
 			</div>
 
+		</div>
+		<div class="stat-holder right-4">
+			<h3>Powerups used/received</h3>
+			<div class="powerup-stats">
+			{{#each powerups}}
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<img src="images/powerup/{{this.image}}" onerror="this.style.display='none';this.onerror=null" />
+						<span class="label">{{this.used}}<span class="small-frac">/{{this.received}}</span></span>
+					</div>
+					<h3>{{this.label}}</h3>
+				</div>
+			{{/each}}
+			</div>
 		</div>
 		<div class="stat-holder right-2">
 			<h3>Player rank over season</h3>
@@ -584,13 +598,13 @@
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{percentplayed}}%</span>
+						<span class="label">{{percentplayed}}%</span>
 					</div>
 					<h3>Attendance</h3>
 				</div>
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{daysatfirst}}</span>
+						<span class="label">{{daysatfirst}}</span>
 					</div>
 					<h3>Days in<br>1<sup>st</sup></h3>
 				</div>
@@ -605,7 +619,7 @@
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{rawscore}}</span>
+						<span class="label">{{rawscore}}</span>
 					</div>
 					<h3>Raw score</h3>
 				</div>
@@ -613,42 +627,42 @@
 <!-- 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{rawscore}}</span>
+						<span class="label">{{rawscore}}</span>
 					</div>
 					<h3>TBD</h3>
 				</div>
  -->
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{highestscore}}</span>
+						<span class="label">{{highestscore}}</span>
 					</div>
 					<h3>Highest game score</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{modescore}}</span>
+						<span class="label">{{modescore}}</span>
 					</div>
 					<h3>Typical game score</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{boundys}}</span>
+						<span class="label">{{boundys}}</span>
 					</div>
 					<h3>Total<br>Boundys</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{s_shots}}</span>
+						<span class="label">{{s_shots}}</span>
 					</div>
 					<h3>Successful<br>shots</h3>
 				</div>
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
-						<span>{{distance}}<br><span class="unit">{{dist_unit}}</span></span>
+						<span class="label">{{distance}}<br><span class="unit">{{dist_unit}}</span></span>
 					</div>
 					<h3>Distance<br>travelled</h3>
 				</div>
@@ -714,6 +728,19 @@
 							<img src="images/powerup/{{this.image}}" width="100%">
 						</span><span class="powerup-label">{{this.name}}</span></div>
 			{{/each}}
+		</div>
+		
+		<div class="powerup-use-against">
+			<div class="powerup-select-group input-field col s12">
+				<select class="select-powerup-use-against">
+					<option selected disabled>Use against</option>
+					{{#each players}}
+					<option value="{{this.id}}">{{this.firstname}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<button class="waves-effect waves-light btn action-btn cancel-usepower red"><i class='material-icons left'>not_interested</i>Cancel</button>
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn do-usepower"><i class='material-icons left'>done</i>Use powerup</button>
 		</div>
 	</div>
 </div>

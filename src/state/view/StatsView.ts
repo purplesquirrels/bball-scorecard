@@ -428,7 +428,9 @@ class StatsView {
 			laps_value: "",
 			laps_playername: "",
 			bonuses_value: "",
-			bonuses_playername: ""
+			bonuses_playername: "",
+
+			powerups: NumberCruncher.getTotalDetailedPowerupsGenerated()
 		}
 
 		var score: HighScoreObject = NumberCruncher.getPlayerWithHighestScore();
@@ -459,7 +461,7 @@ class StatsView {
 
 		var stathtml = stattemplate(statscontext);
 
-		
+		console.log('getTotalDetailedPowerupsGenerated', statscontext.powerups);
 
 		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
 
@@ -597,7 +599,7 @@ class StatsView {
 			sort: "desc"
 		});
 
-		var leaders = $(".leader-stat").toArray();
+		var leaders = $(".leader-stats .leader-stat").toArray();
 
 		leaders = leaders.map(function(element, index) {
 			return {
