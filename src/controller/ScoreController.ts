@@ -1068,7 +1068,7 @@ class ScoreController {
 		return newScores;
 	}
 
-	addPlayer = (firstname:string, lastname:string=""):Object => {
+	addPlayer = (firstname:string, lastname:string="", email:string=""):Object => {
 		
 		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		var newid = "";
@@ -1087,7 +1087,7 @@ class ScoreController {
 			"active" : true,
 			"firstname": firstname,
 			"lastname": lastname,
-			"email": "",
+			"email": email,
 			"avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()
 		};
 
@@ -1097,7 +1097,7 @@ class ScoreController {
 
 		this.model.scores[0].values[player.id].multiplier = this.getPlayerMultiplier(player.id);
 
-		return { id: player.id, firstname: firstname, scores: this.model.scores[0].values[player.id] };
+		return { id: player.id, firstname: player.firstname, lastname:player.lastname, email:player.email, avatar: player.avatar, scores: this.model.scores[0].values[player.id] };
 	}
 
 	setDayComplete = (day: number = 0) => {

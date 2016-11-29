@@ -2,6 +2,8 @@ interface NewPlayer {
 	scores: Object;
 	id: string;
 	firstname: string;
+	lastname: string;
+	email: string;
 }
 
 class NewPlayerModal {
@@ -31,17 +33,19 @@ class NewPlayerModal {
 
 			var newPlayer: NewPlayer = null;
 
-			$('#newplayermodal').openModal({
+			$('#newplayer-modal').openModal({
 				dismissible: false, // Modal can be dismissed by clicking outside of the modal
 				ready: () => {
 
-					$(".addplayer-button").bind("click", (e) => {
+					$(".confirm-new-player").bind("click", (e) => {
 						e.preventDefault();
 
-						newPlayer = <NewPlayer>this.controller.addPlayer($("#first_name").val());
+						newPlayer = <NewPlayer>this.controller.addPlayer($("#p_firstname").val(), $("#p_lastname").val(), $("#p_email").val());
 
 						newPlayer.scores["id"] = newPlayer.id;
 						newPlayer.scores["firstname"] = newPlayer.firstname;
+						newPlayer.scores["lastname"] = newPlayer.lastname;
+						newPlayer.scores["email"] = newPlayer.email;
 
 						console.log(newPlayer)
 
@@ -50,11 +54,15 @@ class NewPlayerModal {
 						var html = template(newPlayer.scores);
 
 						$(".mainlist tbody").append(html);*/
+
+						if (typeof onClose == "function") {
+							onClose(newPlayer);
+						}
 					});
 
 					$(".cancel-button").bind("click", (e) => {
 						e.preventDefault();
-						$('#newplayermodal').closeModal();
+						$('#newplayer-modal').closeModal();
 					});
 
 				},

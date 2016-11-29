@@ -114,7 +114,9 @@ class EditDayState extends AppState {
 
 					this.send(data, command).done((data) => {})
 					.fail((data) => {})
-					.always((data) => {});
+					.always((data) => {
+						$('#newplayer-modal').closeModal();
+					});
 
 
 				}

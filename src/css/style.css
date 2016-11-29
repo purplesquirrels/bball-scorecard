@@ -1449,6 +1449,12 @@ table.editmode .switch label .lever {
 .leader-stat:nth-of-type(9) {
 	color: #D57FFF;
 }
+.leader-stat:nth-of-type(10) {
+    color: #ff7fbf;
+}
+.leader-stat:nth-of-type(11) {
+    color: #ff7f7f;
+}
 
 .leader-stat hr {
 	height: 0;

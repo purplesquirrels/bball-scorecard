@@ -43,6 +43,15 @@ class NumberCruncher {
 			}
 		};
 
+		if (!this.model.powerbank) {
+			return [{
+						image: "powerup.svg",
+						label: "total",
+						used: 0	,
+						received: 0	
+					}]
+		}
+
 		for (var p in this.model.powerbank) {
 
 			types["total"].received += this.model.powerbank[p].length;
@@ -91,6 +100,15 @@ class NumberCruncher {
 			}
 		};
 
+		if (!this.model.powerbank) {
+			return [{
+						image: "powerup.svg",
+						label: "total",
+						used: 0	,
+						received: 0	
+					}]
+		}
+
 		if  (this.model.powerbank[playerid]) {
 
 			types["total"].received += this.model.powerbank[playerid].length;
@@ -127,7 +145,8 @@ class NumberCruncher {
 			return {
 				image: item === "total" || item === "used" ? "powerup.svg" : this.model.powerups[item].image,
 				label: item,
-				value: types[item]
+				used: types[item].used,
+				received: types[item].received
 			}
 		});
 	}

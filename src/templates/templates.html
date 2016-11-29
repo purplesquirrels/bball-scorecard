@@ -318,7 +318,7 @@
 	</li>
 </script>
 
-<script id="modal-new-player" type="text/x-handlebars-template">
+<!-- <script id="modal-new-player" type="text/x-handlebars-template">
    <div id="newplayermodal" class="modal">
    	<div class="modal-content">
       <h4>Add new player</h4>
@@ -330,7 +330,7 @@
       <a href="#!" class=" modal-action modal-close waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
     </div>
   </div>
-</script>
+</script> -->
 
 <script id="modal-app-auth" type="text/x-handlebars-template">
    <div id="authmodal" class="modal">
@@ -655,6 +655,20 @@
 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
+						<span class="label">{{powerupsreceived}}</span>
+					</div>
+					<h3>Powerups<br>received</h3>
+				</div>
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
+						<span class="label">{{powerupusage}}</span>
+					</div>
+					<h3>Powerup<br>usage</h3>
+				</div>
+
+				<div class="leader-stat">
+					<div class="leader-stat-ring">
 						<span class="label">{{s_shots}}</span>
 					</div>
 					<h3>Successful<br>shots</h3>
@@ -762,8 +776,8 @@
 	</ul>
 	<hr />
 	<h4>Add player</h4>
-	<div><label for="first_name">First Name</label>
-    <input id="first_name" type="text" class="validate"></div>
+	<!-- <div><label for="first_name">First Name</label>
+    <input id="first_name" type="text" class="validate"></div> -->
     <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
 	<hr />
 	<!-- <h4>Edit player</h4>
@@ -786,30 +800,65 @@
 
 	    <h2>New season details</h2>
 
-			<div class="input-field">
+			<div class="">
 				<label for="season-id">ID</label>
-				<input id="season-id" type="text" class="validate" value="{{season_id}}">
+				<input id="season-id" disabled type="text" class="validate" value="{{season_id}}">
 			</div>
 
-			<div class="input-field">
+			<div class="">
 				<label for="season-name">Name</label>
 				<input id="season-name" type="text" class="validate" value="{{season_name}}">
 			</div>
 
-			<div class="input-field">
+			<div class="">
 				<label for="season-banner">Banner</label>
 				<input id="season-banner" type="text" class="validate" value="{{banner}}">
 			</div>
 
-			<div class="input-field">
+			<div class="">
 				<label for="season-end">End date</label>
-				<input id="season-end" type="text" class="validate" value="{{end_date}}">
+				<input id="season-end" disabled type="text" class="validate" value="{{end_date}}">
 			</div>
 		</div>
 	    <div class="modal-footer">
 	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-season"><i class='material-icons left'>done</i>Confirm new season</button>
-	      <!-- <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a> -->
+	    </div>
+	</div>
+
+
+</script>
+
+<script id="modal-new-player" type="text/x-handlebars-template">
+	<div id="newplayer-modal" class="modal">
+	    <div class="modal-content">
+
+	    <h2>Player details</h2>
+
+			<div class="">
+				<label for="p_firstname">First name</label>
+				<input id="p_firstname" type="text" class="validate" value="">
+			</div>
+
+			<div class="">
+				<label for="p_lastname">Last name</label>
+				<input id="p_lastname" type="text" class="validate" value="">
+			</div>
+
+			<div class="">
+				<label for="p_email">Email</label>
+				<input id="p_email" type="text" class="validate" value="">
+			</div>
+
+			<!-- <div class="">
+				<label for="avatar">Avatar</label>
+				<input id="avatar" disabled type="text" class="validate" value="{{avatar}}">
+			</div> -->
+
+		</div>
+	    <div class="modal-footer">
+	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
+			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-player"><i class='material-icons left'>done</i>Add player</button>
 	    </div>
 	</div>
 

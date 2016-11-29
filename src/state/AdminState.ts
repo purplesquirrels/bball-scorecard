@@ -37,7 +37,7 @@ class AdminState extends AppState {
 		});
 
 
-		$(".addplayer-button").bind("click", (e) => {
+		/*$(".addplayer-button").bind("click", (e) => {
 
 			var newPlayer = <NewPlayer>this.controller.addPlayer($("#first_name").val());
 
@@ -52,7 +52,7 @@ class AdminState extends AppState {
 			$("#first_name").val("");
 
 		});
-
+*/
 		$(".send-test-email").bind("click", (e) => {
 
 			if (this.emailTimer !== -1) return;
@@ -118,6 +118,10 @@ class AdminState extends AppState {
 
 						if (confirm("Are you sure you want to create a new season?\n\nThe current season will be archived.")) {
 
+							s.season_name = $("#season-name").val();
+							s.banner = $("#season-banner").val();
+							//s.end_date = $("#season-end").val();
+
 							var data = JSON.stringify(s);
 							var command = "create/season";
 
@@ -132,6 +136,52 @@ class AdminState extends AppState {
 							.always((data) => { 
 								$('#newseason-modal').closeModal();
 							});
+						}
+
+					});
+
+
+				},
+				complete: function() {
+
+				}
+			});
+
+		});
+
+		$(".addplayer-button").bind("click", (e) => {
+
+			var s = {};
+			var modalTemplate: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["modal-new-player"]);
+			var context = s;
+
+			var modalhtml = modalTemplate(context);
+
+			document.body.appendChild($(modalhtml).wrap("<div/>").parent()[0]);
+
+			var app = this.app;
+
+			$('#newplayer-modal').openModal({
+				dismissible: false,
+				ready: () => {
+
+					$(".confirm-new-player").on("click", (e) => {
+
+						if (confirm("Are you sure you want to add a new player?")) {
+
+							var newPlayer = <NewPlayer>this.controller.addPlayer($("#p_firstname").val(), $("#p_lastname").val(), $("#p_email").val());
+
+							var data = this.controller.getJSONString();
+							var command = "update/all";
+
+							this.send(data, command)
+							.done((data) => { })
+							.fail((data) => { })
+							.always((data) => { 
+								//alert(`Player [${newPlayer.firstname} ${newPlayer.lastname}] added!`)
+								$('#newplayer-modal').closeModal();
+							});
+
 						}
 
 					});

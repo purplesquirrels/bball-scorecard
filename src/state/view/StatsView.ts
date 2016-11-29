@@ -124,6 +124,7 @@ class StatsView {
 		var dist = NumberCruncher.getPlayerDistance(playerid);
 		var badges: Badge[] = Badger.getAllBadgesForPlayer(playerid);
 		var powerups: PowerUp[] = this.controller.getPlayerPowerups(playerid);
+		var powerstats:any[] = NumberCruncher.getTotalDetailedPowerupsGeneratedForPlayer(playerid);
 		
 		var statscontext = {
 			firstname: this.controller.getPlayerName(playerid),
@@ -142,6 +143,10 @@ class StatsView {
 			dist_unit: dist > 1000 ? "km" : "m",
 			s_shots: NumberCruncher.getPlayerTotalSuccessfullShots(playerid),
 			enableBadges: this.controller.badgesEnabled(),
+
+			powerupsused: powerstats[0].used,
+			powerupsreceived: powerstats[0].received,
+			powerupusage: powerstats[0].received === 0 ? "N/A" : Math.round(powerstats[0].used / powerstats[0].received * 100) + "%",
 
 			hasBadges: badges.length > 0,
 			badges: badges,
@@ -460,8 +465,6 @@ class StatsView {
 
 
 		var stathtml = stattemplate(statscontext);
-
-		console.log('getTotalDetailedPowerupsGenerated', statscontext.powerups);
 
 		$(this.statsRoot).find(".season-stats-holder").append(stathtml);
 
