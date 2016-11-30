@@ -53,6 +53,19 @@ class EditDayState extends AppState {
 
 		context.players = this.controller.getPlayerScores(editday);
 
+		context.players.forEach((player, i) => {
+			if ((i > 0 && player.firstname === context.players[i-1].firstname) || (i < context.players.length-2 && player.firstname === context.players[i+1].firstname)) {
+				console.log(player);
+				player.tmpname = player.firstname + " " + player.lastname.charAt(0).toUpperCase();
+			}
+		});
+
+		context.players.forEach((player, i) => {
+			if (player.tmpname) {
+				player.firstname = player.tmpname;
+			}
+		});
+
 		var html = template(context);
 
 		this.element.innerHTML = html;

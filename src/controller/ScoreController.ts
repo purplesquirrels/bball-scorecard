@@ -499,6 +499,7 @@ class ScoreController {
 				id: this.model.players[i].id,
 				active: this.model.players[i].active,
 				firstname: this.model.players[i].firstname,
+				lastname: this.model.players[i].lastname,
 				played: this.model.scores[day].values[this.model.players[i].id].played,
 				late: this.model.scores[day].values[this.model.players[i].id].late
 			});

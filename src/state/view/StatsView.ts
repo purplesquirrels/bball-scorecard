@@ -1,10 +1,11 @@
-///<reference path="../../app" />
-///<reference path="../../controller/ScoreController" />
+///<reference path="../../app.ts" />
+///<reference path="../../controller/ScoreController.ts" />
 
-/// <reference path="../../charts/LineChart" />
-/// <reference path="../../charts/PieChart" />
-/// <reference path="../../charts/BarChart" />
-/// <reference path="../../charts/AreaChart" />
+/// <reference path="../../charts/LineChart.ts" />
+/// <reference path="../../charts/PieChart.ts" />
+/// <reference path="../../charts/BarChart.ts" />
+/// <reference path="../../charts/AreaChart.ts" />
+/// <reference path="../../charts/BubbleChart.ts" />
 
 interface PlayerDataObject {
 	id: string;
@@ -551,6 +552,7 @@ class StatsView {
 			}
 		}
 
+
 		if (this.controller.getTotalGamesPlayed() > 1) {
 
 			$(".right-2").append('<svg class="chart seasonRank"></svg>');
@@ -569,6 +571,59 @@ class StatsView {
 		} else {
 			$(".right-2").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
 		}
+
+
+
+
+		/////////////////////////////////
+
+		var avplayerrank:{} = {};
+
+		seasonRank.forEach((item:PlayerDataObject) => {
+			if (!avplayerrank[item.id]) {
+				avplayerrank[item.id] = {
+					count: 0,
+					total: 0
+				}
+			}
+
+			avplayerrank[item.id].count++;
+			avplayerrank[item.id].total += item.y;
+		});
+
+		
+
+		if (this.controller.getTotalGamesPlayed() > 1) {
+
+			var avranks:{}[] = Object.keys(avplayerrank).map((playerid) => {
+				return {
+					id: playerid,
+					name: this.controller.getPlayerDetails(playerid)["firstname"],
+					avrank: avplayerrank[playerid].total / avplayerrank[playerid].count, // av rank
+					size: NumberCruncher.getPlayerAverageRawScore(playerid) // av raw score + bonus
+				}
+			}).sort((a, b) => {
+				return a["avrank"] - b["avrank"];
+			});
+			
+			$(".right-5").append('<svg class="chart playerAvRankVsRaw"></svg>');
+			var c5: BubbleChart = new BubbleChart(".playerAvRankVsRaw", {
+				width: 700,
+				height: 200,
+				key: "name",
+				value: "avrank",
+				data: avranks
+			});
+		} else {
+			$(".right-5").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
+		}
+
+		console.log(avranks.map(p => p['size']));
+
+		/////////////////////////////////
+
+
+
 
 		$(".right-3").append('<svg class="chart playerRaw"></svg>');
 

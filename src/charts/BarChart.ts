@@ -91,6 +91,10 @@ class BarChart implements IChart {
 				d3.select(d3.event['target'])
 					.attr('stroke-width', 8)
 			})
+			.on('mousemove', (d, i) => {
+				tooltip.style("left", d3.event['pageX'] + "px")
+					.style("top", d3.event['pageY'] + "px");
+			})
 			.on('mouseout', (d) => {
 
 

@@ -158,6 +158,10 @@ class LineChart implements IChart {
 
 					d3.select(d3.event['target']).attr("opacity", 1)
 				})
+				.on('mousemove', (d, i) => {
+					tooltip.style("left", d3.event['pageX'] + "px")
+						.style("top", d3.event['pageY'] + "px");
+				})
 				.on('mouseout', (d) => {
 
 
