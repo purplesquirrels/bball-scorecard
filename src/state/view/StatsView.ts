@@ -600,7 +600,7 @@ class StatsView {
 					id: playerid,
 					name: this.controller.getPlayerDetails(playerid)["firstname"],
 					avrank: avplayerrank[playerid].total / avplayerrank[playerid].count, // av rank
-					size: NumberCruncher.getPlayerAverageRawScore(playerid) // av raw score + bonus
+					size: NumberCruncher.getPlayerAverageRawScore(playerid, true) // av raw score + bonus
 				}
 			}).sort((a, b) => {
 				return a["avrank"] - b["avrank"];
