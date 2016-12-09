@@ -1,0 +1,41 @@
+{
+  "name": "Bankulator",
+  "short_name": "Bankulator",
+  "display": "standalone",
+  "background_color": "#212633",
+  "theme_color": "#212633",
+  "description": "Basketball scorecard.",
+  "orientation": "portrait",
+  "icons": [{
+    "src": "favicon/homescreen48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "favicon/apple-touch-icon-72x72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "favicon/favicon-96x96.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "favicon/apple-touch-icon-144x144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "favicon/apple-touch-icon-152x152.png",
+    "sizes": "152x152",
+    "type": "image/png"
+  }, {
+    "src": "favicon/favicon-196x196.png",
+    "sizes": "196x196",
+    "type": "image/png"
+  }, {
+    "src": "favicon/mstile-310x310.png",
+    "sizes": "310x310",
+    "type": "image/png"
+  }],
+  "related_applications": [{
+    "platform": "web"
+  }]
+}

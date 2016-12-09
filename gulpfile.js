@@ -70,6 +70,7 @@ gulp.task('copy', ['minifycss'], function () {
 		"external/**/*",
 		"php/**/*",
 		"favicon/**/*",
+		"manifest.webmanifest",
 		"favicon.ico"
 	];
 
