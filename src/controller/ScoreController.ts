@@ -31,6 +31,7 @@ interface Badge {
 interface PowerUp {
 	id: string;
 	name: string;
+	active: boolean;
 	description: string;
 	chance: number;
 	image: string;
@@ -936,6 +937,7 @@ class ScoreController {
 						powerups.push({
 							id: this.model.powerups[powerup].id,
 							name: this.model.powerups[powerup].name,
+							active: this.model.powerups[powerup].active !== false ? true : false,
 							description: this.model.powerups[powerup].description,
 							chance: this.model.powerups[powerup].chance,
 							image: this.model.powerups[powerup].image,
@@ -951,6 +953,7 @@ class ScoreController {
 					powerups.push({
 						id: this.model.powerups[powerup].id,
 						name: this.model.powerups[powerup].name,
+						active: this.model.powerups[powerup].active !== false ? true : false,
 						description: this.model.powerups[powerup].description,
 						chance: this.model.powerups[powerup].chance,
 						image: this.model.powerups[powerup].image,
@@ -1291,7 +1294,10 @@ class ScoreController {
 		var powerups:PowerUp[] = [];
 
 		for (var p in this.model.powerups) {
-			powerups.push(this.model.powerups[p]);
+			// filter out inactive powerups
+			if (this.model.powerups[p].active !== false) {
+				powerups.push(this.model.powerups[p]);
+			}
 		}
 
 		var total = 0;
