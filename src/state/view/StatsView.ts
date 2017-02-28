@@ -618,7 +618,7 @@ class StatsView {
 			$(".right-5").append('<h2 class="empty-state-message small-message">Not enough data</h2>');
 		}
 
-		console.log(avranks.map(p => p['size']));
+		//console.log(avranks.map(p => p['size']));
 
 		/////////////////////////////////
 

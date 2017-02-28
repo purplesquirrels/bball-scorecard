@@ -315,7 +315,7 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return [];
 
-		if (this.gameplayercache[day]) return this.gameplayercache[day];
+		//if (this.gameplayercache[day]) return this.gameplayercache[day];
 
 		//return this.model.scores[day].numPlayers;
 		var players:any[] = [];
