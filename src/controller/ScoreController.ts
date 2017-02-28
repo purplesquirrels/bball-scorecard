@@ -88,7 +88,7 @@ class ScoreController {
 
 	getNewSeason = (options?: any): ScoreData => {
 
-		var seasonIndex:number = this.model.season === 4 ? 0 : this.model.season + 1;
+		var seasonIndex:number = this.model.season === 4 ? 1 : this.model.season + 1;
 		var date: Date = new Date();
 		var endyear: number = date.getFullYear() + (seasonIndex === 4 ? 1 : 0);
 
