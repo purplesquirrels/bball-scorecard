@@ -31,6 +31,7 @@ interface Badge {
 interface PowerUp {
 	id: string;
 	name: string;
+	active: boolean;
 	description: string;
 	chance: number;
 	image: string;
@@ -87,7 +88,7 @@ class ScoreController {
 
 	getNewSeason = (options?: any): ScoreData => {
 
-		var seasonIndex:number = this.model.season === 4 ? 0 : this.model.season + 1;
+		var seasonIndex:number = this.model.season === 4 ? 1 : this.model.season + 1;
 		var date: Date = new Date();
 		var endyear: number = date.getFullYear() + (seasonIndex === 4 ? 1 : 0);
 
@@ -315,7 +316,7 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return [];
 
-		if (this.gameplayercache[day]) return this.gameplayercache[day];
+		//if (this.gameplayercache[day]) return this.gameplayercache[day];
 
 		//return this.model.scores[day].numPlayers;
 		var players:any[] = [];
@@ -936,6 +937,7 @@ class ScoreController {
 						powerups.push({
 							id: this.model.powerups[powerup].id,
 							name: this.model.powerups[powerup].name,
+							active: this.model.powerups[powerup].active !== false ? true : false,
 							description: this.model.powerups[powerup].description,
 							chance: this.model.powerups[powerup].chance,
 							image: this.model.powerups[powerup].image,
@@ -951,6 +953,7 @@ class ScoreController {
 					powerups.push({
 						id: this.model.powerups[powerup].id,
 						name: this.model.powerups[powerup].name,
+						active: this.model.powerups[powerup].active !== false ? true : false,
 						description: this.model.powerups[powerup].description,
 						chance: this.model.powerups[powerup].chance,
 						image: this.model.powerups[powerup].image,
@@ -1291,7 +1294,10 @@ class ScoreController {
 		var powerups:PowerUp[] = [];
 
 		for (var p in this.model.powerups) {
-			powerups.push(this.model.powerups[p]);
+			// filter out inactive powerups
+			if (this.model.powerups[p].active !== false) {
+				powerups.push(this.model.powerups[p]);
+			}
 		}
 
 		var total = 0;

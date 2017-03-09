@@ -19,8 +19,11 @@ class BubbleChart implements IChart {
 		//	.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7']);
 		var maxsizeval = d3.max(config.data, function(d) { return d["size"] });
 		var maxval = d3.max(config.data, function(d) { return d[value] });
-		var colors = d3.scale.linear().domain([0, maxsizeval/2, maxsizeval])
-			.range(["#FB6C70", '#5ddcf9', '#f9b450'].reverse());
+		//var colors = d3.scale.linear().domain([0, maxsizeval/2, maxsizeval])
+		//	.range(["#FB6C70", '#5ddcf9', '#f9b450'].reverse());
+
+		var colors = d3.scale.linear().domain([0, (maxsizeval * 0.25), (maxsizeval * 0.5), (maxsizeval * 0.75), maxsizeval])
+			.range(["#FB6C70", '#F9B450', '#29DDC0', '#5DDCF9', '#7463E7'].reverse());
 		
 		var margin = { top: 30, right: 20, bottom: 10, left: 20 }
 		var width = config.width - margin.left - margin.right,

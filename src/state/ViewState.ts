@@ -41,12 +41,19 @@ class ViewState extends AppState {
 		var template:HandlebarsTemplateDelegate = Handlebars.compile(source);
 		var update = new Date(this.controller.getGameDate(dayToDisplay));
 		var games = this.controller.getTotalGamesPlayed();
-		var days = this.controller.getDaysRemaining();
+		var days:any = this.controller.getDaysRemaining();
+
+		if (days < 0) {
+			days = "Season ended";
+		} else {
+			days = String(days) + " day" + (days > 1 || days === 0 ? "s" : "") + " remaining";
+		}
+
 		var context = { 
 			title: this.controller.getSeasonName(),
 			dates: this.controller.getSeasonDateString(),
 			banner: this.controller.getSeasonBanner() || "summer/Summer_2.html",
-			daysleft: String(days) + " day" + (days > 1 || days === 0 ? "s" : "") + " remaining",
+			daysleft: days,
 			lastupdate: update.getDate() + "-" + (update.getMonth() + 1) + "-" + update.getFullYear(),
 			totalgames: " • " + String(games) + " game" + (games > 1 || games === 0 ? "s" : "") + " played",
 			rankings: this.controller.getPlayerRankings(dayToDisplay),
@@ -213,7 +220,7 @@ class ViewState extends AppState {
 					},
 					{
 						name: "",
-						value: this.controller.getDaysRemaining(),
+						value: Math.max(0, this.controller.getDaysRemaining()),
 						colour: '#232935'
 					}
 				]

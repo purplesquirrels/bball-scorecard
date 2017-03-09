@@ -82,11 +82,11 @@ class DateUtil {
 		var t = new Date(endtime).getTime() - new Date().getTime();
 
 		return {
-			'total': t,
-			'days': Math.floor(t / (1000 * 60 * 60 * 24)),
-			'hours': Math.floor((t / (1000 * 60 * 60)) % 24),
-			'minutes': Math.floor((t / 1000 / 60) % 60),
-			'seconds': Math.floor((t / 1000) % 60)
+			'total': Math.max(0, t),
+			'days': Math.max(0, Math.floor(t / (1000 * 60 * 60 * 24))),
+			'hours': Math.max(0, Math.floor((t / (1000 * 60 * 60)) % 24)),
+			'minutes': Math.max(0, Math.floor((t / 1000 / 60) % 60)),
+			'seconds': Math.max(0, Math.floor((t / 1000) % 60))
 		};
 	}
 

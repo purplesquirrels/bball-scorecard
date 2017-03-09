@@ -438,6 +438,8 @@ class EditDayState extends AppState {
 			})
 		};
 
+		console.log(context);
+
 		var html = template(context);
 
 		var selectedpower:string = "";
