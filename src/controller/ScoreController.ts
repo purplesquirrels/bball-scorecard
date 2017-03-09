@@ -1145,9 +1145,15 @@ class ScoreController {
 		var playerscore = this.model.scores[day].values[playerid];
 		var lasttotal: number = playerscore.lasttotal;
 		var newtotal = lasttotal;
-		var multiplier = playerscore.multiplier;
+		var multiplier = 1;
 		var points = 0;
 
+		// only apply multipliers after day 1
+		if (this.model.scores.length > 1) {
+			multiplier = playerscore.multiplier;
+		}
+
+		// late bonus multiplier always applies
 		if (playerscore.late) {
 			multiplier += 1;
 		}
@@ -1163,12 +1169,7 @@ class ScoreController {
 			}
 		}
 
-		if (this.model.scores.length > 1) {
-			newtotal += (points * multiplier);
-		} else {
-			newtotal += points; // No multipliers on first day
-		}
-		
+		newtotal += (points * multiplier);
 
 		this.model.scores[day].values[playerid].newtotal = newtotal;
 
