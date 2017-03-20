@@ -373,12 +373,16 @@
 </script>
 
 <script id="partial_game-details-table" data-name="gameDetailsTable" type="text/x-handlebars-template">
-<h4 class="details-heading">Day {{gamenumber}} details <span>{{{gamedate}}}</span></h4>
-  <div class="game-conditions">
-	      <h5>Conditions</h5>
-	      <div><strong>Temperature:</strong> {{conditions.temp}}&deg; <strong>Wind:</strong> {{conditions.winddir}} {{conditions.windspd}}kph</div>
-	    </div>
-<h5 class="details-player-title">{{numPlayers}} players</h5>
+<div class="details-header">
+	<h4 class="details-heading">Day {{gamenumber}}<span>{{{gamedate}}}</span><span class="numplayers">{{numPlayers}} players</span></h4>
+<!-- 	<h5 class="details-player-title">{{numPlayers}} players</h5> -->
+  	<div class="game-conditions">
+	      <div class="condition-item"><strong>Temp</strong> {{conditions.temp}}&deg;</div>
+	      <div class="condition-item"><strong>Felt like</strong> {{conditions.apptemp}}&deg;</div>
+	      <div class="condition-item"><strong>Wind</strong> {{conditions.winddir}} {{conditions.windspd}}kph</div>
+	      <div class="condition-item"><strong>Humidity</strong> {{conditions.humidity}}%</div>
+	</div>
+</div>
 <table class="striped centered">
 	<thead>
 		<tr>

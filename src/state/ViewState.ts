@@ -489,6 +489,8 @@ class ViewState extends AppState {
 			numGames: this.controller.getTotalGamesPlayed()
 		};
 
+		console.log(context.conditions);
+
 		for (var i = 0; i < context.numGames; ++i) {
 			context.games.push({ value: i, day: context.numGames - i, isToday: i === 0 });
 		}
