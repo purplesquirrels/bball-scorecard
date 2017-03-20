@@ -1092,6 +1092,7 @@ label {
 	background: #353B51;
 	color: #E2E2E2;
 	width: 80%;
+	max-width: 1100px;
 }
 .modal .modal-content {
 	-webkit-backface-visibility: hidden;
