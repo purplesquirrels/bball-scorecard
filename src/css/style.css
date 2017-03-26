@@ -800,10 +800,46 @@ label {
 	float: right;
 }
 
+.details-heading  {
+	display: inline-block;
+	text-transform: uppercase;
+	line-height: 1;
+
+}
 .details-heading span {
-	font-size: 0.75em;
+	display: block;
+	font-size: 0.65em;
 	color: #7463E7;
 }
+
+
+.details-heading span.numplayers {
+	font-size: 0.6em;
+	color: #FFF;
+}
+
+.game-conditions {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.condition-item {
+	display: inline-block;
+	background: rgba(0,0,0,0.2);
+	padding: 0.4em;
+	margin: 0 0.1em 0.1em;
+	flex: 1;
+	border-radius: 40px;
+	text-align: center;
+	text-transform: uppercase;
+	min-width: 145px;
+}
+
+.condition-item strong {
+	color:#7463e7;
+}
+
 .game-conditions {
 	float: right;
 }
@@ -1055,6 +1091,8 @@ label {
 .modal {
 	background: #353B51;
 	color: #E2E2E2;
+	width: 80%;
+	max-width: 1100px;
 }
 .modal .modal-content {
 	-webkit-backface-visibility: hidden;
