@@ -24,57 +24,56 @@ var jsmin = require('gulp-jsmin');
  *
  * ============ */
 
-gulp.task('clean', function () {
-	return del([
-		'build/**/*',
-		'!build/',
-		'!build/data',
-		'!build/data/*',
-		'!build/data/backups/*',
-		'!build/data/archive/*'
-	]);
+gulp.task('clean', function() {
+    return del([
+        'build/**/*',
+        '!build/',
+        '!build/data',
+        '!build/data/*',
+        '!build/data/backups/*',
+        '!build/data/archive/*'
+    ]);
 });
 
-gulp.task('buildindex', ['clean'], function () {
-	
-	return gulp.src('src/index.html')
-	.pipe(replace({
-		patterns: [
-			{
-				match: 'nocache',
-				replacement: new Date().getTime()
-			}
-		]
-	}))
-	.pipe(gulp.dest('build'));
+gulp.task('buildindex', ['clean'], function() {
+
+    return gulp.src('src/index.html')
+        .pipe(replace({
+            patterns: [{
+                match: 'nocache',
+                replacement: new Date().getTime()
+            }]
+        }))
+        .pipe(gulp.dest('build'));
 });
 
-gulp.task('minifyjs', ['buildindex'], function () {
-	return gulp.src('src/*.js')
-		.pipe(jsmin())
-		.pipe(gulp.dest('build'));
+gulp.task('minifyjs', ['buildindex'], function() {
+    return gulp.src('src/*.js')
+        .pipe(jsmin())
+        .pipe(gulp.dest('build'));
 });
 
-gulp.task('minifycss', ['minifyjs'], function () {
-	return gulp.src('src/css/*.css')
-		.pipe(cssmin())
-		.pipe(gulp.dest('build/css'));
+gulp.task('minifycss', ['minifyjs'], function() {
+    return gulp.src('src/css/*.css')
+        .pipe(cssmin())
+        .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('copy', ['minifycss'], function () {
-	var files = [
-		"auth/**/*",
-		"templates/**/*",
-		"images/**/*",
-		"headers/**/*",
-		"external/**/*",
-		"php/**/*",
-		"favicon/**/*",
-		"manifest.webmanifest",
-		"favicon.ico"
-	];
+gulp.task('copy', ['minifycss'], function() {
+    var files = [
+        "auth/**/*",
+        "templates/**/*",
+        "images/**/*",
+        "headers/**/*",
+        "external/**/*",
+        "php/**/*",
+        "favicon/**/*",
+        "manifest.webmanifest",
+        ".htaccess",
+        "favicon.ico"
+    ];
 
-	return gulp.src(files, {cwd:"src/"}).pipe(gulpCopy("build/", {expand:true}));
+    return gulp.src(files, { cwd: "src/" }).pipe(gulpCopy("build/", { expand: true }));
 });
 
 gulp.task('build', ['copy']);
@@ -82,7 +81,7 @@ gulp.task('build', ['copy']);
 
 
 gulp.task('watch', function() {
-	gulp.watch(['src/**/*','!src/**/*.ts'], ['build']);
+    gulp.watch(['src/**/*', '!src/**/*.ts'], ['build']);
 });
 
 gulp.task('default', ['copy']);
