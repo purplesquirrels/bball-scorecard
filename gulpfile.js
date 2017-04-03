@@ -69,7 +69,6 @@ gulp.task('copy', ['minifycss'], function() {
         "php/**/*",
         "favicon/**/*",
         "manifest.webmanifest",
-        "sw.js",
         ".htaccess",
         "favicon.ico"
     ];
