@@ -19,6 +19,10 @@ interface JQuery {
 	mixItUp(options?: any): JQuery;
 }
 
+interface Navigator {
+	serviceWorker: any;
+}
+
 interface WindowLocalStorage {
 	setItem(name: string, value: string);
 	removeItem(name: string);
@@ -48,6 +52,8 @@ interface IChart {
 	update(data: {}[]):void;
 }
 
+
+
 class App {
 
 	data: ScoreData;
@@ -69,13 +75,15 @@ class App {
 	constructor(rootSelector: string = ".app") {
 
 		this.isStorageAvailable = this.storageAvailable("localStorage");
-
 		this.buttonActions = {
 			"state": (action: string) => {
 
 				this.setState(action);
 			}
 		}
+
+		this.setupServiceWorker();
+
 
 		this.isArchiveMode = false;
 
@@ -89,6 +97,7 @@ class App {
 
 			//get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
+		
 
 		$.post(get, {
 			auth: Config.SERVER_KEY,
@@ -115,6 +124,95 @@ class App {
 			}
 
 		});
+
+	}
+
+	setupServiceWorker = () => {
+		if ('serviceWorker' in navigator) {
+
+			navigator.serviceWorker.register('sw.js')
+			.then(function(reg) {
+
+				if ('Notification' in window) {
+					Notification.requestPermission(function (permission) {
+						// If the user accepts, let's create a notification
+						if (permission === "granted") {
+							//var notification = new Notification("Notifications enabled!");
+						}
+					});
+				} else {
+					alert('No notifaction')
+				}
+
+				navigator.serviceWorker.addEventListener('message', function(event) {
+					//console.log('sw message');
+					console.log("FROM SW", event.data);
+
+					if (event.data.command === "timerEnded") {
+						if (!("Notification" in window)) {
+							alert("Timer ended!");
+						}
+
+						// Let's check whether notification permissions have already been granted
+						else if (Notification.permission === "granted") {
+							navigator.serviceWorker.ready.then(function(registration) {
+								registration.showNotification("Game Over!", {
+									vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+									requireInteraction: true,
+									tag: 'game-over'
+								});
+							});
+						}
+
+						// Otherwise, we need to ask the user for permission
+						else if (Notification.permission !== "denied") {
+							Notification.requestPermission(function (permission) {
+								// If the user accepts, let's create a notification
+								if (permission === "granted") {
+									navigator.serviceWorker.ready.then(function(registration) {
+										registration.showNotification("Game Over!", {
+											vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+											requireInteraction: true,
+											tag: 'game-over'
+										});
+									});
+								}
+								
+							});
+						}
+					}
+				});
+
+				}).catch(function(error) {
+					console.log('Registration failed with ' + error);
+				});
+
+
+
+			var s = false;
+
+			$(document).click(() => {
+				if (!s) {
+					this.sendMessage({'command': 'startTimer', timerLength: 0.1});
+				} else {
+					this.sendMessage({'command': 'stopTimer'});
+				}
+
+				s = !s;
+			})
+		}
+	}
+
+	sendMessage = (message) => {
+
+	  navigator.serviceWorker.ready.then(function(){
+
+
+	  	console.log("serviceWorker ready");
+	  	console.log("postMessage", message);
+
+		    navigator.serviceWorker.controller.postMessage(message);
+	  });
 
 	}
 
