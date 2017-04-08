@@ -56,7 +56,7 @@ interface DayConditions {
 	cloud: string;
 	rain: string;
 	humidity: number;
-	airpressure: number;	
+	airpressure: number;
 }
 
 class ScoreController {
@@ -72,11 +72,15 @@ class ScoreController {
 		this.savedState = null;
 		this.gameplayercache = [];
 
+		if (this.model.scores[0].staging === true) {
+			this.model.scores.shift();
+		}
+
 		this.ranker = this.getRankingSystem(Config.RANKING);
 
 	}
 
-	getRankingSystem = (type:string):IRanking => {
+	getRankingSystem = (type: string): IRanking => {
 		switch (type) {
 			case "dense":
 				return new DenseRanking();
@@ -88,7 +92,7 @@ class ScoreController {
 
 	getNewSeason = (options?: any): ScoreData => {
 
-		var seasonIndex:number = this.model.season === 4 ? 1 : this.model.season + 1;
+		var seasonIndex: number = this.model.season === 4 ? 1 : this.model.season + 1;
 		var date: Date = new Date();
 		var endyear: number = date.getFullYear() + (seasonIndex === 4 ? 1 : 0);
 
@@ -120,7 +124,7 @@ class ScoreController {
 
 		var enddate = new Date(seasons[seasonIndex - 1].end);
 		enddate.setHours(12);
-		
+
 		var season: ScoreData = {
 			season_id: this.model.season_id + 1,
 			season: seasonIndex,
@@ -135,7 +139,7 @@ class ScoreController {
 			badges: this.model.badges,
 			playerBadges: {},
 			powerbank: {},
-			powerups:this.model.powerups,
+			powerups: this.model.powerups,
 			scores: [],
 			archives: []
 		}
@@ -186,20 +190,20 @@ class ScoreController {
 				});
 			}
 
-			
+
 		}
 
 		// sort by year, then season
-		var order = { "summer" : 0, "autumn": 1, "winter": 2, "spring": 3 };
+		var order = { "summer": 0, "autumn": 1, "winter": 2, "spring": 3 };
 
-		archives = archives.sort((a, b) =>{
+		archives = archives.sort((a, b) => {
 
 			if (a.year < b.year) return 1;
 			if (a.year > b.year) return -1;
 			return 0;
 		});
 
-		archives = archives.sort((a, b) =>{
+		archives = archives.sort((a, b) => {
 			if (a.year === b.year) {
 				if (order[a.season] < order[b.season]) return 1;
 				if (order[a.season] > order[b.season]) return -1;
@@ -215,9 +219,9 @@ class ScoreController {
 		return this.model.enableBadges === true;
 	}
 
-	getGameIsComplete = (day:number = 0): boolean => {
+	getGameIsComplete = (day: number = 0): boolean => {
 		if (this.model.scores.length <= 0) return true;
-		
+
 		if (this.model.scores[day].complete === 1) {
 			return true;
 		}
@@ -225,7 +229,7 @@ class ScoreController {
 		return false;
 	}
 
-	getLastCompletedDay = ():number => {
+	getLastCompletedDay = (): number => {
 		for (var i = 0; i < this.model.scores.length; ++i) {
 
 			if (this.model.scores[i].complete === 1) {
@@ -246,7 +250,7 @@ class ScoreController {
 		return JSON.stringify(this.model); // compressed
 	}
 
-	getDayJSONString = (day:number=0): string => {
+	getDayJSONString = (day: number = 0): string => {
 		//return JSON.stringify(this.model, null, 4); // nice formatting
 		return JSON.stringify(this.model.scores[day]); // compressed
 	}
@@ -264,7 +268,7 @@ class ScoreController {
 		return this.model.end_date;
 	}
 
-	getGameDate = (day:number = 0): string => {
+	getGameDate = (day: number = 0): string => {
 		if (this.model.scores.length === 0) {
 
 			var today = new Date();
@@ -274,12 +278,12 @@ class ScoreController {
 
 			return yesterday.toString();
 
-		} 
-		
+		}
+
 		return this.model.scores[day].date;
 	}
 
-	getGameNumber = (day:number = 0): number => {
+	getGameNumber = (day: number = 0): number => {
 		return this.model.scores.length - day;
 	}
 
@@ -290,7 +294,7 @@ class ScoreController {
 		return this.model.scores[day].numPlayers;
 	}
 
-	getAllActivePlayers = ():any[] => {
+	getAllActivePlayers = (): any[] => {
 		var players = [];
 
 		for (var i = 0; i < this.model.players.length; ++i) {
@@ -302,7 +306,7 @@ class ScoreController {
 
 		}
 
-		players.sort(function(a, b) {
+		players.sort(function (a, b) {
 			if (a.firstname > b.firstname) return 1;
 			if (a.firstname < b.firstname) return -1;
 			return 0;
@@ -319,7 +323,7 @@ class ScoreController {
 		//if (this.gameplayercache[day]) return this.gameplayercache[day];
 
 		//return this.model.scores[day].numPlayers;
-		var players:any[] = [];
+		var players: any[] = [];
 
 		for (var id in this.model.scores[day].values) {
 			if (this.model.scores[day].values.hasOwnProperty(id) && this.model.scores[day].values[id].played) {
@@ -366,7 +370,7 @@ class ScoreController {
 					if (this.model.bonuses.hasOwnProperty(b) && b != "late") {
 						player[b] = this.model.scores[day].values[id][b] || 0;
 						if (player[b] > 0) {
-							bonuses += (this.model.scores[day].values[id][b] * this.model.bonuses[b].value);	
+							bonuses += (this.model.scores[day].values[id][b] * this.model.bonuses[b].value);
 						}
 					}
 				}
@@ -403,12 +407,12 @@ class ScoreController {
 
 				player.usedPowerup = usedpowerups.length > 0;
 				player.usedPowerups = usedpowerups;
-				
+
 				players.push(player);
 			}
 		}
 
-		players.sort(function(a, b) {
+		players.sort(function (a, b) {
 			if (a.score < b.score) return 1;
 			if (a.score > b.score) return -1;
 			return 0;
@@ -451,7 +455,7 @@ class ScoreController {
 		if (this.model.scores.length > 0) {
 			if (new Date(this.model.scores[0].date).getDate() === new Date().getDate()) {
 				includetoday = false;
-			}	
+			}
 		}
 
 		return DateUtil.getDaysRemaining("" + new Date(), this.model.end_date) - (includetoday ? 0 : 1);
@@ -479,16 +483,16 @@ class ScoreController {
 		}
 
 		// alphabetical
-		result.sort(function(a, b) {
-			if(a.firstname < b.firstname) return -1;
-			if(a.firstname > b.firstname) return 1;
+		result.sort(function (a, b) {
+			if (a.firstname < b.firstname) return -1;
+			if (a.firstname > b.firstname) return 1;
 			return 0;
 		});
 
 		return result;
 	}
 
-	getPlayerScores = (day:number = 0):any[] => {
+	getPlayerScores = (day: number = 0): any[] => {
 
 		if (this.model.scores.length === 0) return [];
 
@@ -520,7 +524,7 @@ class ScoreController {
 		}
 
 		// alphabetical
-		result.sort(function(a, b) {
+		result.sort(function (a, b) {
 			if (a.firstname < b.firstname) return -1;
 			if (a.firstname > b.firstname) return 1;
 			return 0;
@@ -533,11 +537,11 @@ class ScoreController {
 		return this.model.players.length;
 	}
 
-	getPlayedIDAtIndex = (index:number): string => {
+	getPlayedIDAtIndex = (index: number): string => {
 		return this.model.players[index].id;
 	}
 
-	getBadgeByID = (badgeid:string): Badge => {
+	getBadgeByID = (badgeid: string): Badge => {
 
 		for (var i = 0; i < this.model.badges.length; ++i) {
 			if (this.model.badges[i].id === badgeid) return this.model.badges[i];
@@ -576,7 +580,7 @@ class ScoreController {
 	getPowerupDetails = (powerup: string): PowerUp => {
 		return this.model.powerups[powerup];
 	}
-	
+
 
 	getPlayerPowerupsReceivedOnDay = (playerid: string, day: number = 0): any[] => {
 
@@ -682,7 +686,7 @@ class ScoreController {
 
 	}
 
-	getPlayerRank = (playerid: string, day:number=0): number => {
+	getPlayerRank = (playerid: string, day: number = 0): number => {
 
 		var ranks = this.getPlayerRankings(day);
 
@@ -711,7 +715,7 @@ class ScoreController {
 		return ranks[ranks.length - 1].multiplier; // last player multiplier
 	}
 
-	getPlayerRankings = (day:number = 0): any[] => {
+	getPlayerRankings = (day: number = 0): any[] => {
 
 		if (this.model.scores.length === 0) return [];
 
@@ -728,7 +732,7 @@ class ScoreController {
 
 			order.push(player);
 		}
-	
+
 		order = this.ranker.rank(order, "score");
 
 		return order;
@@ -789,7 +793,7 @@ class ScoreController {
 
 	}
 
-	getPlayerTotalScoreOnDay = (playerid: string, day:number = 0): number => {
+	getPlayerTotalScoreOnDay = (playerid: string, day: number = 0): number => {
 
 		if (this.model.scores.length === 0) return 0;
 
@@ -841,7 +845,7 @@ class ScoreController {
 		return ranklast - ranknow;
 	}
 
-	getPlayerBonusesForDay = (playerid: string, bonus: string, day:number=0): number => {
+	getPlayerBonusesForDay = (playerid: string, bonus: string, day: number = 0): number => {
 
 		if (this.model.scores.length === 0) return 0;
 
@@ -851,13 +855,13 @@ class ScoreController {
 
 		//for (var i = 0; i < this.model.scores.length; ++i) {
 
-			if (this.model.scores[day].values[playerid] && 
-				this.model.scores[day].values[playerid][bonus] >= 1) {
+		if (this.model.scores[day].values[playerid] &&
+			this.model.scores[day].values[playerid][bonus] >= 1) {
 
-				//console.log(playerid, bonus, this.model.scores[i].values[playerid][bonus])
-				
-				return this.model.scores[day].values[playerid][bonus];
-			}
+			//console.log(playerid, bonus, this.model.scores[i].values[playerid][bonus])
+
+			return this.model.scores[day].values[playerid][bonus];
+		}
 
 		//}
 
@@ -868,7 +872,7 @@ class ScoreController {
 
 		if (this.model.scores.length === 0) return 0;
 
-		var today:Date = new Date();
+		var today: Date = new Date();
 
 		for (var i = 0; i < this.model.scores.length; ++i) {
 
@@ -888,7 +892,7 @@ class ScoreController {
 		return 0;
 	}
 
-	getPlayerPowerups = (playerid: string, includetoday:boolean=false, separate:boolean=false): PowerUp[] => {
+	getPlayerPowerups = (playerid: string, includetoday: boolean = false, separate: boolean = false): PowerUp[] => {
 
 		var powerups: PowerUp[] = [];
 
@@ -965,7 +969,7 @@ class ScoreController {
 					});
 				}
 
-				
+
 			}
 		}
 
@@ -993,7 +997,7 @@ class ScoreController {
 
 	//// UPDATE
 
-	deleteDay = (day:number=0):Object => {
+	deleteDay = (day: number = 0): Object => {
 		return this.model.scores.splice(day, 1)[0];
 	}
 
@@ -1003,20 +1007,21 @@ class ScoreController {
 
 		var day = {
 			"date": new Date().toString(),
-			"complete" : 0,
-			"numPlayers" : 0,
+			"staging": true,
+			"complete": 0,
+			"numPlayers": 0,
 			"conditions": {
-                "temp": 0,
-                "apptemp": 0,
-                "windspd": 0,
-                "winddir": "-",
-                "cloud": "-",
-                "rain": "-",
-                "humidity": 0,
-                "airpressure" : 0,
-                "manual": []
-            },
-			"values" : {}
+				"temp": 0,
+				"apptemp": 0,
+				"windspd": 0,
+				"winddir": "-",
+				"cloud": "-",
+				"rain": "-",
+				"humidity": 0,
+				"airpressure": 0,
+				"manual": []
+			},
+			"values": {}
 		};
 
 		for (var i = 0; i < this.model.players.length; ++i) {
@@ -1026,7 +1031,7 @@ class ScoreController {
 
 			day.values[id] = this.getNewPlayerScoreObject(id);
 
-			for (var j = 0; j < lastRanks.length;++j) {
+			for (var j = 0; j < lastRanks.length; ++j) {
 				if (lastRanks[j].id === id) {
 					multiplier = lastRanks[j].multiplier;
 					break;
@@ -1039,22 +1044,28 @@ class ScoreController {
 
 		this.model.scores.unshift(day);
 
-        return day;
+		return day;
 
 	}
 
-	getNewPlayerScoreObject = (playerid:string): Object => {
+
+	startGame = (day = 0) => {
+		this.model.scores[day].staging = false;
+		this.model.scores[day].date = new Date().toString();
+	}
+
+	getNewPlayerScoreObject = (playerid: string): Object => {
 
 		var newScores = {
 			"played": 0,
 			"late": 0,
 			"rank": 0,
 			"multiplier": 1,
-			"manualbadges" : [],
-			"lasttotal":this.model.scores.length > 0 &&
-						this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
-			"newtotal":	this.model.scores.length > 0 &&
-						this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0 // set to total score from last day
+			"manualbadges": [],
+			"lasttotal": this.model.scores.length > 0 &&
+				this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
+			"newtotal": this.model.scores.length > 0 &&
+				this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0 // set to total score from last day
 		};
 
 		for (var p in this.model.points) {
@@ -1072,23 +1083,23 @@ class ScoreController {
 		return newScores;
 	}
 
-	addPlayer = (firstname:string, lastname:string="", email:string=""):Object => {
-		
+	addPlayer = (firstname: string, lastname: string = "", email: string = ""): Object => {
+
 		var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		var newid = "";
 
 		do {
 			newid = alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
-					alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
-					alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
-					(Math.floor(Math.random() * 10)) +
-					(Math.floor(Math.random() * 10)) +
-					(Math.floor(Math.random() * 10));
+				alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
+				alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
+				(Math.floor(Math.random() * 10)) +
+				(Math.floor(Math.random() * 10)) +
+				(Math.floor(Math.random() * 10));
 		} while (this.playerIDExists(newid));
 
 		var player = {
 			"id": newid,
-			"active" : true,
+			"active": true,
 			"firstname": firstname,
 			"lastname": lastname,
 			"email": email,
@@ -1101,7 +1112,7 @@ class ScoreController {
 
 		this.model.scores[0].values[player.id].multiplier = this.getPlayerMultiplier(player.id);
 
-		return { id: player.id, firstname: player.firstname, lastname:player.lastname, email:player.email, avatar: player.avatar, scores: this.model.scores[0].values[player.id] };
+		return { id: player.id, firstname: player.firstname, lastname: player.lastname, email: player.email, avatar: player.avatar, scores: this.model.scores[0].values[player.id] };
 	}
 
 	setDayComplete = (day: number = 0) => {
@@ -1112,7 +1123,7 @@ class ScoreController {
 		this.model.scores[day].conditions.manual = value;
 	}
 
-	setDayConditions = (temp: number, windspd: number, winddir: string, cloud: string, rain: string, humidity:number, airpressure:number, apptemp:number, day: number = 0) => {
+	setDayConditions = (temp: number, windspd: number, winddir: string, cloud: string, rain: string, humidity: number, airpressure: number, apptemp: number, day: number = 0) => {
 
 		this.model.scores[day].conditions["temp"] = temp;
 		this.model.scores[day].conditions["apptemp"] = apptemp;
@@ -1122,14 +1133,14 @@ class ScoreController {
 		this.model.scores[day].conditions["rain"] = rain;
 		this.model.scores[day].conditions["humidity"] = humidity;
 		this.model.scores[day].conditions["airpressure"] = airpressure;
-		
+
 	}
 
-	setDayNumPlayers = (value: number, day:number = 0) => {
+	setDayNumPlayers = (value: number, day: number = 0) => {
 		this.model.scores[day].numPlayers = value;
 	}
 
-	playerIDExists = (playerid:string) => {
+	playerIDExists = (playerid: string) => {
 
 		for (var i = 0; i < this.model.players.length; ++i) {
 			if (this.model.players[i].id === playerid) {
@@ -1140,7 +1151,7 @@ class ScoreController {
 		return false;
 	}
 
-	updatePlayerTotal = (playerid:string, day:number = 0) => {
+	updatePlayerTotal = (playerid: string, day: number = 0) => {
 
 		var playerscore = this.model.scores[day].values[playerid];
 		var lasttotal: number = playerscore.lasttotal;
@@ -1230,7 +1241,7 @@ class ScoreController {
 
 	}
 
-	usePlayerPowerup = (playerid: string, powerup:string, against:string = ""):boolean => {
+	usePlayerPowerup = (playerid: string, powerup: string, against: string = ""): boolean => {
 
 		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
 			return false;
@@ -1275,7 +1286,7 @@ class ScoreController {
 		return this.model.powerbank[playerid].length;
 	}
 
-	decayPowerups = (playerid:string, amount: number) => {
+	decayPowerups = (playerid: string, amount: number) => {
 
 		if (!this.model.powerbank || !this.model.powerbank[playerid]) {
 			return;
@@ -1292,7 +1303,7 @@ class ScoreController {
 
 	generatePowerup = () => {
 
-		var powerups:PowerUp[] = [];
+		var powerups: PowerUp[] = [];
 
 		for (var p in this.model.powerups) {
 			// filter out inactive powerups
@@ -1328,7 +1339,7 @@ class ScoreController {
 
 	}
 
-	deletePlayerManualBadge = (playerid:string, badgeindex:number, day:number = 0) => {
+	deletePlayerManualBadge = (playerid: string, badgeindex: number, day: number = 0) => {
 
 		if (!this.model.scores[day].values[playerid]) {
 			return;
@@ -1338,7 +1349,7 @@ class ScoreController {
 	}
 
 
-	setPlayerPoint = (playerid:string, pointtype:string, value:number, day:number = 0): number => {
+	setPlayerPoint = (playerid: string, pointtype: string, value: number, day: number = 0): number => {
 
 		if (!this.model.scores[day].values[playerid]) {
 			return -1;
@@ -1377,7 +1388,7 @@ class ScoreController {
 		return this.model.scores[day].values[playerid].late;
 	}
 
-	setPlayerIsPlaying = (playerid: string, isPlaying: boolean, day:number = 0): boolean => {
+	setPlayerIsPlaying = (playerid: string, isPlaying: boolean, day: number = 0): boolean => {
 
 		if (typeof this.model.games[playerid] == "undefined") {
 			return false;
@@ -1389,7 +1400,7 @@ class ScoreController {
 
 			if (isPlaying) {
 				this.model.games[playerid] += 1;
-				this.decayPowerups(playerid , - 1);
+				this.decayPowerups(playerid, - 1);
 			} else {
 				this.model.games[playerid] -= 1;
 				this.decayPowerups(playerid, 1);

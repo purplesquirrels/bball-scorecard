@@ -1,3 +1,5 @@
+/// <reference path="AppState.ts" />
+
 class EditDayState extends AppState {
 
 	static MODE_NEW: string = "new";
@@ -5,18 +7,21 @@ class EditDayState extends AppState {
 
 	playersLocked: boolean;
 	firstPointSet: boolean;
+	gameTimer: GameTimer;
 
 	playersReceivedPowerup: Object;
 
-	constructor(controller: ScoreController, app: App, options:any) {
+	constructor(controller: ScoreController, app: App, options: any) {
 		super(controller, app, options);
 	}
 
-	render(renderoptions?:any) {
+	render(renderoptions?: any) {
 
 		$(".app-header").addClass("hidden");
 
 		this.playersReceivedPowerup = {};
+
+		this.gameTimer = new GameTimer();
 
 		this.firstPointSet = true;
 		this.playersLocked = false;
@@ -30,8 +35,27 @@ class EditDayState extends AppState {
 			this.controller.createNewDay();
 		}
 
+		//else {
+		this.setupEditUI();
+		//}
+	}
+
+	/*setGameStartUI() {
+
+		var source = this.app.templates["startgame-template"];
+		var template: HandlebarsTemplateDelegate = Handlebars.compile(source);
+		var html = template({ title: "New game" });
+		this.element.innerHTML = html;
+
+		
+
+	}*/
+	setupEditUI() {
+
+
+
 		var source = this.app.templates["newday-template"];
-		var template:HandlebarsTemplateDelegate = Handlebars.compile(source);
+		var template: HandlebarsTemplateDelegate = Handlebars.compile(source);
 
 		var editday = 0;
 		var date = new Date(this.controller.getGameDate(editday));
@@ -44,7 +68,7 @@ class EditDayState extends AppState {
 		titles[EditDayState.MODE_EDIT] = "Edit day";
 		titles[EditDayState.MODE_NEW] = "New day";
 
-		var context = { 
+		var context = {
 			title: titles[this.options["mode"]],
 			date: gameday,
 			isEdit: this.options["mode"] === EditDayState.MODE_EDIT,
@@ -54,7 +78,7 @@ class EditDayState extends AppState {
 		context.players = this.controller.getPlayerScores(editday);
 
 		context.players.forEach((player, i) => {
-			if ((i > 0 && player.firstname === context.players[i-1].firstname) || (i < context.players.length-2 && player.firstname === context.players[i+1].firstname)) {
+			if ((i > 0 && player.firstname === context.players[i - 1].firstname) || (i < context.players.length - 2 && player.firstname === context.players[i + 1].firstname)) {
 				console.log(player);
 				player.tmpname = player.firstname + " " + player.lastname.charAt(0).toUpperCase();
 			}
@@ -70,6 +94,32 @@ class EditDayState extends AppState {
 
 		this.element.innerHTML = html;
 
+		if (this.options["mode"] === EditDayState.MODE_NEW) {
+			//this.setGameStartUI();
+			$(".start-game").bind("click", (e) => {
+				$(".start-game").remove();
+				$(".newday-timer").html("30:00");
+				e.preventDefault();
+
+				this.controller.startGame(0);
+
+				var data = this.controller.getDayJSONString(0);
+				var command = "update/day/0";
+
+				this.send(data, command);
+
+
+				//$(this.element).empty();
+				//this.setupEditUI();
+
+				this.gameTimer.addEventListener('onTimerUpdate', this.updateProgressTimer);
+				this.gameTimer.addEventListener('onTimerEnd', this.endProgressTimer);
+				this.gameTimer.startTimer(30);
+			});
+		} else {
+			$(".start-game").remove();
+		}
+
 		$('.datepicker').pickadate({
 			formatSubmit: 'yyyy/mm/dd',
 			selectMonths: true, // Creates a dropdown to control month
@@ -79,7 +129,7 @@ class EditDayState extends AppState {
 		$('.collapsible').collapsible({
 			accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 		});
-		
+
 		$('input.isPlaying, input.isLate').on("change", this.onInputChange);
 		$('button.point-input').on("click", this.onAddPoint);
 		$('button.point-subtract').on("click", this.onSubtractPoint);
@@ -125,11 +175,11 @@ class EditDayState extends AppState {
 					var data = this.controller.getJSONString();
 					var command = "update/all";
 
-					this.send(data, command).done((data) => {})
-					.fail((data) => {})
-					.always((data) => {
-						$('#newplayer-modal').closeModal();
-					});
+					this.send(data, command).done((data) => { })
+						.fail((data) => { })
+						.always((data) => {
+							$('#newplayer-modal').closeModal();
+						});
 
 
 				}
@@ -148,7 +198,7 @@ class EditDayState extends AppState {
 				btn.find('.material-icons').text('lock_open');
 				btn.find('span').text('Only show playing');
 			} else {
-				
+
 				$(".player-row:not(.isPlaying)").addClass("hide-row");
 
 				btn.find('.material-icons').text('lock');
@@ -162,7 +212,7 @@ class EditDayState extends AppState {
 		if (this.options["mode"] === EditDayState.MODE_NEW) {
 
 			$.getJSON(Config.CURL_PATH + "?url=http://www.bom.gov.au/fwo/IDV60901/IDV60901.95936.json").then((data) => {
-				
+
 				var json = data;
 
 				if (json) {
@@ -186,6 +236,9 @@ class EditDayState extends AppState {
 
 		$(".cancel-newday").bind("click", (e) => {
 
+
+			this.gameTimer.stopTimer();
+
 			var msg = Config.MSG_CANCELGAME;
 
 			if (this.options["mode"] === EditDayState.MODE_EDIT) {
@@ -201,14 +254,14 @@ class EditDayState extends AppState {
 				this.send(this.controller.getJSONString(), "update/all").done((data) => {
 					console.log("Success cancel update");
 				})
-				.fail((data) => {
-					console.log("Error cancel update", data);
-				})
-				.always((data) => {
-					console.log("Finished cancel update");
-				
-					this.app.setState(StateType.VIEW);
-				});
+					.fail((data) => {
+						console.log("Error cancel update", data);
+					})
+					.always((data) => {
+						console.log("Finished cancel update");
+
+						this.app.setState(StateType.VIEW);
+					});
 			}
 		});
 
@@ -232,68 +285,68 @@ class EditDayState extends AppState {
 
 			} else if (this.options["mode"] === EditDayState.MODE_NEW) {*/
 
-				
-
-				if (confirm(msg)) {
-
-					$(".app-header").removeClass("hidden");
-
-					this.controller.setDayComplete(0);
-
-					this.saveChanges(true, () => {
-						this.app.setState(StateType.VIEW);
-					});
 
 
-					for (var player in this.playersReceivedPowerup) {
+			if (confirm(msg)) {
 
-						var p_details = this.controller.getPlayerDetails(player);
-						var multiple = this.playersReceivedPowerup[player].length > 1;
+				$(".app-header").removeClass("hidden");
 
-						var host = window.location.origin + window.location.pathname;
-						host = host.split("index.html").join("");
+				this.controller.setDayComplete(0);
 
-						if (!p_details["email"]) {
-							continue;
-						}
+				this.saveChanges(true, () => {
+					this.app.setState(StateType.VIEW);
+				});
 
-						console.log("send email to", p_details["firstname"]);
 
-						var p_message =
-							"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
-								"<table style='font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#4C4C4C;'>{{powerups}}</table>" + 
-							"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + " will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
+				for (var player in this.playersReceivedPowerup) {
 
-						var powerups = [];
+					var p_details = this.controller.getPlayerDetails(player);
+					var multiple = this.playersReceivedPowerup[player].length > 1;
 
-						for (var i = 0; i < this.playersReceivedPowerup[player].length;i++) {
-							var powerup_details = this.controller.getPowerupDetails(this.playersReceivedPowerup[player][i]);
-							var img = powerup_details.image.split(".svg").join(".png");
+					var host = window.location.origin + window.location.pathname;
+					host = host.split("index.html").join("");
 
-							powerups.push('<tr>' +
-											'<td width="100px"><img src="' + host + "images/powerup/" + img + '"></td>' +
-											'<td><strong>' + (powerup_details.name) + ':</strong> ' + (powerup_details.description) + '</td>' +
-										  '</tr>');
-						}
-
-						p_message = p_message.split("{{firstname}}").join(p_details["firstname"]);
-						p_message = p_message.split("{{powerups}}").join(powerups.join(""));
-
-						$.post(Config.MAIL_PATH, {
-							auth: Config.SERVER_KEY,
-							to: p_details["email"],
-							subject: "Bankulator: you received a powerup",
-							message: p_message
-						}).then(function(e){
-							console.log("then", e);
-						}).fail(function(e){
-							console.log("fail", e);
-						});
-						
+					if (!p_details["email"]) {
+						continue;
 					}
 
-					this.playersReceivedPowerup = {};
+					console.log("send email to", p_details["firstname"]);
+
+					var p_message =
+						"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
+						"<table style='font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#4C4C4C;'>{{powerups}}</table>" +
+						"<p>Remember: " + (multiple ? "These" : "This") + " powerup" + (multiple ? "s" : "") + " will expire in 5 played games. Use " + (multiple ? "them" : "it") + " wisely!</p>";
+
+					var powerups = [];
+
+					for (var i = 0; i < this.playersReceivedPowerup[player].length; i++) {
+						var powerup_details = this.controller.getPowerupDetails(this.playersReceivedPowerup[player][i]);
+						var img = powerup_details.image.split(".svg").join(".png");
+
+						powerups.push('<tr>' +
+							'<td width="100px"><img src="' + host + "images/powerup/" + img + '"></td>' +
+							'<td><strong>' + (powerup_details.name) + ':</strong> ' + (powerup_details.description) + '</td>' +
+							'</tr>');
+					}
+
+					p_message = p_message.split("{{firstname}}").join(p_details["firstname"]);
+					p_message = p_message.split("{{powerups}}").join(powerups.join(""));
+
+					$.post(Config.MAIL_PATH, {
+						auth: Config.SERVER_KEY,
+						to: p_details["email"],
+						subject: "Bankulator: you received a powerup",
+						message: p_message
+					}).then(function (e) {
+						console.log("then", e);
+					}).fail(function (e) {
+						console.log("fail", e);
+					});
+
 				}
+
+				this.playersReceivedPowerup = {};
+			}
 			//}
 
 		});
@@ -308,7 +361,12 @@ class EditDayState extends AppState {
 
 		this.saveChanges(true);
 
-		this.startProgressTimer();
+		//this.startProgressTimer();
+	}
+
+
+	startNewGame() {
+
 	}
 
 	stopAndPreventDefault = (e) => {
@@ -431,10 +489,10 @@ class EditDayState extends AppState {
 		var context = {
 			//currentbadges: this.controller.getPlayerManualBadgesOnDay(playerid, 0),
 			powerups: this.controller.getPlayerPowerups(playerid, true),
-			players: this.controller.getGamePlayers().sort(function(a, b){
-			    if(a.firstname < b.firstname) return -1;
-			    if(a.firstname > b.firstname) return 1;
-			    return 0;
+			players: this.controller.getGamePlayers().sort(function (a, b) {
+				if (a.firstname < b.firstname) return -1;
+				if (a.firstname > b.firstname) return 1;
+				return 0;
 			})
 		};
 
@@ -442,8 +500,8 @@ class EditDayState extends AppState {
 
 		var html = template(context);
 
-		var selectedpower:string = "";
-		var useagainst:string = "";
+		var selectedpower: string = "";
+		var useagainst: string = "";
 
 		$("body").append(html);
 
@@ -496,34 +554,15 @@ class EditDayState extends AppState {
 		}).css("display", "none");
 	}
 
-	startProgressTimer = () => {
-
-		this.updateProgressTimer();
-
-		var interval = setInterval(() => {
-
-			var done = this.updateProgressTimer();
-
-			if (done) {
-				clearInterval(interval);
-			}
-
-		}, 1000);
+	updateProgressTimer = (evt: object) => {
+		$(".newday-timer").html(evt["timeleft"]);
 	}
 
-	updateProgressTimer = (): boolean => {
+	endProgressTimer = (evt: object) => {
+		this.gameTimer.removeEventListener('onTimerUpdate', this.updateProgressTimer);
+		this.gameTimer.removeEventListener('onTimerEnd', this.endProgressTimer);
 
-		var time = $(".newday-timer");
-		var endDate = new Date(this.controller.getGameDate(0));
-		endDate.setMinutes(endDate.getMinutes() + 30);
-		var t: TimeObject = DateUtil.getTimeRemaining(endDate.toString());
-
-		time.html([
-			('0' + t.minutes).slice(-2),
-			('0' + t.seconds).slice(-2)
-		].join(":"));
-
-		return t.total <= 0;
+		$(".newday-timer").html("HUT TWO");
 	}
 
 	onAddPoint = (e: any) => {
@@ -572,7 +611,7 @@ class EditDayState extends AppState {
 		var value = parseInt(targ.text(), 10);
 
 		if (value <= 0) return;
-		
+
 		value -= 1;
 
 		targ.text(value);
@@ -584,7 +623,7 @@ class EditDayState extends AppState {
 		}
 	}
 
-	onInputChange = (e:any) => {
+	onInputChange = (e: any) => {
 
 		var currentTarget = $(e.currentTarget);
 		var inputtype = currentTarget.attr("type");
@@ -593,7 +632,7 @@ class EditDayState extends AppState {
 
 		switch (inputtype) {
 			case "number":
-				
+
 				break;
 			case "checkbox":
 
@@ -625,7 +664,7 @@ class EditDayState extends AppState {
 					} else {
 						$(".player-row a[data-for='" + player + "']").removeClass("disabled");
 					}
-					
+
 				}
 				break;
 		}
@@ -636,7 +675,7 @@ class EditDayState extends AppState {
 		$(".num-players").text(nplayers + " player" + (nplayers !== 1 ? "s" : ""));
 	}
 
-	saveChanges = (create:boolean = false, callback?:Function) => {
+	saveChanges = (create: boolean = false, callback?: Function) => {
 
 		var numPlayers = 0;
 
@@ -671,22 +710,22 @@ class EditDayState extends AppState {
 		this.send(data, command).done((data) => {
 			// Success live update
 			//console.log("Succes saving live update: ", data);
-			
+
 		})
-		.fail((data) => {
-			// Error live update
-			//console.log("Error saving live update: ", data);
-		})
-		.always((data) => {
-			// Finished live update
-			
-			if (typeof callback == "function") {
-				callback();
-			}
-		});
+			.fail((data) => {
+				// Error live update
+				//console.log("Error saving live update: ", data);
+			})
+			.always((data) => {
+				// Finished live update
+
+				if (typeof callback == "function") {
+					callback();
+				}
+			});
 	}
 
-	send = (data:any, command:string):JQueryXHR => {
+	send = (data: any, command: string): JQueryXHR => {
 
 		return $.post(Config.API_PATH, {
 			auth: Config.SERVER_KEY,
@@ -694,5 +733,5 @@ class EditDayState extends AppState {
 			command: command
 		});
 	}
-	
+
 }

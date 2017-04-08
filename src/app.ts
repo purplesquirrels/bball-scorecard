@@ -7,6 +7,7 @@
 /// <reference path="state/AdminState.ts" />
 /// <reference path="state/view/StatsView.ts" />
 /// <reference path="modal/NewPlayer.ts" />
+/// <reference path="controller/GameTimer.ts" />
 
 interface JQuery {
 	pickadate(options?: any): JQuery;
@@ -19,8 +20,9 @@ interface JQuery {
 	mixItUp(options?: any): JQuery;
 }
 
-interface Navigator {
-	serviceWorker: any;
+interface NotificationOptions {
+	vibrate: number[];
+	requireInteraction: boolean;
 }
 
 interface WindowLocalStorage {
@@ -49,7 +51,7 @@ interface Rectangle {
 }
 
 interface IChart {
-	update(data: {}[]):void;
+	update(data: {}[]): void;
 }
 
 
@@ -82,9 +84,6 @@ class App {
 			}
 		}
 
-		this.setupServiceWorker();
-
-
 		this.isArchiveMode = false;
 
 		var seasonYear: string = this.getQueryParamByName("year");
@@ -97,7 +96,7 @@ class App {
 
 			//get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
-		
+
 
 		$.post(get, {
 			auth: Config.SERVER_KEY,
@@ -106,7 +105,7 @@ class App {
 		}).done((data) => {
 			this.init(rootSelector, typeof data == "string" ? JSON.parse(data) : data);
 		}).fail((data) => {
-			
+
 			if (this.isArchiveMode) {
 
 				$.post(Config.GET_PATH, {
@@ -127,64 +126,44 @@ class App {
 
 	}
 
-	setupServiceWorker = () => {
+	/*setupServiceWorker = () => {
 		if ('serviceWorker' in navigator) {
 
 			navigator.serviceWorker.register('sw.js')
-			.then(function(reg) {
+				.then((reg) => {
 
-				if ('Notification' in window) {
-					Notification.requestPermission(function (permission) {
-						// If the user accepts, let's create a notification
-						if (permission === "granted") {
-							//var notification = new Notification("Notifications enabled!");
+					if ('Notification' in window) {
+						Notification.requestPermission((permission) => {
+							// If the user accepts, let's create a notification
+							if (permission === "granted") {
+							} else {
+								alert('You will need to enable notifications to use the built-in game timer.');
+							}
+						});
+					} else {
+						alert('Notifications not supported. Game timer will not work correctly.');
+					}
+
+					navigator.serviceWorker.addEventListener('message', (event) => {
+						if (event.data.command === "timerUpdate") {
+							this.notify({
+								message: "Game in progress : " + event.data.timeleft,
+								requireInteraction: false,
+								tag: 'game-progress'
+							});
+						}
+						else if (event.data.command === "timerEnded") {
+							this.notify({
+								message: "Game Over!",
+								requireInteraction: true,
+								tag: 'game-over'
+							});
 						}
 					});
-				} else {
-					alert('No notifaction')
-				}
 
-				navigator.serviceWorker.addEventListener('message', function(event) {
-					//console.log('sw message');
-					console.log("FROM SW", event.data);
-
-					if (event.data.command === "timerEnded") {
-						if (!("Notification" in window)) {
-							alert("Timer ended!");
-						}
-
-						// Let's check whether notification permissions have already been granted
-						else if (Notification.permission === "granted") {
-							navigator.serviceWorker.ready.then(function(registration) {
-								registration.showNotification("Game Over!", {
-									vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
-									requireInteraction: true,
-									tag: 'game-over'
-								});
-							});
-						}
-
-						// Otherwise, we need to ask the user for permission
-						else if (Notification.permission !== "denied") {
-							Notification.requestPermission(function (permission) {
-								// If the user accepts, let's create a notification
-								if (permission === "granted") {
-									navigator.serviceWorker.ready.then(function(registration) {
-										registration.showNotification("Game Over!", {
-											vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
-											requireInteraction: true,
-											tag: 'game-over'
-										});
-									});
-								}
-								
-							});
-						}
-					}
-				});
-
-				}).catch(function(error) {
-					console.log('Registration failed with ' + error);
+				}).catch(function (error) {
+					alert('Failed to set up game timer.');
+					console.log('SW Registration failed with ' + error);
 				});
 
 
@@ -193,28 +172,64 @@ class App {
 
 			$(document).click(() => {
 				if (!s) {
-					this.sendMessage({'command': 'startTimer', timerLength: 0.1});
+					this.sendMessage({ 'command': 'startTimer', timerLength: 0.1 });
 				} else {
-					this.sendMessage({'command': 'stopTimer'});
+					this.sendMessage({ 'command': 'stopTimer' });
 				}
 
 				s = !s;
 			})
 		}
-	}
+	}*/
 
-	sendMessage = (message) => {
+	/*notify(options: any) {
+		if (!("Notification" in window)) {
+			alert(options.message);
+		}
 
-	  navigator.serviceWorker.ready.then(function(){
+		// Let's check whether notification permissions have already been granted
+		else if (Notification["permission"] === "granted") {
+			navigator.serviceWorker.ready.then(function (registration) {
+				registration.showNotification(options.message, {
+					icon: 'favicon/apple-touch-icon-72x72.png',
+					vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+					requireInteraction: options.requireInteraction,
+					tag: options.tag
+				});
+			});
+		}
+
+		// Otherwise, we need to ask the user for permission
+		else if (Notification["permission"] !== "denied") {
+			Notification.requestPermission(function (permission) {
+				// If the user accepts, let's create a notification
+				if (permission === "granted") {
+					navigator.serviceWorker.ready.then(function (registration) {
+						registration.showNotification(options.message, {
+							icon: 'favicon/apple-touch-icon-72x72.png',
+							vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+							requireInteraction: options.requireInteraction,
+							tag: options.tag
+						});
+					});
+				}
+
+			});
+		}
+	}*/
+
+	/*sendMessage = (message) => {
+
+		navigator.serviceWorker.ready.then(function () {
 
 
-	  	console.log("serviceWorker ready");
-	  	console.log("postMessage", message);
+			console.log("serviceWorker ready");
+			console.log("postMessage", message);
 
-		    navigator.serviceWorker.controller.postMessage(message);
-	  });
+			navigator.serviceWorker.controller.postMessage(message);
+		});
 
-	}
+	}*/
 
 	init = (rootSelector: string = ".app", data: any) => {
 
@@ -224,18 +239,18 @@ class App {
 
 		NumberCruncher.init(<ScoreData>data);
 		Badger.init(this.scoreController);
-		
+
 		this.root = <HTMLDivElement>document.querySelector(rootSelector);
 		this.scoreboardRoot = <HTMLDivElement>this.root.querySelector(".scoreboard");
 		this.statsRoot = <HTMLDivElement>this.root.querySelector(".stats");
 
 		this.templates = {};
 
-		$.get("templates/templates.html?_"+Math.round(Math.random()*100000)).then((data) => {
+		$.get("templates/templates.html?_" + Math.round(Math.random() * 100000)).then((data) => {
 
 			$(data).each((index, element) => {
 
-				if (element.nodeName.toLowerCase() === "script"){
+				if (element.nodeName.toLowerCase() === "script") {
 					this.templates[element.id] = $(element).html();
 
 					if (element.id.indexOf("partial_") > -1) {
@@ -253,22 +268,22 @@ class App {
 
 		$(".initital-preloader").remove(); // removes the preloader
 
-		Handlebars.registerHelper('plural', function(v1) {
+		Handlebars.registerHelper('plural', function (v1) {
 			return v1 > 1 ? "s" : "";
 		});
 
-		Handlebars.registerHelper('multiple', function(v1, options) {
+		Handlebars.registerHelper('multiple', function (v1, options) {
 			return v1 > 1 ? options.fn(this) : options.inverse(this);
 		});
 
-		Handlebars.registerHelper('isPlayingCheck', function(played) {
+		Handlebars.registerHelper('isPlayingCheck', function (played) {
 			return played ? 'checked' : '';
 		});
-		Handlebars.registerHelper('isLate', function(late) {
+		Handlebars.registerHelper('isLate', function (late) {
 			return late ? 'checked' : '';
 		});
 
-		Handlebars.registerHelper('isPlayingEnable', function(played) {
+		Handlebars.registerHelper('isPlayingEnable', function (played) {
 			return !played ? 'disabled' : '';
 		});
 
@@ -315,7 +330,7 @@ class App {
 
 			this.scoreboardRoot.appendChild(header);
 
-			
+
 			var authSource = this.templates["modal-app-auth"];
 			var authTemplate: HandlebarsTemplateDelegate = Handlebars.compile(authSource);
 			var authhtml = authTemplate({});
@@ -325,9 +340,9 @@ class App {
 
 			$('#authmodal').openModal({
 				dismissible: false, // Modal can be dismissed by clicking outside of the modal
-				ready: function() { 
+				ready: function () {
 
-					$(".pin-button").bind("click", function(e) {
+					$(".pin-button").bind("click", function (e) {
 						e.preventDefault();
 
 						var n = $(this).text();
@@ -351,12 +366,12 @@ class App {
 					});
 
 				},
-				complete: function() {  }
+				complete: function () { }
 			});
-			
-			this.states.edit = new EditDayState(this.scoreController, this, {mode:"edit"});
+
+			this.states.edit = new EditDayState(this.scoreController, this, { mode: "edit" });
 			this.states.newDay = new EditDayState(this.scoreController, this, { mode: "new" });
-			this.states.admin = new AdminState(this.scoreController, this, {mode:"admin"});			
+			this.states.admin = new AdminState(this.scoreController, this, { mode: "admin" });
 
 		}
 
@@ -371,7 +386,7 @@ class App {
 
 	}
 
-	onSettingsItem = (e:MouseEvent) => {
+	onSettingsItem = (e: MouseEvent) => {
 		e.preventDefault();
 
 		var action = $(e.currentTarget).data("action");
@@ -388,7 +403,7 @@ class App {
 		this.buttonActions[action[0]](action[1], options);
 	}
 
-	setState = (state:string, renderoptions?:any) => {
+	setState = (state: string, renderoptions?: any) => {
 
 		for (var s in this.states) {
 			if (this.states.hasOwnProperty(s)) {
@@ -402,7 +417,7 @@ class App {
 		this.states[state].element.style.display = "block";
 	}
 
-	private storageAvailable(type):boolean {
+	private storageAvailable(type): boolean {
 		try {
 			var storage: WindowLocalStorage = window[type],
 				x = '__storage_test__';
@@ -418,9 +433,9 @@ class App {
 	getQueryParamByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(location.search);
+			results = regex.exec(location.search);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-	
+
 }

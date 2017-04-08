@@ -1,28 +1,20 @@
 <script id="view-template" type="text/x-handlebars-template">
-<div class="main-header">
-	<div class="banner-wrap">
-		<iframe class="banner" src="headers/{{banner}}" scrolling="no" name="{{title}} - {{dates}}"></iframe>
-		{{#if grandfinal}}
-			<img class="grandfinal-image" src='images/trophy.png'>
-		{{/if}}
-	</div>
-	<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
-	
-	<a class="bb-button bb-purple view-stats" title="View statistics"><i class='material-icons'>timeline</i></a>
+	<div class="main-header">
+		<div class="banner-wrap">
+			<iframe class="banner" src="headers/{{banner}}" scrolling="no" name="{{title}} - {{dates}}"></iframe>
+			{{#if grandfinal}}
+			<img class="grandfinal-image" src='images/trophy.png'> {{/if}}
+		</div>
+		<h3 class="daysleft seasondate lighten-2">{{{daysleft}}}</h3>
 
-	{{#if showDetails}}
-		<a class="bb-button bb-purple game-details" title="View more detail for day {{gamenumber}}">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}</a>
-	{{/if}}
-</div>
-<div class="body">
-	{{#if gamesPlayed}}
-		{{> viewListTemplate }}
-	{{else}}
-		{{> viewListTemplateEmpty }}
-	{{/if}}	
-</div>
-<div class="main-footer">
-	<select class="season-selector">
+		<a class="bb-button bb-purple view-stats" title="View statistics"><i class='material-icons'>timeline</i></a> {{#if showDetails}}
+		<a class="bb-button bb-purple game-details" title="View more detail for day {{gamenumber}}">Day {{gamenumber}} details {{#if inProgress}}(in progress){{/if}}</a>		{{/if}}
+	</div>
+	<div class="body">
+		{{#if gamesPlayed}} {{> viewListTemplate }} {{else}} {{> viewListTemplateEmpty }} {{/if}}
+	</div>
+	<div class="main-footer">
+		<select class="season-selector">
 		<option value="" disabled selected>other seasons...</option>
 		{{#if isArchive}}
 			<option value="current">Current season</option>
@@ -31,63 +23,67 @@
 		<!-- <option value="2016|summer">Summer 2016</option> -->
 		<option value="{{year}}|{{season}}">{{name}}</option>
 		{{/each}}
-	</select>
-	{{#if gamesPlayed}}
+	</select> {{#if gamesPlayed}}
 		<h4 class="lastupdate">Last update: <strong>Day {{gamenumber}}</strong> ({{lastupdate}})</h4>
-	{{/if}}	
-	<a href="https://www.suggestionox.com/r/giS4wY" class="suggestion-link" target="_blank"><i class='material-icons left'>comment</i>Have a suggestion?</a>
-</div>
+		{{/if}}
+		<a href="https://www.suggestionox.com/r/giS4wY" class="suggestion-link" target="_blank"><i class='material-icons left'>comment</i>Have a suggestion?</a>
+	</div>
 </script>
 
 <script id="partial_view-list-template-empty" data-name="viewListTemplateEmpty" type="text/x-handlebars-template">
-<div class="no-games-message">
-	<h2 class="empty-state-message">No games played</h2>
-</div>
+	<div class="no-games-message">
+		<h2 class="empty-state-message">No games played</h2>
+	</div>
 </script>
 
 <script id="partial_view-list-template" data-name="viewListTemplate" type="text/x-handlebars-template">
-<div class="sort-menu">
-	<a class="powergreg-button bb-button bb-purple " title="Toggle Powergreg"><i class="material-icons">flash_on</i>Powergreg</a>
-	<span class="sort-options">
+	<div class="sort-menu">
+		<a class="powergreg-button bb-button bb-purple " title="Toggle Powergreg"><i class="material-icons">flash_on</i>Powergreg</a>
+		<span class="sort-options">
 		<span class="sort-label">Sort by</span>
 		<a class="sort bb-button bb-purple sort-default active" data-sort="default" title="Official score">Score</a>
 		<!-- <a class="sort bb-button bb-purple" data-sort="averagescore:desc" title="Average points per game">Av pts</a> -->
 		<!-- <a class="sort bb-button bb-purple" data-sort="rawscore:desc" title="Score without multipliers or bonuses">Raw score</a> -->
 		<!-- <a class="sort bb-button bb-purple" data-sort="averagerawscore:desc" title="Average points per game without multipliers or bonuses">Av raw points</a> -->
 		<a class="sort bb-button bb-purple" data-sort="averagerawandbonus:desc" title="Average raw score plus bonuses">Average</a>
-	</span>
+		</span>
 
-</div>
-<table class="mainlist-header">
-	<thead>
-		<tr>
-			<th width='35%' title="Player's current rank" class='center'>Player</th>
-			<th width='25%' title="Total games played in season" class='center'>Games</th>
-			<th width='25%' title="Player's calculated score (includes bonuses and multipliers)" class='center'><span class="sortby-label">Score</span></th>
-			<th width='15%'  title="Change in rank from last game" style="text-align:center" class='center'>&#8645;</th>
-		</tr>
-	</thead>
-</table>
-<!-- <ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion"> -->
-<ul class="collapsible leaderboard showing" id="leaderboard">
-	{{#each rankings}}
-	<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}" data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}" data-averagerawandbonus="{{this.averagerawandbonus}}">
-		<div class="playeritem collapsible-header">
-			<table class="mainlist">	
-				<tbody >
-					<tr class="{{this.rankclass}}">
-						
-						<td width='15%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
-						<td width='20%'>{{this.firstname}}</td>
-						<td width='25%' class='center'>{{this.totalgames}}</td>
-						<td width='25%' class='center'><span class="sortby-value">{{this.score}}</span></td>
-						<td width='15%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
-						
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<!-- <div class="collapsible-body">
+	</div>
+	<table class="mainlist-header">
+		<thead>
+			<tr>
+				<th width='35%' title="Player's current rank" class='center'>Player</th>
+				<th width='25%' title="Total games played in season" class='center'>Games</th>
+				<th width='25%' title="Player's calculated score (includes bonuses and multipliers)" class='center'><span class="sortby-label">Score</span></th>
+				<th width='15%' title="Change in rank from last game" style="text-align:center" class='center'>&#8645;</th>
+			</tr>
+		</thead>
+	</table>
+	<!-- <ul class="collapsible leaderboard" id="leaderboard" data-collapsible="accordion"> -->
+	<ul class="collapsible leaderboard showing" id="leaderboard">
+		{{#each rankings}}
+		<li class="mix" data-score="{{this.score}}" data-averagerawscore="{{this.averagerawscore}}" data-averagescore="{{this.averagescore}}"
+		 data-rawscore="{{this.rawscore}}" data-totalgames="{{this.totalgames}}" data-averagerawandbonus="{{this.averagerawandbonus}}">
+			<div class="playeritem collapsible-header">
+				<table class="mainlist">
+					<tbody>
+						<tr class="{{this.rankclass}}">
+
+							<td width='15%' class='center'>
+								<div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong>
+								</div>
+								<div class="rank"><strong>{{this.rank}}</strong></div>
+							</td>
+							<td width='20%'>{{this.firstname}}</td>
+							<td width='25%' class='center'>{{this.totalgames}}</td>
+							<td width='25%' class='center'><span class="sortby-value">{{this.score}}</span></td>
+							<td width='15%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- <div class="collapsible-body">
 			<div class="stat-box blue"><strong>Av raw score</strong><br><span class="stat-value">{{this.averagerawscore}}</span></div>
 			<div class="stat-box yellow darken-1"><strong>Days in 1<sup>st</sup></strong><br><span class="stat-value">{{this.daysatfirst}}</span></div>
 			<div class="stat-box teal"><strong>Raw score</strong><br><span class="stat-value">{{this.rawscore}}</span></div>
@@ -98,90 +94,102 @@
 			<div class="stat-box green darken-4"><strong>Late starts</strong><br><span class="stat-value">{{this.latestarts}}</span></div>
 			<div class="stat-box blue darken-1"><strong>Laps</strong><br><span class="stat-value">{{this.totallaps}}</span></div>
 		</div> -->
-	</li>
-	{{/each}}
-</ul>
-{{> powergregTemplate }}
+		</li>
+		{{/each}}
+	</ul>
+	{{> powergregTemplate }}
 </script>
 
 <script id="partial_view-powergreg" data-name="powergregTemplate" type="text/x-handlebars-template">
-<ul class="collapsible powergreg" id="powergreg">
-	{{#each rankings}}
-	<li class="mix" data-score="{{this.score}}">
-		<div class="playeritem collapsible-header">
-			<table class="mainlist">	
-				<tbody >
-					<tr class="{{this.rankclass}}">
-						<td width='15%' class='center'><div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong></div><div class="rank"><strong>{{this.rank}}</strong></div></td>
-						<td width='20%'>{{this.firstname}}</td>
-						<td width='65%'>
-						{{#if this.hasPowerups}}
-							{{#each this.powerups}}
-							<div title="{{this.name}}">
-							<span class='powerbar powerbar-{{this.health}}'>
+	<ul class="collapsible powergreg" id="powergreg">
+		{{#each rankings}}
+		<li class="mix" data-score="{{this.score}}">
+			<div class="playeritem collapsible-header">
+				<table class="mainlist">
+					<tbody>
+						<tr class="{{this.rankclass}}">
+							<td width='15%' class='center'>
+								<div class="avatar"><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" /></strong>
+								</div>
+								<div class="rank"><strong>{{this.rank}}</strong></div>
+							</td>
+							<td width='20%'>{{this.firstname}}</td>
+							<td width='65%'>
+								{{#if this.hasPowerups}} {{#each this.powerups}}
+								<div title="{{this.name}}">
+									<span class='powerbar powerbar-{{this.health}}'>
 								<div class="powerbar-dividers">
 									<span></span>
 									<span></span>
 									<span></span>
 									<span></span>
 								</div>
-							</span><img src='images/icons/{{this.id}}.png'>
-							<div>
-							{{/each}}
-						{{else}}
-							<div title="No current powerups">
-							<span class='powerbar powerbar-0'>
+								</span><img src='images/icons/{{this.id}}.png'>
+								<div>
+									{{/each}} {{else}}
+									<div title="No current powerups">
+										<span class='powerbar powerbar-0'>
 								<div class="powerbar-dividers">
 									<span></span>
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-							</span>
-							<div>
-						{{/if}}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</li>
-	{{/each}}
-</ul>
+										<span></span>
+										<span></span>
+										<span></span>
+									</div>
+									</span>
+									<div>
+										{{/if}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+		</li>
+		{{/each}}
+	</ul>
 </script>
 
 <script id="preloader-overlay-template" type="text/x-handlebars-template">
-<div class="preloader-overlay {{overlayClass}}">{{> preloaderTemplate }}</div>
+	<div class="preloader-overlay {{overlayClass}}">{{> preloaderTemplate }}</div>
 </script>
 
 <script id="partial_preloader-template" data-name="preloaderTemplate" type="text/x-handlebars-template">
-<div class="spinner preloader-wrapper small active">
-	<div class="spinner-layer spinner-green-only">
-		<div class="circle-clipper left">
-			<div class="circle"></div>
-		</div><div class="gap-patch">
-			<div class="circle"></div>
-		</div><div class="circle-clipper right">
-			<div class="circle"></div>
+	<div class="spinner preloader-wrapper small active">
+		<div class="spinner-layer spinner-green-only">
+			<div class="circle-clipper left">
+				<div class="circle"></div>
+			</div>
+			<div class="gap-patch">
+				<div class="circle"></div>
+			</div>
+			<div class="circle-clipper right">
+				<div class="circle"></div>
+			</div>
 		</div>
 	</div>
-</div>
 </script>
 
 <script id="app-header-template" type="text/x-handlebars-template">
-  <a class='header-settings btn-flat btn-large waves-effect waves-light deep-purple lighten-1' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
-  <ul id='settings-dropdown' class='dropdown-content'>
-  {{#if daynotcreated }}
-    <li><a href="#" data-action='state:newDay' data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a></li>
-  {{/if}}
-    <li><a href="#" data-action="state:edit" data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a></li>
-    <li><a href="#" data-action="state:admin" class="deep-purple-text text-lighten-1"><i class='material-icons left'>security</i>Admin</a></li>
-  </ul>
+	<a class='header-settings btn-flat btn-large waves-effect waves-light deep-purple lighten-1' href='#' data-activates='settings-dropdown'><i class="material-icons">settings</i></a>
+	<ul id='settings-dropdown' class='dropdown-content'>
+		{{#if daynotcreated }}
+		<li>
+			<a href="#" data-action='state:newDay' data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>library_add</i>New game day</a>
+		</li>
+		{{/if}}
+		<li>
+			<a href="#" data-action="state:edit" data-options='{&quot;editday&quot;:0}' class="deep-purple-text text-lighten-1"><i class='material-icons left'>mode_edit</i>Edit most recent day</a>
+		</li>
+		<li><a href="#" data-action="state:admin" class="deep-purple-text text-lighten-1"><i class='material-icons left'>security</i>Admin</a></li>
+	</ul>
 </script>
+
 
 <script id="newday-template" type="text/x-handlebars-template">
 	<h1 class="header">{{title}}</h1>
-	{{#if isEdit }}<!-- empty -->{{else}}<h2 class="newday-timer">00:00</h2>{{/if}}
+	{{#if isEdit }}
+	<!-- empty -->{{else}}
+	<button class="waves-effect waves-light btn action-btn green start-game">Start game</button>
+	<h2 class="newday-timer">00:00</h2>{{/if}}
 	<div class="body">
 		<div class="newday-tools">
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn add-player"><i class='material-icons left'>library_add</i>Add player</button>
@@ -225,7 +233,7 @@
 
 		<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn lock-players"><i class='material-icons left'>lock_open</i><span>Only show playing</span></button>
 		<div class="num-players">0 players</div>
-		
+
 		<table class="mainlist striped editmode centered">
 			<thead>
 				<tr>
@@ -251,68 +259,89 @@
 			</thead>
 		</table>
 		<ul class="playerlist collapsible" data-collapsible="accordion">
-		{{#each players}}
-			{{#if this.active}}
-			{{> newdayItem }}
-			{{/if}}
-		{{/each}}
+			{{#each players}} {{#if this.active}} {{> newdayItem }} {{/if}} {{/each}}
 		</ul>
 	</div>
 </script>
 
 <script id="partial_newday-item" data-name="newdayItem" type="text/x-handlebars-template">
 	<li class='player-row{{#if this.played}} isPlaying{{/if}}'>
-		<div class="collapsible-header"><div class="accordion-header-blocker"></div><div class="accordion-header-icon"></div><table>
-			<thead>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-				<tr width="11.11111%"> </tr>
-			</thead>
-			<tbody>
-			<tr class="player-row-header">
-				<td colspan="9">
-					<div class='playername'>{{this.firstname}}</div><div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div>
-				</td>
-			</tr>
-			<tr class="player-row-main-buttons">
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01">{{this.point01}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02">{{this.point02}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02B}}" data-for="{{this.id}}" data-value="point02B">{{this.point02B}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03">{{this.point03}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.boundy}}" data-for="{{this.id}}" data-value="boundy">{{this.boundy}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01">{{this.bonus01}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02">{{this.bonus02}}</button></div></td>
-				<td width="11.11111%"><div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04">{{this.bonus04}}</button></div></td>
-				<td width="11.11111%"><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="badge" id='badge-{{@index}}'><i class='material-icons' style='margin:0'>brightness_high</i></a></td>
-			</tr>
-			</tbody>
-		</table></div>
+		<div class="collapsible-header">
+			<div class="accordion-header-blocker"></div>
+			<div class="accordion-header-icon"></div>
+			<table>
+				<thead>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+					<tr width="11.11111%"> </tr>
+				</thead>
+				<tbody>
+					<tr class="player-row-header">
+						<td colspan="9">
+							<div class='playername'>{{this.firstname}}</div>
+							<div class='switch'><label><input type='checkbox' class='isPlaying' data-for="{{this.id}}" data-value="playing" {{isPlayingCheck this.played}}><span class='lever'></span></label></div>
+						</td>
+					</tr>
+					<tr class="player-row-main-buttons">
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point01}}" data-for="{{this.id}}" data-value="point01">{{this.point01}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02}}" data-for="{{this.id}}" data-value="point02">{{this.point02}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point02B}}" data-for="{{this.id}}" data-value="point02B">{{this.point02B}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.point03}}" data-for="{{this.id}}" data-value="point03">{{this.point03}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input' value="{{this.boundy}}" data-for="{{this.id}}" data-value="boundy">{{this.boundy}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus01}}" data-for="{{this.id}}" data-value="bonus01">{{this.bonus01}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus02}}" data-for="{{this.id}}" data-value="bonus02">{{this.bonus02}}</button></div>
+						</td>
+						<td width="11.11111%">
+							<div class="circle-button"><button {{isPlayingEnable this.played}} class='point-input teal' value="{{this.bonus04}}" data-for="{{this.id}}" data-value="bonus04">{{this.bonus04}}</button></div>
+						</td>
+						<td width="11.11111%"><a href="#" class='bb-button bb-purple point-button add-badge {{isPlayingEnable this.played}}' data-for="{{this.id}}"
+							 data-value="badge" id='badge-{{@index}}'><i class='material-icons' style='margin:0'>brightness_high</i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<div class="player-row-secondary-buttons collapsible-body">
 			<table>
 				<tbody>
-				<tr>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point01">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02B">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point03">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="boundy">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus01">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus02">-</button></td>
-					<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus04">-</button></td>
-					<td width="11.11111%"></td>
-				</tr>
+					<tr>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point01">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point02B">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="point03">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="boundy">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus01">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus02">-</button></td>
+						<td width="11.11111%"><button {{isPlayingEnable this.played}} class="point-subtract" data-for="{{this.id}}" data-value="bonus04">-</button></td>
+						<td width="11.11111%"></td>
+					</tr>
 				</tbody>
 			</table>
-			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='isLate point-check' data-for="{{this.id}}" data-value="late" id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
+			<div class="late-control"><input {{isPlayingEnable this.played}} type='checkbox' class='isLate point-check' data-for="{{this.id}}" data-value="late"
+				 id='islate-{{@index}}' {{isLate this.late}}><label for='islate-{{@index}}'>Late</label></div>
 			<div>
-				<a href="#" class='bb-button bb-purple point-button new-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="addpowerup" id='powerup-{{@index}}'>+<i class='material-icons'>flash_on</i></a>
-				<a href="#" class='bb-button bb-purple point-button use-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="usepowerup" id='use-powerup-{{@index}}'><i class='material-icons'>flash_off</i></a>
+				<a href="#" class='bb-button bb-purple point-button new-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="addpowerup"
+				 id='powerup-{{@index}}'>+<i class='material-icons'>flash_on</i></a>
+				<a href="#" class='bb-button bb-purple point-button use-powerup {{isPlayingEnable this.played}}' data-for="{{this.id}}" data-value="usepowerup"
+				 id='use-powerup-{{@index}}'><i class='material-icons'>flash_off</i></a>
 			</div>
 		</div>
 	</li>
@@ -333,151 +362,156 @@
 </script> -->
 
 <script id="modal-app-auth" type="text/x-handlebars-template">
-   <div id="authmodal" class="modal">
-    <div class="modal-content">
-      <h4>Enter pin</h4>
-      <input class="pin-display" type="text" disabled></input>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">1</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">2</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">3</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">4</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">5</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">6</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">7</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">8</a>
-	  <a class="waves-effect btn-flat deep-purple lighten-1 pin-button">9</a>
-    </div>
-  </div>
+	<div id="authmodal" class="modal">
+		<div class="modal-content">
+			<h4>Enter pin</h4>
+			<input class="pin-display" type="text" disabled></input>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">1</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">2</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">3</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">4</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">5</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">6</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">7</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">8</a>
+			<a class="waves-effect btn-flat deep-purple lighten-1 pin-button">9</a>
+		</div>
+	</div>
 </script>
 
 <script id="modal-game-details" type="text/x-handlebars-template">
-   <div id="gamedetails-modal" class="modal">
-    <div class="modal-content">
-      
-         <div class="input-field col s12 day-select-wrap">
-			<select class="day-select browser-default">
+	<div id="gamedetails-modal" class="modal">
+		<div class="modal-content">
+
+			<div class="input-field col s12 day-select-wrap">
+				<select class="day-select browser-default">
 			{{#each games}}
 				<option value="{{this.value}}" {{#if this.isToday}}selected{{/if}}>Day {{this.day}}</option>
 			{{/each}}
 			</select>
+			</div>
+
+			<div class="game-details-table">
+				{{> gameDetailsTable }}
+			</div>
 		</div>
-      
-      <div class="game-details-table">
-     	 {{> gameDetailsTable }}
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a>
-    </div>
-  </div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close bb-button bb-purple">Close</a>
+		</div>
+	</div>
 </script>
 
 <script id="partial_game-details-table" data-name="gameDetailsTable" type="text/x-handlebars-template">
-<div class="details-header">
-	<h4 class="details-heading">Day {{gamenumber}}<span>{{{gamedate}}}</span><span class="numplayers">{{numPlayers}} players</span></h4>
-<!-- 	<h5 class="details-player-title">{{numPlayers}} players</h5> -->
-  	<div class="game-conditions">
-	      <div class="condition-item"><strong>Temp</strong> {{conditions.temp}}&deg;</div>
-	      <div class="condition-item"><strong>Felt like</strong> {{conditions.apptemp}}&deg;</div>
-	      <div class="condition-item"><strong>Wind</strong> {{conditions.winddir}} {{conditions.windspd}}kph</div>
-	      <div class="condition-item"><strong>Humidity</strong> {{conditions.humidity}}%</div>
+	<div class="details-header">
+		<h4 class="details-heading">Day {{gamenumber}}<span>{{{gamedate}}}</span><span class="numplayers">{{numPlayers}} players</span></h4>
+		<!-- 	<h5 class="details-player-title">{{numPlayers}} players</h5> -->
+		<div class="game-conditions">
+			<div class="condition-item"><strong>Temp</strong> {{conditions.temp}}&deg;</div>
+			<div class="condition-item"><strong>Felt like</strong> {{conditions.apptemp}}&deg;</div>
+			<div class="condition-item"><strong>Wind</strong> {{conditions.winddir}} {{conditions.windspd}}kph</div>
+			<div class="condition-item"><strong>Humidity</strong> {{conditions.humidity}}%</div>
+		</div>
 	</div>
-</div>
-<table class="striped centered">
-	<thead>
-		<tr>
-			<th style="width:22%">Name</th>
-			<th>New rank</th>
-			<th>Pts</th>
-			<th>Bonuses</th>
-			<th></th>
-			<th></th>
-			<th>Score</th>
-			<th style="width:7%"></th>
-		</tr>
-	</thead>
-	<tbody>
-		{{#each players}}
-		<tr class="game-details-player">
-			<td>{{this.firstname}}</td>
-			<td>{{this.rank}}</td>
-			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × half key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × full key  {{/if}}{{#if this.point02B}}  {{this.point02B}} × half 3  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
-</td>
-			<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
-			<td><div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div></td>
-			<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
-			<td>{{this.score}}</td>
-			<td style="padding-top:10px;padding-bottom:5px;">
-			{{#if this.powerup}}
-				<!-- <i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}} -->
-				{{#each this.receivedPowerups}}
-				<span><img width="24px" height="24px" title="Received: {{this.id}}" src="images/icons/received-{{this.id}}.png" /></span>
-				{{/each}}
-			{{/if}}
-			<!-- {{#if this.usedPowerup}}<i class='material-icons icon-powerup' title='Used a power up'>flash_off</i>{{/if}} -->
-			{{#if this.usedPowerup}}
-				{{#each this.usedPowerups}}
-				<span><img width="24px" height="24px" title="Used: {{this.id}}" src="images/icons/used-{{this.id}}.png" /></span>
-				{{/each}}
-			{{/if}}
-			</td>
-		</tr>
-		{{/each}}
-	</tbody>
-</table>
+	<table class="striped centered">
+		<thead>
+			<tr>
+				<th style="width:22%">Name</th>
+				<th>New rank</th>
+				<th>Pts</th>
+				<th>Bonuses</th>
+				<th></th>
+				<th></th>
+				<th>Score</th>
+				<th style="width:7%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each players}}
+			<tr class="game-details-player">
+				<td>{{this.firstname}}</td>
+				<td>{{this.rank}}</td>
+				<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.point01}}  {{this.point01}} × half key  {{else}}No points{{/if}}{{#if this.point02}}  {{this.point02}} × full key  {{/if}}{{#if this.point02B}}  {{this.point02B}} × half 3  {{/if}}{{#if this.point03}}  {{this.point03}} × full 3  {{/if}}{{#if this.boundy}}  {{this.boundy}} × boundy  {{/if}}">{{this.rawscore}}</a>
+				</td>
+				<td><a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{#if this.bonuses}}{{else}}No bonuses{{/if}}{{#if this.bonus01}}  {{this.bonus01}} × 1st key  {{/if}}{{#if this.bonus02}}  {{this.bonus02}} × 2nd key  {{/if}}{{#if this.bonus03}}  {{this.bonus03}} × full key  {{/if}}{{#if this.bonus04}}  {{this.bonus04}} × full 3pt  {{/if}}">{{this.bonuses}}</a></td>
+				<td>
+					<div class="multiplier multiplier-{{this.multiplier}}">&times;{{this.multiplier}}</div>
+				</td>
+				<td>{{#if this.late}} <i class='material-icons icon-latebonus' title='Late bonus'>schedule</i>{{/if}}</td>
+				<td>{{this.score}}</td>
+				<td style="padding-top:10px;padding-bottom:5px;">
+					{{#if this.powerup}}
+					<!-- <i class='material-icons icon-powerup' title='Received a power up'>battery_charging_full</i>{{#multiple this.numpowerups}}{{this.numpowerups}}{{/multiple}} -->
+					{{#each this.receivedPowerups}}
+					<span><img width="24px" height="24px" title="Received: {{this.id}}" src="images/icons/received-{{this.id}}.png" /></span>					{{/each}} {{/if}}
+					<!-- {{#if this.usedPowerup}}<i class='material-icons icon-powerup' title='Used a power up'>flash_off</i>{{/if}} -->
+					{{#if this.usedPowerup}} {{#each this.usedPowerups}}
+					<span><img width="24px" height="24px" title="Used: {{this.id}}" src="images/icons/used-{{this.id}}.png" /></span> {{/each}}
+					{{/if}}
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
 </script>
 
 <script id="game-in-progress-message" type="text/x-handlebars-template">
-<div class="message {{messageStyle}} game-in-progress">
-	<p>Game is currently in progress<br><span class="late-bonus">Late bonus now applies<br></span>(<span class="time-left">{{timeleft}}</span> remaining)</p>
-</div>
+	<div class="message {{messageStyle}} game-in-progress">
+		<p>Game is currently in progress<br><span class="late-bonus">Late bonus now applies<br></span>(<span class="time-left">{{timeleft}}</span>			remaining)</p>
+	</div>
 </script>
 
 <script id="stats-panel-header" type="text/x-handlebars-template">
-<div class="stats-header">
-	<ul class="stats-menu">
-		<li class="stats-menu-item season-stats" data-id="season">
-			<div class="stats-menu-icon menu-avatar">
-				<svg class="stats-menu-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40.3 40.3"><path fill="#FFF" d="M20.2 40.3C9 40.3 0 31.3 0 20.2S9 0 20.2 0s20.2 9 20.2 20.2-9.1 20.1-20.2 20.1zm0-38.3C10.1 2 2 10.1 2 20.2s8.1 18.2 18.2 18.2 18.2-8.1 18.2-18.2S30.2 2 20.2 2z"/><path fill="#FFF" d="M19.2 1h2v38.3h-2z"/><path fill="#FFF" d="M1 19.2h38.3v2H1z"/><path fill="#FFF" d="M12.8 20.2c0 5.4-2.4 10.2-6.1 13.6.5.5 1 .9 1.5 1.3 4.1-3.7 6.6-9 6.6-14.9S12.2 9 8.2 5.3c-.5.4-1 .9-1.5 1.3 3.7 3.3 6.1 8.2 6.1 13.6zM27.6 20.2c0-5.4 2.4-10.2 6.1-13.6-.5-.5-1-.9-1.5-1.3-4.1 3.7-6.6 9-6.6 14.9s2.6 11.2 6.6 14.9c.5-.4 1-.9 1.5-1.3-3.8-3.4-6.1-8.2-6.1-13.6z"/></svg>
-			</div>
-			<div class="stat-menu-item-label" data-id="season">Season</div>
-		</li>
-		{{#each players}}
-		<li class="stats-menu-item player-stats" data-id="{{this.id}}">
-			<div class="stats-menu-icon menu-avatar">
-				<img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" width="100%"/>
-			</div>
-			<div class="stat-menu-item-label" data-id="{{this.id}}">{{this.firstname}}</div>
-		</li>
-		{{/each}}
-	</ul>
-	<div class="season-stats-holder"></div>
-</div>
+	<div class="stats-header">
+		<ul class="stats-menu">
+			<li class="stats-menu-item season-stats" data-id="season">
+				<div class="stats-menu-icon menu-avatar">
+					<svg class="stats-menu-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40.3 40.3">
+						<path fill="#FFF" d="M20.2 40.3C9 40.3 0 31.3 0 20.2S9 0 20.2 0s20.2 9 20.2 20.2-9.1 20.1-20.2 20.1zm0-38.3C10.1 2 2 10.1 2 20.2s8.1 18.2 18.2 18.2 18.2-8.1 18.2-18.2S30.2 2 20.2 2z"
+						/>
+						<path fill="#FFF" d="M19.2 1h2v38.3h-2z" />
+						<path fill="#FFF" d="M1 19.2h38.3v2H1z" />
+						<path fill="#FFF" d="M12.8 20.2c0 5.4-2.4 10.2-6.1 13.6.5.5 1 .9 1.5 1.3 4.1-3.7 6.6-9 6.6-14.9S12.2 9 8.2 5.3c-.5.4-1 .9-1.5 1.3 3.7 3.3 6.1 8.2 6.1 13.6zM27.6 20.2c0-5.4 2.4-10.2 6.1-13.6-.5-.5-1-.9-1.5-1.3-4.1 3.7-6.6 9-6.6 14.9s2.6 11.2 6.6 14.9c.5-.4 1-.9 1.5-1.3-3.8-3.4-6.1-8.2-6.1-13.6z"
+						/>
+					</svg>
+				</div>
+				<div class="stat-menu-item-label" data-id="season">Season</div>
+			</li>
+			{{#each players}}
+			<li class="stats-menu-item player-stats" data-id="{{this.id}}">
+				<div class="stats-menu-icon menu-avatar">
+					<img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" width="100%" />
+				</div>
+				<div class="stat-menu-item-label" data-id="{{this.id}}">{{this.firstname}}</div>
+			</li>
+			{{/each}}
+		</ul>
+		<div class="season-stats-holder"></div>
+	</div>
 </script>
 
 <script id="stats-panel-season-stats-empty" type="text/x-handlebars-template">
-<div class="stat-view">
-	<h2 class="empty-state-message">No games played</h2>	
-</div>
+	<div class="stat-view">
+		<h2 class="empty-state-message">No games played</h2>
+	</div>
 </script>
 
 
 <script id="stats-panel-season-stats" type="text/x-handlebars-template">
-<div class="stat-view">
-	<div class="col-1-4 season-stats-left">
-		<div class="stat-holder left-1">
-			<h3>Season progress</h3>
+	<div class="stat-view">
+		<div class="col-1-4 season-stats-left">
+			<div class="stat-holder left-1">
+				<h3>Season progress</h3>
+			</div>
+			<div class="stat-holder left-2">
+				<h3>Days in 1<sup>st</sup></h3>
+			</div>
 		</div>
-		<div class="stat-holder left-2">
-			<h3>Days in 1<sup>st</sup></h3>
-		</div>
-	</div>
-	<div class="col-3-4 season-stats-right">
-		<div class="stat-holder right-1">
+		<div class="col-3-4 season-stats-right">
+			<div class="stat-holder right-1">
 
-			<h3>Leaders</h3>
-			<div class="leader-stats">
-				<!-- <div class="leader-stat" data-value="{{totalscore_value}}">
+				<h3>Leaders</h3>
+				<div class="leader-stats">
+					<!-- <div class="leader-stat" data-value="{{totalscore_value}}">
 					<div class="leader-stat-ring">
 						<span class="label">0</span>
 					</div>
@@ -486,104 +520,105 @@
 					<h4>{{{totalscore_playername}}}</h4>
 				</div> -->
 
-				<div class="leader-stat" data-value="{{rawscore_value}}">
-					<div class="leader-stat-ring">
-						<span class="label">0</span>
+					<div class="leader-stat" data-value="{{rawscore_value}}">
+						<div class="leader-stat-ring">
+							<span class="label">0</span>
+						</div>
+						<h3>Raw<br>score</h3>
+						<hr/>
+						<h4>{{{rawscore_playername}}}</h4>
 					</div>
-					<h3>Raw<br>score</h3>
-					<hr/>
-					<h4>{{{rawscore_playername}}}</h4>
+
+					<div class="leader-stat" data-value="{{highestscore_value}}">
+						<div class="leader-stat-ring">
+							<span class="label">0</span>
+						</div>
+						<h3>Highest<br>score</h3>
+						<hr/>
+						<h4>{{{highestscore_playername}}}</h4>
+					</div>
+
+					<div class="leader-stat" data-value="{{boundys_value}}">
+						<div class="leader-stat-ring">
+							<span class="label">0</span>
+						</div>
+						<h3>Most<br>boundys</h3>
+						<hr/>
+						<h4>{{{boundys_playername}}}</h4>
+					</div>
+
+					<div class="leader-stat" data-value="{{laps_value}}">
+						<div class="leader-stat-ring">
+							<span class="label">0</span>
+						</div>
+						<h3>Most<br>laps</h3>
+						<hr/>
+						<h4>{{{laps_playername}}}</h4>
+					</div>
+
+					<div class="leader-stat" data-value="{{bonuses_value}}">
+						<div class="leader-stat-ring">
+							<span class="label">0</span>
+						</div>
+						<h3>Most<br>bonuses</h3>
+						<hr/>
+						<h4>{{{bonuses_playername}}}</h4>
+					</div>
 				</div>
 
-				<div class="leader-stat" data-value="{{highestscore_value}}">
-					<div class="leader-stat-ring">
-						<span class="label">0</span>
+			</div>
+			<div class="stat-holder right-4">
+				<h3>Powerups used/received</h3>
+				<div class="powerup-stats">
+					{{#each powerups}}
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<img src="images/powerup/{{this.image}}" onerror="this.style.display='none';this.onerror=null" />
+							<span class="label">{{this.used}}<span class="small-frac">/{{this.received}}</span></span>
+						</div>
+						<h3>{{this.label}}</h3>
 					</div>
-					<h3>Highest<br>score</h3>
-					<hr/>
-					<h4>{{{highestscore_playername}}}</h4>
-				</div>
-
-				<div class="leader-stat" data-value="{{boundys_value}}">
-					<div class="leader-stat-ring">
-						<span class="label">0</span>
-					</div>
-					<h3>Most<br>boundys</h3>
-					<hr/>
-					<h4>{{{boundys_playername}}}</h4>
-				</div>
-
-				<div class="leader-stat" data-value="{{laps_value}}">
-					<div class="leader-stat-ring">
-						<span class="label">0</span>
-					</div>
-					<h3>Most<br>laps</h3>
-					<hr/>
-					<h4>{{{laps_playername}}}</h4>
-				</div>
-
-				<div class="leader-stat" data-value="{{bonuses_value}}">
-					<div class="leader-stat-ring">
-						<span class="label">0</span>
-					</div>
-					<h3>Most<br>bonuses</h3>
-					<hr/>
-					<h4>{{{bonuses_playername}}}</h4>
+					{{/each}}
 				</div>
 			</div>
-
-		</div>
-		<div class="stat-holder right-4">
-			<h3>Powerups used/received</h3>
-			<div class="powerup-stats">
-			{{#each powerups}}
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<img src="images/powerup/{{this.image}}" onerror="this.style.display='none';this.onerror=null" />
-						<span class="label">{{this.used}}<span class="small-frac">/{{this.received}}</span></span>
-					</div>
-					<h3>{{this.label}}</h3>
-				</div>
-			{{/each}}
+			<div class="stat-holder right-2">
+				<h3>Player rank over season</h3>
 			</div>
-		</div>
-		<div class="stat-holder right-2">
-			<h3>Player rank over season</h3>
-		</div>
-		<div class="stat-holder right-5">
-			<h3>Average rank (x) vs average raw score (size)</h3>
-		</div>
-		<div class="stat-holder right-3">
-			<h3>Player raw score</h3>
+			<div class="stat-holder right-5">
+				<h3>Average rank (x) vs average raw score (size)</h3>
+			</div>
+			<div class="stat-holder right-3">
+				<h3>Player raw score</h3>
+			</div>
 		</div>
 	</div>
-</div>
 </script>
 
 <script id="stats-panel-player-stats" type="text/x-handlebars-template">
-<div class="stat-view">
-	<div class="player-stat-name"><h2><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null"/>{{firstname}}</h2></div>
-	<div class="col-1-4 season-stats-left">
-		<div class="stat-holder left-1">
-			<h3>Powerups</h3>
-			{{#if hasPowerups}}
-				{{#each powerups}}
-					<div class="powerup health{{this.health}}" title="{{this.description}}">
-						<span class="powerup-image" style="background-image:url(images/powerup/{{this.image}});"></span>
-						<span class="powerup-label">{{this.name}}</span>
-						<!-- {{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}} -->
-						<span class="powerup-expiry" data-count="{{this.health}}">Oldest expires in:<span class="powerup-expiry-counter">{{this.health}} game{{#plural this.health}}{{/plural}}</span>
-						</span>
-					{{#each this.healths}}
-						{{#unless @first}}<div class="powerup-stack health{{this}}"></div>{{/unless}}
-					{{/each}}
-					</div>
-				{{/each}}
-			{{else}}
-				<div><h2 class="empty-state-message small-message">No powerups available</h2></div>
-			{{/if}}
+	<div class="stat-view">
+		<div class="player-stat-name">
+			<h2><img src="images/avatar/{{this.avatar}}" onerror="this.src='images/avatar/anon.jpg';this.onerror=null" />{{firstname}}</h2>
 		</div>
-		<!-- <div class="stat-holder left-2">
+		<div class="col-1-4 season-stats-left">
+			<div class="stat-holder left-1">
+				<h3>Powerups</h3>
+				{{#if hasPowerups}} {{#each powerups}}
+				<div class="powerup health{{this.health}}" title="{{this.description}}">
+					<span class="powerup-image" style="background-image:url(images/powerup/{{this.image}});"></span>
+					<span class="powerup-label">{{this.name}}</span>
+					<!-- {{#if this.multi}}<span class="powerup-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}} -->
+					<span class="powerup-expiry" data-count="{{this.health}}">Oldest expires in:<span class="powerup-expiry-counter">{{this.health}} game{{#plural this.health}}{{/plural}}</span>
+					</span>
+					{{#each this.healths}} {{#unless @first}}
+					<div class="powerup-stack health{{this}}"></div>{{/unless}} {{/each}}
+				</div>
+				{{/each}} {{else}}
+				<div>
+					<h2 class="empty-state-message small-message">No powerups available</h2>
+				</div>
+				{{/if}}
+			</div>
+			<!-- <div class="stat-holder left-2">
 			{{#if enableBadges}}
 				<h3>Badges</h3>
 				{{#if hasBadges}}
@@ -595,28 +630,28 @@
 				{{/if}}
 			{{/if}}
 		</div> -->
-	</div>
-	<div class="col-3-4 season-stats-right">
-		<div class="stat-holder right-1">
+		</div>
+		<div class="col-3-4 season-stats-right">
+			<div class="stat-holder right-1">
 
-			<div class="leader-stats">
+				<div class="leader-stats">
 
-				<h3>Stats</h3>
+					<h3>Stats</h3>
 
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{percentplayed}}%</span>
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{percentplayed}}%</span>
+						</div>
+						<h3>Attendance</h3>
 					</div>
-					<h3>Attendance</h3>
-				</div>
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{daysatfirst}}</span>
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{daysatfirst}}</span>
+						</div>
+						<h3>Days in<br>1<sup>st</sup></h3>
 					</div>
-					<h3>Days in<br>1<sup>st</sup></h3>
-				</div>
 
-				<!--div class="leader-stat">
+					<!--div class="leader-stat">
 					<div class="leader-stat-ring">
 						<span>{{rawscore}}</span>
 					</div>
@@ -624,14 +659,14 @@
 				</div-->
 
 
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{rawscore}}</span>
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{rawscore}}</span>
+						</div>
+						<h3>Raw score</h3>
 					</div>
-					<h3>Raw score</h3>
-				</div>
 
-<!-- 
+					<!-- 
 				<div class="leader-stat">
 					<div class="leader-stat-ring">
 						<span class="label">{{rawscore}}</span>
@@ -639,173 +674,176 @@
 					<h3>TBD</h3>
 				</div>
  -->
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{highestscore}}</span>
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{highestscore}}</span>
+						</div>
+						<h3>Highest game score</h3>
 					</div>
-					<h3>Highest game score</h3>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{modescore}}</span>
+						</div>
+						<h3>Typical game score</h3>
+					</div>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{boundys}}</span>
+						</div>
+						<h3>Total<br>Boundys</h3>
+					</div>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{powerupsreceived}}</span>
+						</div>
+						<h3>Powerups<br>received</h3>
+					</div>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{powerupusage}}</span>
+						</div>
+						<h3>Powerup<br>usage</h3>
+					</div>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{s_shots}}</span>
+						</div>
+						<h3>Successful<br>shots</h3>
+					</div>
+
+					<div class="leader-stat">
+						<div class="leader-stat-ring">
+							<span class="label">{{distance}}<br><span class="unit">{{dist_unit}}</span></span>
+						</div>
+						<h3>Distance<br>travelled</h3>
+					</div>
 				</div>
 
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{modescore}}</span>
-					</div>
-					<h3>Typical game score</h3>
-				</div>
 
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{boundys}}</span>
-					</div>
-					<h3>Total<br>Boundys</h3>
-				</div>
-
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{powerupsreceived}}</span>
-					</div>
-					<h3>Powerups<br>received</h3>
-				</div>
-
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{powerupusage}}</span>
-					</div>
-					<h3>Powerup<br>usage</h3>
-				</div>
-
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{s_shots}}</span>
-					</div>
-					<h3>Successful<br>shots</h3>
-				</div>
-
-				<div class="leader-stat">
-					<div class="leader-stat-ring">
-						<span class="label">{{distance}}<br><span class="unit">{{dist_unit}}</span></span>
-					</div>
-					<h3>Distance<br>travelled</h3>
-				</div>
 			</div>
-
-			
-		</div>
-		<div class="stat-holder right-5 badge-holder">
-			{{#if enableBadges}}
+			<div class="stat-holder right-5 badge-holder">
+				{{#if enableBadges}}
 				<h3>Badges</h3>
-				{{#if hasBadges}}
-					{{#each badges}}
-						<div class="badge" title="{{this.description}}"><span class="badge-image">
+				{{#if hasBadges}} {{#each badges}}
+				<div class="badge" title="{{this.description}}"><span class="badge-image">
 							<img src="images/badge/{{this.image}}" width="100%">
 						</span><span class="badge-label">{{this.name}}</span>{{#if this.multi}}<span class="badge-count" data-count="{{this.count}}">× {{this.count}}</span>{{/if}}</div>
-					{{/each}}
-				{{else}}
-					<div><h2 class="empty-state-message small-message">No badges yet</h2></div>
-				{{/if}}
-			{{/if}}
-		</div>
-		<div class="stat-holder right-4">
-			<h3>% of games in multipliers</h3>
-		</div>
-		<div class="stat-holder right-2">
-			<h3>Rank over season</h3>
-		</div>
-		<div class="stat-holder right-3">
-			<h3><i class="chart-legend-swatch" style="background:#F9B450"></i>Temperature <sub>vs</sub> <i class="chart-legend-swatch" style="background:#6c8fee"></i>Raw game score</h3>
-		</div>
-		<div class="stat-holder right-6">
-			<h3><i class="chart-legend-swatch" style="background:#D57FFF"></i>Num Players <sub>vs</sub> <i class="chart-legend-swatch" style="background:#89CA8C"></i>Raw game score</h3>
+				{{/each}} {{else}}
+				<div>
+					<h2 class="empty-state-message small-message">No badges yet</h2>
+				</div>
+				{{/if}} {{/if}}
+			</div>
+			<div class="stat-holder right-4">
+				<h3>% of games in multipliers</h3>
+			</div>
+			<div class="stat-holder right-2">
+				<h3>Rank over season</h3>
+			</div>
+			<div class="stat-holder right-3">
+				<h3><i class="chart-legend-swatch" style="background:#F9B450"></i>Temperature <sub>vs</sub> <i class="chart-legend-swatch"
+					 style="background:#6c8fee"></i>Raw game score</h3>
+			</div>
+			<div class="stat-holder right-6">
+				<h3><i class="chart-legend-swatch" style="background:#D57FFF"></i>Num Players <sub>vs</sub> <i class="chart-legend-swatch"
+					 style="background:#89CA8C"></i>Raw game score</h3>
+			</div>
 		</div>
 	</div>
-</div>
 </script>
 <script id="badges-selector" type="text/x-handlebars-template">
-<div class="badges-selector-wrapper">
-	<div class="badges-selector">
+	<div class="badges-selector-wrapper">
+		<div class="badges-selector">
 
-		<div class="badges-current">
-			{{#each currentbadges}}
-				<div class="badge current-badge" data-index="{{this.dataindex}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span><div class="badge-remove"></div></div>
-			{{/each}}
-		</div>	
-		<div class="badges-available">
-			{{#each badges}}
+			<div class="badges-current">
+				{{#each currentbadges}}
+				<div class="badge current-badge" data-index="{{this.dataindex}}" title="{{this.description}}" style="background-image:url(images/badge/{{this.image}})"><span class="badge-label">{{this.name}}</span>
+					<div class="badge-remove"></div>
+				</div>
+				{{/each}}
+			</div>
+			<div class="badges-available">
+				{{#each badges}}
 				<div class="badge new-badge" data-id="{{this.id}}" title="{{this.description}}"><span class="badge-image">
 							<img src="images/badge/{{this.image}}" width="100%">
 						</span><span class="badge-label">{{this.name}}</span></div>
-			{{/each}}
+				{{/each}}
+			</div>
 		</div>
 	</div>
-</div>
 </script>
 
 <script id="powerup-selector" type="text/x-handlebars-template">
-<div class="powerup-selector-wrapper">
-	<div class="powerup-selector">
-		<div class="powerups-available">
-			{{#each powerups}}
+	<div class="powerup-selector-wrapper">
+		<div class="powerup-selector">
+			<div class="powerups-available">
+				{{#each powerups}}
 				<div class="powerup pick-powerup" data-id="{{this.id}}" title="{{this.description}}"><span class="badge-image">
 							<img src="images/powerup/{{this.image}}" width="100%">
 						</span><span class="powerup-label">{{this.name}}</span></div>
-			{{/each}}
-		</div>
-		
-		<div class="powerup-use-against">
-			<div class="powerup-select-group input-field col s12">
-				<select class="select-powerup-use-against">
+				{{/each}}
+			</div>
+
+			<div class="powerup-use-against">
+				<div class="powerup-select-group input-field col s12">
+					<select class="select-powerup-use-against">
 					<option selected disabled>Use against</option>
 					{{#each players}}
 					<option value="{{this.id}}">{{this.firstname}}</option>
 					{{/each}}
 				</select>
+				</div>
+				<button class="waves-effect waves-light btn action-btn cancel-usepower red"><i class='material-icons left'>not_interested</i>Cancel</button>
+				<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn do-usepower"><i class='material-icons left'>done</i>Use powerup</button>
 			</div>
-			<button class="waves-effect waves-light btn action-btn cancel-usepower red"><i class='material-icons left'>not_interested</i>Cancel</button>
-			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn do-usepower"><i class='material-icons left'>done</i>Use powerup</button>
 		</div>
 	</div>
-</div>
 </script>
 
 <script id="admin-template" type="text/x-handlebars-template">
-<h1 class="header">Admin</h1>
-<div class="body admin">
-	<div class="admin-tools">
-		<button class="waves-effect waves-light btn action-btn cancel-admin red"><i class='material-icons left'>not_interested</i>Exit</button>
-	</div>
-	<ul>
-		<li>TODO:</li>
-		<li>Add/delete badge</li>
-		<li>Adjust bonus/point values</li>
-		<li>Add/remove bonus/points</li>
-		<li>Show/hide Sort options for main board</li>
-		<li>Edit players</li>
-	</ul>
-	<hr />
-	<h4>Add player</h4>
-	<!-- <div><label for="first_name">First Name</label>
+	<h1 class="header">Admin</h1>
+	<div class="body admin">
+		<div class="admin-tools">
+			<button class="waves-effect waves-light btn action-btn cancel-admin red"><i class='material-icons left'>not_interested</i>Exit</button>
+		</div>
+		<ul>
+			<li>TODO:</li>
+			<li>Add/delete badge</li>
+			<li>Adjust bonus/point values</li>
+			<li>Add/remove bonus/points</li>
+			<li>Show/hide Sort options for main board</li>
+			<li>Edit players</li>
+		</ul>
+		<hr />
+		<h4>Add player</h4>
+		<!-- <div><label for="first_name">First Name</label>
     <input id="first_name" type="text" class="validate"></div> -->
-    <a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
-	<hr />
-	<!-- <h4>Edit player</h4>
+		<a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Add player</a>
+		<hr />
+		<!-- <h4>Edit player</h4>
 	<li>Add/delete/arhive player</li>
 	<a href="#!" class="waves-effect deep-purple lighten-1 btn-flat addplayer-button">Edit player</a>
 	<hr /> -->
-	<h4>Create new season</h4>
-	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
-	<hr />
-	<h4>Send test email</h4>
-	<div><label for="email">Email</label>
-    <input id="email" type="email" class="validate"></div>
-	<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn send-test-email"><i class='material-icons left'>email</i>Send now</button>
-</div>
+		<h4>Create new season</h4>
+		<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn new-season"><i class='material-icons left'>add_box</i>Start new season</button>
+		<hr />
+		<h4>Send test email</h4>
+		<div><label for="email">Email</label>
+			<input id="email" type="email" class="validate"></div>
+		<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn send-test-email"><i class='material-icons left'>email</i>Send now</button>
+	</div>
 </script>
 
 <script id="modal-new-season" type="text/x-handlebars-template">
 	<div id="newseason-modal" class="modal">
-	    <div class="modal-content">
+		<div class="modal-content">
 
-	    <h2>New season details</h2>
+			<h2>New season details</h2>
 
 			<div class="">
 				<label for="season-id">ID</label>
@@ -827,10 +865,10 @@
 				<input id="season-end" disabled type="text" class="validate" value="{{end_date}}">
 			</div>
 		</div>
-	    <div class="modal-footer">
-	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-season"><i class='material-icons left'>done</i>Confirm new season</button>
-	    </div>
+		</div>
 	</div>
 
 
@@ -838,9 +876,9 @@
 
 <script id="modal-new-player" type="text/x-handlebars-template">
 	<div id="newplayer-modal" class="modal">
-	    <div class="modal-content">
+		<div class="modal-content">
 
-	    <h2>Player details</h2>
+			<h2>Player details</h2>
 
 			<div class="">
 				<label for="p_firstname">First name</label>
@@ -863,10 +901,10 @@
 			</div> -->
 
 		</div>
-	    <div class="modal-footer">
-	    	<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect waves-light red lighten-1 btn action-btn">Cancel</a>
 			<button class="waves-effect waves-light deep-purple lighten-1 btn action-btn confirm-new-player"><i class='material-icons left'>done</i>Add player</button>
-	    </div>
+		</div>
 	</div>
 
 

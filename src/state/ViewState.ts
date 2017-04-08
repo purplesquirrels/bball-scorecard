@@ -1,4 +1,4 @@
-/// <reference path="AppState" />
+/// <reference path="AppState.ts" />
 
 class ViewState extends AppState {
 
@@ -7,19 +7,19 @@ class ViewState extends AppState {
 	statsShowing: boolean;
 
 	sortCommandLabelMap: Object;
-	
-	constructor(controller: ScoreController, app: App, options:any) {
+
+	constructor(controller: ScoreController, app: App, options: any) {
 		super(controller, app, options);
 
 		this.sortCommandLabelMap = {
-			"default"		: "Score",
-			"default:desc"	: "Score",
-			"default:asc"	: "Score",
-			"averagescore:desc"	: "Av points",
-			"averagescore:asc"	: "Av points",
-			"rawscore:desc"	: "Raw score",
-			"rawscore:asc"	: "Raw score",
-			"averagerawscore:desc"	: "Av raw points",
+			"default": "Score",
+			"default:desc": "Score",
+			"default:asc": "Score",
+			"averagescore:desc": "Av points",
+			"averagescore:asc": "Av points",
+			"rawscore:desc": "Raw score",
+			"rawscore:asc": "Raw score",
+			"averagerawscore:desc": "Av raw points",
 			"averagerawscore:asc": "Av raw points",
 			"averagerawandbonus:desc": "Average",
 			"averagerawandbonus:asc": "Average"
@@ -38,10 +38,10 @@ class ViewState extends AppState {
 		//console.log('dayToDisplay', dayToDisplay);
 
 		var source = this.app.templates["view-template"];
-		var template:HandlebarsTemplateDelegate = Handlebars.compile(source);
+		var template: HandlebarsTemplateDelegate = Handlebars.compile(source);
 		var update = new Date(this.controller.getGameDate(dayToDisplay));
 		var games = this.controller.getTotalGamesPlayed();
-		var days:any = this.controller.getDaysRemaining();
+		var days: any = this.controller.getDaysRemaining();
 
 		if (days < 0) {
 			days = "Season ended";
@@ -49,7 +49,7 @@ class ViewState extends AppState {
 			days = String(days) + " day" + (days > 1 || days === 0 ? "s" : "") + " remaining";
 		}
 
-		var context = { 
+		var context = {
 			title: this.controller.getSeasonName(),
 			dates: this.controller.getSeasonDateString(),
 			banner: this.controller.getSeasonBanner() || "summer/Summer_2.html",
@@ -74,7 +74,7 @@ class ViewState extends AppState {
 			for (var i = context.rankings.length - 1; i > 0; i--) {
 				if (!this.controller.getPlayerTotalGames(context.rankings[i].id) || /* havent played any games this season or..*/
 					(this.controller.getPlayersDaysSinceLastGame(context.rankings[i].id) >= 5 &&
-					this.controller.getPlayerLastTotalScore(context.rankings[i].id) <= 0)) { /* havent played for 5 days, and score is 0 */
+						this.controller.getPlayerLastTotalScore(context.rankings[i].id) <= 0)) { /* havent played for 5 days, and score is 0 */
 					context.rankings.splice(i, 1);
 				}
 			}
@@ -117,7 +117,7 @@ class ViewState extends AppState {
 			context.grandfinal = false;
 			showprogress = false;
 
-			
+
 		}
 
 		if (this.controller.getTotalGamesPlayed() === 0) {
@@ -201,7 +201,7 @@ class ViewState extends AppState {
 
 			window.location.href = url;
 		})
-		
+
 		if (showprogress) {
 
 			$(".daysleft").prepend('<div class="daysleft-chart-wrap"><svg class="daysleft-chart"></svg></div>');
@@ -239,7 +239,7 @@ class ViewState extends AppState {
 			$(".scoreboard").addClass("pull-left");
 			chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
 			this.statsShowing = true;
-		} 
+		}
 
 		$('.powergreg-button').bind("click", (e: JQueryMouseEventObject) => {
 
@@ -269,8 +269,8 @@ class ViewState extends AppState {
 				$(e.currentTarget).addClass("active");
 
 				sb.css({
-					"position" : "absolute",
-					"left" : x + "px"
+					"position": "absolute",
+					"left": x + "px"
 				});
 
 				TweenLite.set(sb, { x: 0 });
@@ -286,9 +286,11 @@ class ViewState extends AppState {
 
 						chartsView = new StatsView(this.app.statsRoot, this.controller, this.app);
 
-						TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 1, ease: "Cubic.easeOut", onComplete: () => {
-							statsReady = true;
-						} });
+						TweenLite.to($(this.app.statsRoot), 0.6, {
+							opacity: 1, ease: "Cubic.easeOut", onComplete: () => {
+								statsReady = true;
+							}
+						});
 					}
 				});
 			} else {
@@ -301,31 +303,34 @@ class ViewState extends AppState {
 				var fx = sb.offset().left;
 				sb.addClass("pull-left");
 
-				TweenLite.to($(this.app.statsRoot), 0.6, { opacity: 0, ease: "Cubic.easeOut", onComplete: () => {
+				TweenLite.to($(this.app.statsRoot), 0.6, {
+					opacity: 0, ease: "Cubic.easeOut", onComplete: () => {
 
-					sb.removeClass("pull-left");
-					sb.css({
-						"position": "absolute",
-						"left": "10px"
-					});
+						sb.removeClass("pull-left");
+						sb.css({
+							"position": "absolute",
+							"left": "10px"
+						});
 
-					chartsView.deconstruct();
-					chartsView = null;
+						chartsView.deconstruct();
+						chartsView = null;
 
-					$(this.app.statsRoot).empty();
+						$(this.app.statsRoot).empty();
 
-					TweenLite.set(sb, {x: 0});
+						TweenLite.set(sb, { x: 0 });
 
-					TweenLite.to(sb, 0.6, {
-						x: fx - 10, ease: "Cubic.easeInOut", onComplete: () => {
+						TweenLite.to(sb, 0.6, {
+							x: fx - 10, ease: "Cubic.easeInOut", onComplete: () => {
 
-						sb.removeAttr("style");
-						statsReady = true;
+								sb.removeAttr("style");
+								statsReady = true;
 
-					}});
+							}
+						});
 
-				} });
-				
+					}
+				});
+
 
 			}
 
@@ -333,7 +338,7 @@ class ViewState extends AppState {
 
 		});
 
-		$('.game-details').bind("click", (e:JQueryMouseEventObject) => {
+		$('.game-details').bind("click", (e: JQueryMouseEventObject) => {
 
 			//var gamedate = new Date(this.controller.getGameDate(0));
 
@@ -373,15 +378,15 @@ class ViewState extends AppState {
 						$('.tooltipped').tooltip({ delay: 50 });
 					});
 
-					$('.modal-close').bind('click', function() {
+					$('.modal-close').bind('click', function () {
 						$('.tooltipped').tooltip('remove');
 					});
-					
+
 
 				},
-				complete: function() {
-					
-				} 
+				complete: function () {
+
+				}
 			});
 
 		});
@@ -410,7 +415,7 @@ class ViewState extends AppState {
 			},
 			callbacks: {
 				onMixStart: (state, futureState) => {
-					
+
 					var cmd = futureState.activeSort;
 					var d = cmd.split(":")[0];
 
@@ -442,7 +447,7 @@ class ViewState extends AppState {
 		}, 10000);
 	}
 
-	updateProgressTimer = ():boolean => {
+	updateProgressTimer = (): boolean => {
 
 		var time = $(".game-in-progress .time-left");
 		var endDate = new Date(this.controller.getGameDate(0));
@@ -476,7 +481,7 @@ class ViewState extends AppState {
 		return t.total <= 0;
 	}
 
-	getGameDetails = (day:number = 0) => {
+	getGameDetails = (day: number = 0) => {
 
 		var gamedate = new Date(this.controller.getGameDate(day));
 		var context = {

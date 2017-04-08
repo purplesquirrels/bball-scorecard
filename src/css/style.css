@@ -1140,6 +1140,16 @@ table.editmode .switch label .lever {
 	color: #FFF;
 }
 
+.start-game {
+	position: absolute;
+    top: 1em;
+    right: 0.7em;
+    padding: 0.3em;
+    height: auto;
+    margin: 0;
+    width: 10em;
+}
+
 .cancel-newday {
 	float: right;
 }
