@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var ts = require('gulp-typescript');
 var del = require('del');
 var gulpCopy = require('gulp-copy');
 var replace = require('gulp-replace-task');
@@ -24,7 +25,7 @@ var jsmin = require('gulp-jsmin');
  *
  * ============ */
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
     return del([
         'build/**/*',
         '!build/',
@@ -35,7 +36,16 @@ gulp.task('clean', function() {
     ]);
 });
 
-gulp.task('buildindex', ['clean'], function() {
+gulp.task('tsc', function () {
+    return gulp.src('src/**/*.ts')
+        .pipe(ts({
+            noImplicitAny: false,
+            out: 'app.js'
+        }))
+        .pipe(gulp.dest('build'));
+});
+
+gulp.task('buildindex', ['clean'], function () {
 
     return gulp.src('src/index.html')
         .pipe(replace({
@@ -47,19 +57,19 @@ gulp.task('buildindex', ['clean'], function() {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('minifyjs', ['buildindex'], function() {
+gulp.task('minifyjs', ['buildindex'], function () {
     return gulp.src('src/*.js')
         .pipe(jsmin())
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('minifycss', ['minifyjs'], function() {
+gulp.task('minifycss', ['minifyjs'], function () {
     return gulp.src('src/css/*.css')
         .pipe(cssmin())
         .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('copy', ['minifycss'], function() {
+gulp.task('copy', ['tsc', 'minifycss'], function () {
     var files = [
         "auth/**/*",
         "templates/**/*",
@@ -81,8 +91,8 @@ gulp.task('build', ['copy']);
 
 
 
-gulp.task('watch', function() {
-    gulp.watch(['src/**/*', '!src/**/*.ts'], ['build']);
+gulp.task('watch', function () {
+    gulp.watch(['src/**/*'], ['build']);
 });
 
 gulp.task('default', ['copy']);
