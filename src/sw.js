@@ -1,6 +1,7 @@
 var startTime;
 var timer;
 var timerLength;
+var keepalive = true;
 
 self.addEventListener('install', function (event) {
 	console.log("SW installed!", event);
@@ -16,18 +17,15 @@ self.addEventListener('message', function (event) {
 	var data = event.data;
 	let time = Date.now();
 
-	console.log("Responding to message from the Page: ", data);
-
 	switch (data.command) {
+		case "ping":
+			if (keepalive) setTimeout(() => sendMessage({ command: "pong" }), 500);
+			break;
 		case "startTimer":
 
-			if (timer) {
-				clearInterval(timer);
-			}
-
+			if (timer) clearInterval(timer);
 
 			timerLength = (data.timerLength) * 60 * 1000; // minutes to milliseconds
-			console.log("Timer length:", timerLength)
 
 			startTime = time;
 
@@ -62,6 +60,7 @@ function onInterval() {
 
 		timer = null;
 		startTime = null;
+		keepalive = false;
 	}
 	else {
 

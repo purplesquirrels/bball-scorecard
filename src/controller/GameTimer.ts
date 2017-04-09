@@ -19,17 +19,18 @@ class GameTimer {
 
     public startTimer(duration: number = 30) {
         console.log('startTimer');
-        this.sendMessage({ 'command': 'startTimer', timerLength: duration });
+        this.sendMessage({ command: 'startTimer', timerLength: duration });
+        this.sendMessage({ command: "ping" });
     }
 
     public stopTimer() {
         console.log('stopTimer');
-        this.sendMessage({ 'command': 'stopTimer' });
+        this.sendMessage({ command: 'stopTimer' });
     }
 
     public pauseTimer() {
         console.log('pauseTimer');
-        this.sendMessage({ 'command': 'pauseTimer' });
+        this.sendMessage({ command: 'pauseTimer' });
     }
 
     public addEventListener(name, func) {
@@ -60,7 +61,10 @@ class GameTimer {
                     }
 
                     navigator.serviceWorker.addEventListener('message', (event) => {
-                        if (event.data.command === "timerUpdate") {
+                        if (event.data.command === "pong") {
+                            this.sendMessage({ command: "ping" });
+                        }
+                        else if (event.data.command === "timerUpdate") {
                             this.listeners['onTimerUpdate'].forEach(func => {
                                 func(event.data);
                             });
