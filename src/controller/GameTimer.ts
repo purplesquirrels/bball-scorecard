@@ -13,7 +13,7 @@ class GameTimer {
             this.setupServiceWorker();
         }
         else {
-            alert("You browser doesn't support the game timer. Use a seperate app for timing.");
+            alert("Your browser doesn't support the game timer. Use a seperate app for timing.");
         }
     }
 
