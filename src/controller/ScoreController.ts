@@ -72,7 +72,7 @@ class ScoreController {
 		this.savedState = null;
 		this.gameplayercache = [];
 
-		if (this.model.scores[0].staging === true) {
+		if (this.model.scores.length && this.model.scores[0].staging === true) {
 			this.model.scores.shift();
 		}
 
