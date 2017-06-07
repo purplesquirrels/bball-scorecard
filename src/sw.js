@@ -4,7 +4,6 @@ var timerLength;
 var keepalive = true;
 
 self.addEventListener('install', function (event) {
-	console.log("SW installed!", event);
 	event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 

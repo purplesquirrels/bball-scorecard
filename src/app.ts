@@ -66,6 +66,7 @@ class App {
 	isStorageAvailable: boolean;
 
 	isArchiveMode: boolean;
+	editMode: boolean;
 
 	templates: Object;
 	buttonActions: Object;
@@ -97,6 +98,13 @@ class App {
 			//get = "data/archive/" + seasonYear + "_" + season.toLowerCase() + "_archive.json";
 		}
 
+		this.editMode = this.getQueryParamByName("edit") === "1";
+
+		if (this.isArchiveMode) {
+			this.editMode = false;
+		}
+
+		window["__editmode"] = this.editMode;
 
 		$.post(get, {
 			auth: Config.SERVER_KEY,
@@ -182,11 +190,13 @@ class App {
 			return !played ? 'disabled' : '';
 		});
 
-		var isEditable: string = this.getQueryParamByName("edit");
+		// var isEditable: string = this.getQueryParamByName("edit");
 
-		if (this.isArchiveMode) {
-			isEditable = "0";
-		}
+		// if (this.isArchiveMode) {
+		// 	isEditable = "0";
+		// }
+
+		//window["__editmode"] = isEditable;
 
 		var header = document.createElement("div");
 		header.classList.add("app-header");
@@ -198,7 +208,7 @@ class App {
 			"admin": null
 		}
 
-		if (isEditable === "1") {
+		if (this.editMode) {
 
 			NewPlayerModal.init(this.templates["modal-new-player"], this.scoreController);
 

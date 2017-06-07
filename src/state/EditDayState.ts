@@ -35,24 +35,10 @@ class EditDayState extends AppState {
 			this.controller.createNewDay();
 		}
 
-		//else {
 		this.setupEditUI();
-		//}
 	}
 
-	/*setGameStartUI() {
-
-		var source = this.app.templates["startgame-template"];
-		var template: HandlebarsTemplateDelegate = Handlebars.compile(source);
-		var html = template({ title: "New game" });
-		this.element.innerHTML = html;
-
-		
-
-	}*/
 	setupEditUI() {
-
-
 
 		var source = this.app.templates["newday-template"];
 		var template: HandlebarsTemplateDelegate = Handlebars.compile(source);
@@ -265,6 +251,8 @@ class EditDayState extends AppState {
 		});
 
 		$(".save-newday").bind("click", (e) => {
+
+			this.gameTimer.stopTimer();
 
 			var msg = Config.MSG_FINISHGAME;
 

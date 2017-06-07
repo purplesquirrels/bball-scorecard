@@ -66,13 +66,14 @@ class ScoreController {
 	ranker: IRanking;
 	gameplayercache: any[];
 
+
 	constructor(model: ScoreData) {
 
 		this.model = model;
 		this.savedState = null;
 		this.gameplayercache = [];
 
-		if (this.model.scores.length && this.model.scores[0].staging === true) {
+		if (!window["__editmode"] && this.model.scores.length && this.model.scores[0].staging === true) {
 			this.model.scores.shift();
 		}
 
@@ -1116,6 +1117,7 @@ class ScoreController {
 	}
 
 	setDayComplete = (day: number = 0) => {
+		this.model.scores[day].staging = false;
 		this.model.scores[day].complete = 1;
 	}
 

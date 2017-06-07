@@ -18,18 +18,15 @@ class GameTimer {
     }
 
     public startTimer(duration: number = 30) {
-        console.log('startTimer');
         this.sendMessage({ command: 'startTimer', timerLength: duration });
         this.sendMessage({ command: "ping" });
     }
 
     public stopTimer() {
-        console.log('stopTimer');
         this.sendMessage({ command: 'stopTimer' });
     }
 
     public pauseTimer() {
-        console.log('pauseTimer');
         this.sendMessage({ command: 'pauseTimer' });
     }
 
