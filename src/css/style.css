@@ -800,6 +800,11 @@ label {
 	float: right;
 }
 
+#gamedetails-modal {
+	width: 100%;
+	max-height: 90%;
+}
+
 .details-heading  {
 	display: inline-block;
 	text-transform: uppercase;
