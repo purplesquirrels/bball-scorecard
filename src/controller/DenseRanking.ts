@@ -4,7 +4,7 @@ class DenseRanking implements IRanking {
 
 	}
 
-	sort(arr: any[], key: string): any[] {
+	sort(arr: any[], key: string, key2: string): any[] {
 		arr.sort((a, b) => {
 			if (a[key] < b[key])
 				return 1;
@@ -16,7 +16,7 @@ class DenseRanking implements IRanking {
 	}
 
 	/// 1223
-	rank(objects: any[], rankOn: string = "score"): any[] {
+	rank(objects: any[], rankOn: string = "score", rankOnSecond: string = "average"): any[] {
 
 		objects = this.sort(objects, rankOn);
 

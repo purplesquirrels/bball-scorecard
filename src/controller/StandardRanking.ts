@@ -4,21 +4,31 @@ class StandardRanking implements IRanking {
 
 	}
 
-	sort(arr:any[], key:string):any[] {
+	sort(arr: any[], key: string, key2: string): any[] {
 		arr.sort((a, b) => {
+			// primary sort key
 			if (a[key] < b[key])
 				return 1;
 			if (a[key] > b[key])
 				return -1;
+			// secondary sort key
+			if (a[key2] < b[key2])
+				return 1;
+			if (a[key2] > b[key2])
+				return -1;
+
+			// both keys equal
 			return 0;
 		});
 		return arr;
 	}
 
 	/// 1224
-	rank(objects:any[], rankOn:string="score"):any[] {
+	rank(objects: any[], rankOn: string = "score", rankOnSecond: string = "average"): any[] {
 
-		objects = this.sort(objects, rankOn);
+		objects = this.sort(objects, rankOn, rankOnSecond);
+
+		console.log(objects);
 
 		var currentRank = 1;
 

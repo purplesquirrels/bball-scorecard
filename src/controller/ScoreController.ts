@@ -1,3 +1,5 @@
+///<reference path="../stats/NumberCruncher.ts" />
+
 interface ScoreData {
 	season_id: number;
 	season: number;
@@ -728,13 +730,14 @@ class ScoreController {
 			var playerid: string = this.getPlayedIDAtIndex(i);
 			var player: Object = {
 				id: playerid,
+				averagerawscore: NumberCruncher.getPlayerAverageRawScore(playerid, true),
 				score: this.getPlayerTotalScoreOnDay(playerid, day)
 			};
 
 			order.push(player);
 		}
 
-		order = this.ranker.rank(order, "score");
+		order = this.ranker.rank(order, "score", "averagerawscore");
 
 		return order;
 	}
