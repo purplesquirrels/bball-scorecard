@@ -92,9 +92,11 @@ class GameTimer {
     }
 
     sendMessage = (message) => {
-        navigator.serviceWorker.ready.then(function () {
-            navigator.serviceWorker.controller.postMessage(message);
-        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function () {
+                navigator.serviceWorker.controller.postMessage(message);
+            });
+        }
     }
 
     notify(options: any) {
@@ -103,34 +105,37 @@ class GameTimer {
             return;
         }
 
-        // Let's check whether notification permissions have already been granted
-        if (Notification["permission"] === "granted") {
-            navigator.serviceWorker.ready.then(function (registration) {
-                registration.showNotification(options.message, {
-                    icon: 'favicon/apple-touch-icon-72x72.png',
-                    vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
-                    requireInteraction: options.requireInteraction,
-                    tag: options.tag
-                });
-            });
-        }
+        if ('serviceWorker' in navigator) {
 
-        // Otherwise, we need to ask the user for permission
-        else if (Notification["permission"] !== "denied") {
-            Notification.requestPermission(function (permission) {
-                // If the user accepts, let's create a notification
-                if (permission === "granted") {
-                    navigator.serviceWorker.ready.then(function (registration) {
-                        registration.showNotification(options.message, {
-                            icon: 'favicon/apple-touch-icon-72x72.png',
-                            vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
-                            requireInteraction: options.requireInteraction,
-                            tag: options.tag
-                        });
+            // Let's check whether notification permissions have already been granted
+            if (Notification["permission"] === "granted") {
+                navigator.serviceWorker.ready.then(function (registration) {
+                    registration.showNotification(options.message, {
+                        icon: 'favicon/apple-touch-icon-72x72.png',
+                        vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+                        requireInteraction: options.requireInteraction,
+                        tag: options.tag
                     });
-                }
+                });
+            }
 
-            });
+            // Otherwise, we need to ask the user for permission
+            else if (Notification["permission"] !== "denied") {
+                Notification.requestPermission(function (permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        navigator.serviceWorker.ready.then(function (registration) {
+                            registration.showNotification(options.message, {
+                                icon: 'favicon/apple-touch-icon-72x72.png',
+                                vibrate: [200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500, 200, 200, 200, 200, 200, 500],
+                                requireInteraction: options.requireInteraction,
+                                tag: options.tag
+                            });
+                        });
+                    }
+
+                });
+            }
         }
     }
 }
