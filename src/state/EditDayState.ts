@@ -404,9 +404,12 @@ class EditDayState extends AppState {
 				var active = this.controller.getPlayerActivePowerupIDs(playerid);
 				var excludelist = [];
 
-				if (excludelist.includes("immunity")) {
-					excludelist.push("immunity");
-				}
+				active.forEach((p: string) => {
+					var pd = this.controller.getPowerupDetails(p);
+					if (typeof pd.limit !== "undefined" && pd.limit === 1) {
+						excludelist.push(pd.id);
+					}
+				});
 
 				var powerup: PowerUp = this.controller.generatePowerup(excludelist);
 				this.controller.addPlayerPowerup(playerid, powerup);

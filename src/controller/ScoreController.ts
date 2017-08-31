@@ -42,6 +42,7 @@ interface PowerUp {
 	count?: number;
 	expired?: boolean;
 	health?: number;
+	limit?: number;
 	healths?: number[];
 }
 
@@ -896,9 +897,9 @@ class ScoreController {
 		return 0;
 	}
 
-	getPlayerActivePowerupIDs = (playerid: string, includetoday: boolean = true, separate: boolean = false): PowerUp[] => {
+	getPlayerActivePowerupIDs = (playerid: string, includetoday: boolean = true, separate: boolean = false): string[] => {
 
-		var powerups: PowerUp[] = [];
+		var powerups: string[] = [];
 
 		if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
 
@@ -998,6 +999,7 @@ class ScoreController {
 							useAgainstPlayer: this.model.powerups[powerup].useAgainstPlayer,
 							multi: count > 1,
 							count: count,
+							limit: pups[i].limit,
 							health: pups[i].health,
 							healths: healths//healths.length > 1 ? healths : []
 						});
