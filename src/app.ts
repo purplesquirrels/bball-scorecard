@@ -9,6 +9,9 @@
 /// <reference path="modal/NewPlayer.ts" />
 /// <reference path="controller/GameTimer.ts" />
 
+interface Array<T> {
+	includes(value: any): boolean;
+}
 interface JQuery {
 	pickadate(options?: any): JQuery;
 	dropdown(options?: any): JQuery;
