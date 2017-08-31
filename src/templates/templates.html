@@ -794,7 +794,7 @@
 					<select class="select-powerup-use-against">
 					<option selected disabled>Use against</option>
 					{{#each players}}
-					<option value="{{this.id}}">{{this.firstname}}</option>
+					<option value="{{this.id}}"{{#if this.disabled}} disabled{{/if}}>{{this.firstname}}{{#if this.disabled}} (immune){{/if}}</option>
 					{{/each}}
 				</select>
 				</div>

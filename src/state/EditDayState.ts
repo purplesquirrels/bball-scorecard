@@ -490,6 +490,10 @@ class EditDayState extends AppState {
 				if (a.firstname < b.firstname) return -1;
 				if (a.firstname > b.firstname) return 1;
 				return 0;
+			}).map(p => { // rem
+				var powers = this.controller.getPlayerActivePowerupIDs(p.id);
+				p.disabled = powers.includes("immunity");
+				return p;
 			})
 		};
 
