@@ -119,7 +119,7 @@ if(isset($_POST['auth'])) {
 
 		$message .= 	"<p>Regards,<br>The Founding Fathers<br><br>";
 		$message .= 	"<img src='http://www.bankulator.com/images/logo/foundingfathers.png' width='180' height='92' title='Founding Fathers logo'></p>";
-		$message .= 	"<p style='font-size:0.75em'>If you have any suggestions or ideas for improving the game, send them to <a href='https://www.suggestionox.com/r/giS4wY' target='_blank'>the suggestion ox</a>.</p>";
+		// $message .= 	"<p style='font-size:0.75em'>If you have any suggestions or ideas for improving the game, <a href='https://www.surveymonkey.com/r/FF9GLCJ' target='_blank'>fill out the feedback form</a>.</p>";
 		$message .= 	"<p style='font-size:0.75em'>Note: please do not respond to this message as it was sent from an unattended mail box.</p>";
 		$message .= 	"</body>".
 					"</html>";
