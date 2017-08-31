@@ -401,7 +401,14 @@ class EditDayState extends AppState {
 
 			if (badge.id === "powerup" && confirm("Generate powerup for player?")) {
 
-				var powerup: PowerUp = this.controller.generatePowerup();
+				var active = this.controller.getPlayerActivePowerupIDs(playerid);
+				var excludelist = [];
+
+				if (excludelist.includes("immunity")) {
+					excludelist.push("immunity");
+				}
+
+				var powerup: PowerUp = this.controller.generatePowerup(excludelist);
 				this.controller.addPlayerPowerup(playerid, powerup);
 
 				alert("Player received: " + powerup.name + ".");

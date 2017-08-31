@@ -896,6 +896,52 @@ class ScoreController {
 		return 0;
 	}
 
+	getPlayerActivePowerupIDs = (playerid: string, includetoday: boolean = true, separate: boolean = false): PowerUp[] => {
+
+		var powerups: PowerUp[] = [];
+
+		if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
+
+		for (var powerup in this.model.powerups) {
+
+			var count = 0;
+			var lowestHealth = 5;
+			var min = includetoday ? -1 : 0;
+			var pups = [];
+
+			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
+
+				if (this.model.powerbank[playerid][i].id === powerup &&
+					this.model.powerbank[playerid][i].health > min &&
+					!this.model.powerbank[playerid][i].used) {
+					count++;
+
+
+					pups.push(this.model.powerbank[playerid][i]);
+
+					if (this.model.powerbank[playerid][i].health < lowestHealth) {
+						lowestHealth = this.model.powerbank[playerid][i].health;
+					}
+				}
+			}
+
+			if (count) {
+				if (separate) {
+					for (var i = 0; i < pups.length; ++i) {
+						powerups.push(this.model.powerups[powerup].id);
+					}
+
+				} else {
+					powerups.push(this.model.powerups[powerup].id);
+				}
+
+
+			}
+		}
+
+		return powerups;
+	}
+
 	getPlayerPowerups = (playerid: string, includetoday: boolean = false, separate: boolean = false): PowerUp[] => {
 
 		var powerups: PowerUp[] = [];
@@ -1238,7 +1284,7 @@ class ScoreController {
 			date: new Date().toString(),
 			game: this.model.scores.length - day,
 			used: false,
-			health: 5,
+			health: typeof powerup.health === "undefined" ? 5 : powerup.health,
 			dateused: "",
 			gameused: -1,
 			usedagainst: ""
@@ -1306,16 +1352,24 @@ class ScoreController {
 
 	}
 
-	generatePowerup = () => {
+	generatePowerup = (exclude: string[] = []) => {
 
-		var powerups: PowerUp[] = [];
+		var powerups: PowerUp[] = Object.keys(this.model.powerups)
+			.map(p => this.model.powerups[p])
+			.filter(p => p.active !== false)
+			.filter(p => !exclude.includes(p.id));
 
-		for (var p in this.model.powerups) {
-			// filter out inactive powerups
-			if (this.model.powerups[p].active !== false) {
-				powerups.push(this.model.powerups[p]);
-			}
-		}
+		// for (var p in this.model.powerups) {
+		// 	// filter out inactive powerups
+
+		// 	if (exclude.includes(p)) {
+		// 		continue;
+		// 	}
+
+		// 	if (this.model.powerups[p].active !== false) {
+		// 		powerups.push(this.model.powerups[p]);
+		// 	}
+		// }
 
 		var total = 0;
 
