@@ -28,8 +28,6 @@ class StandardRanking implements IRanking {
 
 		objects = this.sort(objects, rankOn, rankOnSecond);
 
-		console.log(objects);
-
 		var currentRank = 1;
 
 		for (var i = 0; i < objects.length; ++i) {

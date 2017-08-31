@@ -7,6 +7,6 @@
         "preserveConstEnums": true,
         "out": "./app.js",
         "sourceMap": true,
-        "jsx" : "React"
+        "jsx": "React"
     }
 }
