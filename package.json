@@ -15,5 +15,12 @@
     "gulp-svg2png": "^2.0.0",
     "gulp-typescript": "^3.1.6",
     "typescript": "^2.2.2"
+  },
+  "dependencies": {
+    "d3": "^3.5.17",
+    "gsap": "^1.20.2",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "materialize-css": "^0.100.2"
   }
 }
