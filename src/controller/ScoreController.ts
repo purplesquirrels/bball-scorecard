@@ -1361,18 +1361,6 @@ class ScoreController {
 			.filter(p => p.active !== false)
 			.filter(p => !exclude.includes(p.id));
 
-		// for (var p in this.model.powerups) {
-		// 	// filter out inactive powerups
-
-		// 	if (exclude.includes(p)) {
-		// 		continue;
-		// 	}
-
-		// 	if (this.model.powerups[p].active !== false) {
-		// 		powerups.push(this.model.powerups[p]);
-		// 	}
-		// }
-
 		var total = 0;
 
 		for (var i = 0; i < powerups.length; i++) {
@@ -1392,9 +1380,6 @@ class ScoreController {
 
 			rand -= powerup.chance;
 		}
-
-		//var result:number = Math.floor(Math.random() * powerups.length);
-		//console.log(powerups[result]);
 
 		return powerups[result];
 
