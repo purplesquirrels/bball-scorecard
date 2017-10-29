@@ -153,6 +153,7 @@ class ViewState extends AppState {
 			context.rankings[i].totalgames = this.controller.getPlayerTotalGames(playerid);
 			context.rankings[i].averagescore = this.controller.getPlayerAverageScore(playerid);
 			context.rankings[i].rankchange = this.controller.getPlayerRankChange(playerid);
+			context.rankings[i].streak = Math.floor(NumberCruncher.getPlayerStreak(playerid, 0, 4) / 3);
 			context.rankings[i].rankdirection = "";
 
 			if (context.rankings[i].rankchange > 0) {
@@ -181,6 +182,8 @@ class ViewState extends AppState {
 			context.rankings[i].rawandbonus = NumberCruncher.getPlayerRawScore(playerid, true);
 			context.rankings[i].averagerawandbonus = NumberCruncher.getPlayerAverageRawScore(playerid, true);
 		}
+
+		console.log(context.rankings);
 
 		var html = template(context);
 

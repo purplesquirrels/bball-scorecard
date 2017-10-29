@@ -11,12 +11,12 @@ class NumberCruncher {
 
 	static model: ScoreData;
 
-	static init(model:ScoreData) {
+	static init(model: ScoreData) {
 		this.model = model;
 	}
 
-	static getTotalPowerupsGenerated(id:string = "all"): number {
-		var count:number = 0;
+	static getTotalPowerupsGenerated(id: string = "all"): number {
+		var count: number = 0;
 
 		for (var p in this.model.powerbank) {
 
@@ -36,7 +36,7 @@ class NumberCruncher {
 
 	static getTotalDetailedPowerupsGenerated(): any[] {
 		//var count:number = 0;
-		var types:Object = {
+		var types: Object = {
 			total: {
 				used: 0,
 				received: 0
@@ -45,11 +45,11 @@ class NumberCruncher {
 
 		if (!this.model.powerbank) {
 			return [{
-						image: "powerup.svg",
-						label: "total",
-						used: 0	,
-						received: 0	
-					}]
+				image: "powerup.svg",
+				label: "total",
+				used: 0,
+				received: 0
+			}]
 		}
 
 		for (var p in this.model.powerbank) {
@@ -57,7 +57,7 @@ class NumberCruncher {
 			types["total"].received += this.model.powerbank[p].length;
 
 			for (var i = 0; i < this.model.powerbank[p].length; i++) {
-				
+
 				if (!types[this.model.powerbank[p][i].id]) {
 					types[this.model.powerbank[p][i].id] = {
 						used: 0,
@@ -78,7 +78,7 @@ class NumberCruncher {
 				}*/
 
 			}
-		
+
 		}
 
 		return Object.keys(types).map((item) => {
@@ -91,9 +91,9 @@ class NumberCruncher {
 		});
 	}
 
-	static getTotalDetailedPowerupsGeneratedForPlayer(playerid:string): any[] {
+	static getTotalDetailedPowerupsGeneratedForPlayer(playerid: string): any[] {
 
-		var types:Object = {
+		var types: Object = {
 			total: {
 				used: 0,
 				received: 0
@@ -102,19 +102,19 @@ class NumberCruncher {
 
 		if (!this.model.powerbank) {
 			return [{
-						image: "powerup.svg",
-						label: "total",
-						used: 0	,
-						received: 0	
-					}]
+				image: "powerup.svg",
+				label: "total",
+				used: 0,
+				received: 0
+			}]
 		}
 
-		if  (this.model.powerbank[playerid]) {
+		if (this.model.powerbank[playerid]) {
 
 			types["total"].received += this.model.powerbank[playerid].length;
 
 			for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-				
+
 				if (!types[this.model.powerbank[playerid][i].id]) {
 					types[this.model.powerbank[playerid][i].id] = {
 						used: 0,
@@ -131,14 +131,14 @@ class NumberCruncher {
 				}
 
 			}
-		
+
 		} else {
 			return [{
-						image: "powerup.svg",
-						label: "total",
-						used: 0	,
-						received: 0	
-					}]
+				image: "powerup.svg",
+				label: "total",
+				used: 0,
+				received: 0
+			}]
 		}
 
 		return Object.keys(types).map((item) => {
@@ -151,7 +151,7 @@ class NumberCruncher {
 		});
 	}
 
-	static getPlayerTotalPointsOfType(playerid:string, pointtype:string):number {
+	static getPlayerTotalPointsOfType(playerid: string, pointtype: string): number {
 
 		var total = 0;
 
@@ -190,9 +190,9 @@ class NumberCruncher {
 			"point02": 4.3, // 2nd key
 			"point02B": 12.6, // 3pt line
 			"point03": 12.6, // 3pt line
-			"03-01" : 4,
-			"03-B" : 15,
-			"B-01" : 14
+			"03-01": 4,
+			"03-B": 15,
+			"B-01": 14
 		}
 
 		for (var i = 0; i < this.model.scores.length; ++i) {
@@ -200,7 +200,7 @@ class NumberCruncher {
 			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
 
 				for (var p in this.model.points) {
-					if (p !== "boundy" && 
+					if (p !== "boundy" &&
 						this.model.points.hasOwnProperty(p) &&
 						this.model.scores[i].values[playerid][p]) {
 
@@ -224,13 +224,13 @@ class NumberCruncher {
 		return Math.ceil(dist);
 	}
 
-	static getPlayerTotalSuccessfullShots(playerid: string) :number {
+	static getPlayerTotalSuccessfullShots(playerid: string): number {
 
 		var shotCounts = {
-			"point01" : 6, // 1st key
-			"point02" : 5, // 2nd key
-			"point02B" : 3, // 2nd key
-			"point03" : 2, // 3pt line
+			"point01": 6, // 1st key
+			"point02": 5, // 2nd key
+			"point02B": 3, // 2nd key
+			"point03": 2, // 3pt line
 			"boundy": 1 // boundy
 		}
 
@@ -255,38 +255,60 @@ class NumberCruncher {
 		return Math.ceil(shots);
 	}
 
-	static getPlayerRawScoreOnDay(playerid: string, day:number = 0, bonuses: boolean = false): number {
+	static getPlayerStreak(playerid: string, daystart: number = 0, threshhold: number = 4): number {
+
+		var streak = 0;
+
+		for (var i = daystart; i < this.model.scores.length; ++i) {
+
+			if (this.model.scores[i].values[playerid].played === 1) {
+
+				var raw = this.getPlayerRawScoreOnDay(playerid, i, true);
+
+				if (raw > threshhold) {
+					streak++;
+				} else {
+					break;
+				}
+			}
+		}
+
+		return streak;
+
+	}
+
+	static getPlayerRawScoreOnDay(playerid: string, day: number = 0, bonuses: boolean = false): number {
 
 		var score = 0;
 
 		//for (var i = day; i < this.model.scores.length; ++i) {
 
-			if (this.model.scores[day].values[playerid] && this.model.scores[day].values[playerid].played === 1) {
+		if (this.model.scores[day].values[playerid] && this.model.scores[day].values[playerid].played === 1) {
 
-				for (var p in this.model.points) {
-					if (this.model.points.hasOwnProperty(p) &&
-						this.model.scores[day].values[playerid][p]) {
+			for (var p in this.model.points) {
+				if (this.model.points.hasOwnProperty(p) &&
+					this.model.scores[day].values[playerid][p]) {
 
-						score += (this.model.points[p].value * this.model.scores[day].values[playerid][p]);
-					}
+					score += (this.model.points[p].value * this.model.scores[day].values[playerid][p]);
 				}
+			}
 
-				if (bonuses) {
-					for (var b in this.model.bonuses) {
-						if (this.model.bonuses.hasOwnProperty(b) &&
-							this.model.scores[day].values[playerid][b] && b != "late") {
+			if (bonuses) {
+				for (var b in this.model.bonuses) {
+					if (this.model.bonuses.hasOwnProperty(b) &&
+						this.model.scores[day].values[playerid][b] && b != "late") {
 
-							score += this.model.bonuses[b].value * (this.model.scores[day].values[playerid][b]);
-						}
+						score += this.model.bonuses[b].value * (this.model.scores[day].values[playerid][b]);
 					}
 				}
 			}
+		}
 		//}
 
 		return score;
 	}
 
-	static getPlayerRawScore(playerid: string, bonuses:boolean=false): number {
+	static getPlayerRawScore(playerid: string, bonuses: boolean = false): number {
 
 		var score = 0;
 
@@ -323,7 +345,7 @@ class NumberCruncher {
 		var i = 0;
 		var score;
 
-		for  (i = 0; i < this.model.scores.length; ++i) {
+		for (i = 0; i < this.model.scores.length; ++i) {
 
 			if (this.model.scores[i].values[playerid] && this.model.scores[i].values[playerid].played === 1) {
 
@@ -354,7 +376,7 @@ class NumberCruncher {
 		if (this.model.games[playerid] > 0) {
 
 			var score = this.getPlayerRawScore(playerid, bonuses);
-			
+
 			return Math.round(score / this.model.games[playerid] * 100) / 100;
 		}
 
@@ -364,7 +386,7 @@ class NumberCruncher {
 	static getPlayerRankChanges(playerid: string): number[] {
 		var ranks: number[] = [];
 
-		for (var i = this.model.scores.length-1; i >= 0; i--) {
+		for (var i = this.model.scores.length - 1; i >= 0; i--) {
 
 			if (i < this.model.scores.length - 1 && this.model.scores[i].values[playerid] && this.model.scores[i + 1].values[playerid]) {
 
@@ -373,7 +395,7 @@ class NumberCruncher {
 				}
 
 				if (i < this.model.scores.length - 1) {
-					ranks.push(this.model.scores[i+1].values[playerid].rank - this.model.scores[i].values[playerid].rank);
+					ranks.push(this.model.scores[i + 1].values[playerid].rank - this.model.scores[i].values[playerid].rank);
 				} else {
 					ranks.push(0);
 				}
@@ -478,7 +500,7 @@ class NumberCruncher {
 		return total;
 	}
 
-	static getPlayerDaysInMultiplier(playerid: string, multiplier:number, includelate:boolean = true): number {
+	static getPlayerDaysInMultiplier(playerid: string, multiplier: number, includelate: boolean = true): number {
 
 		var total = 0;
 
@@ -544,9 +566,9 @@ class NumberCruncher {
 		for (var i = 0; i < this.model.scores.length; ++i) {
 
 			if (this.model.scores[i].values[playerid]) {
-				
+
 				if (this.model.scores[i].values[playerid].point03 > 0) {
-					
+
 					total += this.model.scores[i].values[playerid].point03;
 				}
 			}
@@ -573,7 +595,7 @@ class NumberCruncher {
 			});
 		}
 
-		laps.sort(function(a, b) {
+		laps.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -611,7 +633,7 @@ class NumberCruncher {
 			});
 		}
 
-		scores.sort(function(a, b) {
+		scores.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -649,7 +671,7 @@ class NumberCruncher {
 			});
 		}
 
-		scores.sort(function(a, b) {
+		scores.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -688,7 +710,7 @@ class NumberCruncher {
 			});
 		}
 
-		scores.sort(function(a, b) {
+		scores.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -726,7 +748,7 @@ class NumberCruncher {
 			});
 		}
 
-		scores.sort(function(a, b) {
+		scores.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -765,7 +787,7 @@ class NumberCruncher {
 			});
 		}
 
-		points.sort(function(a, b) {
+		points.sort(function (a, b) {
 			if (a.value < b.value) return 1;
 			if (a.value > b.value) return -1;
 			return 0;
@@ -787,11 +809,11 @@ class NumberCruncher {
 		return result;
 	}
 
-	static getPlayerTotalBonuses(playerid:string, countonly:boolean = false): number {
+	static getPlayerTotalBonuses(playerid: string, countonly: boolean = false): number {
 
 		if (this.model.scores.length === 0) return 0;
 
-		var total:number = 0;
+		var total: number = 0;
 
 		for (var i = 0; i < this.model.scores.length; ++i) {
 
@@ -813,5 +835,5 @@ class NumberCruncher {
 		return total;
 	}
 
-	
+
 }

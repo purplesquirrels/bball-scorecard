@@ -193,6 +193,16 @@ class App {
 			return !played ? 'disabled' : '';
 		});
 
+		Handlebars.registerHelper('repeat', function (context, options) {
+			var ret = "";
+
+			for (var i = 0; i < context; i++) {
+				ret = ret + options.fn(context[i]);
+			}
+
+			return ret;
+		});
+
 		// var isEditable: string = this.getQueryParamByName("edit");
 
 		// if (this.isArchiveMode) {
