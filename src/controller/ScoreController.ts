@@ -812,11 +812,15 @@ class ScoreController {
 
 	getPlayerTotalGames = (playerid: string): number => {
 
-		if (this.model.games[playerid]) {
-			return this.model.games[playerid];
-		}
+		// if (this.model.games[playerid]) {
+		// 	return this.model.games[playerid];
+		// }
 
-		return 0;
+		const count = this.model.scores.map(s => {
+			return s.values[playerid] && s.values[playerid].played ? 1 : 0;
+		}).reduce((a, b) => a + b, 0);
+
+		return count;
 	}
 
 	getPlayerAverageScore = (playerid: string): number => {
