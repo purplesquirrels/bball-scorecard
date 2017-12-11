@@ -67,11 +67,13 @@ class ScoreController {
     model: ScoreData;
     ranker: IRanking;
     gameplayercache: any[];
+    gamescache: Object;
 
     constructor(model: ScoreData) {
         this.model = model;
         this.savedState = null;
         this.gameplayercache = [];
+        this.gamescache = {};
 
         if (
             !window["__editmode"] &&
@@ -307,7 +309,7 @@ class ScoreController {
             }
         }
 
-        players.sort(function (a, b) {
+        players.sort(function(a, b) {
             if (a.firstname > b.firstname) return 1;
             if (a.firstname < b.firstname) return -1;
             return 0;
@@ -424,7 +426,7 @@ class ScoreController {
             }
         }
 
-        players.sort(function (a, b) {
+        players.sort(function(a, b) {
             if (a.score < b.score) return 1;
             if (a.score > b.score) return -1;
             return 0;
@@ -495,7 +497,7 @@ class ScoreController {
         }
 
         // alphabetical
-        result.sort(function (a, b) {
+        result.sort(function(a, b) {
             if (a.firstname < b.firstname) return -1;
             if (a.firstname > b.firstname) return 1;
             return 0;
@@ -539,7 +541,7 @@ class ScoreController {
         }
 
         // alphabetical
-        result.sort(function (a, b) {
+        result.sort(function(a, b) {
             if (a.firstname < b.firstname) return -1;
             if (a.firstname > b.firstname) return 1;
             return 0;
@@ -796,34 +798,40 @@ class ScoreController {
     };
 
     getPlayerTotalGames = (playerid: string): number => {
-
         // if (this.model.games[playerid]) {
         // 	return this.model.games[playerid];
         // }
+        if (typeof this.gamescache[playerid] !== "undefined") {
+            return this.gamescache[playerid];
+        }
 
-        const count = this.model.scores.map(s => {
-            return s.values[playerid] && s.values[playerid].played ? 1 : 0;
-        }).reduce((a, b) => a + b, 0);
+        const count = this.model.scores
+            .map(s => {
+                return s.values[playerid] && s.values[playerid].played ? 1 : 0;
+            })
+            .reduce((a, b) => a + b, 0);
+
+        this.gamescache[playerid] = count;
 
         return count;
-    }
+    };
 
     getPlayerAverageScore = (playerid: string): number => {
-
         var total = this.getPlayerTotalGames(playerid);
         var score = this.getPlayerLastTotalScore(playerid);
 
         if (!total && !score) return 0;
 
         return Math.round(score / total * 100) / 100;
-
-    }
+    };
 
     getPlayerRankChange = (playerid: string): number => {
-
         if (this.model.scores.length < 2) return 0;
 
-        if (this.model.games[playerid] && this.model.games[playerid] <= 1) {
+        if (
+            this.getPlayerTotalGames(playerid) &&
+            this.getPlayerTotalGames(playerid) <= 1
+        ) {
             return 0;
         }
 
@@ -837,10 +845,13 @@ class ScoreController {
         }
 
         return ranklast - ranknow;
-    }
+    };
 
-    getPlayerBonusesForDay = (playerid: string, bonus: string, day: number = 0): number => {
-
+    getPlayerBonusesForDay = (
+        playerid: string,
+        bonus: string,
+        day: number = 0
+    ): number => {
         if (this.model.scores.length === 0) return 0;
 
         //console.log('getPlayerBonusCount', bonus);
@@ -849,9 +860,10 @@ class ScoreController {
 
         //for (var i = 0; i < this.model.scores.length; ++i) {
 
-        if (this.model.scores[day].values[playerid] &&
-            this.model.scores[day].values[playerid][bonus] >= 1) {
-
+        if (
+            this.model.scores[day].values[playerid] &&
+            this.model.scores[day].values[playerid][bonus] >= 1
+        ) {
             //console.log(playerid, bonus, this.model.scores[i].values[playerid][bonus])
 
             return this.model.scores[day].values[playerid][bonus];
@@ -860,56 +872,64 @@ class ScoreController {
         //}
 
         return 0;
-    }
+    };
 
     getPlayersDaysSinceLastGame = (playerid: string): number => {
-
         if (this.model.scores.length === 0) return 0;
 
         var today: Date = new Date();
 
         for (var i = 0; i < this.model.scores.length; ++i) {
-
-            if (this.model.scores[i].values[playerid] &&
-                this.model.scores[i].values[playerid].played > 0) {
-
+            if (
+                this.model.scores[i].values[playerid] &&
+                this.model.scores[i].values[playerid].played > 0
+            ) {
                 var gametime: Date = new Date(this.model.scores[i].date);
 
-                return DateUtil.countDaysBetween(gametime, today, [1, 2, 3, 4, 5]);
+                return DateUtil.countDaysBetween(gametime, today, [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]);
 
                 // get days between
             }
-
         }
 
-
         return 0;
-    }
+    };
 
-    getPlayerActivePowerupIDs = (playerid: string, includetoday: boolean = true, separate: boolean = false): string[] => {
-
+    getPlayerActivePowerupIDs = (
+        playerid: string,
+        includetoday: boolean = true,
+        separate: boolean = false
+    ): string[] => {
         var powerups: string[] = [];
 
-        if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
+        if (!this.model.powerbank || !this.model.powerbank[playerid])
+            return powerups;
 
         for (var powerup in this.model.powerups) {
-
             var count = 0;
             var lowestHealth = 5;
             var min = includetoday ? -1 : 0;
             var pups = [];
 
             for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-
-                if (this.model.powerbank[playerid][i].id === powerup &&
+                if (
+                    this.model.powerbank[playerid][i].id === powerup &&
                     this.model.powerbank[playerid][i].health > min &&
-                    !this.model.powerbank[playerid][i].used) {
+                    !this.model.powerbank[playerid][i].used
+                ) {
                     count++;
-
 
                     pups.push(this.model.powerbank[playerid][i]);
 
-                    if (this.model.powerbank[playerid][i].health < lowestHealth) {
+                    if (
+                        this.model.powerbank[playerid][i].health < lowestHealth
+                    ) {
                         lowestHealth = this.model.powerbank[playerid][i].health;
                     }
                 }
@@ -920,26 +940,26 @@ class ScoreController {
                     for (var i = 0; i < pups.length; ++i) {
                         powerups.push(this.model.powerups[powerup].id);
                     }
-
                 } else {
                     powerups.push(this.model.powerups[powerup].id);
                 }
-
-
             }
         }
 
         return powerups;
-    }
+    };
 
-    getPlayerPowerups = (playerid: string, includetoday: boolean = false, separate: boolean = false): PowerUp[] => {
-
+    getPlayerPowerups = (
+        playerid: string,
+        includetoday: boolean = false,
+        separate: boolean = false
+    ): PowerUp[] => {
         var powerups: PowerUp[] = [];
 
-        if (!this.model.powerbank || !this.model.powerbank[playerid]) return powerups;
+        if (!this.model.powerbank || !this.model.powerbank[playerid])
+            return powerups;
 
         for (var powerup in this.model.powerups) {
-
             var count = 0;
             var lowestHealth = 5;
             var healths = [];
@@ -947,24 +967,26 @@ class ScoreController {
             var pups = [];
 
             for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-
-                if (this.model.powerbank[playerid][i].id === powerup &&
+                if (
+                    this.model.powerbank[playerid][i].id === powerup &&
                     this.model.powerbank[playerid][i].health > min &&
-                    !this.model.powerbank[playerid][i].used) {
+                    !this.model.powerbank[playerid][i].used
+                ) {
                     count++;
 
                     healths.push(this.model.powerbank[playerid][i].health);
 
                     pups.push(this.model.powerbank[playerid][i]);
 
-                    if (this.model.powerbank[playerid][i].health < lowestHealth) {
+                    if (
+                        this.model.powerbank[playerid][i].health < lowestHealth
+                    ) {
                         lowestHealth = this.model.powerbank[playerid][i].health;
                     }
                 }
             }
 
             if (count) {
-
                 healths = healths.sort((a, b) => {
                     if (a < b) return -1;
                     if (a > b) return 1;
@@ -976,49 +998,53 @@ class ScoreController {
                 //healths.splice(0, 1);
 
                 if (separate) {
-
                     for (var i = 0; i < pups.length; ++i) {
                         powerups.push({
                             id: this.model.powerups[powerup].id,
                             name: this.model.powerups[powerup].name,
-                            active: this.model.powerups[powerup].active !== false ? true : false,
-                            description: this.model.powerups[powerup].description,
+                            active:
+                                this.model.powerups[powerup].active !== false
+                                    ? true
+                                    : false,
+                            description: this.model.powerups[powerup]
+                                .description,
                             chance: this.model.powerups[powerup].chance,
                             image: this.model.powerups[powerup].image,
-                            useAgainstPlayer: this.model.powerups[powerup].useAgainstPlayer,
+                            useAgainstPlayer: this.model.powerups[powerup]
+                                .useAgainstPlayer,
                             multi: count > 1,
                             count: count,
                             limit: pups[i].limit,
                             health: pups[i].health,
-                            healths: healths//healths.length > 1 ? healths : []
+                            healths: healths //healths.length > 1 ? healths : []
                         });
                     }
-
                 } else {
                     powerups.push({
                         id: this.model.powerups[powerup].id,
                         name: this.model.powerups[powerup].name,
-                        active: this.model.powerups[powerup].active !== false ? true : false,
+                        active:
+                            this.model.powerups[powerup].active !== false
+                                ? true
+                                : false,
                         description: this.model.powerups[powerup].description,
                         chance: this.model.powerups[powerup].chance,
                         image: this.model.powerups[powerup].image,
-                        useAgainstPlayer: this.model.powerups[powerup].useAgainstPlayer,
+                        useAgainstPlayer: this.model.powerups[powerup]
+                            .useAgainstPlayer,
                         multi: count > 1,
                         count: count,
                         health: lowestHealth,
-                        healths: healths//healths.length > 1 ? healths : []
+                        healths: healths //healths.length > 1 ? healths : []
                     });
                 }
-
-
             }
         }
 
         powerups = powerups.sort((a, b) => {
             if (a["health"] < b["health"]) {
                 return -1;
-            }
-            else if (a["health"] > b["health"]) {
+            } else if (a["health"] > b["health"]) {
                 return 1;
             } else {
                 if (a["count"] < b["count"]) {
@@ -1033,40 +1059,37 @@ class ScoreController {
         //console.log(powerups)
 
         return powerups;
-
-    }
+    };
 
     //// UPDATE
 
     deleteDay = (day: number = 0): Object => {
         return this.model.scores.splice(day, 1)[0];
-    }
+    };
 
     createNewDay = (): Object => {
-
         var lastRanks = this.getPlayerRankings();
 
         var day = {
-            "date": new Date().toString(),
-            "staging": true,
-            "complete": 0,
-            "numPlayers": 0,
-            "conditions": {
-                "temp": 0,
-                "apptemp": 0,
-                "windspd": 0,
-                "winddir": "-",
-                "cloud": "-",
-                "rain": "-",
-                "humidity": 0,
-                "airpressure": 0,
-                "manual": []
+            date: new Date().toString(),
+            staging: true,
+            complete: 0,
+            numPlayers: 0,
+            conditions: {
+                temp: 0,
+                apptemp: 0,
+                windspd: 0,
+                winddir: "-",
+                cloud: "-",
+                rain: "-",
+                humidity: 0,
+                airpressure: 0,
+                manual: []
             },
-            "values": {}
+            values: {}
         };
 
         for (var i = 0; i < this.model.players.length; ++i) {
-
             var id = this.model.players[i].id;
             var multiplier = 1;
 
@@ -1080,33 +1103,35 @@ class ScoreController {
             }
 
             day.values[id].multiplier = multiplier;
-
         }
 
         this.model.scores.unshift(day);
 
         return day;
-
-    }
-
+    };
 
     startGame = (day = 0) => {
         this.model.scores[day].staging = false;
         this.model.scores[day].date = new Date().toString();
-    }
+    };
 
     getNewPlayerScoreObject = (playerid: string): Object => {
-
         var newScores = {
-            "played": 0,
-            "late": 0,
-            "rank": 0,
-            "multiplier": 1,
-            "manualbadges": [],
-            "lasttotal": this.model.scores.length > 0 &&
-                this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0, // set to total score from last day
-            "newtotal": this.model.scores.length > 0 &&
-                this.model.scores[0].values[playerid] ? this.model.scores[0].values[playerid].newtotal : 0 // set to total score from last day
+            played: 0,
+            late: 0,
+            rank: 0,
+            multiplier: 1,
+            manualbadges: [],
+            lasttotal:
+                this.model.scores.length > 0 &&
+                this.model.scores[0].values[playerid]
+                    ? this.model.scores[0].values[playerid].newtotal
+                    : 0, // set to total score from last day
+            newtotal:
+                this.model.scores.length > 0 &&
+                this.model.scores[0].values[playerid]
+                    ? this.model.scores[0].values[playerid].newtotal
+                    : 0 // set to total score from last day
         };
 
         for (var p in this.model.points) {
@@ -1122,51 +1147,75 @@ class ScoreController {
         }
 
         return newScores;
-    }
+    };
 
-    addPlayer = (firstname: string, lastname: string = "", email: string = ""): Object => {
-
+    addPlayer = (
+        firstname: string,
+        lastname: string = "",
+        email: string = ""
+    ): Object => {
         var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var newid = "";
 
         do {
-            newid = alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
+            newid =
                 alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
                 alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
-                (Math.floor(Math.random() * 10)) +
-                (Math.floor(Math.random() * 10)) +
-                (Math.floor(Math.random() * 10));
+                alphabet.charAt(Math.floor(Math.random() * alphabet.length)) +
+                Math.floor(Math.random() * 10) +
+                Math.floor(Math.random() * 10) +
+                Math.floor(Math.random() * 10);
         } while (this.playerIDExists(newid));
 
         var player = {
-            "id": newid,
-            "active": true,
-            "firstname": firstname,
-            "lastname": lastname,
-            "email": email,
-            "avatar": ((firstname.split(" ").join("_")) + ".jpg").toLowerCase()
+            id: newid,
+            active: true,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            avatar: (firstname.split(" ").join("_") + ".jpg").toLowerCase()
         };
 
         this.model.players.push(player); // add to player list
         this.model.games[player.id] = 0; // add games counter
-        this.model.scores[0].values[player.id] = this.getNewPlayerScoreObject(player.id); // add scores object to latest day
+        this.model.scores[0].values[player.id] = this.getNewPlayerScoreObject(
+            player.id
+        ); // add scores object to latest day
 
-        this.model.scores[0].values[player.id].multiplier = this.getPlayerMultiplier(player.id);
+        this.model.scores[0].values[
+            player.id
+        ].multiplier = this.getPlayerMultiplier(player.id);
 
-        return { id: player.id, firstname: player.firstname, lastname: player.lastname, email: player.email, avatar: player.avatar, scores: this.model.scores[0].values[player.id] };
-    }
+        return {
+            id: player.id,
+            firstname: player.firstname,
+            lastname: player.lastname,
+            email: player.email,
+            avatar: player.avatar,
+            scores: this.model.scores[0].values[player.id]
+        };
+    };
 
     setDayComplete = (day: number = 0) => {
         this.model.scores[day].staging = false;
         this.model.scores[day].complete = 1;
-    }
+    };
 
     setDayManualConditions = (value: string[], day: number = 0) => {
         this.model.scores[day].conditions.manual = value;
-    }
+    };
 
-    setDayConditions = (temp: number, windspd: number, winddir: string, cloud: string, rain: string, humidity: number, airpressure: number, apptemp: number, day: number = 0) => {
-
+    setDayConditions = (
+        temp: number,
+        windspd: number,
+        winddir: string,
+        cloud: string,
+        rain: string,
+        humidity: number,
+        airpressure: number,
+        apptemp: number,
+        day: number = 0
+    ) => {
         this.model.scores[day].conditions["temp"] = temp;
         this.model.scores[day].conditions["apptemp"] = apptemp;
         this.model.scores[day].conditions["windspd"] = windspd;
@@ -1175,15 +1224,13 @@ class ScoreController {
         this.model.scores[day].conditions["rain"] = rain;
         this.model.scores[day].conditions["humidity"] = humidity;
         this.model.scores[day].conditions["airpressure"] = airpressure;
-
-    }
+    };
 
     setDayNumPlayers = (value: number, day: number = 0) => {
         this.model.scores[day].numPlayers = value;
-    }
+    };
 
     playerIDExists = (playerid: string) => {
-
         for (var i = 0; i < this.model.players.length; ++i) {
             if (this.model.players[i].id === playerid) {
                 return true;
@@ -1191,10 +1238,9 @@ class ScoreController {
         }
 
         return false;
-    }
+    };
 
     updatePlayerTotal = (playerid: string, day: number = 0) => {
-
         var playerscore = this.model.scores[day].values[playerid];
         var lasttotal: number = playerscore.lasttotal;
         var newtotal = lasttotal;
@@ -1213,23 +1259,21 @@ class ScoreController {
 
         for (var p in this.model.points) {
             if (this.model.points.hasOwnProperty(p)) {
-                points += (playerscore[p] * this.model.points[p].value);
+                points += playerscore[p] * this.model.points[p].value;
             }
         }
         for (var b in this.model.bonuses) {
             if (this.model.bonuses.hasOwnProperty(b) && b != "late") {
-                points += (playerscore[b] * this.model.bonuses[b].value);
+                points += playerscore[b] * this.model.bonuses[b].value;
             }
         }
 
-        newtotal += (points * multiplier);
+        newtotal += points * multiplier;
 
         this.model.scores[day].values[playerid].newtotal = newtotal;
-
-    }
+    };
 
     clearPlayerScores = (playerid: string, day: number = 0) => {
-
         for (var p in this.model.points) {
             this.model.scores[day].values[playerid][p] = 0;
         }
@@ -1240,28 +1284,34 @@ class ScoreController {
         this.model.scores[day].values[playerid].late = 0;
 
         this.updatePlayerTotal(playerid, day);
-
-    }
+    };
 
     updatePlayerRankings = (day: number = 0) => {
         var rankings = this.getPlayerRankings();
 
         for (var i = 0; i < rankings.length; ++i) {
-            this.model.scores[day].values[rankings[i].id].rank = rankings[i].rank;
+            this.model.scores[day].values[rankings[i].id].rank =
+                rankings[i].rank;
         }
-    }
+    };
 
-    addPlayerManualBadge = (playerid: string, badgeid: string, day: number = 0) => {
-
+    addPlayerManualBadge = (
+        playerid: string,
+        badgeid: string,
+        day: number = 0
+    ) => {
         if (!this.model.scores[day].values[playerid]) {
             return;
         }
 
         this.model.scores[day].values[playerid].manualbadges.push(badgeid);
-    }
+    };
 
-    addPlayerPowerup = (playerid: string, powerup: PowerUp, day: number = 0) => {
-
+    addPlayerPowerup = (
+        playerid: string,
+        powerup: PowerUp,
+        day: number = 0
+    ) => {
         if (!this.model.scores[day].values[playerid]) {
             return;
         }
@@ -1280,11 +1330,13 @@ class ScoreController {
             gameused: -1,
             usedagainst: ""
         });
+    };
 
-    }
-
-    usePlayerPowerup = (playerid: string, powerup: string, against: string = ""): boolean => {
-
+    usePlayerPowerup = (
+        playerid: string,
+        powerup: string,
+        against: string = ""
+    ): boolean => {
         if (!this.model.powerbank || !this.model.powerbank[playerid]) {
             return false;
         }
@@ -1293,9 +1345,10 @@ class ScoreController {
         var id = -1;
 
         for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-            if (this.model.powerbank[playerid][i].id === powerup &&
-                !this.model.powerbank[playerid][i].used) {
-
+            if (
+                this.model.powerbank[playerid][i].id === powerup &&
+                !this.model.powerbank[playerid][i].used
+            ) {
                 //this.model.powerbank[playerid][i].used = true;
                 //this.model.powerbank[playerid][i].dateused = new Date().toString();
                 //this.model.powerbank[playerid][i].gameused = this.model.scores.length;
@@ -1310,41 +1363,38 @@ class ScoreController {
         if (id > -1) {
             this.model.powerbank[playerid][id].used = true;
             this.model.powerbank[playerid][id].dateused = new Date().toString();
-            this.model.powerbank[playerid][id].gameused = this.model.scores.length;
+            this.model.powerbank[playerid][
+                id
+            ].gameused = this.model.scores.length;
             this.model.powerbank[playerid][id].usedagainst = against;
 
             return true;
         }
 
         return false;
-    }
+    };
 
     getPlayerNumPowerupsEarned = (playerid: string): number => {
-
         if (!this.model.powerbank || !this.model.powerbank[playerid]) {
             return 0;
         }
 
         return this.model.powerbank[playerid].length;
-    }
+    };
 
     decayPowerups = (playerid: string, amount: number) => {
-
         if (!this.model.powerbank || !this.model.powerbank[playerid]) {
             return;
         }
 
         for (var i = 0; i < this.model.powerbank[playerid].length; i++) {
-
             if (!this.model.powerbank[playerid][i].used) {
                 this.model.powerbank[playerid][i].health += amount;
             }
         }
-
-    }
+    };
 
     generatePowerup = (exclude: string[] = []) => {
-
         var powerups: PowerUp[] = Object.keys(this.model.powerups)
             .map(p => this.model.powerups[p])
             .filter(p => p.active !== false)
@@ -1386,21 +1436,29 @@ class ScoreController {
         //console.log(powerups[result]);
 
         return powerups[result];
+    };
 
-    }
-
-    deletePlayerManualBadge = (playerid: string, badgeindex: number, day: number = 0) => {
-
+    deletePlayerManualBadge = (
+        playerid: string,
+        badgeindex: number,
+        day: number = 0
+    ) => {
         if (!this.model.scores[day].values[playerid]) {
             return;
         }
 
-        this.model.scores[day].values[playerid].manualbadges.splice(badgeindex, 1);
-    }
+        this.model.scores[day].values[playerid].manualbadges.splice(
+            badgeindex,
+            1
+        );
+    };
 
-
-    setPlayerPoint = (playerid: string, pointtype: string, value: number, day: number = 0): number => {
-
+    setPlayerPoint = (
+        playerid: string,
+        pointtype: string,
+        value: number,
+        day: number = 0
+    ): number => {
         if (!this.model.scores[day].values[playerid]) {
             return -1;
         }
@@ -1410,10 +1468,14 @@ class ScoreController {
         this.updatePlayerTotal(playerid, day);
 
         return this.model.scores[day].values[playerid][pointtype];
-    }
+    };
 
-    setPlayerBonus = (playerid: string, bonustype: string, value: number, day: number = 0): number => {
-
+    setPlayerBonus = (
+        playerid: string,
+        bonustype: string,
+        value: number,
+        day: number = 0
+    ): number => {
         if (!this.model.scores[day].values[playerid]) {
             return -1;
         }
@@ -1423,10 +1485,13 @@ class ScoreController {
         this.updatePlayerTotal(playerid, day);
 
         return this.model.scores[day].values[playerid][bonustype];
-    }
+    };
 
-    setPlayerLate = (playerid: string, late: boolean, day: number = 0): boolean => {
-
+    setPlayerLate = (
+        playerid: string,
+        late: boolean,
+        day: number = 0
+    ): boolean => {
         if (!this.model.scores[day].values[playerid]) {
             return false;
         }
@@ -1436,10 +1501,13 @@ class ScoreController {
         this.updatePlayerTotal(playerid, day);
 
         return this.model.scores[day].values[playerid].late;
-    }
+    };
 
-    setPlayerIsPlaying = (playerid: string, isPlaying: boolean, day: number = 0): boolean => {
-
+    setPlayerIsPlaying = (
+        playerid: string,
+        isPlaying: boolean,
+        day: number = 0
+    ): boolean => {
         if (typeof this.model.games[playerid] == "undefined") {
             return false;
         }
@@ -1447,19 +1515,19 @@ class ScoreController {
         var played = this.model.scores[day].values[playerid].played === 1;
 
         if (isPlaying !== played) {
-
             if (isPlaying) {
-                this.model.games[playerid] += 1;
-                this.decayPowerups(playerid, - 1);
+                this.model.games[playerid] =
+                    this.getPlayerTotalGames(playerid) + 1;
+                this.decayPowerups(playerid, -1);
             } else {
-                this.model.games[playerid] -= 1;
+                this.model.games[playerid] =
+                    this.getPlayerTotalGames(playerid) - 1;
                 this.decayPowerups(playerid, 1);
             }
-
         }
 
         this.model.scores[day].values[playerid].played = isPlaying ? 1 : 0;
 
         return this.model.games[playerid];
-    }
+    };
 }
