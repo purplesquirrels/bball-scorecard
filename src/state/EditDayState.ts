@@ -297,8 +297,6 @@ class EditDayState extends AppState {
 						continue;
 					}
 
-					console.log("send email to", p_details["firstname"]);
-
 					var p_message =
 						"<p>Hi {{firstname}},</p><p>You received the following powerup" + (multiple ? "s" : "") + " today: </p>" +
 						"<table style='font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#4C4C4C;'>{{powerups}}</table>" +
@@ -459,7 +457,17 @@ class EditDayState extends AppState {
 
 		var playerid: string = $(e.currentTarget).attr("data-for");
 
-		var newpowerup: PowerUp = this.controller.generatePowerup();
+		var active = this.controller.getPlayerActivePowerupIDs(playerid);
+		var excludelist = [];
+
+		active.forEach((p: string) => {
+			var pd = this.controller.getPowerupDetails(p);
+			if (typeof pd.limit !== "undefined" && pd.limit === 1) {
+				excludelist.push(pd.id);
+			}
+		});
+
+		var newpowerup: PowerUp = this.controller.generatePowerup(excludelist);
 
 		this.controller.addPlayerPowerup(playerid, newpowerup, 0);
 
@@ -496,8 +504,6 @@ class EditDayState extends AppState {
 				return p;
 			})
 		};
-
-		console.log(context);
 
 		var html = template(context);
 

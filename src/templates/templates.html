@@ -52,8 +52,8 @@
 	<table class="mainlist-header">
 		<thead>
 			<tr>
-				<th width='35%' title="Player's current rank" class='center'>Player</th>
-				<th width='25%' title="Total games played in season" class='center'>Games</th>
+				<th width='45%' title="Player's current rank" class='center'>Player</th>
+				<th width='15%' title="Total games played in season" class='center'>Games</th>
 				<th width='25%' title="Player's calculated score (includes bonuses and multipliers)" class='center'><span class="sortby-label">Score</span></th>
 				<th width='15%' title="Change in rank from last game" style="text-align:center" class='center'>&#8645;</th>
 			</tr>
@@ -74,8 +74,8 @@
 								</div>
 								<div class="rank"><strong>{{this.rank}}</strong></div>
 							</td>
-							<td width='20%'>{{this.firstname}}</td>
-							<td width='25%' class='center'>{{this.totalgames}}</td>
+							<td width='30%'>{{this.firstname}} {{#repeat this.streak}}<span title="Hot streak! (3 consecutive games with a raw+bonus score over 4)">🔥</span>{{/repeat}}</td>
+							<td width='15%' class='center'>{{this.totalgames}}</td>
 							<td width='25%' class='center'><span class="sortby-value">{{this.score}}</span></td>
 							<td width='15%'><span class="rankchange rankchange-{{this.rankdirection}}">{{this.rankchange}}</span></td>
 
@@ -853,6 +853,11 @@
 			<div class="">
 				<label for="season-name">Name</label>
 				<input id="season-name" type="text" class="validate" value="{{season_name}}">
+			</div>
+
+			<div class="">
+				<label for="winner-name">Last winner</label>
+				<input id="winner-name" type="text" class="validate" value="{{last_winner}}">
 			</div>
 
 			<div class="">

@@ -13,7 +13,7 @@ class NewPlayerModal {
 	private static template: string;
 	private static controller: ScoreController;
 
-	static init(template:string, controller:ScoreController) {
+	static init(template: string, controller: ScoreController) {
 
 		this.template = template;
 		this.controller = controller;
@@ -21,7 +21,7 @@ class NewPlayerModal {
 		this.initted = true;
 	}
 
-	static show(onClose?:Function) {
+	static show(onClose?: Function) {
 		if (this.initted && !this.showing) {
 
 			this.showing = true;
@@ -47,8 +47,6 @@ class NewPlayerModal {
 						newPlayer.scores["lastname"] = newPlayer.lastname;
 						newPlayer.scores["email"] = newPlayer.email;
 
-						console.log(newPlayer)
-
 						/*var template: HandlebarsTemplateDelegate = Handlebars.compile(this.app.templates["partial_newday-item"]);
 
 						var html = template(newPlayer.scores);
@@ -66,7 +64,7 @@ class NewPlayerModal {
 					});
 
 				},
-				complete: () => { 
+				complete: () => {
 					this.showing = false;
 
 					if (typeof onClose == "function") {
