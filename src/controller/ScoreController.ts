@@ -287,6 +287,14 @@ class ScoreController {
         return this.model.scores[day].date;
     };
 
+    setGameDate = (day: number = 0, date: string) => {
+        if (this.model.scores.length === 0) {
+            return;
+        }
+
+        this.model.scores[day].date = date;
+    };
+
     getGameNumber = (day: number = 0): number => {
         return this.model.scores.length - day;
     };
